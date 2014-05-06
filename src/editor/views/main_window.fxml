@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="526.0" prefWidth="760.0"
-            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller=" controllers.main_C">
+            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="editor.controllers.main_C">
     <children>
         <MenuBar fx:id="MB_main_menu" prefHeight="25.0" prefWidth="798.0" AnchorPane.leftAnchor="0.0"
                  AnchorPane.rightAnchor="0.0"
@@ -43,7 +43,7 @@
                 <ImageView fitHeight="30.0" fitWidth="200.0" layoutX="308.5" layoutY="294.5" pickOnBounds="true"
                            preserveRatio="true">
                     <image>
-                        <Image url="/res/img/Corel Draw 11.png"/>
+                        <Image url="/editor/res/img/Corel Draw 11.png"/>
                     </image>
                 </ImageView>
             </graphic>
@@ -63,7 +63,7 @@
                 <ImageView fitHeight="30.0" fitWidth="27.0" layoutX="148.0" layoutY="279.5" pickOnBounds="true"
                            preserveRatio="true">
                     <image>
-                        <Image url="/res/img/delete.png"/>
+                        <Image url="/editor/res/img/delete.png"/>
                     </image>
                 </ImageView>
             </graphic>
@@ -74,7 +74,7 @@
                 <ImageView fitHeight="30.0" fitWidth="200.0" layoutX="278.0" layoutY="306.5" pickOnBounds="true"
                            preserveRatio="true">
                     <image>
-                        <Image url="/res/img/open-file.png"/>
+                        <Image url="/editor/res/img/open-file.png"/>
                     </image>
                 </ImageView>
             </graphic>
@@ -85,7 +85,7 @@
                 <ImageView fitHeight="30.0" fitWidth="35.0" layoutX="154.0" layoutY="242.0" pickOnBounds="true"
                            preserveRatio="true">
                     <image>
-                        <Image url="/res/img/Save-icon.png"/>
+                        <Image url="/editor/res/img/Save-icon.png"/>
                     </image>
                 </ImageView>
             </graphic>
@@ -108,7 +108,7 @@
                 <ImageView fitHeight="15.0" fitWidth="22.0" layoutX="-17.0" layoutY="390.0" pickOnBounds="true"
                            preserveRatio="true">
                     <image>
-                        <Image url="/res/img/edit.png"/>
+                        <Image url="/editor/res/img/edit.png"/>
                     </image>
                 </ImageView>
             </graphic>
