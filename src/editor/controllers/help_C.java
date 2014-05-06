@@ -1,4 +1,4 @@
-package controllers;
+package editor.controllers;
 
 import javafx.fxml.Initializable;
 import javafx.scene.web.WebEngine;

@@ -1,4 +1,4 @@
-package classes;
+package editor.classes;
 
 import java.sql.*;
 
