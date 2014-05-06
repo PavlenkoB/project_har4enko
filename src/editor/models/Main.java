@@ -15,7 +15,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/views/main_window.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../views/main_window.fxml"));
         primaryStage.setTitle("Harchenko");
         primaryStage.getIcons().add(new Image("/res/img/uml_icon.png"));
         primaryStage.setScene(new Scene(root));
