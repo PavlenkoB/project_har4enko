@@ -1,4 +1,4 @@
-package models;
+package editor.models;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +17,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("../views/main_window.fxml"));
         primaryStage.setTitle("Harchenko");
-        primaryStage.getIcons().add(new Image("/res/img/uml_icon.png"));
+        primaryStage.getIcons().add(new Image("/editor/res/img/uml_icon.png"));
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
 
