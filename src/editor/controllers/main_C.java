@@ -3,7 +3,7 @@ package editor.controllers;/*
  * and open the template in the editor.
  */
 
-import classes.DerbyDBManager;
+import editor.classes.DerbyDBManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
