@@ -1,0 +1,23 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" build-on-make="true" name="Main_editor">
+    <output-path>$PROJECT_DIR$/out/artifacts/Main_editor</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="editor.models.Main" />
+        <option name="description" value="" />
+        <option name="htmlParamFile" value="" />
+        <option name="paramFile" value="" />
+        <option name="title" value="" />
+        <option name="vendor" value="" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="file-copy" path="$PROJECT_DIR$/derby.jar" />
+      <element id="dir-copy" path="$PROJECT_DIR$/DB" />
+      <element id="library" level="project" name="plantuml" />
+      <element id="archive" name="editor.jar">
+        <element id="module-output" name="editor" />
+      </element>
+    </root>
+  </artifact>
+</component>
