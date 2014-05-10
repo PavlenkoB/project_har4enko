@@ -12,12 +12,14 @@
       </options>
     </properties>
     <root id="root">
-      <element id="file-copy" path="$PROJECT_DIR$/derby.jar" />
-      <element id="dir-copy" path="$PROJECT_DIR$/DB" />
-      <element id="library" level="project" name="plantuml" />
-      <element id="archive" name="editor.jar">
-        <element id="module-output" name="editor" />
+      <element id="archive" name="Main_editor.jar">
+        <element id="module-output" name="Work" />
       </element>
+      <element id="directory" name="paterns_DB">
+        <element id="dir-copy" path="$PROJECT_DIR$/paterns_DB" />
+      </element>
+      <element id="file-copy" path="$PROJECT_DIR$/derby.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/plantuml.jar" />
     </root>
   </artifact>
 </component>
