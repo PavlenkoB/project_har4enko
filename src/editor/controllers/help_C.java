@@ -15,7 +15,7 @@ public class help_C implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //
+
         WebEngine webEngine = WV_help.getEngine();
         URL urlHello = getClass().getResource("/html/PlantUMLGuide.htm");
         webEngine.load(urlHello.toExternalForm());
