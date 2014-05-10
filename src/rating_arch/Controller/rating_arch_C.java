@@ -28,7 +28,6 @@ public class rating_arch_C {
 
 
     public void close(ActionEvent actionEvent) throws IOException {
-
         try {
             Stage stage = new Stage();
             Parent root;
@@ -69,36 +68,4 @@ public class rating_arch_C {
 
         return (usecase);
     }
-
-    public void sel_next_open_main(ActionEvent actionEvent) {
-        Stage sel_mode = (Stage) sel_next_1.getScene().getWindow();
-        if (choice1_set_new_arch.isSelected()) {
-            try {
-                create_new_arch_win = new Stage();
-                Parent root;
-                root = FXMLLoader.load(getClass().getResource("/rating_arch/Interface/Create_new_arch.fxml"));
-                create_new_arch_win.setTitle("Archery create");
-                create_new_arch_win.setScene(new Scene(root, 800, 600));
-                create_new_arch_win.setResizable(true);
-                create_new_arch_win.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        if (choice1_rate_task.isSelected()) {
-            try {
-                create_new_arch_win = new Stage();
-                Parent root;
-                root = FXMLLoader.load(getClass().getResource("/rating_arch/Interface/close.fxml"));
-                create_new_arch_win.setTitle("Archery rate");
-                create_new_arch_win.setScene(new Scene(root, 800, 600));
-                create_new_arch_win.setResizable(false);
-                create_new_arch_win.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        sel_mode.close();
-    }
-
 }
