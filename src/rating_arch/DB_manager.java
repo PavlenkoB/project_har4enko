@@ -27,18 +27,25 @@ public class DB_manager {
     }
 
     private Boolean dbExists() {
-        Boolean exists = false;
-        try {
-            Class.forName(driver);
-            con = DriverManager.getConnection(url + this.dbName);
-            exists = true;
-        } catch (Exception e) {
-            //TODO create
-            System.out.println("Connection error");
-            e.printStackTrace();
-            // Если база не создана то ничего не делаем
+        if(con==null) {
+            try {
+                Class.forName(driver);
+                con = DriverManager.getConnection(url + this.dbName);
+                return true;
+            } catch (Exception e) {
+
+                //TODO create
+                System.out.println("Connection error");
+                e.printStackTrace();
+
+                // Если база не создана то ничего не делаем
+            }
         }
-        return (exists);
+        else {
+            return true;
+        }
+        return false;
+
     }
 
     // запрос на обновление базы данных  (INSERT, UPDATE, CREATE TABLE и т.п.)
