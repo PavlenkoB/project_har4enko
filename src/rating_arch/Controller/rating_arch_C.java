@@ -16,7 +16,7 @@ import java.sql.SQLException;
 /**
  * Created by Alex Shcherbak on 24.04.2014.
  */
-public class Controller_main {
+public class rating_arch_C {
     public Button cancelButton;
     public RadioButton choice1_set_new_arch;
     public RadioButton choice1_rate_task;
@@ -42,14 +42,32 @@ public class Controller_main {
         }
     }
 
-    public void GoBack_main(ActionEvent actionEvent) {
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        // do what you have to do
-        stage.close();
-    }
+    public Architecture[] usecase() throws IOException, SQLException {
+        String query = "SELECT * FROM ARCHITECTURE";
+        ResultSet q_result = null;
+        q_result = derby_DB.executeQuery(query);
+        ResultSet buf_q_result = derby_DB.executeQuery(query);
+        int res_count = 0;
+        //q_result.last();
+        //res_count = q_result.getRow();
+        while (buf_q_result.next()) {
+            res_count++;
+        }
+        Architecture[] usecase = new Architecture[res_count];
+        res_count = 0;
+        //q_result.first();
+        while (q_result.next()) {
+            usecase[res_count] = new Architecture();
+            usecase[res_count].setId(q_result.getInt("ID"));
+            usecase[res_count].setDescription(q_result.getString("Description"));
+            usecase[res_count].setName(q_result.getString("NAME"));
+            System.out.println("ID: " + usecase[res_count].getId());
+            System.out.println("Description: " + usecase[res_count].getDescription());
+            System.out.println("NAME: " + usecase[res_count].getName());
+            res_count++;
+        }
 
-    public void Exit(ActionEvent actionEvent) {
-        System.exit(1);
+        return (usecase);
     }
 
     public void sel_next_open_main(ActionEvent actionEvent) {
@@ -81,34 +99,6 @@ public class Controller_main {
             }
         }
         sel_mode.close();
-    }
-
-    public Architecture[] usecase() throws IOException, SQLException {
-        String query = "SELECT * FROM ARCHITECTURE";
-        ResultSet q_result = null;
-        q_result = derby_DB.executeQuery(query);
-        ResultSet buf_q_result = derby_DB.executeQuery(query);
-        int res_count = 0;
-        //q_result.last();
-        //res_count = q_result.getRow();
-        while (buf_q_result.next()){
-            res_count++;
-        }
-        Architecture[] usecase = new Architecture[res_count];
-        res_count = 0;
-        //q_result.first();
-        while (q_result.next()){
-            usecase[res_count] = new Architecture();
-            usecase[res_count].setId(q_result.getInt("ID"));
-            usecase[res_count].setDescription(q_result.getString("Description"));
-            usecase[res_count].setName(q_result.getString("NAME"));
-            System.out.println("ID: " + usecase[res_count].getId());
-            System.out.println("Description: " + usecase[res_count].getDescription());
-            System.out.println("NAME: " + usecase[res_count].getName());
-            res_count++;
-        }
-
-        return (usecase);
     }
 
 }
