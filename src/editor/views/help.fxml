@@ -6,7 +6,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
             prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.help_C">
+            fx:controller="editor.controllers.help_C">
     <center>
         <WebView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" fx:id="WV_help"/>
     </center>

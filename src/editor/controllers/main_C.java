@@ -38,6 +38,7 @@ public class main_C implements Initializable {
     public MenuBar MB_main_menu;
     public MenuItem MI_connect;
     public MenuItem MI_disconnect;
+    public TextField TF_patern_id_DB;
     /*Кнопки*/
     @FXML
     private TextArea class_text;
@@ -53,8 +54,8 @@ public class main_C implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //
-//        derby_DB = new DerbyDBManager("paterns_DB");
-        //      list_load_DB();
+        derby_DB = new DerbyDBManager("DB/paterns_DB");
+              list_load_DB();/**/
 
     }
 
@@ -72,6 +73,10 @@ public class main_C implements Initializable {
         String out_string = "";
         int line_pos = 0;
         while ((in_string.charAt(line_pos) != '|') == true) {
+            line_pos++;
+        }
+        line_pos++;
+        while (line_pos<in_string.length()) {
             out_string = out_string + Character.toString(in_string.charAt(line_pos));
             line_pos++;
         }
@@ -84,9 +89,28 @@ public class main_C implements Initializable {
     @FXML//Отрисовка класса
     public void Action_draw_class() throws IOException, InterruptedException {
         BufferedWriter out_data = new BufferedWriter(new FileWriter(new File("class.txt")));
-        out_data.write("@startuml\n" + class_text.getText() + "\n@enduml");
+        StringReader stringReader = new StringReader(class_text.getText());
+        BufferedReader bufferedReader = new BufferedReader(stringReader);
+        out_data.write("@startuml");
+        out_data.newLine();
+        out_data.write("skinparam backgroundColor transparent\n" +//Прозрачный фон
+                "skinparam roundCorner 10");                        //Скругленый углы
+        out_data.newLine();
+        for(String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine()) {
+            out_data.write(line);
+            out_data.newLine();
+        }
+        out_data.newLine();
+        out_data.write("@enduml");
+        bufferedReader.close();
         out_data.close();
-        String[] cmd = {"cmd", "/C", "plantuml.jar class.txt"};     //запустить отрисовку
+        /*out_data.write("@startuml");
+        out_data.newLine();
+        out_data.write(class_text.getText());
+        out_data.newLine();
+        out_data.write("@enduml");
+        out_data.close();*/
+        String[] cmd = {"cmd", "/C", "plantuml.jar -charset utf-8 class.txt"};     //запустить отрисовку
         Process p = Runtime.getRuntime().exec(cmd);
         System.out.println("Waiting for batch file ...");
         p.waitFor();                                                            //Ждать пока отрисует
@@ -100,7 +124,7 @@ public class main_C implements Initializable {
 
     public void load_this_patern_DB(ActionEvent actionEvent) {//TODO ЗАгрузить патерн с базы
         //Читае Идентиф. Параметра
-        String query = "SELECT * FROM PATERNS WHERE ID=" + get_ID(TF_patern_name_DB.getText());
+        String query = "SELECT * FROM PATERNS WHERE ID=" + get_ID(LV_paterns_DB.getSelectionModel().getSelectedItem().toString());
         ResultSet q_result;
         try {
             q_result = derby_DB.executeQuery(query);
@@ -112,18 +136,32 @@ public class main_C implements Initializable {
     }
 
     public void save_this_patern_DB(ActionEvent actionEvent) {//TODO добавить патерн в базу
-        String query = "INSERT INTO PATERNS (MOD_ID,NAME,VALUE,DESCRIPTION) VALUES (2,'" + TF_patern_name_DB.getText() + "','" + class_text.getText() + "','jhg')";
-        ResultSet q_result;
-        try {
-            derby_DB.executeUpdate(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if(TF_patern_id_DB.getText().length()==0) {
+            String query = "INSERT INTO PATERNS (MOD_ID,NAME,VALUE,DESCRIPTION) VALUES (2,'" + TF_patern_name_DB.getText() + "','" + class_text.getText() + "','jhg')";
+            ResultSet q_result;
+            try {
+                derby_DB.executeUpdate(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }else{
+            String query = "UPDATE PATERNS " +
+                    "SET MOD_ID=2,NAME='"+TF_patern_name_DB.getText()+"',VALUE='" + class_text.getText() + "',DESCRIPTION='jhg' WHERE ID="+get_ID(LV_paterns_DB.getSelectionModel().getSelectedItem().toString());
+            ResultSet q_result;
+            try {
+                derby_DB.executeUpdate(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+
         list_load_DB();
+        TF_patern_id_DB.setEditable(true);
+        LV_paterns_DB.setDisable(false);
     }
 
     public void delete_patern_DB(ActionEvent actionEvent) {//TODO удалить з базы по ID
-        String query = "DELETE FROM PATERNS WHERE ID=" + get_ID(TF_patern_name_DB.getText());
+        String query = "DELETE FROM PATERNS WHERE ID=" +  get_ID(LV_paterns_DB.getSelectionModel().getSelectedItem().toString());
         try {
             derby_DB.executeUpdate(query);
         } catch (SQLException e) {
@@ -162,7 +200,6 @@ public class main_C implements Initializable {
             while (rs.next()) {
                 System.out.println(rs.getInt("ID") + "|" + rs.getString("NAME"));
                 items.add(rs.getString("ID") + "|" + rs.getString("NAME"));
-
             }
             LV_paterns_DB.setItems(items);
         } catch (SQLException e) {
@@ -173,9 +210,14 @@ public class main_C implements Initializable {
 
     public void select_to_save_DB() {//скопировать имя патерна для сохранения
         if (derby_DB != null) {
-            TF_patern_name_DB.setText(LV_paterns_DB.getSelectionModel().getSelectedItem().toString());
+        String id_name=LV_paterns_DB.getSelectionModel().getSelectedItem().toString();
+        String id,name=new String();
+            id=get_ID(id_name);
+            name=get_NAME(id_name);
+            TF_patern_id_DB.setText(id);
+            TF_patern_name_DB.setText(name);
         }
-
+        load_this_patern_DB(null);
     }
 
     public void connect_DB(ActionEvent actionEvent) {
@@ -194,7 +236,7 @@ public class main_C implements Initializable {
         MI_disconnect.setDisable(false);
     }
 
-    public void disconnect_DB(ActionEvent actionEvent) {
+    public void disconnect_DB(ActionEvent actionEvent) {//отключиться от БД
         if (derby_DB != null) {
             derby_DB.disconectDB();
             derby_DB = null;
@@ -206,7 +248,7 @@ public class main_C implements Initializable {
         MI_disconnect.setDisable(true);
     }
 
-    public void creat_DB(ActionEvent actionEvent) {
+    public void creat_DB(ActionEvent actionEvent) { //Создать БД
         JFileChooser db_dir = new JFileChooser(new File(System.getProperty("user.dir")));
         db_dir.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         db_dir.setAcceptAllFileFilterUsed(false);
@@ -218,7 +260,7 @@ public class main_C implements Initializable {
         //list_load_DB();
     }
 
-    public void show_help(ActionEvent actionEvent) {
+    public void show_help(ActionEvent actionEvent) {// Отобразить помощь
         try {
             Parent Parent = FXMLLoader.load(getClass().getResource("../views/help.fxml"));
             Stage Stage = new Stage();
@@ -240,5 +282,13 @@ public class main_C implements Initializable {
 
     public void close_mw(ActionEvent actionEvent) {
         System.exit(1);
+    }
+
+    public void edit_patern(ActionEvent actionEvent) {//Редактировать патерн
+        TF_patern_id_DB.setEditable(false);
+        LV_paterns_DB.setDisable(true);
+        select_to_save_DB();
+        load_this_patern_DB(null);
+
     }
 }
