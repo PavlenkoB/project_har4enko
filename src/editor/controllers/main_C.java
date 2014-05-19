@@ -53,7 +53,7 @@ public class main_C implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //
+        //TODO Del
         derby_DB = new DerbyDBManager("DB/paterns_DB");
               list_load_DB();/**/
 
@@ -94,7 +94,7 @@ public class main_C implements Initializable {
         out_data.write("@startuml");
         out_data.newLine();
         out_data.write("skinparam backgroundColor transparent\n" +//Прозрачный фон
-                "skinparam roundCorner 10");                        //Скругленый углы
+                "skinparam roundCorner 10");                        //Скругленые углы
         out_data.newLine();
         for(String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine()) {
             out_data.write(line);
@@ -104,6 +104,7 @@ public class main_C implements Initializable {
         out_data.write("@enduml");
         bufferedReader.close();
         out_data.close();
+        //TODO Del
         /*out_data.write("@startuml");
         out_data.newLine();
         out_data.write(class_text.getText());
