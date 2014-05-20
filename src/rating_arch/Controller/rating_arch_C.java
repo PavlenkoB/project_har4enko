@@ -1,6 +1,6 @@
 package rating_arch.Controller;
 
-import rating_arch.Classes.*;
+import Classes.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
