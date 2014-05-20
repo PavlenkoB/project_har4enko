@@ -58,4 +58,6 @@ public class Pattern {
         this.table = table;
     }
 
+
+
 }

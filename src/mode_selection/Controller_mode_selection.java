@@ -59,7 +59,7 @@ public class Controller_mode_selection {
             try {
                 create_new_arch_win = new Stage();
                 Parent root;
-                root = FXMLLoader.load(getClass().getResource("/create_arch/Interface/Create_new_arch.fxml"));
+                root = FXMLLoader.load(getClass().getResource("/create_arch/Interface/Create_new_arch_1.fxml"));
                 create_new_arch_win.setTitle("Archery create");
                 create_new_arch_win.setScene(new Scene(root, 800, 600));
                 create_new_arch_win.setResizable(true);
