@@ -43,8 +43,6 @@ public class main_C implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //TODO Del
-        derby_DB = new DerbyDBManager("DB/paterns_DB");
     }
 
     public void connect_DB(ActionEvent actionEvent) {
@@ -54,7 +52,7 @@ public class main_C implements Initializable {
         db_dir.setAcceptAllFileFilterUsed(false);
         db_dir.setDialogTitle("Выберете каталог с базой");
         db_dir.showDialog(null, "Выбрать...");
-        //TODO существет ли база(создана ли)
+        // существет ли база(создана ли)
 
         derby_DB = new DerbyDBManager(db_dir.getSelectedFile().getAbsolutePath());
         selected_DB.setText(db_dir.getName(db_dir.getSelectedFile()));

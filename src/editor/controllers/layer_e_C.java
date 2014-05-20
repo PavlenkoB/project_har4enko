@@ -14,38 +14,61 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import javax.swing.*;
-import javax.swing.text.*;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+class values {
+    String name;
+    Integer id;
+    values(){}
+    values(Integer id, String name){
+        this.id=id;
+        this.name=name;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
 /**
  * @author godex_000
  */
-public class patern_e_C implements Initializable {
+public class layer_e_C implements Initializable {
 
-    public ListView LV_paterns_DB;
-    public TableView TV_paterns_DB;
+    public ListView LV_layers_DB;
+    public TableView TV_layers_DB;
     public Label selected_DB;
     public MenuBar MB_main_menu;
     public MenuItem MI_connect;
     public MenuItem MI_disconnect;
-    public TextField TF_patern_id_DB;
-    public TextArea TA_patern_description;
+    public TextField TF_layer_id_DB;
+    public TextArea TA_layer_description;
+    public ChoiceBox CB_layer_master;
     /*Кнопки*/
     @FXML
     private TextArea class_text;
     @FXML
-    private TextField TF_patern_name_DB;
+    private TextField TF_layer_name_DB;
     @FXML
     private Image class_image;
     @FXML
@@ -58,6 +81,7 @@ public class patern_e_C implements Initializable {
         //TODO Del
         derby_DB = new DerbyDBManager("DB/paterns_DB");
               list_load_DB();/**/
+        arch_load();
 
     }
 
@@ -96,23 +120,23 @@ public class patern_e_C implements Initializable {
         class_imageview.setImage(class_image);
     }
 
-    public void load_this_patern_DB(ActionEvent actionEvent) {//TODO ЗАгрузить патерн с базы
+    public void load_this_layer_DB(ActionEvent actionEvent) {//TODO ЗАгрузить патерн с базы
         //Читае Идентиф. Параметра
-        String query = "SELECT * FROM PATERNS WHERE ID=" + get_ID(LV_paterns_DB.getSelectionModel().getSelectedItem().toString());
+        String query = "SELECT * FROM LAYER WHERE ID=" + get_ID(LV_layers_DB.getSelectionModel().getSelectedItem().toString());
         ResultSet q_result;
         try {
             q_result = derby_DB.executeQuery(query);
             q_result.next();
-            class_text.setText(q_result.getString("VALUE"));
-            TA_patern_description.setText(q_result.getString("DESCRIPTION"));
+            TA_layer_description.setText(q_result.getString("DESCRIPTION"));
+            CB_layer_master.setValue(q_result.getString("DESCRIPTION"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void save_this_patern_DB(ActionEvent actionEvent) {//добавить патерн в базу
-        if(TF_patern_id_DB.getText().length()==0) {
-            String query = "INSERT INTO PATERNS (MOD_ID,NAME,VALUE,DESCRIPTION) VALUES ('" + TF_patern_name_DB.getText() + "','" + class_text.getText() + "','"+TA_patern_description.getText()+"')";
+    public void save_this_layer_DB(ActionEvent actionEvent) {//добавить патерн в базу
+        if(TF_layer_id_DB.getText().length()==0) {
+            String query = "INSERT INTO LAYER (ARCH_ID,NAME,DESCRIPTION) VALUES (-1,'" + TF_layer_name_DB.getText() + "','"+TA_layer_description.getText()+"')";
             ResultSet q_result;
             try {
                 derby_DB.executeUpdate(query);
@@ -120,8 +144,8 @@ public class patern_e_C implements Initializable {
                 e.printStackTrace();
             }
         }else{
-            String query = "UPDATE PATERNS " +//TODO ДО какого модуля
-                    "SET MOD_ID=-1,NAME='"+TF_patern_name_DB.getText()+"',VALUE='" + class_text.getText() + "',DESCRIPTION='"+TA_patern_description.getText()+"' WHERE ID="+get_ID(LV_paterns_DB.getSelectionModel().getSelectedItem().toString());
+            String query = "UPDATE LAYER " +//TODO ДО какого модуля
+                    "SET ARCH_ID="+get_ID(CB_layer_master.getSelectionModel().getSelectedItem().toString())+",NAME='"+TF_layer_name_DB.getText()+"',DESCRIPTION='"+TA_layer_description.getText()+"' WHERE ID="+get_ID(LV_layers_DB.getSelectionModel().getSelectedItem().toString());
             ResultSet q_result;
             try {
                 derby_DB.executeUpdate(query);
@@ -131,12 +155,12 @@ public class patern_e_C implements Initializable {
         }
 
         list_load_DB();
-        TF_patern_id_DB.setEditable(true);
-        LV_paterns_DB.setDisable(false);
+        TF_layer_id_DB.setEditable(true);
+        LV_layers_DB.setDisable(false);
     }
 
-    public void delete_patern_DB(ActionEvent actionEvent) {//удалить з базы по ID
-        String query = "DELETE FROM PATERNS WHERE ID=" +  get_ID(LV_paterns_DB.getSelectionModel().getSelectedItem().toString());
+    public void delete_layer_DB(ActionEvent actionEvent) {//удалить з базы по ID
+        String query = "DELETE FROM LAYER WHERE ID=" +  get_ID(LV_layers_DB.getSelectionModel().getSelectedItem().toString());
         try {
             derby_DB.executeUpdate(query);
         } catch (SQLException e) {
@@ -150,11 +174,11 @@ public class patern_e_C implements Initializable {
         try {
             try {
                 //derby_DB
-                rs = derby_DB.executeQuery("SELECT * FROM PATERNS");
+                rs = derby_DB.executeQuery("SELECT * FROM LAYER");
             } catch (SQLException e) {
                 System.out.print("ssdsa");
-                //если БД не существовала, то создаем таблицу и после этого заполняем её значениями
-                try {
+                //TODO если БД не существовала, то создаем таблицу и после этого заполняем её значениями
+                /*try {
                     String query = "CREATE TABLE PATERNS (\n" +
                             "  ID INT PRIMARY KEY NOT NULL GENERATED ALWAYS AS IDENTITY\n" +
                             "        (START WITH 1, INCREMENT BY 1),\n" +
@@ -168,7 +192,7 @@ public class patern_e_C implements Initializable {
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
-                e.printStackTrace();
+                e.printStackTrace();*/
             }
             ObservableList<String> items = FXCollections.observableArrayList();
 
@@ -176,7 +200,7 @@ public class patern_e_C implements Initializable {
                 System.out.println(rs.getInt("ID") + "|" + rs.getString("NAME"));
                 items.add(rs.getString("ID") + "|" + rs.getString("NAME"));
             }
-            LV_paterns_DB.setItems(items);
+            LV_layers_DB.setItems(items);
         } catch (SQLException e) {
             e.printStackTrace();
 
@@ -185,14 +209,14 @@ public class patern_e_C implements Initializable {
 
     public void select_to_save_DB() {//скопировать имя патерна для сохранения
         if (derby_DB != null) {
-        String id_name=LV_paterns_DB.getSelectionModel().getSelectedItem().toString();
+        String id_name=LV_layers_DB.getSelectionModel().getSelectedItem().toString();
         String id,name=new String();
             id=get_ID(id_name);
             name=get_NAME(id_name);
-            TF_patern_id_DB.setText(id);
-            TF_patern_name_DB.setText(name);
+            TF_layer_id_DB.setText(id);
+            TF_layer_name_DB.setText(name);
         }
-        //load_this_patern_DB(null);
+        //load_this_layer_DB(null);
     }
 
     public void connect_DB(ActionEvent actionEvent) {
@@ -217,7 +241,7 @@ public class patern_e_C implements Initializable {
             derby_DB = null;
         }
         ObservableList<String> items = FXCollections.observableArrayList();
-        LV_paterns_DB.setItems(items);
+        LV_layers_DB.setItems(items);
         selected_DB.setText("<null>");
         MI_connect.setDisable(false);
         MI_disconnect.setDisable(true);
@@ -257,11 +281,37 @@ public class patern_e_C implements Initializable {
         System.exit(1);
     }
 
-    public void edit_patern(ActionEvent actionEvent) {//Редактировать патерн
-        TF_patern_id_DB.setEditable(false);
-        LV_paterns_DB.setDisable(true);
+    public void edit_layer(ActionEvent actionEvent) {//Редактировать патерн
+        TF_layer_id_DB.setEditable(false);
+        LV_layers_DB.setDisable(true);
         select_to_save_DB();
-        load_this_patern_DB(null);
+        load_this_layer_DB(null);
+
+    }
+
+    public void arch_load(){//загрузить архитектуру
+        ResultSet rs = null;
+        try {
+            try {
+                //derby_DB
+                rs = derby_DB.executeQuery("SELECT * FROM ARCHITECTURE");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            ObservableList<String> items = FXCollections.observableArrayList();
+
+            while (rs.next()) {
+                System.out.println(rs.getInt("ID") + "|" + rs.getString("NAME"));
+                items.add(rs.getString("ID") + "|" + rs.getString("NAME"));
+            }
+            CB_layer_master.setItems(items);
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    public void layer_master_select(){
 
     }
 }

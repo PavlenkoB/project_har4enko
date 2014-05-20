@@ -19,37 +19,35 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import javax.swing.*;
-import javax.swing.text.*;
 import java.io.*;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
  * @author godex_000
  */
-public class patern_e_C implements Initializable {
+public class arch_e_C_0 implements Initializable {
 
-    public ListView LV_paterns_DB;
-    public TableView TV_paterns_DB;
+    public ListView LV_archs_DB;
+    public TableView TV_archs_DB;
     public Label selected_DB;
     public MenuBar MB_main_menu;
     public MenuItem MI_connect;
     public MenuItem MI_disconnect;
-    public TextField TF_patern_id_DB;
-    public TextArea TA_patern_description;
+    public TextField TF_arch_id_DB;
+    public TextArea TA_arch_description;
     /*Кнопки*/
     @FXML
-    private TextArea class_text;
+    private TextArea arch_text;
     @FXML
-    private TextField TF_patern_name_DB;
+    private TextField TF_arch_name_DB;
     @FXML
-    private Image class_image;
+    private Image arch_image;
     @FXML
-    private javafx.scene.image.ImageView class_imageview;
+    private javafx.scene.image.ImageView arch_imageview;
 
     DerbyDBManager derby_DB;
 
@@ -57,8 +55,7 @@ public class patern_e_C implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         //TODO Del
         derby_DB = new DerbyDBManager("DB/paterns_DB");
-              list_load_DB();/**/
-
+        list_load_DB();/**/
     }
 
     public String get_ID(String in_string) {
@@ -89,30 +86,30 @@ public class patern_e_C implements Initializable {
 
     /*Действия*/
     @FXML//Отрисовка класса
-    public void Action_draw_class() throws IOException, InterruptedException {
-        class_image=draw_uml.draw_class(class_text.getText());
-        class_imageview.setFitHeight(class_image.getRequestedHeight());
-        class_imageview.setFitWidth(class_image.getRequestedWidth());
-        class_imageview.setImage(class_image);
+    public void Action_draw_arch() throws IOException, InterruptedException {
+        arch_image=draw_uml.draw_class(arch_text.getText());
+        arch_imageview.setFitHeight(arch_image.getRequestedHeight());
+        arch_imageview.setFitWidth(arch_image.getRequestedWidth());
+        arch_imageview.setImage(arch_image);
     }
 
-    public void load_this_patern_DB(ActionEvent actionEvent) {//TODO ЗАгрузить патерн с базы
+    public void load_this_arch_DB(ActionEvent actionEvent) {//TODO ЗАгрузить патерн с базы
         //Читае Идентиф. Параметра
-        String query = "SELECT * FROM PATERNS WHERE ID=" + get_ID(LV_paterns_DB.getSelectionModel().getSelectedItem().toString());
+        String query = "SELECT * FROM ARCHITECTURE WHERE ID=" + get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString());
         ResultSet q_result;
         try {
             q_result = derby_DB.executeQuery(query);
             q_result.next();
-            class_text.setText(q_result.getString("VALUE"));
-            TA_patern_description.setText(q_result.getString("DESCRIPTION"));
+            arch_text.setText(q_result.getString("USECASE"));
+            TA_arch_description.setText(q_result.getString("DESCRIPTION"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void save_this_patern_DB(ActionEvent actionEvent) {//добавить патерн в базу
-        if(TF_patern_id_DB.getText().length()==0) {
-            String query = "INSERT INTO PATERNS (MOD_ID,NAME,VALUE,DESCRIPTION) VALUES ('" + TF_patern_name_DB.getText() + "','" + class_text.getText() + "','"+TA_patern_description.getText()+"')";
+    public void save_this_arch_DB(ActionEvent actionEvent) {//TODO добавить патерн в базу
+        if(TF_arch_id_DB.getText().length()==0) {
+            String query = "INSERT INTO ARCHITECTURE (NAME,USECASE,DESCRIPTION) VALUES ('" + TF_arch_name_DB.getText() + "','" + arch_text.getText() + "','"+TA_arch_description.getText()+"')";
             ResultSet q_result;
             try {
                 derby_DB.executeUpdate(query);
@@ -120,23 +117,23 @@ public class patern_e_C implements Initializable {
                 e.printStackTrace();
             }
         }else{
-            String query = "UPDATE PATERNS " +//TODO ДО какого модуля
-                    "SET MOD_ID=-1,NAME='"+TF_patern_name_DB.getText()+"',VALUE='" + class_text.getText() + "',DESCRIPTION='"+TA_patern_description.getText()+"' WHERE ID="+get_ID(LV_paterns_DB.getSelectionModel().getSelectedItem().toString());
+            String query = "UPDATE ARCHITECTURE " +
+                    "SET NAME='"+TF_arch_name_DB.getText()+"',USECASE='" + arch_text.getText() + "',DESCRIPTION='"+TA_arch_description.getText()+"' WHERE ID="+get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString());
             ResultSet q_result;
             try {
                 derby_DB.executeUpdate(query);
             } catch (SQLException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
 
         list_load_DB();
-        TF_patern_id_DB.setEditable(true);
-        LV_paterns_DB.setDisable(false);
+        TF_arch_id_DB.setEditable(true);
+        LV_archs_DB.setDisable(false);
     }
 
-    public void delete_patern_DB(ActionEvent actionEvent) {//удалить з базы по ID
-        String query = "DELETE FROM PATERNS WHERE ID=" +  get_ID(LV_paterns_DB.getSelectionModel().getSelectedItem().toString());
+    public void delete_arch_DB(ActionEvent actionEvent) {//TODO удалить з базы по ID
+        String query = "DELETE FROM ARCHITECTURE WHERE ID=" +  get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString());
         try {
             derby_DB.executeUpdate(query);
         } catch (SQLException e) {
@@ -145,17 +142,17 @@ public class patern_e_C implements Initializable {
         list_load_DB();
     }
 
-    private void list_load_DB() {//Загрузка з базы
+    private void list_load_DB() {//TODO Загрузка з базы
         ResultSet rs = null;
         try {
             try {
                 //derby_DB
-                rs = derby_DB.executeQuery("SELECT * FROM PATERNS");
+                rs = derby_DB.executeQuery("SELECT * FROM ARCHITECTURE");
             } catch (SQLException e) {
-                System.out.print("ssdsa");
+                System.out.print("Создаю таблицу)");
                 //если БД не существовала, то создаем таблицу и после этого заполняем её значениями
-                try {
-                    String query = "CREATE TABLE PATERNS (\n" +
+                /*try {
+                    String query = "CREATE TABLE ARCHITECTURE (\n" +
                             "  ID INT PRIMARY KEY NOT NULL GENERATED ALWAYS AS IDENTITY\n" +
                             "        (START WITH 1, INCREMENT BY 1),\n" +
                             "  MOD_ID INT NOT NULL,\n" +
@@ -168,7 +165,7 @@ public class patern_e_C implements Initializable {
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
-                e.printStackTrace();
+                e.printStackTrace();*/
             }
             ObservableList<String> items = FXCollections.observableArrayList();
 
@@ -176,7 +173,7 @@ public class patern_e_C implements Initializable {
                 System.out.println(rs.getInt("ID") + "|" + rs.getString("NAME"));
                 items.add(rs.getString("ID") + "|" + rs.getString("NAME"));
             }
-            LV_paterns_DB.setItems(items);
+            LV_archs_DB.setItems(items);
         } catch (SQLException e) {
             e.printStackTrace();
 
@@ -185,14 +182,14 @@ public class patern_e_C implements Initializable {
 
     public void select_to_save_DB() {//скопировать имя патерна для сохранения
         if (derby_DB != null) {
-        String id_name=LV_paterns_DB.getSelectionModel().getSelectedItem().toString();
-        String id,name=new String();
+            String id_name=LV_archs_DB.getSelectionModel().getSelectedItem().toString();
+            String id,name=new String();
             id=get_ID(id_name);
             name=get_NAME(id_name);
-            TF_patern_id_DB.setText(id);
-            TF_patern_name_DB.setText(name);
+            TF_arch_id_DB.setText(id);
+            TF_arch_name_DB.setText(name);
         }
-        //load_this_patern_DB(null);
+        load_this_arch_DB(null);
     }
 
     public void connect_DB(ActionEvent actionEvent) {
@@ -202,7 +199,7 @@ public class patern_e_C implements Initializable {
         db_dir.setAcceptAllFileFilterUsed(false);
         db_dir.setDialogTitle("Выберете каталог с базой");
         db_dir.showDialog(null, "Выбрать...");
-        // существет ли база(создана ли)
+        //TODO существет ли база(создана ли)
 
         derby_DB = new DerbyDBManager(db_dir.getSelectedFile().getAbsolutePath());
         selected_DB.setText(db_dir.getName(db_dir.getSelectedFile()));
@@ -217,7 +214,7 @@ public class patern_e_C implements Initializable {
             derby_DB = null;
         }
         ObservableList<String> items = FXCollections.observableArrayList();
-        LV_paterns_DB.setItems(items);
+        LV_archs_DB.setItems(items);
         selected_DB.setText("<null>");
         MI_connect.setDisable(false);
         MI_disconnect.setDisable(true);
@@ -257,11 +254,11 @@ public class patern_e_C implements Initializable {
         System.exit(1);
     }
 
-    public void edit_patern(ActionEvent actionEvent) {//Редактировать патерн
-        TF_patern_id_DB.setEditable(false);
-        LV_paterns_DB.setDisable(true);
+    public void edit_arch(ActionEvent actionEvent) {//Редактировать патерн
+        TF_arch_id_DB.setEditable(false);
+        LV_archs_DB.setDisable(true);
         select_to_save_DB();
-        load_this_patern_DB(null);
+        load_this_arch_DB(null);
 
     }
 }
