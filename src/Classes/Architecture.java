@@ -1,4 +1,4 @@
-package rating_arch.Classes;
+package Classes;
 
 /**
  * Created by Alex Shcherbak on 24.04.2014.
@@ -10,6 +10,7 @@ public class Architecture {
     public String description;
     public Integer id_done;
     public Integer task_id;
+    public String usecase;
 
     public Architecture() {
         this.id = 0;
@@ -18,6 +19,7 @@ public class Architecture {
         this.description = null;
         this.id_done = 0;
         this.task_id = 0;
+        this.usecase = null;
     }
 
     public Architecture(Integer id, String name, Layer[] layers, String description, Integer id_done, Integer task_id) {
@@ -29,11 +31,13 @@ public class Architecture {
         this.task_id = task_id;
     }
 
-    public Architecture(Integer id, String name, Layer[] layers, String description) {
+
+    public Architecture(Integer id, String name, Layer[] layers, String description, String usecase) {
         this.id = id;
         this.name = name;
         this.layers = layers;
         this.description = description;
+        this.usecase = usecase;
     }
 
     public Integer getId() {
@@ -82,6 +86,14 @@ public class Architecture {
 
     public void setTask_id(Integer task_id) {
         this.task_id = task_id;
+    }
+
+    public String getUsecase() {
+        return usecase;
+    }
+
+    public void setUsecase(String usecase) {
+        this.usecase = usecase;
     }
 
 }

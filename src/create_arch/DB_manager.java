@@ -1,4 +1,4 @@
-package rating_arch;
+package create_arch;
 
 import java.sql.*;
 
@@ -59,13 +59,5 @@ public class DB_manager {
         Statement stmt = con.createStatement();
         ResultSet result = stmt.executeQuery(sql);
         return result;
-    }
-    public void disconectDB() {//отключиться от БД
-        try {
-            con.close();
-        } catch (SQLException e) {
-            System.out.println("Не удалось закрыть подключение к БД");
-            e.printStackTrace();
-        }
     }
 }

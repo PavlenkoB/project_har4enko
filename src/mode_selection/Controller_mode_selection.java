@@ -6,9 +6,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
 import java.io.IOException;
+
 import rating_arch.Controller.*;
 import editor.models.Main;
 
@@ -29,7 +30,6 @@ public class Controller_mode_selection {
     public Stage create_new_arch_win;
 
     public void close(ActionEvent actionEvent) throws IOException {
-
         try {
             Stage stage = new Stage();
             Parent root;
@@ -59,7 +59,7 @@ public class Controller_mode_selection {
             try {
                 create_new_arch_win = new Stage();
                 Parent root;
-                root = FXMLLoader.load(getClass().getResource("/rating_arch/Interface/Create_new_arch.fxml"));
+                root = FXMLLoader.load(getClass().getResource("/create_arch/Interface/Create_new_arch.fxml"));
                 create_new_arch_win.setTitle("Archery create");
                 create_new_arch_win.setScene(new Scene(root, 800, 600));
                 create_new_arch_win.setResizable(true);
@@ -84,11 +84,11 @@ public class Controller_mode_selection {
             sel_mode.close();
         }
         if (choice1_add_new_patt.isSelected()) {
-                try {
-                    editor.start(sel_mode);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            try {
+                editor.start(sel_mode);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         //sel_mode.close();
     }

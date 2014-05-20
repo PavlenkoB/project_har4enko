@@ -9,7 +9,7 @@
 
 <GridPane hgap="14.0" maxHeight="+Infinity" maxWidth="+Infinity" minHeight="-Infinity" minWidth="-Infinity" vgap="20.0"
           xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="rating_arch.Controller.rating_arch_C">
+          fx:controller="create_arch.Controllers.create_arch_C">
     <children>
         <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0"
                    GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="TOP">

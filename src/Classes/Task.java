@@ -1,4 +1,4 @@
-package rating_arch.Classes;
+package Classes;
 
 /**
  * Created by Alex Shcherbak on 24.04.2014.
