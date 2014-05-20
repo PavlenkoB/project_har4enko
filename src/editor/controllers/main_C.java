@@ -134,6 +134,9 @@ public class main_C implements Initializable {
 
     public void start_patern_editor(ActionEvent actionEvent) {
         try {
+            Stage PS= (Stage) B_disconnect.getScene().getWindow();
+            PS.setIconified(true);
+
             Parent Parent = FXMLLoader.load(getClass().getResource("../views/paterns_editor.fxml"));
             Stage Stage = new Stage();
             Stage.setTitle("Редактор патенів");

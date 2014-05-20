@@ -6,9 +6,11 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="526.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="editor.controllers.modul_e_C">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="526.0" prefWidth="760.0"
+            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="editor.controllers.modul_e_C">
     <children>
-    <Button layoutX="353.0" layoutY="330.0" mnemonicParsing="false" text="Отрисовать класс">
-    </Button>
+        <Button layoutX="353.0" layoutY="330.0" mnemonicParsing="false" text="Отрисовать класс">
+        </Button>
     </children>
 </AnchorPane>
