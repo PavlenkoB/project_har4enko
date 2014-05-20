@@ -27,6 +27,9 @@ public class Layer {
         this.modules = modules;
     }
 
+    public Layer() {
+    }
+
     public Integer getId() {
         return id;
     }
