@@ -10,6 +10,14 @@ public class Pattern {
     public String description;
     public String table;
 
+    public Pattern() {
+        this.id = null;
+        this.mod_id = null;
+        this.name = null;
+        this.description = null;
+        this.table = null;
+    }
+
     public Pattern(Integer id, Integer mod_id, String name, String description, String table) {
         this.id = id;
         this.mod_id = mod_id;
