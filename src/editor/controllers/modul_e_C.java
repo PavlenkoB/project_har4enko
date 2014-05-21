@@ -14,16 +14,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import javax.swing.*;
-import javax.swing.text.*;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -33,19 +30,20 @@ import java.util.ResourceBundle;
  */
 public class modul_e_C implements Initializable {
 
-    public ListView LV_moduls_DB;
-    public TableView TV_moduls_DB;
+    public ListView LV_modules_DB;
+    public TableView TV_modules_DB;
     public Label selected_DB;
     public MenuBar MB_main_menu;
     public MenuItem MI_connect;
     public MenuItem MI_disconnect;
-    public TextField TF_modul_id_DB;
-    public TextArea TA_modul_description;
+    public TextField TF_module_id_DB;
+    public TextArea TA_module_description;
+    public ChoiceBox CB_module_master;
     /*Кнопки*/
     @FXML
     private TextArea class_text;
     @FXML
-    private TextField TF_modul_name_DB;
+    private TextField TF_module_name_DB;
     @FXML
     private Image class_image;
     @FXML
@@ -58,6 +56,7 @@ public class modul_e_C implements Initializable {
         //TODO Del
         derby_DB = new DerbyDBManager("DB/paterns_DB");
         list_load_DB();/**/
+        layer_load();
 
     }
 
@@ -96,23 +95,27 @@ public class modul_e_C implements Initializable {
         class_imageview.setImage(class_image);
     }
 
-    public void load_this_modul_DB(ActionEvent actionEvent) {//TODO ЗАгрузить патерн с базы
+    public void load_this_module_DB(ActionEvent actionEvent) {//TODO ЗАгрузить патерн с базы
         //Читае Идентиф. Параметра
-        String query = "SELECT * FROM PATERNS WHERE ID=" + get_ID(LV_moduls_DB.getSelectionModel().getSelectedItem().toString());
+        String query = "SELECT * FROM MODULE WHERE ID=" + get_ID(LV_modules_DB.getSelectionModel().getSelectedItem().toString());
         ResultSet q_result;
         try {
             q_result = derby_DB.executeQuery(query);
             q_result.next();
-            class_text.setText(q_result.getString("VALUE"));
-            TA_modul_description.setText(q_result.getString("DESCRIPTION"));
+            TA_module_description.setText(q_result.getString("DESCRIPTION"));
+
+            ResultSet rs = null;
+            rs = derby_DB.executeQuery("SELECT * FROM LAYER WHERE ID="+q_result.getString("LAY_ID"));//Получить данные о слою
+            rs.next();
+            CB_module_master.setValue(rs.getInt("ID") + "|" + rs.getString("NAME"));//Поставить селект
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void save_this_modul_DB(ActionEvent actionEvent) {//добавить патерн в базу
-        if(TF_modul_id_DB.getText().length()==0) {
-            String query = "INSERT INTO PATERNS (MOD_ID,NAME,VALUE,DESCRIPTION) VALUES ('" + TF_modul_name_DB.getText() + "','" + class_text.getText() + "','"+TA_modul_description.getText()+"')";
+    public void save_this_module_DB(ActionEvent actionEvent) {//добавить патерн в базу
+        if(TF_module_id_DB.getText().length()==0) {
+            String query = "INSERT INTO MODULE (LAY_ID,NAME,DESCRIPTION) VALUES ("+get_ID(CB_module_master.getSelectionModel().getSelectedItem().toString())+",'" + TF_module_name_DB.getText() + "','"+TA_module_description.getText()+"')";
             ResultSet q_result;
             try {
                 derby_DB.executeUpdate(query);
@@ -120,8 +123,8 @@ public class modul_e_C implements Initializable {
                 e.printStackTrace();
             }
         }else{
-            String query = "UPDATE PATERNS " +//TODO ДО какого модуля
-                    "SET MOD_ID=-1,NAME='"+TF_modul_name_DB.getText()+"',VALUE='" + class_text.getText() + "',DESCRIPTION='"+TA_modul_description.getText()+"' WHERE ID="+get_ID(LV_moduls_DB.getSelectionModel().getSelectedItem().toString());
+            String query = "UPDATE MODULE " +//TODO ДО какого модуля
+                    "SET LAY_ID="+get_ID(CB_module_master.getSelectionModel().getSelectedItem().toString())+",NAME='"+TF_module_name_DB.getText()+"',DESCRIPTION='"+TA_module_description.getText()+"' WHERE ID="+get_ID(LV_modules_DB.getSelectionModel().getSelectedItem().toString());
             ResultSet q_result;
             try {
                 derby_DB.executeUpdate(query);
@@ -131,12 +134,12 @@ public class modul_e_C implements Initializable {
         }
 
         list_load_DB();
-        TF_modul_id_DB.setEditable(true);
-        LV_moduls_DB.setDisable(false);
+        TF_module_id_DB.setEditable(true);
+        LV_modules_DB.setDisable(false);
     }
 
-    public void delete_modul_DB(ActionEvent actionEvent) {//удалить з базы по ID
-        String query = "DELETE FROM PATERNS WHERE ID=" +  get_ID(LV_moduls_DB.getSelectionModel().getSelectedItem().toString());
+    public void delete_module_DB(ActionEvent actionEvent) {//удалить з базы по ID
+        String query = "DELETE FROM MODULE WHERE ID=" +  get_ID(LV_modules_DB.getSelectionModel().getSelectedItem().toString());
         try {
             derby_DB.executeUpdate(query);
         } catch (SQLException e) {
@@ -150,21 +153,20 @@ public class modul_e_C implements Initializable {
         try {
             try {
                 //derby_DB
-                rs = derby_DB.executeQuery("SELECT * FROM PATERNS");
+                rs = derby_DB.executeQuery("SELECT * FROM MODULE");
             } catch (SQLException e) {
                 System.out.print("ssdsa");
-                //если БД не существовала, то создаем таблицу и после этого заполняем её значениями
+                //TODO если БД не существовала, то создаем таблицу и после этого заполняем её значениями
                 try {
-                    String query = "CREATE TABLE PATERNS (\n" +
+                    String query = "CREATE TABLE MODULE (\n" +
                             "  ID INT PRIMARY KEY NOT NULL GENERATED ALWAYS AS IDENTITY\n" +
-                            "        (START WITH 1, INCREMENT BY 1),\n" +
-                            "  MOD_ID INT NOT NULL,\n" +
+                            "    (START WITH 1, INCREMENT BY 1),\n" +
+                            "  LAY_ID INT NOT NULL ,\n" +
                             "  NAME VARCHAR(255) NOT NULL,\n" +
-                            "  VALUE CLOB(1073741823) NOT NULL,\n" +
                             "  DESCRIPTION CLOB(1073741823)\n" +
                             ")";
                     derby_DB.executeUpdate(query);
-                    list_load_DB();
+                    rs = derby_DB.executeQuery("SELECT * FROM MODULE");
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
@@ -176,7 +178,7 @@ public class modul_e_C implements Initializable {
                 System.out.println(rs.getInt("ID") + "|" + rs.getString("NAME"));
                 items.add(rs.getString("ID") + "|" + rs.getString("NAME"));
             }
-            LV_moduls_DB.setItems(items);
+            LV_modules_DB.setItems(items);
         } catch (SQLException e) {
             e.printStackTrace();
 
@@ -185,14 +187,14 @@ public class modul_e_C implements Initializable {
 
     public void select_to_save_DB() {//скопировать имя патерна для сохранения
         if (derby_DB != null) {
-            String id_name=LV_moduls_DB.getSelectionModel().getSelectedItem().toString();
+            String id_name=LV_modules_DB.getSelectionModel().getSelectedItem().toString();
             String id,name=new String();
             id=get_ID(id_name);
             name=get_NAME(id_name);
-            TF_modul_id_DB.setText(id);
-            TF_modul_name_DB.setText(name);
+            TF_module_id_DB.setText(id);
+            TF_module_name_DB.setText(name);
         }
-        //load_this_patern_DB(null);
+       load_this_module_DB(null);
     }
 
     public void connect_DB(ActionEvent actionEvent) {
@@ -217,7 +219,7 @@ public class modul_e_C implements Initializable {
             derby_DB = null;
         }
         ObservableList<String> items = FXCollections.observableArrayList();
-        LV_moduls_DB.setItems(items);
+        LV_modules_DB.setItems(items);
         selected_DB.setText("<null>");
         MI_connect.setDisable(false);
         MI_disconnect.setDisable(true);
@@ -257,11 +259,37 @@ public class modul_e_C implements Initializable {
         System.exit(1);
     }
 
-    public void edit_modul(ActionEvent actionEvent) {//Редактировать патерн
-        TF_modul_id_DB.setEditable(false);
-        LV_moduls_DB.setDisable(true);
+    public void edit_module(ActionEvent actionEvent) {//Редактировать патерн
+        TF_module_id_DB.setEditable(false);
+        LV_modules_DB.setDisable(true);
         select_to_save_DB();
-        load_this_modul_DB(null);
+        load_this_module_DB(null);
+
+    }
+
+    public void layer_load(){//загрузить слои
+        ResultSet rs = null;
+        try {
+            try {
+                //derby_DB
+                rs = derby_DB.executeQuery("SELECT * FROM LAYER");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            ObservableList<String> items = FXCollections.observableArrayList();
+
+            while (rs.next()) {
+                System.out.println(rs.getInt("ID") + "|" + rs.getString("NAME"));
+                items.add(rs.getString("ID") + "|" + rs.getString("NAME"));
+            }
+            CB_module_master.setItems(items);
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    public void module_master_select(){
 
     }
 }

@@ -26,7 +26,7 @@
                 </Menu>
             </menus>
         </MenuBar>
-        <Button layoutX="353.0" layoutY="330.0" mnemonicParsing="false" onAction="#Action_draw_arch" text="Намалювати">
+        <Button disable="true" layoutX="353.0" layoutY="330.0" mnemonicParsing="false" onAction="#Action_draw_arch" text="Намалювати">
             <graphic>
                 <ImageView fitHeight="30.0" fitWidth="200.0" layoutX="308.5" layoutY="294.5" pickOnBounds="true" preserveRatio="true">
                     <image>

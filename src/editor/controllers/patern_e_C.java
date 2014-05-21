@@ -41,6 +41,7 @@ public class patern_e_C implements Initializable {
     public MenuItem MI_disconnect;
     public TextField TF_patern_id_DB;
     public TextArea TA_patern_description;
+    public ChoiceBox CB_paterns_master;
     /*Кнопки*/
     @FXML
     private TextArea class_text;
@@ -58,6 +59,7 @@ public class patern_e_C implements Initializable {
         //TODO Del
         derby_DB = new DerbyDBManager("DB/paterns_DB");
               list_load_DB();/**/
+        moduls_load();
 
     }
 
@@ -105,6 +107,11 @@ public class patern_e_C implements Initializable {
             q_result.next();
             class_text.setText(q_result.getString("VALUE"));
             TA_patern_description.setText(q_result.getString("DESCRIPTION"));
+
+            ResultSet rs = null;
+            rs = derby_DB.executeQuery("SELECT * FROM MODULE WHERE ID="+q_result.getString("MOD_ID"));//Получить данные о слою
+            rs.next();
+            CB_paterns_master.setValue(rs.getInt("ID") + "|" + rs.getString("NAME"));//Поставить селект
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -112,7 +119,7 @@ public class patern_e_C implements Initializable {
 
     public void save_this_patern_DB(ActionEvent actionEvent) {//добавить патерн в базу
         if(TF_patern_id_DB.getText().length()==0) {
-            String query = "INSERT INTO PATERNS (MOD_ID,NAME,VALUE,DESCRIPTION) VALUES ('" + TF_patern_name_DB.getText() + "','" + class_text.getText() + "','"+TA_patern_description.getText()+"')";
+            String query = "INSERT INTO PATERNS (MOD_ID,NAME,VALUE,DESCRIPTION) VALUES ("+get_ID(CB_paterns_master.getSelectionModel().getSelectedItem().toString())+",'" + TF_patern_name_DB.getText() + "','" + class_text.getText() + "','"+TA_patern_description.getText()+"')";
             ResultSet q_result;
             try {
                 derby_DB.executeUpdate(query);
@@ -121,7 +128,7 @@ public class patern_e_C implements Initializable {
             }
         }else{
             String query = "UPDATE PATERNS " +//TODO ДО какого модуля
-                    "SET MOD_ID=-1,NAME='"+TF_patern_name_DB.getText()+"',VALUE='" + class_text.getText() + "',DESCRIPTION='"+TA_patern_description.getText()+"' WHERE ID="+get_ID(LV_paterns_DB.getSelectionModel().getSelectedItem().toString());
+                    "SET MOD_ID="+get_ID(CB_paterns_master.getSelectionModel().getSelectedItem().toString())+",NAME='"+TF_patern_name_DB.getText()+"',VALUE='" + class_text.getText() + "',DESCRIPTION='"+TA_patern_description.getText()+"' WHERE ID="+get_ID(LV_paterns_DB.getSelectionModel().getSelectedItem().toString());
             ResultSet q_result;
             try {
                 derby_DB.executeUpdate(query);
@@ -262,6 +269,31 @@ public class patern_e_C implements Initializable {
         LV_paterns_DB.setDisable(true);
         select_to_save_DB();
         load_this_patern_DB(null);
+
+    }
+
+    public void moduls_load(){//загрузить модули
+        ResultSet rs = null;
+        try {
+            try {
+                //derby_DB
+                rs = derby_DB.executeQuery("SELECT * FROM MODULE");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            ObservableList<String> items = FXCollections.observableArrayList();
+
+            while (rs.next()) {
+                System.out.println(rs.getInt("ID") + "|" + rs.getString("NAME"));
+                items.add(rs.getString("ID") + "|" + rs.getString("NAME"));
+            }
+            CB_paterns_master.setItems(items);
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
+    public void layer_master_select(){
 
     }
 }

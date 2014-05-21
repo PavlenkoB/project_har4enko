@@ -25,31 +25,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-class values {
-    String name;
-    Integer id;
-    values(){}
-    values(Integer id, String name){
-        this.id=id;
-        this.name=name;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-}
 /**
  * @author godex_000
  */
@@ -132,7 +107,7 @@ public class layer_e_C implements Initializable {
             ResultSet rs = null;
                     rs = derby_DB.executeQuery("SELECT * FROM ARCHITECTURE WHERE ID="+q_result.getString("ARCH_ID"));//Получить данные о архитектуре
             rs.next();
-            CB_layer_master.setValue(rs.getInt("ID") + "|" + rs.getString("NAME"));//Поставить селект
+            CB_layer_master.setValue(rs.getString("ID") + "|" + rs.getString("NAME"));//Поставить селект
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -220,7 +195,7 @@ public class layer_e_C implements Initializable {
             TF_layer_id_DB.setText(id);
             TF_layer_name_DB.setText(name);
         }
-        //load_this_layer_DB(null);
+        load_this_layer_DB(null);
     }
 
     public void connect_DB(ActionEvent actionEvent) {

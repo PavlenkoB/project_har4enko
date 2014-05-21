@@ -185,7 +185,7 @@ public class main_C implements Initializable {
 
             Stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 public void handle(WindowEvent we) {
-                    PS.setIconified(false);
+                   // PS.setIconified(false);
                 }
             });
         } catch (IOException e) {
