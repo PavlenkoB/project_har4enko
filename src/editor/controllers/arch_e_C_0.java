@@ -19,6 +19,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import javax.swing.*;
+import javax.swing.tree.ExpandVetoException;
 import java.io.*;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -56,6 +57,9 @@ public class arch_e_C_0 implements Initializable {
         //TODO Del
         derby_DB = new DerbyDBManager("DB/paterns_DB");
         list_load_DB();/**/
+    }
+    public void stop() {
+
     }
 
     public String get_ID(String in_string) {
@@ -147,32 +151,30 @@ public class arch_e_C_0 implements Initializable {
         try {
             try {
                 //derby_DB
-                rs = derby_DB.executeQuery("SELECT * FROM ARCHITECTURE");
+                    rs = derby_DB.executeQuery("SELECT * FROM ARCHITECTURE");
             } catch (SQLException e) {
                 System.out.print("Создаю таблицу)");
                 //если БД не существовала, то создаем таблицу и после этого заполняем её значениями
-                /*try {
+                try {
                     String query = "CREATE TABLE ARCHITECTURE (\n" +
                             "  ID INT PRIMARY KEY NOT NULL GENERATED ALWAYS AS IDENTITY\n" +
                             "        (START WITH 1, INCREMENT BY 1),\n" +
-                            "  MOD_ID INT NOT NULL,\n" +
                             "  NAME VARCHAR(255) NOT NULL,\n" +
-                            "  VALUE CLOB(1073741823) NOT NULL,\n" +
-                            "  DESCRIPTION CLOB(1073741823)\n" +
-                            ")";
+                            "    DESCRIPTION CLOB(1073741823),\n" +
+                            "    USECASE CLOB(1073741823)\n" +
+                            "  )";
                     derby_DB.executeUpdate(query);
-                    list_load_DB();
+                    rs = derby_DB.executeQuery("SELECT * FROM ARCHITECTURE");
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
-                e.printStackTrace();*/
+                e.printStackTrace();
             }
             ObservableList<String> items = FXCollections.observableArrayList();
-
-            while (rs.next()) {
-                System.out.println(rs.getInt("ID") + "|" + rs.getString("NAME"));
-                items.add(rs.getString("ID") + "|" + rs.getString("NAME"));
-            }
+    while (rs.next()) {
+        System.out.println(rs.getInt("ID") + "|" + rs.getString("NAME"));
+        items.add(rs.getString("ID") + "|" + rs.getString("NAME"));
+    }
             LV_archs_DB.setItems(items);
         } catch (SQLException e) {
             e.printStackTrace();
