@@ -5,6 +5,7 @@ package editor.controllers;/*
 
 import editor.classes.DerbyDBManager;
 import editor.services.draw_uml;
+import editor.services.functions;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -60,32 +61,6 @@ public class layer_e_C implements Initializable {
 
     }
 
-    public String get_ID(String in_string) {
-        String out_string = "";
-        int line_pos = 0;
-        while ((in_string.charAt(line_pos) != '|') == true) {
-            out_string = out_string + Character.toString(in_string.charAt(line_pos));
-            line_pos++;
-        }
-        return out_string;
-    }
-
-    public String get_NAME(String in_string) {
-        String out_string = "";
-        int line_pos = 0;
-        while ((in_string.charAt(line_pos) != '|') == true) {
-            line_pos++;
-        }
-        line_pos++;
-        while (line_pos<in_string.length()) {
-            out_string = out_string + Character.toString(in_string.charAt(line_pos));
-            line_pos++;
-        }
-        return out_string;
-    }
-
-
-
     /*Действия*/
     @FXML//Отрисовка класса
     public void Action_draw_class() throws IOException, InterruptedException {
@@ -97,7 +72,7 @@ public class layer_e_C implements Initializable {
 
     public void load_this_layer_DB(ActionEvent actionEvent) {//TODO ЗАгрузить патерн с базы
         //Читае Идентиф. Параметра
-        String query = "SELECT * FROM LAYER WHERE ID=" + get_ID(LV_layers_DB.getSelectionModel().getSelectedItem().toString());
+        String query = "SELECT * FROM LAYER WHERE ID=" + functions.get_ID(LV_layers_DB.getSelectionModel().getSelectedItem().toString());
         ResultSet q_result;
         try {
             q_result = derby_DB.executeQuery(query);
@@ -115,7 +90,7 @@ public class layer_e_C implements Initializable {
 
     public void save_this_layer_DB(ActionEvent actionEvent) {//добавить патерн в базу
         if(TF_layer_id_DB.getText().length()==0) {
-            String query = "INSERT INTO LAYER (ARCH_ID,NAME,DESCRIPTION) VALUES ("+get_ID(CB_layer_master.getSelectionModel().getSelectedItem().toString())+",'" + TF_layer_name_DB.getText() + "','"+TA_layer_description.getText()+"')";
+            String query = "INSERT INTO LAYER (ARCH_ID,NAME,DESCRIPTION) VALUES ("+functions.get_ID(CB_layer_master.getSelectionModel().getSelectedItem().toString())+",'" + TF_layer_name_DB.getText() + "','"+TA_layer_description.getText()+"')";
             ResultSet q_result;
             try {
                 derby_DB.executeUpdate(query);
@@ -124,7 +99,7 @@ public class layer_e_C implements Initializable {
             }
         }else{
             String query = "UPDATE LAYER " +//TODO ДО какого модуля
-                    "SET ARCH_ID="+get_ID(CB_layer_master.getSelectionModel().getSelectedItem().toString())+",NAME='"+TF_layer_name_DB.getText()+"',DESCRIPTION='"+TA_layer_description.getText()+"' WHERE ID="+get_ID(LV_layers_DB.getSelectionModel().getSelectedItem().toString());
+                    "SET ARCH_ID="+functions.get_ID(CB_layer_master.getSelectionModel().getSelectedItem().toString())+",NAME='"+TF_layer_name_DB.getText()+"',DESCRIPTION='"+TA_layer_description.getText()+"' WHERE ID="+functions.get_ID(LV_layers_DB.getSelectionModel().getSelectedItem().toString());
             ResultSet q_result;
             try {
                 derby_DB.executeUpdate(query);
@@ -139,7 +114,7 @@ public class layer_e_C implements Initializable {
     }
 
     public void delete_layer_DB(ActionEvent actionEvent) {//удалить з базы по ID
-        String query = "DELETE FROM LAYER WHERE ID=" +  get_ID(LV_layers_DB.getSelectionModel().getSelectedItem().toString());
+        String query = "DELETE FROM LAYER WHERE ID=" +  functions.get_ID(LV_layers_DB.getSelectionModel().getSelectedItem().toString());
         try {
             derby_DB.executeUpdate(query);
         } catch (SQLException e) {
@@ -190,8 +165,8 @@ public class layer_e_C implements Initializable {
         if (derby_DB != null) {
         String id_name=LV_layers_DB.getSelectionModel().getSelectedItem().toString();
         String id,name=new String();
-            id=get_ID(id_name);
-            name=get_NAME(id_name);
+            id=functions.get_ID(id_name);
+            name=functions.get_NAME(id_name);
             TF_layer_id_DB.setText(id);
             TF_layer_name_DB.setText(name);
         }

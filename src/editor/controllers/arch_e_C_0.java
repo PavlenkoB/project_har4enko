@@ -5,6 +5,7 @@ package editor.controllers;/*
 
 import editor.classes.DerbyDBManager;
 import editor.services.draw_uml;
+import editor.services.functions;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -62,31 +63,6 @@ public class arch_e_C_0 implements Initializable {
 
     }
 
-    public String get_ID(String in_string) {
-        String out_string = "";
-        int line_pos = 0;
-        while ((in_string.charAt(line_pos) != '|') == true) {
-            out_string = out_string + Character.toString(in_string.charAt(line_pos));
-            line_pos++;
-        }
-        return out_string;
-    }
-
-    public String get_NAME(String in_string) {
-        String out_string = "";
-        int line_pos = 0;
-        while ((in_string.charAt(line_pos) != '|') == true) {
-            line_pos++;
-        }
-        line_pos++;
-        while (line_pos<in_string.length()) {
-            out_string = out_string + Character.toString(in_string.charAt(line_pos));
-            line_pos++;
-        }
-        return out_string;
-    }
-
-
 
     /*Действия*/
     @FXML//Отрисовка класса
@@ -99,7 +75,7 @@ public class arch_e_C_0 implements Initializable {
 
     public void load_this_arch_DB(ActionEvent actionEvent) {//TODO ЗАгрузить патерн с базы
         //Читае Идентиф. Параметра
-        String query = "SELECT * FROM ARCHITECTURE WHERE ID=" + get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString());
+        String query = "SELECT * FROM ARCHITECTURE WHERE ID=" + functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString());
         ResultSet q_result;
         try {
             q_result = derby_DB.executeQuery(query);
@@ -122,7 +98,7 @@ public class arch_e_C_0 implements Initializable {
             }
         }else{
             String query = "UPDATE ARCHITECTURE " +
-                    "SET NAME='"+TF_arch_name_DB.getText()+"',USECASE='" + arch_text.getText() + "',DESCRIPTION='"+TA_arch_description.getText()+"' WHERE ID="+get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString());
+                    "SET NAME='"+TF_arch_name_DB.getText()+"',USECASE='" + arch_text.getText() + "',DESCRIPTION='"+TA_arch_description.getText()+"' WHERE ID="+functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString());
             ResultSet q_result;
             try {
                 derby_DB.executeUpdate(query);
@@ -137,7 +113,7 @@ public class arch_e_C_0 implements Initializable {
     }
 
     public void delete_arch_DB(ActionEvent actionEvent) {//TODO удалить з базы по ID
-        String query = "DELETE FROM ARCHITECTURE WHERE ID=" +  get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString());
+        String query = "DELETE FROM ARCHITECTURE WHERE ID=" +  functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString());
         try {
             derby_DB.executeUpdate(query);
         } catch (SQLException e) {
@@ -186,8 +162,8 @@ public class arch_e_C_0 implements Initializable {
         if (derby_DB != null) {
             String id_name=LV_archs_DB.getSelectionModel().getSelectedItem().toString();
             String id,name=new String();
-            id=get_ID(id_name);
-            name=get_NAME(id_name);
+            id=functions.get_ID(id_name);
+            name=functions.get_NAME(id_name);
             TF_arch_id_DB.setText(id);
             TF_arch_name_DB.setText(name);
         }
