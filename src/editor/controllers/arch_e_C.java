@@ -55,7 +55,7 @@ public class arch_e_C implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         tmp_arch.setName("sd");
-        tmp_arch.add_
+        //tmp_arch.add_
         arch_visual(tmp_arch);
     }
     public void add_layer(){//добавить слой в архитектуру
