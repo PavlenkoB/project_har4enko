@@ -6,32 +6,23 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="383.0" prefWidth="228.0"
-            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="editor.controllers.main_C">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="383.0" prefWidth="228.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="editor.controllers.main_C">
     <children>
-        <Pane layoutX="12.0" layoutY="31.0" prefHeight="140.0" prefWidth="200.0"
-              style="-fx-border-style: solid; -fx-border-radius: 20; -fx-border-color: cccccc;">
+        <Pane layoutX="12.0" layoutY="31.0" prefHeight="140.0" prefWidth="200.0" style="-fx-border-style: solid; -fx-border-radius: 20; -fx-border-color: cccccc;">
             <children>
-                <Label fx:id="selected_DB" layoutX="96.0" layoutY="2.0" text="DB_NAME"/>
-                <Label layoutX="61.0" layoutY="2.0" text="База:"/>
-                <Button fx:id="B_connect" layoutX="43.0" layoutY="26.0" mnemonicParsing="false" onAction="#connect_DB"
-                        text="Підключитися до БД"/>
-                <Button fx:id="B_create" layoutX="43.0" layoutY="64.0" mnemonicParsing="false" onAction="#creat_DB"
-                        text="Створити БД"/>
-                <Button fx:id="B_disconnect" disable="true" layoutX="43.0" layoutY="101.0" mnemonicParsing="false"
-                        onAction="#disconnect_DB" text="Відключитись від БД"/>
+                <Label fx:id="selected_DB" layoutX="96.0" layoutY="2.0" text="DB_NAME" />
+                <Label layoutX="61.0" layoutY="2.0" text="База:" />
+                <Button fx:id="B_connect" disable="true" layoutX="43.0" layoutY="26.0" mnemonicParsing="false" onAction="#connect_DB" text="Підключитися до БД" />
+                <Button fx:id="B_create" disable="true" layoutX="43.0" layoutY="64.0" mnemonicParsing="false" onAction="#creat_DB" text="Створити БД" />
+                <Button fx:id="B_disconnect" disable="true" layoutX="43.0" layoutY="101.0" mnemonicParsing="false" onAction="#disconnect_DB" text="Відключитись від БД" />
             </children>
         </Pane>
-        <Pane fx:id="B_G_editors" disable="false" layoutX="12.0" layoutY="193.0" prefHeight="140.0" prefWidth="200.0"
-              style="-fx-border-style: solid; -fx-border-radius: 20; -fx-border-color: cccccc;">
+        <Pane fx:id="B_G_editors" disable="false" layoutX="12.0" layoutY="193.0" prefHeight="170.0" prefWidth="200.0" style="-fx-border-style: solid; -fx-border-radius: 20; -fx-border-color: cccccc;">
             <children>
-                <Button layoutX="28.0" layoutY="14.0" mnemonicParsing="false" text="Редагувати архітектури"
-                        onAction="#start_arch_editor"/>
-                <Button layoutX="41.0" layoutY="45.0" mnemonicParsing="false" onAction="#start_module_editor"
-                        text="Редагувати модулі"/>
-                <Button layoutX="38.0" layoutY="78.0" mnemonicParsing="false" text="Редагувати патерни"
-                        onAction="#start_patern_editor"/>
+                <Button layoutX="28.0" layoutY="14.0" mnemonicParsing="false" onAction="#start_arch_editor" text="Редагувати архітектури" />
+                <Button layoutX="41.0" layoutY="80.0" mnemonicParsing="false" onAction="#start_module_editor" text="Редагувати модулі" />
+                <Button layoutX="37.0" layoutY="112.0" mnemonicParsing="false" onAction="#start_patern_editor" text="Редагувати патерни" />
+            <Button layoutX="48.0" layoutY="48.0" mnemonicParsing="false" onAction="#start_layer_editor" text="Редагувати слої" />
             </children>
         </Pane>
 

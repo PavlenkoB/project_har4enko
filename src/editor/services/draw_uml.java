@@ -55,7 +55,10 @@ public class draw_uml {
         }else{
             System.out.print("class_text_null");
         }
-        return class_image;
+        //Чистим за собой
+        new File("class.txt").delete();
+        new File("class.png").delete();
 
+        return class_image;
     }
 }
