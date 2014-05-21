@@ -54,9 +54,9 @@ public class layer_e_C implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //TODO Del
-        derby_DB = new DerbyDBManager("DB/paterns_DB");
-              list_load_DB();/**/
-        arch_load();
+        /*derby_DB = new DerbyDBManager("DB/paterns_DB");
+              list_load_DB();
+        arch_load();/**/
 
     }
 
@@ -210,6 +210,7 @@ public class layer_e_C implements Initializable {
         derby_DB = new DerbyDBManager(db_dir.getSelectedFile().getAbsolutePath());
         selected_DB.setText(db_dir.getName(db_dir.getSelectedFile()));
         list_load_DB();
+        arch_load();
         MI_connect.setDisable(true);
         MI_disconnect.setDisable(false);
     }

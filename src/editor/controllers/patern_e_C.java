@@ -57,10 +57,9 @@ public class patern_e_C implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //TODO Del
-        derby_DB = new DerbyDBManager("DB/paterns_DB");
-              list_load_DB();/**/
-        moduls_load();
-
+        /*derby_DB = new DerbyDBManager("DB/paterns_DB");
+              list_load_DB();
+        moduls_load();/**/
     }
 
     public String get_ID(String in_string) {
@@ -171,7 +170,7 @@ public class patern_e_C implements Initializable {
                             "  DESCRIPTION CLOB(1073741823)\n" +
                             ")";
                     derby_DB.executeUpdate(query);
-                    list_load_DB();
+                    rs = derby_DB.executeQuery("SELECT * FROM PATERNS");
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
@@ -214,6 +213,7 @@ public class patern_e_C implements Initializable {
         derby_DB = new DerbyDBManager(db_dir.getSelectedFile().getAbsolutePath());
         selected_DB.setText(db_dir.getName(db_dir.getSelectedFile()));
         list_load_DB();
+        moduls_load();
         MI_connect.setDisable(true);
         MI_disconnect.setDisable(false);
     }
