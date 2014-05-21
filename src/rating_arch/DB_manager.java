@@ -33,8 +33,6 @@ public class DB_manager {
                 con = DriverManager.getConnection(url + this.dbName);
                 return true;
             } catch (Exception e) {
-
-                //TODO create
                 System.out.println("Connection error");
                 e.printStackTrace();
 

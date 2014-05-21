@@ -26,6 +26,8 @@ public class Module {
         this.patterns = patterns;
         this.id_done = id_done;
     }
+    public Module() {
+    }
 
     public Integer getId() {
         return id;
