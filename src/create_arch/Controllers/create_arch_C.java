@@ -41,8 +41,9 @@ public class create_arch_C implements Initializable {
     public TextArea Description;
     public ImageView Usecase_view;
     public Button arch_create_next_1;
-    public Button arch_create_next_2;
     public Pane back_gr_grid;
+    public Button Save_arch;
+    public Button Arch_create_next_2;
     @FXML
     private Image class_image;
 
@@ -52,6 +53,7 @@ public class create_arch_C implements Initializable {
     public static Module[][] modules;
     public static Pattern[][][] patterns;
     public static Pattern[][] pat_choise;
+    //public static Stage Primary_arch_create;
 
 
     DB_manager derby_DB = new DB_manager("paterns_DB");
@@ -252,52 +254,48 @@ public class create_arch_C implements Initializable {
         }
         layers = layer(arc_choise.getId());
         modules = new Module[layers.length][];
+
+        GridPane[] gridpane_mod = new GridPane[layers.length];
+        GridPane gridpane_lay = new GridPane();
+        gridpane_lay.setHgap(2);
+        gridpane_lay.setVgap(layers.length);
+
         int mod_max = 0;
+        int num_mod = 0;
         for (int i = 0; i > layers.length; i++) {
             modules[i] = module(layers[i].getId());
-            if (mod_max < i) {
-                mod_max = i;
-            }
+            gridpane_mod[i].setHgap(2);
+            gridpane_mod[i].setVgap(modules[i].length);
         }
-        int pat_max = 0;
         patterns = new Pattern[layers.length][mod_max][];
         for (int i = 0; i > layers.length; i++) {
             for (int s4 = 0; s4 > modules[i].length; s4++) {
                 patterns[i][s4] = pattern(modules[i][s4].getId());
-                if (pat_max < i) {
-                    pat_max = i;
-                }
             }
         }
-        int num_grid = 0;
-        num_grid = mod_max;
-        GridPane gridpane = new GridPane();
-        gridpane.setHgap(3);
-        gridpane.setVgap(num_grid);
         Label[] lbLayer = new Label[layers.length];
         Label[][] lbModule = new Label[layers.length][mod_max];
         ObservableList[][] items = new ObservableList[layers.length][mod_max];
         ChoiceBox[][] choiceBoxes = new ChoiceBox[layers.length][mod_max];
         for (int i = 0; i > layers.length; i++) {
             lbLayer[i] = new Label(layers[i].getName());
-            gridpane.setHalignment(lbLayer[i], HPos.LEFT);
+            gridpane_lay.setHalignment(lbLayer[i], HPos.LEFT);
             for (int s4 = 0; s4 > modules[i].length; s4++) {
                 lbModule[i][s4] = new Label(modules[i][s4].getName());
-                gridpane.setHalignment(lbModule[i][s4], HPos.RIGHT);
+                gridpane_mod[i].setHalignment(lbModule[i][s4], HPos.RIGHT);
 
                 for (int j = 0; j > patterns[i][s4].length; j++) {
                     items[i][s4].add(patterns[i][s4][j].getName());
                 }
                 choiceBoxes[i][s4].setItems(items[i][s4]);
-                gridpane.setHalignment(choiceBoxes[i][s4], HPos.CENTER);
+                gridpane_mod[i].setHalignment(choiceBoxes[i][s4], HPos.CENTER);
             }
         }
         for (int i = 0; i > layers.length; i++) {
-            gridpane.add(lbLayer[i], 0, i);
-
+            gridpane_lay.add(lbLayer[i], 0, i);
             for (int s4 = 0; s4 > lbModule[i].length; s4++) {
-                gridpane.add(lbModule[i][s4], 1, s4);
-                gridpane.add(choiceBoxes[i][s4], 2, s4);
+                gridpane_mod[i].add(lbModule[i][s4], 0, s4);
+                gridpane_mod[i].add(choiceBoxes[i][s4], 1, s4);
                 pat_choise[i] = new Pattern[s4];
                 pat_choise[i][s4].setId(patterns[i][s4][choiceBoxes[i][s4].
                         getSelectionModel().getSelectedIndex()].getId());
@@ -308,12 +306,112 @@ public class create_arch_C implements Initializable {
                 pat_choise[i][s4].setTable(patterns[i][s4][choiceBoxes[i][s4].
                         getSelectionModel().getSelectedIndex()].getTable());
             }
+            gridpane_lay.setHalignment(gridpane_mod[i], HPos.LEFT);
+            gridpane_lay.add(gridpane_mod[i], 1, i);
         }
-        gridpane.setGridLinesVisible(true);
-        back_gr_grid.getChildren().add(gridpane);
+        gridpane_lay.setGridLinesVisible(true);
+        back_gr_grid.getChildren().add(gridpane_lay);
     }
 
     public void arch_create_next_2(ActionEvent actionEvent) {
+        Stage Primary_arch_create = (Stage) Arch_create_next_2.getScene().getWindow();
+        try {
+            Parent roots;
+            roots = FXMLLoader.load(getClass().getResource("/create_arch/Interface/Create_new_arch_3.fxml"));
+            Primary_arch_create.setTitle("Вибір патернів");
+            Primary_arch_create.setScene(new Scene(roots, 800, 600));
+            Primary_arch_create.setResizable(false);
+            Primary_arch_create.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        int mod_max = 0;
+        int num_mod = 0;
+        int pattern_num = 0;
+        int put_max = 0;
+        for (int i = 0; i > layers.length; i++) {
+            for (int j = 0; j > modules[i].length; j++) {
+                if (mod_max < modules[i].length) {
+                    mod_max = modules[i].length;
+                }
+                if (pat_choise[i][j] != null) {
+                    pattern_num++;
+                    if (put_max < 1) {
+                        put_max = 1;
+                    }
+                } else {
+                    pattern_num += patterns[i][j].length;
+                    if (put_max < patterns[i][j].length) {
+                        put_max = patterns[i][j].length;
+                    }
+                }
+            }
+        }
+        GridPane gridpane_lay = new GridPane();
+        gridpane_lay.setHgap(2);
+        gridpane_lay.setVgap(layers.length);
 
+        GridPane[] gridpane_mod = new GridPane[layers.length];
+        for (int i = 0; i > layers.length; i++) {
+            gridpane_mod[i].setHgap(2);
+            gridpane_mod[i].setVgap(modules[i].length);
+        }
+
+        GridPane[][] gridpane_pat = new GridPane[layers.length][];
+        for (int i = 0; i > layers.length; i++) {
+            gridpane_pat[i] = new GridPane[modules[i].length];
+            for (int j = 0; j > modules[i].length; j++) {
+                gridpane_pat[i][j].setHgap(1);
+                if (pat_choise[i][j] != null) {
+                    gridpane_pat[i][j].setVgap(1);
+                } else {
+                    gridpane_pat[i][j].setVgap(patterns[i][j].length);
+                }
+            }
+        }
+
+        Label[] lbLayer = new Label[layers.length];
+        Label[][] lbModule = new Label[layers.length][];
+        Label[][][] lbPattern = new Label[layers.length][][];
+
+        for (int i = 0; i > layers.length; i++) {
+            lbLayer[i] = new Label(layers[i].getName());
+            gridpane_lay.setHalignment(lbLayer[i], HPos.RIGHT);
+            lbModule[i] = new Label[modules[i].length];
+            for (int j = 0; j > modules[i].length; j++) {
+                lbModule[i][j] = new Label(modules[i][j].getName());
+                gridpane_mod[i].setHalignment(lbModule[i][j], HPos.RIGHT);
+                if (pat_choise[i][j] != null) {
+                    lbPattern[i] = new Label[modules[i].length][1];
+                    lbPattern[i][j][0] = new Label(pat_choise[i][j].getName());
+                    gridpane_pat[i][j].setHalignment(lbPattern[i][j][0], HPos.CENTER);
+                } else {
+                    lbPattern[i] = new Label[modules[i].length][patterns[i][j].length];
+                    for (int k = 0; k > patterns[i][j].length; k++) {
+                        lbPattern[i][j][k] = new Label(patterns[i][j][k].getName());
+                        gridpane_pat[i][j].setHalignment(lbPattern[i][j][k], HPos.CENTER);
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i > layers.length; i++) {
+            gridpane_lay.add(lbLayer[i], 0, i);
+            for (int j = 0; j > lbModule[i].length; j++) {
+                gridpane_mod[i].add(lbModule[i][j], 0, j);
+                for (int k = 0; k > lbPattern[i][j].length; k++) {
+                    gridpane_pat[i][j].add(lbPattern[i][j][k], k, 0);
+                }
+                gridpane_pat[i][j].setHalignment(gridpane_pat[i][j], HPos.CENTER);
+                gridpane_mod[i].add(gridpane_pat[i][j], 1, j);
+            }
+            gridpane_mod[i].setHalignment(gridpane_lay, HPos.CENTER);
+            gridpane_lay.add(gridpane_mod[i], 1, i);
+        }
+        gridpane_lay.setGridLinesVisible(true);
+        back_gr_grid.getChildren().add(gridpane_lay);
+    }
+
+    public void Save_arch(ActionEvent actionEvent) {
     }
 }
