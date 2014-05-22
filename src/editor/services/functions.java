@@ -1,6 +1,6 @@
 package editor.services;
 
-import editor.classes.Architecture_up;
+import Classes.Architecture;
 
 /**
  * Created by godex_000 on 22.05.2014.
@@ -29,16 +29,16 @@ public class functions {
         }
         return out_string;
     }
-    public static String arch_uml_text_gen(Architecture_up architectureUp){
-        architectureUp.getName();
+    public static String arch_uml_text_gen(Architecture architecture){
+        architecture.getName();
         String class_text = new String();
-        class_text += "package \"" + architectureUp.name + "\"{\n";
-        for (int s_lay = 0; s_lay < architectureUp.arch_layers.size(); s_lay++) {
-            class_text += "package \"" +architectureUp.arch_layers.get(s_lay).name+ "\"{\n";
-            for (int s_mod = 0; s_mod < architectureUp.arch_layers.get(s_lay).modules.size(); s_mod++) {
-                class_text += "package \"" +architectureUp.arch_layers.get(s_lay).modules.get(s_mod).name+ "\"{\n";
-                if(architectureUp.arch_layers.get(s_lay).modules.get(s_mod).selected_patern!=null)
-                    class_text +=architectureUp.arch_layers.get(s_lay).modules.get(s_mod).selected_patern.uml_text+"\n";
+        class_text += "package \"" + architecture.name + "\"{\n";
+        for (int s_lay = 0; s_lay < architecture.layers.size(); s_lay++) {
+            class_text += "package \"" +architecture.layers.get(s_lay).name+ "\"{\n";
+            for (int s_mod = 0; s_mod < architecture.layers.get(s_lay).modules.size(); s_mod++) {
+                class_text += "package \"" +architecture.layers.get(s_lay).modules.get(s_mod).name+ "\"{\n";
+                if(architecture.layers.get(s_lay).modules.get(s_mod).selected_patern!=null)
+                    class_text +=architecture.layers.get(s_lay).modules.get(s_mod).selected_patern.uml_text+"\n";
                 class_text += "}\n";
             }
             class_text += "}\n";

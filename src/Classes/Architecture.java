@@ -1,12 +1,14 @@
 package Classes;
 
+import java.util.ArrayList;
+
 /**
  * Created by Alex Shcherbak on 24.04.2014.
  */
 public class Architecture {
     public Integer id;
     public String name;
-    public Layer[] layers;
+    public ArrayList<Layer> layers= new ArrayList<Layer>();
     public String description;
     public Integer id_done;
     public Integer task_id;
@@ -21,8 +23,13 @@ public class Architecture {
         this.task_id = 0;
         this.usecase = null;
     }
+    public Architecture(Integer id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
 
-    public Architecture(Integer id, String name, Layer[] layers, String description, Integer id_done, Integer task_id) {
+    public Architecture(Integer id, String name, ArrayList<Layer> layers, String description, Integer id_done, Integer task_id) {
         this.id = id;
         this.name = name;
         this.layers = layers;
@@ -32,7 +39,7 @@ public class Architecture {
     }
 
 
-    public Architecture(Integer id, String name, Layer[] layers, String description, String usecase) {
+    public Architecture(Integer id, String name, ArrayList<Layer> layers, String description, String usecase) {
         this.id = id;
         this.name = name;
         this.layers = layers;
@@ -56,11 +63,11 @@ public class Architecture {
         this.name = name;
     }
 
-    public Layer[] getLayers() {
+    public ArrayList<Layer> getLayers() {
         return layers;
     }
 
-    public void setLayers(Layer[] layers) {
+    public void setLayers(ArrayList<Layer> layers) {
         this.layers = layers;
     }
 

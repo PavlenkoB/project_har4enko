@@ -205,7 +205,7 @@ public class create_arch_C implements Initializable {
             patterns[res_count].setDescription(q_result.getString("Description"));
             patterns[res_count].setName(q_result.getString("NAME"));
             patterns[res_count].setMod_id(q_result.getInt("MOD_ID"));
-            patterns[res_count].setTable(q_result.getString("VALUE"));
+            patterns[res_count].setUml_text(q_result.getString("VALUE"));
             res_count++;
         }
         return (patterns);
@@ -309,8 +309,8 @@ public class create_arch_C implements Initializable {
                         getSelectionModel().getSelectedIndex()].getName());
                 pat_choise[i][s4].setDescription(patterns[i][s4][choiceBoxes[i][s4].
                         getSelectionModel().getSelectedIndex()].getDescription());
-                pat_choise[i][s4].setTable(patterns[i][s4][choiceBoxes[i][s4].
-                        getSelectionModel().getSelectedIndex()].getTable());
+                pat_choise[i][s4].setUml_text(patterns[i][s4][choiceBoxes[i][s4].
+                        getSelectionModel().getSelectedIndex()].getUml_text());
             }
             gridpane_lay.setHalignment(gridpane_mod[i], HPos.LEFT);
             gridpane_lay.add(gridpane_mod[i], 1, i);

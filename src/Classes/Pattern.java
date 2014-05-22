@@ -8,22 +8,25 @@ public class Pattern {
     public Integer mod_id;
     public String name;
     public String description;
-    public String table;
+
+
+
+    public String uml_text;
 
     public Pattern() {
         this.id = null;
         this.mod_id = null;
         this.name = null;
         this.description = null;
-        this.table = null;
+        this.uml_text = null;
     }
 
-    public Pattern(Integer id, Integer mod_id, String name, String description, String table) {
+    public Pattern(Integer id, Integer mod_id, String name, String description, String uml_text) {
         this.id = id;
         this.mod_id = mod_id;
         this.name = name;
         this.description = description;
-        this.table = table;
+        this.uml_text = uml_text;
     }
 
     public Integer getId() {
@@ -58,14 +61,13 @@ public class Pattern {
         this.description = description;
     }
 
-    public String getTable() {
-        return table;
+    public String getUml_text() {
+        return uml_text;
     }
 
-    public void setTable(String table) {
-        this.table = table;
+    public void setUml_text(String uml_text) {
+        this.uml_text = uml_text;
     }
-
 
 
 }
