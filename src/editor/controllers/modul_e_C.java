@@ -64,7 +64,7 @@ public class modul_e_C implements Initializable {
     /*Действия*/
     @FXML//Отрисовка класса
     public void Action_draw_class() throws IOException, InterruptedException {
-        class_image=draw_uml.draw_class(class_text.getText());
+        class_image = draw_uml.draw_class(class_text.getText());
         class_imageview.setFitHeight(class_image.getRequestedHeight());
         class_imageview.setFitWidth(class_image.getRequestedWidth());
         class_imageview.setImage(class_image);
@@ -80,7 +80,7 @@ public class modul_e_C implements Initializable {
             TA_module_description.setText(q_result.getString("DESCRIPTION"));
 
             ResultSet rs = null;
-            rs = derby_DB.executeQuery("SELECT * FROM LAYER WHERE ID="+q_result.getString("LAY_ID"));//Получить данные о слою
+            rs = derby_DB.executeQuery("SELECT * FROM LAYER WHERE ID=" + q_result.getString("LAY_ID"));//Получить данные о слою
             rs.next();
             CB_module_master.setValue(rs.getInt("ID") + "|" + rs.getString("NAME"));//Поставить селект
         } catch (SQLException e) {
@@ -89,17 +89,17 @@ public class modul_e_C implements Initializable {
     }
 
     public void save_this_module_DB(ActionEvent actionEvent) {//добавить патерн в базу
-        if(TF_module_id_DB.getText().length()==0) {
-            String query = "INSERT INTO MODULE (LAY_ID,NAME,DESCRIPTION) VALUES ("+functions.get_ID(CB_module_master.getSelectionModel().getSelectedItem().toString())+",'" + TF_module_name_DB.getText() + "','"+TA_module_description.getText()+"')";
+        if (TF_module_id_DB.getText().length() == 0) {
+            String query = "INSERT INTO MODULE (LAY_ID,NAME,DESCRIPTION) VALUES (" + functions.get_ID(CB_module_master.getSelectionModel().getSelectedItem().toString()) + ",'" + TF_module_name_DB.getText() + "','" + TA_module_description.getText() + "')";
             ResultSet q_result;
             try {
                 derby_DB.executeUpdate(query);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             String query = "UPDATE MODULE " +//TODO ДО какого модуля
-                    "SET LAY_ID="+functions.get_ID(CB_module_master.getSelectionModel().getSelectedItem().toString())+",NAME='"+TF_module_name_DB.getText()+"',DESCRIPTION='"+TA_module_description.getText()+"' WHERE ID="+functions.get_ID(LV_modules_DB.getSelectionModel().getSelectedItem().toString());
+                    "SET LAY_ID=" + functions.get_ID(CB_module_master.getSelectionModel().getSelectedItem().toString()) + ",NAME='" + TF_module_name_DB.getText() + "',DESCRIPTION='" + TA_module_description.getText() + "' WHERE ID=" + functions.get_ID(LV_modules_DB.getSelectionModel().getSelectedItem().toString());
             ResultSet q_result;
             try {
                 derby_DB.executeUpdate(query);
@@ -114,7 +114,7 @@ public class modul_e_C implements Initializable {
     }
 
     public void delete_module_DB(ActionEvent actionEvent) {//удалить з базы по ID
-        String query = "DELETE FROM MODULE WHERE ID=" +  functions.get_ID(LV_modules_DB.getSelectionModel().getSelectedItem().toString());
+        String query = "DELETE FROM MODULE WHERE ID=" + functions.get_ID(LV_modules_DB.getSelectionModel().getSelectedItem().toString());
         try {
             derby_DB.executeUpdate(query);
         } catch (SQLException e) {
@@ -162,14 +162,14 @@ public class modul_e_C implements Initializable {
 
     public void select_to_save_DB() {//скопировать имя патерна для сохранения
         if (derby_DB != null) {
-            String id_name=LV_modules_DB.getSelectionModel().getSelectedItem().toString();
-            String id,name=new String();
-            id=functions.get_ID(id_name);
-            name=functions.get_NAME(id_name);
+            String id_name = LV_modules_DB.getSelectionModel().getSelectedItem().toString();
+            String id, name = new String();
+            id = functions.get_ID(id_name);
+            name = functions.get_NAME(id_name);
             TF_module_id_DB.setText(id);
             TF_module_name_DB.setText(name);
         }
-       load_this_module_DB(null);
+        load_this_module_DB(null);
     }
 
     public void connect_DB(ActionEvent actionEvent) {
@@ -243,7 +243,7 @@ public class modul_e_C implements Initializable {
 
     }
 
-    public void layer_load(){//загрузить слои
+    public void layer_load() {//загрузить слои
         ResultSet rs = null;
         try {
             try {
@@ -265,7 +265,7 @@ public class modul_e_C implements Initializable {
         }
     }
 
-    public void module_master_select(){
+    public void module_master_select() {
 
     }
 }

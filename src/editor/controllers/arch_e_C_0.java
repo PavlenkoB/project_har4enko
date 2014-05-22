@@ -15,17 +15,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import javax.swing.*;
-import javax.swing.tree.ExpandVetoException;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
@@ -59,6 +57,7 @@ public class arch_e_C_0 implements Initializable {
         derby_DB = new DerbyDBManager("DB/paterns_DB");
         list_load_DB();/**/
     }
+
     public void stop() {
 
     }
@@ -67,7 +66,7 @@ public class arch_e_C_0 implements Initializable {
     /*Действия*/
     @FXML//Отрисовка класса
     public void Action_draw_arch() throws IOException, InterruptedException {
-        arch_image=draw_uml.draw_class(arch_text.getText());
+        arch_image = draw_uml.draw_class(arch_text.getText());
         arch_imageview.setFitHeight(arch_image.getRequestedHeight());
         arch_imageview.setFitWidth(arch_image.getRequestedWidth());
         arch_imageview.setImage(arch_image);
@@ -88,17 +87,17 @@ public class arch_e_C_0 implements Initializable {
     }
 
     public void save_this_arch_DB(ActionEvent actionEvent) {//TODO добавить патерн в базу
-        if(TF_arch_id_DB.getText().length()==0) {
-            String query = "INSERT INTO ARCHITECTURE (NAME,USECASE,DESCRIPTION) VALUES ('" + TF_arch_name_DB.getText() + "','" + arch_text.getText() + "','"+TA_arch_description.getText()+"')";
+        if (TF_arch_id_DB.getText().length() == 0) {
+            String query = "INSERT INTO ARCHITECTURE (NAME,USECASE,DESCRIPTION) VALUES ('" + TF_arch_name_DB.getText() + "','" + arch_text.getText() + "','" + TA_arch_description.getText() + "')";
             ResultSet q_result;
             try {
                 derby_DB.executeUpdate(query);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             String query = "UPDATE ARCHITECTURE " +
-                    "SET NAME='"+TF_arch_name_DB.getText()+"',USECASE='" + arch_text.getText() + "',DESCRIPTION='"+TA_arch_description.getText()+"' WHERE ID="+functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString());
+                    "SET NAME='" + TF_arch_name_DB.getText() + "',USECASE='" + arch_text.getText() + "',DESCRIPTION='" + TA_arch_description.getText() + "' WHERE ID=" + functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString());
             ResultSet q_result;
             try {
                 derby_DB.executeUpdate(query);
@@ -113,7 +112,7 @@ public class arch_e_C_0 implements Initializable {
     }
 
     public void delete_arch_DB(ActionEvent actionEvent) {//TODO удалить з базы по ID
-        String query = "DELETE FROM ARCHITECTURE WHERE ID=" +  functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString());
+        String query = "DELETE FROM ARCHITECTURE WHERE ID=" + functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString());
         try {
             derby_DB.executeUpdate(query);
         } catch (SQLException e) {
@@ -127,7 +126,7 @@ public class arch_e_C_0 implements Initializable {
         try {
             try {
                 //derby_DB
-                    rs = derby_DB.executeQuery("SELECT * FROM ARCHITECTURE");
+                rs = derby_DB.executeQuery("SELECT * FROM ARCHITECTURE");
             } catch (SQLException e) {
                 System.out.print("Создаю таблицу)");
                 //если БД не существовала, то создаем таблицу и после этого заполняем её значениями
@@ -147,10 +146,10 @@ public class arch_e_C_0 implements Initializable {
                 e.printStackTrace();
             }
             ObservableList<String> items = FXCollections.observableArrayList();
-    while (rs.next()) {
-        System.out.println(rs.getInt("ID") + "|" + rs.getString("NAME"));
-        items.add(rs.getString("ID") + "|" + rs.getString("NAME"));
-    }
+            while (rs.next()) {
+                System.out.println(rs.getInt("ID") + "|" + rs.getString("NAME"));
+                items.add(rs.getString("ID") + "|" + rs.getString("NAME"));
+            }
             LV_archs_DB.setItems(items);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -160,10 +159,10 @@ public class arch_e_C_0 implements Initializable {
 
     public void select_to_save_DB() {//скопировать имя патерна для сохранения
         if (derby_DB != null) {
-            String id_name=LV_archs_DB.getSelectionModel().getSelectedItem().toString();
-            String id,name=new String();
-            id=functions.get_ID(id_name);
-            name=functions.get_NAME(id_name);
+            String id_name = LV_archs_DB.getSelectionModel().getSelectedItem().toString();
+            String id, name = new String();
+            id = functions.get_ID(id_name);
+            name = functions.get_NAME(id_name);
             TF_arch_id_DB.setText(id);
             TF_arch_name_DB.setText(name);
         }

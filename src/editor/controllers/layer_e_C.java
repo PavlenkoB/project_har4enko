@@ -64,7 +64,7 @@ public class layer_e_C implements Initializable {
     /*Действия*/
     @FXML//Отрисовка класса
     public void Action_draw_class() throws IOException, InterruptedException {
-        class_image=draw_uml.draw_class(class_text.getText());
+        class_image = draw_uml.draw_class(class_text.getText());
         class_imageview.setFitHeight(class_image.getRequestedHeight());
         class_imageview.setFitWidth(class_image.getRequestedWidth());
         class_imageview.setImage(class_image);
@@ -80,7 +80,7 @@ public class layer_e_C implements Initializable {
             TA_layer_description.setText(q_result.getString("DESCRIPTION"));
 
             ResultSet rs = null;
-                    rs = derby_DB.executeQuery("SELECT * FROM ARCHITECTURE WHERE ID="+q_result.getString("ARCH_ID"));//Получить данные о архитектуре
+            rs = derby_DB.executeQuery("SELECT * FROM ARCHITECTURE WHERE ID=" + q_result.getString("ARCH_ID"));//Получить данные о архитектуре
             rs.next();
             CB_layer_master.setValue(rs.getString("ID") + "|" + rs.getString("NAME"));//Поставить селект
         } catch (SQLException e) {
@@ -89,17 +89,17 @@ public class layer_e_C implements Initializable {
     }
 
     public void save_this_layer_DB(ActionEvent actionEvent) {//добавить патерн в базу
-        if(TF_layer_id_DB.getText().length()==0) {
-            String query = "INSERT INTO LAYER (ARCH_ID,NAME,DESCRIPTION) VALUES ("+functions.get_ID(CB_layer_master.getSelectionModel().getSelectedItem().toString())+",'" + TF_layer_name_DB.getText() + "','"+TA_layer_description.getText()+"')";
+        if (TF_layer_id_DB.getText().length() == 0) {
+            String query = "INSERT INTO LAYER (ARCH_ID,NAME,DESCRIPTION) VALUES (" + functions.get_ID(CB_layer_master.getSelectionModel().getSelectedItem().toString()) + ",'" + TF_layer_name_DB.getText() + "','" + TA_layer_description.getText() + "')";
             ResultSet q_result;
             try {
                 derby_DB.executeUpdate(query);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             String query = "UPDATE LAYER " +//TODO ДО какого модуля
-                    "SET ARCH_ID="+functions.get_ID(CB_layer_master.getSelectionModel().getSelectedItem().toString())+",NAME='"+TF_layer_name_DB.getText()+"',DESCRIPTION='"+TA_layer_description.getText()+"' WHERE ID="+functions.get_ID(LV_layers_DB.getSelectionModel().getSelectedItem().toString());
+                    "SET ARCH_ID=" + functions.get_ID(CB_layer_master.getSelectionModel().getSelectedItem().toString()) + ",NAME='" + TF_layer_name_DB.getText() + "',DESCRIPTION='" + TA_layer_description.getText() + "' WHERE ID=" + functions.get_ID(LV_layers_DB.getSelectionModel().getSelectedItem().toString());
             ResultSet q_result;
             try {
                 derby_DB.executeUpdate(query);
@@ -114,7 +114,7 @@ public class layer_e_C implements Initializable {
     }
 
     public void delete_layer_DB(ActionEvent actionEvent) {//удалить з базы по ID
-        String query = "DELETE FROM LAYER WHERE ID=" +  functions.get_ID(LV_layers_DB.getSelectionModel().getSelectedItem().toString());
+        String query = "DELETE FROM LAYER WHERE ID=" + functions.get_ID(LV_layers_DB.getSelectionModel().getSelectedItem().toString());
         try {
             derby_DB.executeUpdate(query);
         } catch (SQLException e) {
@@ -163,10 +163,10 @@ public class layer_e_C implements Initializable {
 
     public void select_to_save_DB() {//скопировать имя патерна для сохранения
         if (derby_DB != null) {
-        String id_name=LV_layers_DB.getSelectionModel().getSelectedItem().toString();
-        String id,name=new String();
-            id=functions.get_ID(id_name);
-            name=functions.get_NAME(id_name);
+            String id_name = LV_layers_DB.getSelectionModel().getSelectedItem().toString();
+            String id, name = new String();
+            id = functions.get_ID(id_name);
+            name = functions.get_NAME(id_name);
             TF_layer_id_DB.setText(id);
             TF_layer_name_DB.setText(name);
         }
@@ -244,7 +244,7 @@ public class layer_e_C implements Initializable {
 
     }
 
-    public void arch_load(){//загрузить архитектуру
+    public void arch_load() {//загрузить архитектуру
         ResultSet rs = null;
         try {
             try {
@@ -266,7 +266,7 @@ public class layer_e_C implements Initializable {
         }
     }
 
-    public void layer_master_select(){
+    public void layer_master_select() {
 
     }
 }

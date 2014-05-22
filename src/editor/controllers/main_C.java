@@ -4,30 +4,22 @@ package editor.controllers;/*
  */
 
 import editor.classes.DerbyDBManager;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.control.TableView;
-import javafx.scene.image.Image;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import javax.swing.*;
-import javax.swing.text.*;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 /**
@@ -110,7 +102,7 @@ public class main_C implements Initializable {
 
     public void start_arch_editor(ActionEvent actionEvent) {
         try {
-            final Stage PS= (Stage) B_disconnect.getScene().getWindow();
+            final Stage PS = (Stage) B_disconnect.getScene().getWindow();
             PS.setIconified(true);
 
             Parent Parent = FXMLLoader.load(getClass().getResource("../views/arch_editor_0.fxml"));
@@ -131,7 +123,7 @@ public class main_C implements Initializable {
 
     public void start_module_editor(ActionEvent actionEvent) {
         try {
-            final Stage PS= (Stage) B_disconnect.getScene().getWindow();
+            final Stage PS = (Stage) B_disconnect.getScene().getWindow();
             PS.setIconified(true);
 
             Parent Parent = FXMLLoader.load(getClass().getResource("../views/modules_editor.fxml"));
@@ -152,7 +144,7 @@ public class main_C implements Initializable {
 
     public void start_patern_editor(ActionEvent actionEvent) {
         try {
-            final Stage PS= (Stage) B_disconnect.getScene().getWindow();
+            final Stage PS = (Stage) B_disconnect.getScene().getWindow();
             PS.setIconified(true);
 
             Parent Parent = FXMLLoader.load(getClass().getResource("../views/paterns_editor.fxml"));
@@ -174,7 +166,7 @@ public class main_C implements Initializable {
 
     public void start_layer_editor(ActionEvent actionEvent) {
         try {
-            final Stage PS= (Stage) B_disconnect.getScene().getWindow();
+            final Stage PS = (Stage) B_disconnect.getScene().getWindow();
             PS.setIconified(true);
 
             Parent Parent = FXMLLoader.load(getClass().getResource("../views/layer_editor.fxml"));
@@ -185,7 +177,7 @@ public class main_C implements Initializable {
 
             Stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 public void handle(WindowEvent we) {
-                   // PS.setIconified(false);
+                    // PS.setIconified(false);
                 }
             });
         } catch (IOException e) {
