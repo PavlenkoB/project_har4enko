@@ -16,9 +16,9 @@ public class Architecture {
 
     public Architecture() {
         this.id = 0;
-        this.name = null;
+        this.name = new String();
         this.layers = null;
-        this.description = null;
+        this.description = new String();
         this.id_done = 0;
         this.task_id = 0;
         this.usecase = null;

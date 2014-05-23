@@ -161,7 +161,7 @@ public class arch_e_C_0 implements Initializable {
         if (derby_DB != null) {
             String id_name = LV_archs_DB.getSelectionModel().getSelectedItem().toString();
             String id, name = new String();
-            id = functions.get_ID(id_name);
+            id = functions.get_ID(id_name).toString();
             name = functions.get_NAME(id_name);
             TF_arch_id_DB.setText(id);
             TF_arch_name_DB.setText(name);

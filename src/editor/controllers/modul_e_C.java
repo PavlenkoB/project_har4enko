@@ -164,7 +164,7 @@ public class modul_e_C implements Initializable {
         if (derby_DB != null) {
             String id_name = LV_modules_DB.getSelectionModel().getSelectedItem().toString();
             String id, name = new String();
-            id = functions.get_ID(id_name);
+            id = functions.get_ID(id_name).toString();
             name = functions.get_NAME(id_name);
             TF_module_id_DB.setText(id);
             TF_module_name_DB.setText(name);

@@ -165,7 +165,7 @@ public class patern_e_C implements Initializable {
         if (derby_DB != null) {
             String id_name = LV_paterns_DB.getSelectionModel().getSelectedItem().toString();
             String id, name = new String();
-            id = functions.get_ID(id_name);
+            id = functions.get_ID(id_name).toString();
             name = functions.get_NAME(id_name);
             TF_patern_id_DB.setText(id);
             TF_patern_name_DB.setText(name);

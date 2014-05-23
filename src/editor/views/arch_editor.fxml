@@ -1,51 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="556.0"
-            prefWidth="860.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="editor.controllers.arch_e_C">
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="614.0" prefWidth="860.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="editor.controllers.arch_e_C">
     <children>
-        <ScrollPane layoutX="276.0" layoutY="80.0" prefHeight="322.0" prefWidth="238.0">
+          <TextArea fx:id="TA_arch_relation" layoutX="522.0" layoutY="50.0" prefHeight="146.0" prefWidth="324.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="50.0" />
+        <ScrollPane layoutX="228.0" layoutY="80.0" prefHeight="292.0" prefWidth="284.0" AnchorPane.leftAnchor="228.0" AnchorPane.rightAnchor="348.0" AnchorPane.topAnchor="80.0">
             <content>
-                <Pane fx:id="P_arch_struct" prefHeight="200.0" prefWidth="200.0"/>
+                <Pane fx:id="P_arch_struct" />
             </content>
         </ScrollPane>
-        <ScrollPane layoutX="522.0" layoutY="31.0" prefHeight="242.0" prefWidth="338.0">
+        <Label layoutX="276.0" layoutY="49.0" text="Імя архітектури" />
+        <TextField fx:id="TF_arch_name_DB" layoutX="365.0" layoutY="45.0" />
+        <ScrollPane layoutX="234.0" layoutY="407.0" prefHeight="198.0" prefWidth="612.0" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="234.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="407.0">
             <content>
-                <TextArea fx:id="arch_text" prefHeight="240.0" prefWidth="324.0"/>
+                <ImageView fx:id="IV_arch_imageview" fitHeight="234.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" />
             </content>
         </ScrollPane>
-        <Label layoutX="276.0" layoutY="49.0" text="Імя архітектури"/>
-        <TextField fx:id="arch_name" layoutX="365.0" layoutY="45.0"/>
-        <ScrollPane layoutX="522.0" layoutY="288.0" prefHeight="262.0" prefWidth="338.0">
-            <content>
-                <ImageView fx:id="arch_img" fitHeight="234.0" fitWidth="300.0" pickOnBounds="true"
-                           preserveRatio="true"/>
-            </content>
-        </ScrollPane>
-        <Label layoutX="14.0048828125" layoutY="32.5" text="БД"/>
-        <TextField layoutX="31.24609375" layoutY="29.5"/>
-        <MenuBar prefHeight="25.0" prefWidth="860.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                 AnchorPane.topAnchor="0.0">
+        <Label layoutX="14.0048828125" layoutY="32.5" text="БД" />
+        <MenuBar prefHeight="25.0" prefWidth="860.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Close"/>
+                        <MenuItem mnemonicParsing="false" text="Close" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Delete"/>
+                        <MenuItem mnemonicParsing="false" text="Delete" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="About"/>
+                        <MenuItem mnemonicParsing="false" text="About" />
                     </items>
                 </Menu>
             </menus>
         </MenuBar>
+      <Label layoutX="82.0" layoutY="58.0" text="Архітектури в базі" />
+      <ListView fx:id="LV_archs_DB" layoutX="2.0" layoutY="103.0" onMouseClicked="#select_to_save_DB" prefHeight="302.0" prefWidth="220.0" />
+      <TextArea fx:id="TA_arch_description" layoutX="537.0" layoutY="218.0" prefHeight="168.0" prefWidth="278.0" AnchorPane.rightAnchor="45.0" />
+      <TextField fx:id="TF_arch_id_DB" layoutX="213.0" layoutY="45.0" prefHeight="25.0" prefWidth="63.0" />
+      <Label layoutX="201.0" layoutY="49.0" text="ID" />
+      <Button disable="true" layoutX="17.0" layoutY="486.0" mnemonicParsing="false" onAction="#edit_arch" prefHeight="38.0" prefWidth="107.0" text="Редагувати">
+         <graphic>
+            <ImageView fitHeight="15.0" fitWidth="22.0" layoutX="-17.0" layoutY="390.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="/editor/res/img/edit.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button disable="true" layoutX="17.0" layoutY="428.0" mnemonicParsing="false" onAction="#save_this_arch_DB" prefHeight="38.0" prefWidth="107.0" text="Зберегти">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="35.0" layoutX="154.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="/editor/res/img/Save-icon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button layoutX="131.0" layoutY="428.0" mnemonicParsing="false" onAction="#load_this_arch_DB" prefHeight="38.0" prefWidth="99.0" text="Завантажити">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="200.0" layoutX="278.0" layoutY="306.5" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="/editor/res/img/open-file.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button layoutX="131.0" layoutY="486.0" mnemonicParsing="false" onAction="#delete_arch_DB" prefHeight="38.0" prefWidth="99.0" text="Видалити">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="27.0" layoutX="148.0" layoutY="279.5" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="/editor/res/img/delete.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Label layoutX="628.0" layoutY="195.0" text="Опис архітектури" AnchorPane.rightAnchor="136.0" />
+      <Button layoutX="252.0" layoutY="380.0" mnemonicParsing="false" onAction="#arch_uml_gen" text="Генерувати -&gt;" />
+      <Button layoutX="414.0" layoutY="380.0" mnemonicParsing="false" onAction="#arch_uml_text_draw" text="Намалювати \/" />
+      <Label layoutX="670.0" layoutY="28.0" text="Звязки" />
     </children>
 </AnchorPane>
