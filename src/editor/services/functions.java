@@ -71,13 +71,14 @@ public class functions {
             while (rs_lay.next()) {
                 arch_out.layers.add(new Layer(rs_lay.getInt("ID"), rs_lay.getInt("ARCH_ID"), rs_lay.getString("NAME"), rs_lay.getString("DESCRIPTION")));
                 rs_mod = derby_DB_connection.executeQuery("SELECT * FROM MODULE WHERE LAY_ID=" + rs_lay.getInt("ID"));
+                s_mod=0;
                 while (rs_mod.next()) {
                     arch_out.layers.get(s_lay).modules.add(new Module(rs_mod.getInt("ID"), rs_mod.getInt("LAY_ID"), rs_mod.getString("NAME"), rs_mod.getString("DESCRIPTION")));
                     rs_pat = derby_DB_connection.executeQuery("SELECT * FROM PATERNS WHERE MOD_ID=" + rs_mod.getInt("ID"));
                     ObservableList<String> items = FXCollections.observableArrayList();
                     while (rs_pat.next()) {//Все патерны что подходят модулю в кнопку
                         arch_out.layers.get(s_lay).modules.get(s_mod).avilable_paterns.add(new Pattern(rs_pat.getInt("ID"), rs_pat.getInt("MOD_ID"), rs_pat.getString("NAME"), rs_pat.getString("DESCRIPTION"), rs_pat.getString("VALUE")));
-                        items.add(rs_pat.getString("ID") + "|" + rs_pat.getString("NAME"));
+                        //items.add(rs_pat.getString("ID") + "|" + rs_pat.getString("NAME"));
                     }
                     s_mod++;
                 }
@@ -88,6 +89,30 @@ public class functions {
         }
         System.out.println("Arch load end");
         return arch_out;
+    }
+    public static boolean arch_save_to_DB(Architecture arch_in,DerbyDBManager derby_DB_connection) throws SQLException {
+        boolean result=false;
+        ResultSet rs_tmp;
+        if(arch_in.getId()==null||arch_in.getId()==0){//Добавить в базу
+            derby_DB_connection.executeUpdate("INSERT INTO ARCHITECTURE (NAME,USECASE,DESCRIPTION) VALUES ('" + arch_in.name + "','" + arch_in.usecase + "','" + arch_in.description + "')");
+            rs_tmp= derby_DB_connection.executeQuery("SELECT MAX(ID) FROM ARCHITECTURE");
+            rs_tmp.next();
+            arch_in.id=rs_tmp.getInt(1);
+        }else{
+            //TODO якщо змінти дані про архітектуру
+        }
+            for(int s_lay=0;s_lay<arch_in.layers.size();s_lay++){
+                if(arch_in.layers.get(s_lay).id==null){
+                    derby_DB_connection.executeUpdate("INSERT INTO LAYER (ARCH_ID,NAME,DESCRIPTION) VALUES (" + arch_in.id + ",'" + arch_in.layers.get(s_lay).name + "','" + arch_in.layers.get(s_lay).description + "')");
+                }else{
+                    //TODO якщо змінити шар
+                }
+                for(int s_mod=0;s_mod<arch_in.layers.get(s_lay).modules.size();s_mod++){
+                    //TODO Обробка модулів
+                }
+            }
+
+        return result;
     }
     public static Architecture del_mod_from_layer(Architecture arch_in, Integer lay_pos, Integer mod_pos){
         arch_in.layers.get(lay_pos).modules.remove(mod_pos);

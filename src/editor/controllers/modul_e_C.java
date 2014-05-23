@@ -70,7 +70,7 @@ public class modul_e_C implements Initializable {
         class_imageview.setImage(class_image);
     }
 
-    public void load_this_module_DB(ActionEvent actionEvent) {//TODO ЗАгрузить патерн с базы
+    public void load_this_module_DB(ActionEvent actionEvent) {//ЗАгрузить патерн с базы
         //Читае Идентиф. Параметра
         String query = "SELECT * FROM MODULE WHERE ID=" + functions.get_ID(LV_modules_DB.getSelectionModel().getSelectedItem().toString());
         ResultSet q_result;
@@ -131,7 +131,7 @@ public class modul_e_C implements Initializable {
                 rs = derby_DB.executeQuery("SELECT * FROM MODULE");
             } catch (SQLException e) {
                 System.out.print("ssdsa");
-                //TODO если БД не существовала, то создаем таблицу и после этого заполняем её значениями
+                //если БД не существовала, то создаем таблицу и после этого заполняем её значениями
                 try {
                     String query = "CREATE TABLE MODULE (\n" +
                             "  ID INT PRIMARY KEY NOT NULL GENERATED ALWAYS AS IDENTITY\n" +

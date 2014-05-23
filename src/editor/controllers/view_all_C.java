@@ -76,7 +76,7 @@ public class view_all_C implements Initializable {
                 }
             });
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
 
         }
     }
@@ -107,6 +107,7 @@ public class view_all_C implements Initializable {
                 P_arch_ctruct.getChildren().add(tmp_lable);
                 rs_mod = derby_DB.executeQuery("SELECT * FROM MODULE WHERE LAY_ID=" + rs_lay.getInt("ID"));
                 pos_x += Integer.parseInt(TF_X2.getText());//Сдвиг+
+                s_mod=0;
                 while (rs_mod.next()) {
                     arch_struct.layers.get(s_lay).modules.add(new Module(rs_mod.getInt("ID"), rs_mod.getInt("LAY_ID"), rs_mod.getString("NAME"), rs_mod.getString("DESCRIPTION")));
                     rs_pat = derby_DB.executeQuery("SELECT * FROM PATERNS WHERE MOD_ID=" + rs_mod.getInt("ID"));
@@ -144,13 +145,12 @@ public class view_all_C implements Initializable {
             }
             P_arch_ctruct.setPrefHeight(pos_y);
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         System.out.println("Arch load end");
     }
 
     public void to_text_arch() {
-        //TODO оно неправлено работает(нужно создать спец клас(Ы) под свои нужды и с нужным функцыоналом)
         TA_class_text.setText(functions.arch_uml_text_gen(arch_struct));
     }
 

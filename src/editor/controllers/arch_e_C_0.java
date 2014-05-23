@@ -72,7 +72,7 @@ public class arch_e_C_0 implements Initializable {
         arch_imageview.setImage(arch_image);
     }
 
-    public void load_this_arch_DB(ActionEvent actionEvent) {//TODO ЗАгрузить патерн с базы
+    public void load_this_arch_DB(ActionEvent actionEvent) {// ЗАгрузить патерн с базы
         //Читае Идентиф. Параметра
         String query = "SELECT * FROM ARCHITECTURE WHERE ID=" + functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString());
         ResultSet q_result;
@@ -86,7 +86,7 @@ public class arch_e_C_0 implements Initializable {
         }
     }
 
-    public void save_this_arch_DB(ActionEvent actionEvent) {//TODO добавить патерн в базу
+    public void save_this_arch_DB(ActionEvent actionEvent) {// добавить патерн в базу
         if (TF_arch_id_DB.getText().length() == 0) {
             String query = "INSERT INTO ARCHITECTURE (NAME,USECASE,DESCRIPTION) VALUES ('" + TF_arch_name_DB.getText() + "','" + arch_text.getText() + "','" + TA_arch_description.getText() + "')";
             ResultSet q_result;
@@ -102,7 +102,7 @@ public class arch_e_C_0 implements Initializable {
             try {
                 derby_DB.executeUpdate(query);
             } catch (SQLException e) {
-                //e.printStackTrace();
+                e.printStackTrace();
             }
         }
 
@@ -111,7 +111,7 @@ public class arch_e_C_0 implements Initializable {
         LV_archs_DB.setDisable(false);
     }
 
-    public void delete_arch_DB(ActionEvent actionEvent) {//TODO удалить з базы по ID
+    public void delete_arch_DB(ActionEvent actionEvent) {//удалить з базы по ID
         String query = "DELETE FROM ARCHITECTURE WHERE ID=" + functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString());
         try {
             derby_DB.executeUpdate(query);
@@ -121,7 +121,7 @@ public class arch_e_C_0 implements Initializable {
         list_load_DB();
     }
 
-    private void list_load_DB() {//TODO Загрузка з базы
+    private void list_load_DB() {// Загрузка з базы
         ResultSet rs = null;
         try {
             try {
