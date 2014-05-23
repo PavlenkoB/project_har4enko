@@ -90,7 +90,7 @@ public class functions {
         System.out.println("Arch load end");
         return arch_out;
     }
-    public static boolean arch_save_to_DB(Architecture arch_in,DerbyDBManager derby_DB_connection) throws SQLException {
+    public static boolean arch_save_to_DB(Architecture arch_in,DerbyDBManager derby_DB_connection) throws SQLException {//Зберегти архітектуру в БД
         boolean result=false;
         ResultSet rs_tmp;
         if(arch_in.getId()==null||arch_in.getId()==0){//Добавить в базу
