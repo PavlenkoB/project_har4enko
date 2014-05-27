@@ -26,7 +26,7 @@ public class gen_arch_done {
     }
     public static void shet(ArrayList<Module> modd, ArrayList<Integer> modd_sell,int s_pos){
 
-        if(modd_sell.get(s_pos)>modd.get(s_pos).avilable_paterns.size()&&s_pos>0) {
+        if(modd_sell.get(s_pos)>modd.get(s_pos).avilable_paterns.size()&&s_pos==0) {
         }else {
             if (modd_sell.get(s_pos) > modd.get(s_pos).avilable_paterns.size()) {
                 modd_sell.set(s_pos, 0);
