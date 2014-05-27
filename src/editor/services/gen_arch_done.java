@@ -36,8 +36,8 @@ public class gen_arch_done {
             }else {
                 modd.get(s_pos).selected_patern=modd.get(s_pos).avilable_paterns.get(modd_sell.get(s_pos));
                 //save
-                modd_sell.set(s_pos, modd_sell.get(s_pos) + 1);
                 shet(modd, modd_sell, modd_sell.size());
+                modd_sell.set(s_pos, modd_sell.get(s_pos) + 1);
             }
         }
     }
