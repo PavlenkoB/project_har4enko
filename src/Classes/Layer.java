@@ -1,5 +1,8 @@
 package Classes;
 
+
+import java.util.ArrayList;
+
 /**
  * Created by Alex Shcherbak on 24.04.2014.
  */
@@ -9,7 +12,7 @@ public class Layer {
     public String name;
     public String description;
     public Integer id_done;
-    public Module[] modules;
+    public ArrayList<Module> modules=new ArrayList<Module>();
 
     public Layer(Integer id, Integer arch_id, String name, String description) {
         this.id = id;
@@ -18,7 +21,7 @@ public class Layer {
         this.description = description;
     }
 
-    public Layer(Integer id, Integer arch_id, String name, String description, Integer id_done, Module[] modules) {
+    public Layer(Integer id, Integer arch_id, String name, String description, Integer id_done, ArrayList<Module> modules) {
         this.id = id;
         this.arch_id = arch_id;
         this.name = name;
@@ -70,11 +73,11 @@ public class Layer {
         this.id_done = id_done;
     }
 
-    public Module[] getModules() {
+    public ArrayList<Module> getModules() {
         return modules;
     }
 
-    public void setModules(Module[] modules) {
+    public void setModules(ArrayList<Module> modules) {
         this.modules = modules;
     }
 }

@@ -5,6 +5,7 @@ package editor.controllers;/*
 
 import editor.classes.DerbyDBManager;
 import editor.services.draw_uml;
+import editor.services.functions;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,16 +15,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import javax.swing.*;
-import javax.swing.text.*;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -57,49 +55,23 @@ public class patern_e_C implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //TODO Del
-        /*derby_DB = new DerbyDBManager("DB/paterns_DB");
-              list_load_DB();
+        derby_DB = new DerbyDBManager("DB/paterns_DB");
+        list_load_DB();
         moduls_load();/**/
     }
-
-    public String get_ID(String in_string) {
-        String out_string = "";
-        int line_pos = 0;
-        while ((in_string.charAt(line_pos) != '|') == true) {
-            out_string = out_string + Character.toString(in_string.charAt(line_pos));
-            line_pos++;
-        }
-        return out_string;
-    }
-
-    public String get_NAME(String in_string) {
-        String out_string = "";
-        int line_pos = 0;
-        while ((in_string.charAt(line_pos) != '|') == true) {
-            line_pos++;
-        }
-        line_pos++;
-        while (line_pos<in_string.length()) {
-            out_string = out_string + Character.toString(in_string.charAt(line_pos));
-            line_pos++;
-        }
-        return out_string;
-    }
-
-
 
     /*Действия*/
     @FXML//Отрисовка класса
     public void Action_draw_class() throws IOException, InterruptedException {
-        class_image=draw_uml.draw_class(class_text.getText());
+        class_image = draw_uml.draw_class(class_text.getText());
         class_imageview.setFitHeight(class_image.getRequestedHeight());
         class_imageview.setFitWidth(class_image.getRequestedWidth());
         class_imageview.setImage(class_image);
     }
 
-    public void load_this_patern_DB(ActionEvent actionEvent) {//TODO ЗАгрузить патерн с базы
+    public void load_this_patern_DB(ActionEvent actionEvent) {//ЗАгрузить патерн с базы
         //Читае Идентиф. Параметра
-        String query = "SELECT * FROM PATERNS WHERE ID=" + get_ID(LV_paterns_DB.getSelectionModel().getSelectedItem().toString());
+        String query = "SELECT * FROM PATERNS WHERE ID=" + functions.get_ID(LV_paterns_DB.getSelectionModel().getSelectedItem().toString());
         ResultSet q_result;
         try {
             q_result = derby_DB.executeQuery(query);
@@ -108,7 +80,7 @@ public class patern_e_C implements Initializable {
             TA_patern_description.setText(q_result.getString("DESCRIPTION"));
 
             ResultSet rs = null;
-            rs = derby_DB.executeQuery("SELECT * FROM MODULE WHERE ID="+q_result.getString("MOD_ID"));//Получить данные о слою
+            rs = derby_DB.executeQuery("SELECT * FROM MODULE WHERE ID=" + q_result.getString("MOD_ID"));//Получить данные о слою
             rs.next();
             CB_paterns_master.setValue(rs.getInt("ID") + "|" + rs.getString("NAME"));//Поставить селект
         } catch (SQLException e) {
@@ -117,17 +89,17 @@ public class patern_e_C implements Initializable {
     }
 
     public void save_this_patern_DB(ActionEvent actionEvent) {//добавить патерн в базу
-        if(TF_patern_id_DB.getText().length()==0) {
-            String query = "INSERT INTO PATERNS (MOD_ID,NAME,VALUE,DESCRIPTION) VALUES ("+get_ID(CB_paterns_master.getSelectionModel().getSelectedItem().toString())+",'" + TF_patern_name_DB.getText() + "','" + class_text.getText() + "','"+TA_patern_description.getText()+"')";
+        if (TF_patern_id_DB.getText().length() == 0) {
+            String query = "INSERT INTO PATERNS (MOD_ID,NAME,VALUE,DESCRIPTION) VALUES (" + functions.get_ID(CB_paterns_master.getSelectionModel().getSelectedItem().toString()) + ",'" + TF_patern_name_DB.getText() + "','" + class_text.getText() + "','" + TA_patern_description.getText() + "')";
             ResultSet q_result;
             try {
                 derby_DB.executeUpdate(query);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             String query = "UPDATE PATERNS " +//TODO ДО какого модуля
-                    "SET MOD_ID="+get_ID(CB_paterns_master.getSelectionModel().getSelectedItem().toString())+",NAME='"+TF_patern_name_DB.getText()+"',VALUE='" + class_text.getText() + "',DESCRIPTION='"+TA_patern_description.getText()+"' WHERE ID="+get_ID(LV_paterns_DB.getSelectionModel().getSelectedItem().toString());
+                    "SET MOD_ID=" + functions.get_ID(CB_paterns_master.getSelectionModel().getSelectedItem().toString()) + ",NAME='" + TF_patern_name_DB.getText() + "',VALUE='" + class_text.getText() + "',DESCRIPTION='" + TA_patern_description.getText() + "' WHERE ID=" + functions.get_ID(LV_paterns_DB.getSelectionModel().getSelectedItem().toString());
             ResultSet q_result;
             try {
                 derby_DB.executeUpdate(query);
@@ -142,7 +114,7 @@ public class patern_e_C implements Initializable {
     }
 
     public void delete_patern_DB(ActionEvent actionEvent) {//удалить з базы по ID
-        String query = "DELETE FROM PATERNS WHERE ID=" +  get_ID(LV_paterns_DB.getSelectionModel().getSelectedItem().toString());
+        String query = "DELETE FROM PATERNS WHERE ID=" + functions.get_ID(LV_paterns_DB.getSelectionModel().getSelectedItem().toString());
         try {
             derby_DB.executeUpdate(query);
         } catch (SQLException e) {
@@ -191,10 +163,10 @@ public class patern_e_C implements Initializable {
 
     public void select_to_save_DB() {//скопировать имя патерна для сохранения
         if (derby_DB != null) {
-        String id_name=LV_paterns_DB.getSelectionModel().getSelectedItem().toString();
-        String id,name=new String();
-            id=get_ID(id_name);
-            name=get_NAME(id_name);
+            String id_name = LV_paterns_DB.getSelectionModel().getSelectedItem().toString();
+            String id, name = new String();
+            id = functions.get_ID(id_name).toString();
+            name = functions.get_NAME(id_name);
             TF_patern_id_DB.setText(id);
             TF_patern_name_DB.setText(name);
         }
@@ -272,7 +244,7 @@ public class patern_e_C implements Initializable {
 
     }
 
-    public void moduls_load(){//загрузить модули
+    public void moduls_load() {//загрузить модули
         ResultSet rs = null;
         try {
             try {
@@ -293,7 +265,8 @@ public class patern_e_C implements Initializable {
 
         }
     }
-    public void layer_master_select(){
+
+    public void layer_master_select() {
 
     }
 }

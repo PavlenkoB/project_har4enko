@@ -6,10 +6,13 @@ package editor.classes;
 public class values {
     String name;
     Integer id;
-    values(){}
-    values(Integer id, String name){
-        this.id=id;
-        this.name=name;
+
+    values() {
+    }
+
+    values(Integer id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Integer getId() {

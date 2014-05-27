@@ -1,5 +1,7 @@
 package Classes;
 
+import java.util.ArrayList;
+
 /**
  * Created by Alex Shcherbak on 24.04.2014.
  */
@@ -8,22 +10,22 @@ public class Module {
     public Integer lay_id;
     public String description;
     public String name;
-    public Pattern[] patterns;
+    public ArrayList<Pattern> avilable_paterns= new ArrayList<Pattern>();//патерни доступні цьому модулю
+    public Pattern selected_patern;//Вибраний патерн
     public Integer id_done;
 
-    public Module(Integer id, Integer lay_id, String description, String name) {
+    public Module(Integer id, Integer lay_id, String name, String description) {
         this.id = id;
         this.lay_id = lay_id;
         this.description = description;
         this.name = name;
     }
 
-    public Module(Integer id, Integer lay_id, String description, String name, Pattern[] patterns, Integer id_done) {
+    public Module(Integer id, Integer lay_id, String name, String description, Integer id_done) {
         this.id = id;
         this.lay_id = lay_id;
         this.description = description;
         this.name = name;
-        this.patterns = patterns;
         this.id_done = id_done;
     }
     public Module() {
@@ -59,14 +61,6 @@ public class Module {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Pattern[] getPatterns() {
-        return patterns;
-    }
-
-    public void setPatterns(Pattern[] patterns) {
-        this.patterns = patterns;
     }
 
     public Integer getId_done() {
