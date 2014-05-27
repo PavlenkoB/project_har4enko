@@ -44,7 +44,7 @@ public class arch_e_C implements Initializable {
 
     DerbyDBManager derby_DB;
 
-    Architecture arch_tmp = new Architecture();
+    Architecture arch_tmp,arch_old = new Architecture();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -57,7 +57,7 @@ public class arch_e_C implements Initializable {
     public void load_this_arch_DB(ActionEvent actionEvent) {//ЗАгрузить патерн с базы
         //Читае Идентиф. Параметра
         arch_tmp = functions.arch_load_from_DB(functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString()), derby_DB);
-
+        arch_old=functions.arch_load_from_DB(functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString()), derby_DB);
         TA_arch_relation.setText(arch_tmp.usecase);
         TA_arch_description.setText(arch_tmp.description);
         draw_arch_struct();
@@ -337,5 +337,14 @@ public class arch_e_C implements Initializable {
 
     public void arch_uml_text_draw(ActionEvent actionEvent) {
 
+    }
+
+    public void save_this_arch_to_DB(ActionEvent actionEvent) {
+        arch_tmp.id=Integer.parseInt(TF_arch_id_DB.getText());
+        try {
+            functions.arch_save_to_DB(arch_tmp,derby_DB);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

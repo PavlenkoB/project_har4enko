@@ -145,7 +145,7 @@ public class view_all_C implements Initializable {
             }
             P_arch_ctruct.setPrefHeight(pos_y);
         } catch (SQLException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }
         System.out.println("Arch load end");
     }
