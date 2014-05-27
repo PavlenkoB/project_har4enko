@@ -25,14 +25,22 @@ public class gen_arch_done {
         shet(modd_arr,modd_arr_sellected,modd_arr_sellected.size());
     }
     public static void shet(ArrayList<Module> modd, ArrayList<Integer> modd_sell,int s_pos){
-        modd_sell.set(s_pos, modd_sell.get(s_pos) + 1);
+
         if(modd_sell.get(s_pos)>modd.get(s_pos).avilable_paterns.size()&&s_pos>0) {
         }else {
             if (modd_sell.get(s_pos) > modd.get(s_pos).avilable_paterns.size()) {
                 modd_sell.set(s_pos, 0);
-                s_pos--;
+                s_pos--;//переход к счетчику на 1 уровень выше
+                modd_sell.set(s_pos, modd_sell.get(s_pos) + 1);
                 shet(modd, modd_sell, s_pos);
             }else {
+                modd_sell.set(s_pos, modd_sell.get(s_pos) + 1);
+                if (modd_sell.get(s_pos) > modd.get(s_pos).avilable_paterns.size()) {
+                    modd_sell.set(s_pos, 0);
+                    s_pos--;//переход к счетчику на 1 уровень выше
+                    modd_sell.set(s_pos, modd_sell.get(s_pos) + 1);
+                    shet(modd, modd_sell, s_pos);
+                }
                 modd.get(s_pos).selected_patern=modd.get(s_pos).avilable_paterns.get(modd_sell.get(s_pos));
                 //save
             }
