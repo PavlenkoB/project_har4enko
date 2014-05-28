@@ -26,13 +26,13 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import net.sourceforge.plantuml.project.Item;
 import rating_arch.DB_manager;
-
 import java.io.*;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import editor.services.gen_arch_done;
 
 /**
  * Created by Alex Shcherbak on 24.04.2014.
@@ -300,12 +300,14 @@ public class create_arch_C implements Initializable {
                 modules_done.get(num_mod_done).setId(module_done.get(i).getId());
                 modules_done.get(num_mod_done).setName(module_done.get(i).getName());
                 modules_done.get(num_mod_done).setLay_id(module_done.get(i).getLay_id());
+                modules_done.get(num_mod_done).avilable_paterns.add(module_done.get(i).avilable_paterns.get(j));
                 modules_done.get(num_mod_done).selected_patern = module_done.get(i).avilable_paterns.get(j);
                 num_mod_done++;
             }
         }
 
         GridPane gridpane_lay = new GridPane();
+        gridpane_lay.getChildren().clear();
         ArrayList<GridPane> gridPane_mod = new ArrayList<>();
         ArrayList<ArrayList<GridPane>> gridPanes_pat = new ArrayList<>();
         Label tmp_lable = new Label();
@@ -363,7 +365,7 @@ public class create_arch_C implements Initializable {
     }
 
     public void Save_arch(ActionEvent actionEvent) {
-
-
+        architectures_done = gen_arch_done.pre_combine(arc_choise,module_done);
+        System.out.print("Lol");
     }
 }

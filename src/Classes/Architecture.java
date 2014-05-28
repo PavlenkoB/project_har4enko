@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by Alex Shcherbak on 24.04.2014.
  */
-public class Architecture {
+public class Architecture implements Cloneable {
     public Integer id;
     public String name;
     public ArrayList<Layer> layers= new ArrayList<Layer>();
