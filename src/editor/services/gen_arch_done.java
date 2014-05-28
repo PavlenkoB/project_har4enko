@@ -31,13 +31,6 @@ public class gen_arch_done {
             } else {
                 modules_arr.get(s_pos).selected_patern = modules_arr.get(s_pos).avilable_paterns.get(modd_arr_sell.get(s_pos));
                 //save
-                int s_add = 0;
-                for (int s_lay = 0; s_lay < origin_arch.layers.size(); s_lay++) {
-                    for (int s_mod = 0; s_mod < origin_arch.layers.get(s_lay).modules.size(); s_mod++) {
-                        origin_arch.layers.get(s_lay).modules.get(s_mod).selected_patern = modules_arr.get(s_add).selected_patern;
-                        s_add++;
-                    }
-                }
                 return_Architectures.add(origin_arch);
                 modd_arr_sell.set(s_pos, modd_arr_sell.get(s_pos) + 1);
                 combine(return_Architectures, origin_arch, modules_arr, modd_arr_sell, modd_arr_sell.size());
