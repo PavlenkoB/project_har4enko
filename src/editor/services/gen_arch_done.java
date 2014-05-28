@@ -10,6 +10,11 @@ import java.util.ArrayList;
  */
 public class gen_arch_done {
     public static ArrayList<Architecture> pre_combine(Architecture origin_arch, ArrayList<Module> modules_arr) {
+        try {
+            Architecture tmp_arch= origin_arch.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
         ArrayList<Architecture> return_Architectures = new ArrayList<>();
         ArrayList<Integer> modd_arr_sellected = new ArrayList<>();
         //Все устанавливаем в 1
@@ -38,6 +43,7 @@ public class gen_arch_done {
                         s_add++;
                     }
                 }
+
                 return_Architectures.add(origin_arch);
                 modd_arr_sell.set(s_pos, modd_arr_sell.get(s_pos) + 1);
                 combine(return_Architectures, origin_arch, modules_arr, modd_arr_sell, modd_arr_sell.size());

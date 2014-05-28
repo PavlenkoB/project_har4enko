@@ -14,6 +14,11 @@ public class Architecture {
     public Integer task_id;
     public String usecase;
 
+    public Architecture clone() throws CloneNotSupportedException {
+        return (Architecture)super.clone();
+    }
+
+
     public Architecture() {
         this.id = 0;
         this.name = new String();
