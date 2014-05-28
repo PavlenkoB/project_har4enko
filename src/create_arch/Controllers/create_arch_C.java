@@ -1,12 +1,17 @@
 package create_arch.Controllers;
 
 import editor.services.draw_uml;
+import editor.services.functions;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.VPos;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -19,12 +24,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import net.sourceforge.plantuml.project.Item;
 import rating_arch.DB_manager;
 
 import java.io.*;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
@@ -41,19 +48,25 @@ public class create_arch_C implements Initializable {
     public TextArea Description;
     public ImageView Usecase_view;
     public Button arch_create_next_1;
-    public Pane back_gr_grid;
     public Button Save_arch;
     public Button Arch_create_next_2;
+    public Pane Arch_choise_1;
+    public Pane Arch_choise_2;
+    public Pane back_gr_grid;
+    public Pane back_grid_vis;
+    public Pane Arch_choise_3;
     @FXML
     private Image class_image;
 
     public static Architecture arc_choise = new Architecture();
-    public static Architecture[] archery;
-    public static Layer[] layers;
-    public static Module[][] modules;
-    public static Pattern[][][] patterns;
-    public static Pattern[][] pat_choise;
+    ArrayList<Label> layer_names = new ArrayList<>();
+    ArrayList<javafx.scene.control.Label> module_names = new ArrayList<>();
+    ArrayList<ChoiceBox> selected_paterns = new ArrayList<>();
     //public static Stage Primary_arch_create;
+    ArrayList<Module> module_done = new ArrayList<>();
+    ArrayList<Module> modules_done = new ArrayList<>();
+    ArrayList<Layer> layers_done = new ArrayList<>();
+    ArrayList<Architecture> architectures_done = new ArrayList<>();
 
 
     DB_manager derby_DB = new DB_manager("DB/paterns_DB");
@@ -98,6 +111,7 @@ public class create_arch_C implements Initializable {
 
     public void initialize(URL url, ResourceBundle rb) {
         try {
+            Arch_choise_1.setVisible(true);
             set_usecase();
         } catch (Exception e) {
             e.printStackTrace();
@@ -105,131 +119,52 @@ public class create_arch_C implements Initializable {
     }
 
     public void set_usecase() throws IOException, SQLException {
-        archery = usecase();
-        ObservableList<String> items = FXCollections.observableArrayList();
-        for (int i = 0; i < archery.length; i++) {
-            items.add(archery[i].getName());
+        Arch_choise_1.setVisible(true);
+        Arch_choise_2.setVisible(false);
+        Arch_choise_3.setVisible(false);
+        ResultSet rs = null;
+        try {
+            try {
+                //derby_DB
+                rs = derby_DB.executeQuery("SELECT * FROM ARCHITECTURE");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            ObservableList<String> items = FXCollections.observableArrayList();
+
+            while (rs.next()) {
+                //System.out.println(rs.getInt("ID") + "|" + rs.getString("NAME"));
+                items.add(rs.getString("ID") + "|" + rs.getString("NAME"));
+            }
+            Arch_list.setItems(items);
+        } catch (SQLException e) {
+            //e.printStackTrace();
         }
-        Arch_list.setItems(items);
     }
-
-    public Architecture[] usecase() throws IOException, SQLException {
-        String query = "SELECT * FROM ARCHITECTURE";
-        ResultSet q_result = null;
-        q_result = derby_DB.executeQuery(query);
-        ResultSet buf_q_result = derby_DB.executeQuery(query);
-        int res_count = 0;
-        while (buf_q_result.next()) {
-            res_count++;
-        }
-        Architecture[] usecase = new Architecture[res_count];
-        res_count = 0;
-        while (q_result.next()) {
-            usecase[res_count] = new Architecture();
-            usecase[res_count].setId(q_result.getInt("ID"));
-            usecase[res_count].setDescription(q_result.getString("Description"));
-            usecase[res_count].setName(q_result.getString("NAME"));
-            usecase[res_count].setUsecase(q_result.getString("USECASE"));
-           /*
-            System.out.println("ID: " + usecase[res_count].getId());
-            System.out.println("Description: " + usecase[res_count].getDescription());
-            System.out.println("NAME: " + usecase[res_count].getName());
-            */
-            res_count++;
-        }
-
-        return (usecase);
-    }
-
-    public Layer[] layer(int arch_use) throws IOException, SQLException {
-        String query = "SELECT * FROM LAYER WHERE LAYER.ARCH_ID = ";
-        query += arch_use;
-        ResultSet q_result = null;
-        q_result = derby_DB.executeQuery(query);
-        ResultSet buf_q_result = derby_DB.executeQuery(query);
-        int res_count = 0;
-        while (buf_q_result.next()) {
-            res_count++;
-        }
-        Layer[] layers = new Layer[res_count];
-        res_count = 0;
-        while (q_result.next()) {
-            layers[res_count] = new Layer();
-            layers[res_count].setId(q_result.getInt("ID"));
-            layers[res_count].setDescription(q_result.getString("Description"));
-            layers[res_count].setName(q_result.getString("NAME"));
-            layers[res_count].setArch_id(q_result.getInt("ARCH_ID"));
-            res_count++;
-        }
-        return (layers);
-    }
-
-    public Module[] module(int lay_id) throws IOException, SQLException {
-        String query = "SELECT * FROM MODULE WHERE MODULE.LAY_ID = ";
-        query += lay_id;
-        ResultSet q_result = null;
-        q_result = derby_DB.executeQuery(query);
-        ResultSet buf_q_result = derby_DB.executeQuery(query);
-        int res_count = 0;
-        while (buf_q_result.next()) {
-            res_count++;
-        }
-        Module[] modules = new Module[res_count];
-        res_count = 0;
-        while (q_result.next()) {
-            modules[res_count] = new Module();
-            modules[res_count].setId(q_result.getInt("ID"));
-            modules[res_count].setDescription(q_result.getString("Description"));
-            modules[res_count].setName(q_result.getString("NAME"));
-            modules[res_count].setLay_id(q_result.getInt("ARCH_ID"));
-            res_count++;
-        }
-        return (modules);
-    }
-
-    public Pattern[] pattern(int mod_id) throws IOException, SQLException {
-        String query = "SELECT * FROM PATERNS WHERE PATERNS.MOD_ID = ";
-        query += mod_id;
-        ResultSet q_result = null;
-        q_result = derby_DB.executeQuery(query);
-        ResultSet buf_q_result = derby_DB.executeQuery(query);
-        int res_count = 0;
-        while (buf_q_result.next()) {
-            res_count++;
-        }
-        Pattern[] patterns = new Pattern[res_count];
-        res_count = 0;
-        while (q_result.next()) {
-            patterns[res_count] = new Pattern();
-            patterns[res_count].setId(q_result.getInt("ID"));
-            patterns[res_count].setDescription(q_result.getString("Description"));
-            patterns[res_count].setName(q_result.getString("NAME"));
-            patterns[res_count].setMod_id(q_result.getInt("MOD_ID"));
-            patterns[res_count].setUml_text(q_result.getString("VALUE"));
-            res_count++;
-        }
-        return (patterns);
-    }
-
 
     public void canceler(ActionEvent actionEvent) {
     }
 
     public void select_to_display() {
+        arc_choise=null;
+        arc_choise = new Architecture();
         if (derby_DB != null) {
-            String name_list = Arch_list.getSelectionModel().getSelectedItem().toString();
-            for (int i = 0; i < archery.length; i++) {
-                if (name_list.equals(archery[i].name)) {
-                    arc_choise.setId(archery[i].getId());
-                    Description.setText(archery[i].description);
-                    //Action_draw_class();
-                    class_image = draw_uml.draw_class(archery[i].getUsecase());
-                    Usecase_view.setFitHeight(class_image.getRequestedHeight());
-                    Usecase_view.setFitWidth(class_image.getRequestedWidth());
-                    Usecase_view.setImage(class_image);
-                    Usecase_view.setImage(class_image);
-                }
+            Number num_choise_arch = Arch_list.getSelectionModel().selectedIndexProperty().getValue();
+            ResultSet rs_arch;
+            try {
+                rs_arch = derby_DB.executeQuery("SELECT * FROM ARCHITECTURE WHERE ID=" + functions.get_ID((String) Arch_list.getItems().get(num_choise_arch.intValue())));
+                rs_arch.next();
+                arc_choise = new Architecture(rs_arch.getInt("ID"), rs_arch.getString("NAME"), rs_arch.getString("DESCRIPTION"));
+            } catch (SQLException e) {
             }
+            ;
+            Description.setText(arc_choise.description);
+            //Action_draw_class();
+            class_image = draw_uml.draw_class(arc_choise.getUsecase());
+            Usecase_view.setFitHeight(class_image.getRequestedHeight());
+            Usecase_view.setFitWidth(class_image.getRequestedWidth());
+            Usecase_view.setImage(class_image);
+            Usecase_view.setImage(class_image);
         }
     }
 
@@ -244,180 +179,191 @@ public class create_arch_C implements Initializable {
     }
 
     public void arch_create_next_1(ActionEvent actionEvent) throws IOException, SQLException {
-        Stage Primary_arch_create = (Stage) arch_create_next_1.getScene().getWindow();
-        try {
-            Parent roots;
-            roots = FXMLLoader.load(getClass().getResource("/create_arch/Interface/Create_new_arch_2.fxml"));
-            Primary_arch_create.setTitle("Вибір патернів");
-            Primary_arch_create.setScene(new Scene(roots, 800, 600));
-            Primary_arch_create.setResizable(false);
-            Primary_arch_create.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        layers = layer(arc_choise.getId());
-        modules = new Module[layers.length][];
-        for (int i=0;i>layers.length;i++){
-            modules[i] = module(layers[i].getId());
-        }
-
-        GridPane[] gridpane_mod = new GridPane[layers.length];
+        Arch_choise_1.setVisible(false);
+        Arch_choise_2.setVisible(true);
+        Arch_choise_3.setVisible(false);
         GridPane gridpane_lay = new GridPane();
+        ArrayList<GridPane> gridPane_mod = new ArrayList<>();
         gridpane_lay.setHgap(2);
-        gridpane_lay.setVgap(layers.length);
-
-        int mod_max = 0;
-        int num_mod = 0;
-        for (int i = 0; i > layers.length; i++) {
-            modules[i] = module(layers[i].getId());
-            gridpane_mod[i].setHgap(2);
-            gridpane_mod[i].setVgap(modules[i].length);
-        }
-        patterns = new Pattern[layers.length][mod_max][];
-        for (int i = 0; i > layers.length; i++) {
-            for (int s4 = 0; s4 > modules[i].length; s4++) {
-                patterns[i][s4] = pattern(modules[i][s4].getId());
-            }
-        }
-        Label[] lbLayer = new Label[layers.length];
-        Label[][] lbModule = new Label[layers.length][mod_max];
-        ObservableList[][] items = new ObservableList[layers.length][mod_max];
-        ChoiceBox[][] choiceBoxes = new ChoiceBox[layers.length][mod_max];
-        for (int i = 0; i > layers.length; i++) {
-            lbLayer[i] = new Label(layers[i].getName());
-            gridpane_lay.setHalignment(lbLayer[i], HPos.LEFT);
-            for (int s4 = 0; s4 > modules[i].length; s4++) {
-                lbModule[i][s4] = new Label(modules[i][s4].getName());
-                gridpane_mod[i].setHalignment(lbModule[i][s4], HPos.RIGHT);
-
-                for (int j = 0; j > patterns[i][s4].length; j++) {
-                    items[i][s4].add(patterns[i][s4][j].getName());
+        gridpane_lay.setVgap(20);
+        ResultSet rs_lay, rs_mod, rs_pat;
+        int s_lay = 0, s_mod = 0;
+        Label tmp_lable = new Label();
+        try {
+            rs_lay = derby_DB.executeQuery("SELECT * FROM LAYER WHERE ARCH_ID=" + arc_choise.getId());
+            while (rs_lay.next()) {
+                arc_choise.layers.add(new Layer(rs_lay.getInt("ID"), rs_lay.getInt("ARCH_ID"), rs_lay.getString("NAME"), rs_lay.getString("DESCRIPTION")));
+                tmp_lable = new Label(rs_lay.getString("NAME"));
+                GridPane.setHalignment(tmp_lable, HPos.CENTER);
+                tmp_lable.setMinWidth(200);
+                gridpane_lay.add(tmp_lable, 0, s_lay);
+                rs_mod = derby_DB.executeQuery("SELECT * FROM MODULE WHERE LAY_ID=" + rs_lay.getInt("ID"));
+                s_mod = 0;
+                gridPane_mod.add(new GridPane());
+                gridPane_mod.get(s_lay).getChildren().clear();
+                gridPane_mod.get(s_lay).setHgap(2);
+                gridPane_mod.get(s_lay).setVgap(20);
+                while (rs_mod.next()) {
+                    arc_choise.layers.get(s_lay).modules.add(new Module(rs_mod.getInt("ID"), rs_mod.getInt("LAY_ID"), rs_mod.getString("NAME"), rs_mod.getString("DESCRIPTION")));
+                    tmp_lable = new Label(rs_mod.getString("NAME"));
+                    gridPane_mod.get(s_lay).setHalignment(tmp_lable, HPos.LEFT);
+                    tmp_lable.setMinWidth(200);
+                    gridPane_mod.get(s_lay).add(tmp_lable, 0, s_mod);
+                    selected_paterns.add(s_mod, new ChoiceBox());
+                    ObservableList<String> items = FXCollections.observableArrayList();
+                    rs_pat = derby_DB.executeQuery("SELECT * FROM PATERNS WHERE MOD_ID=" + rs_mod.getInt("ID"));
+                    while (rs_pat.next()) {//Все патерны что подходят модулю в кнопку
+                        arc_choise.layers.get(s_lay).modules.get(s_mod).avilable_paterns.add(new Pattern(rs_pat.getInt("ID"), rs_pat.getInt("MOD_ID"), rs_pat.getString("NAME"), rs_pat.getString("DESCRIPTION"), rs_pat.getString("VALUE")));
+                        items.add(rs_pat.getString("ID") + "|" + rs_pat.getString("NAME"));
+                    }
+                    selected_paterns.get(s_mod).setItems(items);
+                    selected_paterns.get(s_mod).setPrefWidth(200);
+                    GridPane.setHalignment(selected_paterns.get(s_mod), HPos.RIGHT);
+                    gridPane_mod.get(s_lay).add(selected_paterns.get(s_mod), 1, s_mod);
+                    s_mod++;
                 }
-                choiceBoxes[i][s4].setItems(items[i][s4]);
-                gridpane_mod[i].setHalignment(choiceBoxes[i][s4], HPos.CENTER);
+                gridPane_mod.get(s_lay).setGridLinesVisible(true);
+                GridPane.setHalignment(gridPane_mod.get(s_lay), HPos.RIGHT);
+                gridpane_lay.add(gridPane_mod.get(s_lay), 1, s_lay);
+                s_lay++;
             }
-        }
-        for (int i = 0; i > layers.length; i++) {
-            gridpane_lay.add(lbLayer[i], 0, i);
-            for (int s4 = 0; s4 > lbModule[i].length; s4++) {
-                gridpane_mod[i].add(lbModule[i][s4], 0, s4);
-                gridpane_mod[i].add(choiceBoxes[i][s4], 1, s4);
-                pat_choise[i] = new Pattern[s4];
-                pat_choise[i][s4].setId(patterns[i][s4][choiceBoxes[i][s4].
-                        getSelectionModel().getSelectedIndex()].getId());
-                pat_choise[i][s4].setName(patterns[i][s4][choiceBoxes[i][s4].
-                        getSelectionModel().getSelectedIndex()].getName());
-                pat_choise[i][s4].setDescription(patterns[i][s4][choiceBoxes[i][s4].
-                        getSelectionModel().getSelectedIndex()].getDescription());
-                pat_choise[i][s4].setUml_text(patterns[i][s4][choiceBoxes[i][s4].
-                        getSelectionModel().getSelectedIndex()].getUml_text());
-            }
-            gridpane_lay.setHalignment(gridpane_mod[i], HPos.LEFT);
-            gridpane_lay.add(gridpane_mod[i], 1, i);
+        } catch (SQLException e) {
         }
         gridpane_lay.setGridLinesVisible(true);
+        gridpane_lay.setPadding(new Insets(20, 5, 20, 5));
         back_gr_grid.getChildren().add(gridpane_lay);
     }
 
     public void arch_create_next_2(ActionEvent actionEvent) {
-        Stage Primary_arch_create = (Stage) Arch_create_next_2.getScene().getWindow();
-        try {
-            Parent roots;
-            roots = FXMLLoader.load(getClass().getResource("/create_arch/Interface/Create_new_arch_3.fxml"));
-            Primary_arch_create.setTitle("Вибір патернів");
-            Primary_arch_create.setScene(new Scene(roots, 800, 600));
-            Primary_arch_create.setResizable(false);
-            Primary_arch_create.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        int mod_max = 0;
-        int num_mod = 0;
-        int pattern_num = 0;
-        int put_max = 0;
-        for (int i = 0; i > layers.length; i++) {
-            for (int j = 0; j > modules[i].length; j++) {
-                if (mod_max < modules[i].length) {
-                    mod_max = modules[i].length;
+        Arch_choise_1.setVisible(false);
+        Arch_choise_2.setVisible(false);
+        Arch_choise_3.setVisible(true);
+        ResultSet rs = null;
+        module_done.clear();
+        for (int i = 0; i < selected_paterns.size(); i++) {
+            rs = null;
+            Pattern paterns = new Pattern();
+            Module modules = new Module();
+            module_done.add(new Module());
+            if (selected_paterns.get(i).getSelectionModel().getSelectedItem() != null) {
+                ResultSet rs_mod = null;
+                try {
+                    rs = derby_DB.executeQuery("SELECT * FROM PATERNS WHERE ID=" + functions.get_ID(selected_paterns.get(i).getSelectionModel().getSelectedItem().toString()));
+                    rs.next();
+                    paterns = new Pattern(rs.getInt("ID"), rs.getInt("MOD_ID"), rs.getString("NAME"), rs.getString("DESCRIPTION"), rs.getString("VALUE"));
+                    rs_mod = derby_DB.executeQuery("SELECT * FROM MODULE WHERE ID=" + rs.getInt("MOD_ID"));
+                    rs_mod.next();
+                    modules = new Module(rs_mod.getInt("ID"), rs_mod.getInt("LAY_ID"), rs_mod.getString("NAME"), rs_mod.getString("DESCRIPTION"));
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-                if (pat_choise[i][j] != null) {
-                    pattern_num++;
-                    if (put_max < 1) {
-                        put_max = 1;
-                    }
-                } else {
-                    pattern_num += patterns[i][j].length;
-                    if (put_max < patterns[i][j].length) {
-                        put_max = patterns[i][j].length;
+                module_done.get(i).avilable_paterns.add(paterns);
+                module_done.get(i).setId(modules.getId());
+                module_done.get(i).setLay_id(modules.getLay_id());
+                module_done.get(i).setName(modules.getName());
+            } else {
+                Layer layer = new Layer();
+                ResultSet rs_mod = null, rs_lay = null;
+                try {
+                    rs = derby_DB.executeQuery("SELECT * FROM PATERNS WHERE ID=" + functions.get_ID(selected_paterns.get(i).getItems().get(0).toString()));
+                    rs.next();
+                    rs_mod = derby_DB.executeQuery("SELECT * FROM MODULE WHERE ID=" + rs.getInt("MOD_ID"));
+                    rs_mod.next();
+                    modules = new Module(rs_mod.getInt("ID"), rs_mod.getInt("LAY_ID"), rs_mod.getString("NAME"), rs_mod.getString("DESCRIPTION"));
+                    rs_lay = derby_DB.executeQuery("SELECT * FROM LAYER WHERE ID=" + modules.getLay_id());
+                    rs_lay.next();
+                    layer = new Layer(rs_lay.getInt("ID"), rs_lay.getInt("ARCH_ID"), rs_lay.getString("NAME"), rs_lay.getString("DESCRIPTION"));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                for (int j = 0; j < arc_choise.layers.size(); j++) {
+                    if (arc_choise.layers.get(j).getId() == layer.getId()) {
+                        for (int k = 0; k < arc_choise.layers.get(j).modules.size(); k++) {
+                            if (arc_choise.layers.get(j).modules.get(k).getId() == modules.getId()) {
+                                module_done.get(i).avilable_paterns.addAll(arc_choise.layers.get(j).modules.get(k).avilable_paterns);
+                            }
+                        }
                     }
                 }
+                module_done.get(i).setId(modules.getId());
+                module_done.get(i).setLay_id(modules.getLay_id());
+                module_done.get(i).setName(modules.getName());
             }
         }
+
+        int num_mod_done = 0;
+        modules_done.clear();
+        for (int i = 0; i < module_done.size(); i++) {
+            for (int j = 0; j < module_done.get(i).avilable_paterns.size(); j++) {
+                modules_done.add(new Module());
+                modules_done.get(num_mod_done).setId(module_done.get(i).getId());
+                modules_done.get(num_mod_done).setName(module_done.get(i).getName());
+                modules_done.get(num_mod_done).setLay_id(module_done.get(i).getLay_id());
+                modules_done.get(num_mod_done).selected_patern = module_done.get(i).avilable_paterns.get(j);
+                num_mod_done++;
+            }
+        }
+
         GridPane gridpane_lay = new GridPane();
+        ArrayList<GridPane> gridPane_mod = new ArrayList<>();
+        ArrayList<ArrayList<GridPane>> gridPanes_pat = new ArrayList<>();
+        Label tmp_lable = new Label();
         gridpane_lay.setHgap(2);
-        gridpane_lay.setVgap(layers.length);
-
-        GridPane[] gridpane_mod = new GridPane[layers.length];
-        for (int i = 0; i > layers.length; i++) {
-            gridpane_mod[i].setHgap(2);
-            gridpane_mod[i].setVgap(modules[i].length);
-        }
-
-        GridPane[][] gridpane_pat = new GridPane[layers.length][];
-        for (int i = 0; i > layers.length; i++) {
-            gridpane_pat[i] = new GridPane[modules[i].length];
-            for (int j = 0; j > modules[i].length; j++) {
-                gridpane_pat[i][j].setHgap(1);
-                if (pat_choise[i][j] != null) {
-                    gridpane_pat[i][j].setVgap(1);
-                } else {
-                    gridpane_pat[i][j].setVgap(patterns[i][j].length);
-                }
-            }
-        }
-
-        Label[] lbLayer = new Label[layers.length];
-        Label[][] lbModule = new Label[layers.length][];
-        Label[][][] lbPattern = new Label[layers.length][][];
-
-        for (int i = 0; i > layers.length; i++) {
-            lbLayer[i] = new Label(layers[i].getName());
-            gridpane_lay.setHalignment(lbLayer[i], HPos.RIGHT);
-            lbModule[i] = new Label[modules[i].length];
-            for (int j = 0; j > modules[i].length; j++) {
-                lbModule[i][j] = new Label(modules[i][j].getName());
-                gridpane_mod[i].setHalignment(lbModule[i][j], HPos.RIGHT);
-                if (pat_choise[i][j] != null) {
-                    lbPattern[i] = new Label[modules[i].length][1];
-                    lbPattern[i][j][0] = new Label(pat_choise[i][j].getName());
-                    gridpane_pat[i][j].setHalignment(lbPattern[i][j][0], HPos.CENTER);
-                } else {
-                    lbPattern[i] = new Label[modules[i].length][patterns[i][j].length];
-                    for (int k = 0; k > patterns[i][j].length; k++) {
-                        lbPattern[i][j][k] = new Label(patterns[i][j][k].getName());
-                        gridpane_pat[i][j].setHalignment(lbPattern[i][j][k], HPos.CENTER);
+        gridpane_lay.setVgap(arc_choise.layers.size());
+        for (int i=0; i<arc_choise.layers.size();i++){
+            tmp_lable = new Label(arc_choise.layers.get(i).getName());
+            tmp_lable.setMinWidth(150);
+            gridpane_lay.add(tmp_lable, 0, i);
+            gridPane_mod.add(new GridPane());
+            gridPane_mod.get(i).getChildren().clear();
+            gridPane_mod.get(i).setHgap(2);
+            gridPane_mod.get(i).setVgap(arc_choise.layers.get(i).modules.size());
+            gridPanes_pat.add(new ArrayList());
+            for (int j=0; j<arc_choise.layers.get(i).modules.size();j++){
+                tmp_lable = new Label(arc_choise.layers.get(i).modules.get(j).getName());
+                tmp_lable.setMinWidth(150);
+                gridPane_mod.get(i).add(tmp_lable, 0, j);
+                gridPanes_pat.get(i).add(new GridPane());
+                gridPanes_pat.get(i).get(j).getChildren().clear();
+                gridPanes_pat.get(i).get(j).setHgap(2);
+                gridPanes_pat.get(i).get(j).setVgap(arc_choise.layers.get(i).modules.get(j).avilable_paterns.size());
+                int com=0;
+                for (int k=0; k<module_done.size();k++){
+                    if (module_done.get(k).getId()==arc_choise.layers.get(i).modules.get(j).getId()){
+                        for (int m=0;m<module_done.get(k).avilable_paterns.size();m++){
+                            tmp_lable = new Label(module_done.get(k).avilable_paterns.get(m).getName());
+                            tmp_lable.setMinWidth(150);
+                            gridPanes_pat.get(i).get(j).add(tmp_lable, 0, com);
+                            tmp_lable = new Label(module_done.get(k).avilable_paterns.get(m).getDescription());
+                            tmp_lable.setMinWidth(150);
+                            gridPanes_pat.get(i).get(j).add(tmp_lable,1,com);
+                            com++;
+                        }
                     }
                 }
+                gridPane_mod.get(i).setGridLinesVisible(true);
+                gridPane_mod.get(i).setPadding(new Insets(20, 5, 20, 5));
+                gridPane_mod.get(i).add(gridPanes_pat.get(i).get(j),1,j);
             }
+            gridpane_lay.add(gridPane_mod.get(i),1,i);
         }
 
-        for (int i = 0; i > layers.length; i++) {
-            gridpane_lay.add(lbLayer[i], 0, i);
-            for (int j = 0; j > lbModule[i].length; j++) {
-                gridpane_mod[i].add(lbModule[i][j], 0, j);
-                for (int k = 0; k > lbPattern[i][j].length; k++) {
-                    gridpane_pat[i][j].add(lbPattern[i][j][k], k, 0);
+        int num_lay_done = 0;
+        for (int i =0; i<arc_choise.layers.size(); i++){
+            for (int j=0; j<module_done.size();j++){
+                if (modules_done.get(j).getLay_id()==arc_choise.layers.get(i).getId()){
+
                 }
-                gridpane_pat[i][j].setHalignment(gridpane_pat[i][j], HPos.CENTER);
-                gridpane_mod[i].add(gridpane_pat[i][j], 1, j);
             }
-            gridpane_mod[i].setHalignment(gridpane_lay, HPos.CENTER);
-            gridpane_lay.add(gridpane_mod[i], 1, i);
         }
         gridpane_lay.setGridLinesVisible(true);
-        back_gr_grid.getChildren().add(gridpane_lay);
+        gridpane_lay.setPadding(new Insets(20, 5, 20, 5));
+        back_grid_vis.getChildren().add(gridpane_lay);
     }
 
     public void Save_arch(ActionEvent actionEvent) {
+
+
     }
 }

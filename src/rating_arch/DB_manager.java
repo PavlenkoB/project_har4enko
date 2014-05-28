@@ -17,7 +17,7 @@ public class DB_manager {
             try {
                 Class.forName(driver);
                 // Подключение к БД или её создание
-                con = DriverManager.getConnection(url + dbName + ";create=true");
+                con = DriverManager.getConnection(url + dbName);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (SQLException e) {

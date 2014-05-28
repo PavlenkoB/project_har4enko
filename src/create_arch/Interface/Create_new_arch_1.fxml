@@ -1,15 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
-<?import java.util.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="629.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="create_arch.Controllers.create_arch_C">
-  <children>
-    <MenuBar id="new_arch_menu" prefWidth="796.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="629.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="create_arch.Controllers.create_arch_C">
+  <children><Pane fx:id="Arch_choise_1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="375.0" prefWidth="629.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+<children>
+    <Button id="Arch_create_next_1" fx:id="arch_create_next_1" layoutX="508.0" layoutY="345.0" mnemonicParsing="false" onAction="#arch_create_next_1" prefWidth="-1.0" text="Обрати" />
+    <ScrollPane layoutY="25.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="298.0" prefWidth="230.0" AnchorPane.leftAnchor="0.0">
+<content><Pane prefHeight="200.0" prefWidth="200.0">
+<children>
+            <ListView fx:id="Arch_list" onMouseClicked="#select_to_display" prefHeight="298.0" prefWidth="216.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="-2.0" />
+</children></Pane>
+</content>
+    </ScrollPane>
+    <TextArea fx:id="Description" editable="false" layoutX="230.0" layoutY="25.0" prefHeight="296.0" prefWidth="193.0" wrapText="true" AnchorPane.topAnchor="25.0" />
+    <Button id="Cancel" fx:id="canceler" layoutX="437.0" layoutY="345.0" mnemonicParsing="false" onAction="#canceler" text="Відміна" />
+    <ScrollPane layoutX="423.0" layoutY="26.0" prefHeight="295.0" prefWidth="206.0">
+      <content>
+        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+          <children>
+            <ImageView fx:id="Usecase_view" fitHeight="293.0" fitWidth="390.66666666666663" layoutX="0.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-190.66665649414062" AnchorPane.topAnchor="1.0" />
+          </children>
+        </AnchorPane>
+      </content>
+    </ScrollPane>
+</children></Pane><Pane fx:id="Arch_choise_2" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="375.0" prefWidth="629.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+<children><Button id="Cancel" layoutX="439.0" layoutY="331.0" mnemonicParsing="false" onAction="#set_usecase" text="Відміна" /><Button id="Arch_create_next_2" layoutX="519.0" layoutY="331.0" mnemonicParsing="false" onAction="#arch_create_next_2" prefWidth="-1.0" text="Обрати" /><ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="326.0" prefWidth="825.0">
+<content>
+<Pane fx:id="back_gr_grid" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="477.0" prefWidth="829.0" />
+</content>
+</ScrollPane>
+</children></Pane><Pane fx:id="Arch_choise_3" layoutY="25.0" prefHeight="375.0" prefWidth="629.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+<children><Button id="Arch_create_next_2" layoutX="519.0" layoutY="319.0" mnemonicParsing="false" onAction="#Save_arch" prefWidth="-1.0" text="Зберігти" /><Button id="Cancel" layoutX="438.0" layoutY="319.0" mnemonicParsing="false" onAction="#arch_create_next_1" text="Відміна" /><ScrollPane prefHeight="314.0" prefWidth="825.0">
+<content><Pane fx:id="back_grid_vis" />
+</content>
+</ScrollPane>
+</children></Pane>
+    <MenuBar id="new_arch_menu" prefHeight="25.0" prefWidth="629.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
@@ -28,26 +58,5 @@
         </Menu>
       </menus>
     </MenuBar>
-    <TextArea fx:id="Description" layoutX="230.0" layoutY="25.0" prefHeight="296.0" prefWidth="193.0" wrapText="true" />
-    <ScrollPane layoutY="25.0" prefHeight="298.0" prefWidth="230.0" AnchorPane.leftAnchor="0.0">
-      <content>
-        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="296.0" prefWidth="215.00009999999747">
-          <children>
-            <ListView fx:id="Arch_list" onMouseClicked="#select_to_display" prefHeight="298.0" prefWidth="216.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0" ></ListView>
-          </children>
-        </AnchorPane>
-      </content>
-    </ScrollPane>
-    <Button id="Arch_create_next_1" fx:id="arch_create_next_1" layoutX="508.0" layoutY="345.0" mnemonicParsing="false" onAction="#arch_create_next_1" prefWidth="-1.0" text="Обрати" />
-    <Button id="Cancel" fx:id="canceler" layoutX="437.0" layoutY="345.0" mnemonicParsing="false" onAction="#canceler" text="Відміна" />
-    <ScrollPane layoutX="423.0" layoutY="26.0" prefHeight="295.0" prefWidth="206.0">
-      <content>
-        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
-          <children>
-            <ImageView fx:id="Usecase_view" fitHeight="293.0" fitWidth="390.66666666666663" layoutX="0.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" />
-          </children>
-        </AnchorPane>
-      </content>
-    </ScrollPane>
   </children>
 </AnchorPane>

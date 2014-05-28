@@ -8,9 +8,9 @@ import java.io.*;
  * Created by godex_000 on 20.05.2014.
  */
 public class draw_uml {
-    public static Image draw_class(String class_text){
+    public static Image draw_class(String class_text) {
         Image class_image = null;
-        if(class_text!=null) {
+        if (class_text != null) {
             BufferedWriter out_data = null;
             try {
                 out_data = new BufferedWriter(new FileWriter(new File("class.txt")));
@@ -52,7 +52,7 @@ public class draw_uml {
             }
             System.out.println("Batch file done.");
             class_image = new Image("file:class.png", true);
-        }else{
+        } else {
             System.out.print("class_text_null");
         }
         //Чистим за собой
