@@ -24,7 +24,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/mode_selection/Selection_mode.fxml"));
-        primaryStage.setTitle("Selection Mode");
+        primaryStage.setTitle("АРХІТЕКТОР ПРОГРАМНИХ СИСТЕМ");
         primaryStage.setScene(new Scene(root, 700, 500));
         primaryStage.show();
     }
