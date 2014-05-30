@@ -6,13 +6,39 @@ import java.util.ArrayList;
 /**
  * Created by Alex Shcherbak on 24.04.2014.
  */
-public class Layer {
+public class Layer implements Cloneable {
     public Integer id;
     public Integer arch_id;
     public String name;
     public String description;
     public Integer id_done;
-    public ArrayList<Module> modules=new ArrayList<Module>();
+    public ArrayList<Module> modules = new ArrayList<>();
+
+    public Layer clone() throws CloneNotSupportedException {
+        Layer l_return = (Layer) super.clone();
+        if (this.id != null)
+            l_return.id = new Integer(this.id);
+        else
+            l_return.id = null;
+        if (this.arch_id != null)
+            l_return.arch_id = new Integer(this.arch_id);
+        else
+            l_return.arch_id = null;
+
+        l_return.name = new String(this.name);
+        l_return.description = new String(this.description);
+
+        if (this.id_done != null)
+            l_return.id_done = new Integer(this.id_done);
+        else
+            l_return.id_done = null;
+
+        ArrayList<Module> modules = new ArrayList<Module>(this.modules.size());
+        for (Module item : this.modules) modules.add(item.clone());
+        l_return.modules = modules;
+
+        return l_return;
+    }
 
     public Layer(Integer id, Integer arch_id, String name, String description) {
         this.id = id;

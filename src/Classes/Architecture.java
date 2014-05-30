@@ -1,6 +1,7 @@
 package Classes;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Alex Shcherbak on 24.04.2014.
@@ -15,7 +16,32 @@ public class Architecture implements Cloneable {
     public String usecase;
 
     public Architecture clone() throws CloneNotSupportedException {
-        return (Architecture)super.clone();
+        Architecture a_return = (Architecture)super.clone();
+        if (this.id != null)
+            a_return.id = new Integer(this.id);
+        else
+            a_return.id = null;
+        a_return.name=new String(this.name);
+
+        ArrayList<Layer> layers = new ArrayList<Layer>(this.layers.size());
+        for(Layer item: this.layers) layers.add(item.clone());
+        a_return.layers= layers;
+
+        a_return.description=new String(this.description);
+        if (this.id_done != null)
+            a_return.id_done = new Integer(this.id_done);
+        else
+            a_return.id_done = null;
+        if (this.task_id != null)
+            a_return.task_id = new Integer(this.task_id);
+        else
+            a_return.task_id = null;
+        if (this.usecase != null)
+            a_return.usecase = new String(this.usecase);
+        else
+            a_return.usecase = null;
+
+        return a_return;
     }
 
 

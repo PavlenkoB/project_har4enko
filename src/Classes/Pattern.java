@@ -3,12 +3,26 @@ package Classes;
 /**
  * Created by Alex Shcherbak on 24.04.2014.
  */
-public class Pattern {
+public class Pattern implements Cloneable {
     public Integer id;
     public Integer mod_id;
     public String name;
     public String description;
 
+    public Pattern clone() throws CloneNotSupportedException {
+        Pattern p_return = (Pattern) super.clone();
+        if (this.id != null)
+            p_return.id = new Integer(this.id);
+        else
+            p_return.id = null;
+        if (this.mod_id != null)
+            p_return.mod_id = new Integer(this.mod_id);
+        else
+            p_return.mod_id = null;
+        p_return.name = new String(this.name);
+        p_return.description = new String(this.description);
+        return p_return;
+    }
 
 
     public String uml_text;
