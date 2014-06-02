@@ -12,14 +12,12 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("../views/main_window.fxml"));
-        primaryStage.setTitle("Harchenko");
+        primaryStage.setTitle("Редактор");
         primaryStage.getIcons().add(new Image("/editor/res/img/uml_icon.png"));
         primaryStage.setScene(new Scene(root));
         primaryStage.setMinWidth(230);//Минимальная шырина
         primaryStage.setMinHeight(390);//Минимальная высота окна
         primaryStage.show();
-
-
     }
 
     public void stop() {

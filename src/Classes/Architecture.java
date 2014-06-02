@@ -7,13 +7,13 @@ import java.util.List;
  * Created by Alex Shcherbak on 24.04.2014.
  */
 public class Architecture implements Cloneable {
-    public Integer id;
-    public String name;
-    public ArrayList<Layer> layers= new ArrayList<Layer>();
-    public String description;
-    public Integer id_done;
-    public Integer task_id;
-    public String usecase;
+    private Integer id;
+    private String name;
+    private ArrayList<Layer> layers= new ArrayList<Layer>();
+    private String description;
+    private Integer id_done;
+    private Integer task_id;
+    private String usecase;
 
     public Architecture clone() throws CloneNotSupportedException {
         Architecture a_return = (Architecture)super.clone();
@@ -52,7 +52,7 @@ public class Architecture implements Cloneable {
         this.description = new String();
         this.id_done = 0;
         this.task_id = 0;
-        this.usecase = null;
+        this.usecase = new String();
     }
     public Architecture(Integer id, String name, String description) {
         this.id = id;

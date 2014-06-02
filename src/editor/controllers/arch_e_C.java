@@ -18,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -43,9 +44,11 @@ public class arch_e_C implements Initializable {
     public TextField TF_arch_id_DB;
     public TextField TF_arch_name_DB;
     public ListView LV_archs_DB;
-    public TextArea TA_arch_relation;
+    public TextArea TA_arch_relations;
     public Pane P_arch_struct;
     public ImageView IV_arch_imageview;
+    public Pane P_IV;
+    public ScrollPane SP_P_IV;
     @FXML
     private Image arch_image;
 
@@ -72,11 +75,11 @@ public class arch_e_C implements Initializable {
     }
 
 
-    public void load_this_arch_DB(ActionEvent actionEvent) {//ЗАгрузить патерн с базы
+    public void load_this_arch_DB(ActionEvent actionEvent) {//ЗАгрузить архитектуру с базы
         //Читае Идентиф. Параметра
         arch_tmp = functions.arch_load_from_DB(functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString()), derby_DB);
         arch_old=functions.arch_load_from_DB(functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString()), derby_DB);
-        TA_arch_relation.setText(arch_tmp.usecase);
+        TA_arch_relations.setText(arch_tmp.usecase);
         TA_arch_description.setText(arch_tmp.description);
         draw_arch_struct();
     }
@@ -91,7 +94,7 @@ public class arch_e_C implements Initializable {
 
     public void save_this_arch_DB(ActionEvent actionEvent) {//добавить патерн в базу
         if (TF_arch_id_DB.getText().length() == 0) {
-            String query = "INSERT INTO ARCHITECTURE (NAME,USECASE,DESCRIPTION) VALUES ('" + TF_arch_name_DB.getText() + "','" + TA_arch_relation.getText() + "','" + TA_arch_description.getText() + "')";
+            String query = "INSERT INTO ARCHITECTURE (NAME,USECASE,DESCRIPTION) VALUES ('" + TF_arch_name_DB.getText() + "','" + TA_arch_relations.getText() + "','" + TA_arch_description.getText() + "')";
             ResultSet q_result;
             try {
                 derby_DB.executeUpdate(query);
@@ -100,7 +103,7 @@ public class arch_e_C implements Initializable {
             }
         } else {
             String query = "UPDATE ARCHITECTURE " +
-                    "SET NAME='" + TF_arch_name_DB.getText() + "',USECASE='" + TA_arch_relation.getText() + "',DESCRIPTION='" + TA_arch_description.getText() + "' WHERE ID=" + functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString());
+                    "SET NAME='" + TF_arch_name_DB.getText() + "',USECASE='" + TA_arch_relations.getText() + "',DESCRIPTION='" + TA_arch_description.getText() + "' WHERE ID=" + functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString());
             ResultSet q_result;
             try {
                 derby_DB.executeUpdate(query);
@@ -208,7 +211,8 @@ public class arch_e_C implements Initializable {
                 }
             });
             P_arch_struct.getChildren().add(tmp_btn);
-            tmp_label = new Label(arch_tmp.layers.get(s_lay).name);
+            // Імя шару
+            tmp_label = new Label("Шар "+arch_tmp.layers.get(s_lay).name);
             tmp_label.setLayoutX(pos_x + s_x2 + s_x2);
             tmp_label.setLayoutY(pos_y);
             P_arch_struct.getChildren().add(tmp_label);
@@ -231,7 +235,7 @@ public class arch_e_C implements Initializable {
                 });
                 P_arch_struct.getChildren().add(tmp_btn);
                 /*Кнопка видалення*/
-                tmp_label = new Label(arch_tmp.layers.get(s_lay).modules.get(s_mod).name);
+
                 tmp_btn = new Button("\u2718");
                 tmp_btn.setPrefWidth(s_x2);
                 tmp_btn.setPrefHeight(s_y2);
@@ -247,6 +251,7 @@ public class arch_e_C implements Initializable {
                 });
                 P_arch_struct.getChildren().add(tmp_btn);
                 /*Імя модулю*/
+                tmp_label = new Label("Модуль "+arch_tmp.layers.get(s_lay).modules.get(s_mod).name);
                 tmp_label.setLayoutX(pos_x + s_x2 + s_x2);
                 tmp_label.setLayoutY(pos_y);
                 P_arch_struct.getChildren().add(tmp_label);
@@ -347,9 +352,10 @@ public class arch_e_C implements Initializable {
 
 
     public void arch_uml_gen(ActionEvent actionEvent) {
-        arch_image = draw_uml.draw_class(functions.arch_uml_text_gen(arch_tmp)+new String(TA_arch_relation.getText()));
+        arch_image = draw_uml.draw_class(functions.arch_uml_text_gen(arch_tmp)+new String(TA_arch_relations.getText()));
         IV_arch_imageview.setFitHeight(arch_image.getRequestedHeight());
         IV_arch_imageview.setFitWidth(arch_image.getRequestedWidth());
+        SP_P_IV.setPrefHeight(arch_image.getHeight());
         IV_arch_imageview.setImage(arch_image);
     }
 
@@ -358,6 +364,8 @@ public class arch_e_C implements Initializable {
     }
 
     public void save_this_arch_to_DB(ActionEvent actionEvent) {
+        arch_tmp.setUsecase(TA_arch_relations.getText());
+        arch_tmp.setDescription(TA_arch_description.getText());
         arch_tmp.id=Integer.parseInt(TF_arch_id_DB.getText());
         try {
             functions.arch_save_to_DB(arch_tmp,derby_DB);

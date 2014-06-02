@@ -6,19 +6,36 @@ import java.util.ArrayList;
  * Created by Alex Shcherbak on 24.04.2014.
  */
 public class Module implements Cloneable{
-    public Integer id;
-    public Integer lay_id;
-    public String description;
-    public String name;
-    public ArrayList<Pattern> avilable_paterns= new ArrayList<Pattern>();//патерни доступні цьому модулю
-    public Pattern selected_patern;//Вибраний патерн
-    public Integer id_done;
+    private Integer id;
+    private Integer lay_id;
+    private String description;
+    private String name;
+    private ArrayList<Pattern> avilable_paterns= new ArrayList<Pattern>();//патерни доступні цьому модулю
+    private Pattern selected_patern;//Вибраний патерн
+    private Integer id_done;
+
+    public ArrayList<Pattern> getAvilable_paterns() {
+        return avilable_paterns;
+    }
+
+    public void setAvilable_paterns(ArrayList<Pattern> avilable_paterns) {
+        this.avilable_paterns = avilable_paterns;
+    }
+
+    public Pattern getSelected_patern() {
+        return selected_patern;
+    }
+
+    public void setSelected_patern(Pattern selected_patern) {
+        this.selected_patern = selected_patern;
+    }
 
     public Module clone() throws CloneNotSupportedException {
         Module m_return = (Module)super.clone();
         if (this.id != null)
             m_return.id = new Integer(this.id);
         else
+
             m_return.id = null;
         if (this.lay_id != null)
             m_return.lay_id = new Integer(this.lay_id);

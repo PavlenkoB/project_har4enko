@@ -42,13 +42,13 @@ public class functions {
     public static String arch_uml_text_gen(Architecture architecture) {
         architecture.getName();
         String class_text = new String();
-        class_text += "package \"" + architecture.name + "\"{\n";
-        for (int s_lay = 0; s_lay < architecture.layers.size(); s_lay++) {
-            class_text += "package \"" + architecture.layers.get(s_lay).name + "\"{\n";
-            for (int s_mod = 0; s_mod < architecture.layers.get(s_lay).modules.size(); s_mod++) {
-                class_text += "package \"" + architecture.layers.get(s_lay).modules.get(s_mod).name + "\"{\n";
-                if (architecture.layers.get(s_lay).modules.get(s_mod).selected_patern != null)
-                    class_text += architecture.layers.get(s_lay).modules.get(s_mod).selected_patern.uml_text + "\n";
+        class_text += "package \"" + architecture.getName() + "\"{\n";
+        for (int s_lay = 0; s_lay < architecture.getLayers().size(); s_lay++) {
+            class_text += "package \"" + architecture.getLayers().get(s_lay).getName() + "\"{\n";
+            for (int s_mod = 0; s_mod < architecture.getLayers().get(s_lay).getModules().size(); s_mod++) {
+                class_text += "package \"" + architecture.getLayers().get(s_lay).getModules().get(s_mod).getName() + "\"{\n";
+                if (architecture.getLayers().get(s_lay).getModules().get(s_mod).getSelected_patern() != null)
+                    class_text += architecture.getLayers().get(s_lay).getModules().get(s_mod).getSelected_patern().getUml_text() + "\n";
                 class_text += "}\n";
             }
             class_text += "}\n";
@@ -65,21 +65,21 @@ public class functions {
             rs_arch = derby_DB_connection.executeQuery("SELECT * FROM ARCHITECTURE WHERE ID=" + arch_id);
             rs_arch.next();
             arch_out = new Architecture(rs_arch.getInt("ID"), rs_arch.getString("NAME"), rs_arch.getString("DESCRIPTION"));
-            arch_out.usecase = rs_arch.getString("USECASE");
+            arch_out.setUsecase(rs_arch.getString("USECASE"));
 
             //Выбрать все Слои даной архитектуры
             rs_lay = derby_DB_connection.executeQuery("SELECT * FROM LAYER WHERE ARCH_ID=" + arch_id);
             while (rs_lay.next()) {
-                arch_out.layers.add(new Layer(rs_lay.getInt("ID"), rs_lay.getInt("ARCH_ID"), rs_lay.getString("NAME"), rs_lay.getString("DESCRIPTION")));
+                arch_out.getLayers().add(new Layer(rs_lay.getInt("ID"), rs_lay.getInt("ARCH_ID"), rs_lay.getString("NAME"), rs_lay.getString("DESCRIPTION")));
                 rs_mod = derby_DB_connection.executeQuery("SELECT * FROM MODULE WHERE LAY_ID=" + rs_lay.getInt("ID"));
                 s_mod = 0;
                 while (rs_mod.next()) {
-                    arch_out.layers.get(s_lay).modules.add(new Module(rs_mod.getInt("ID"), rs_mod.getInt("LAY_ID"), rs_mod.getString("NAME"), rs_mod.getString("DESCRIPTION")));
+                    arch_out.getLayers().get(s_lay).getModules().add(new Module(rs_mod.getInt("ID"), rs_mod.getInt("LAY_ID"), rs_mod.getString("NAME"), rs_mod.getString("DESCRIPTION")));
                     rs_pat = derby_DB_connection.executeQuery("SELECT * FROM PATERNS WHERE MOD_ID=" + rs_mod.getInt("ID"));
                     ObservableList<String> items = FXCollections.observableArrayList();
                     while (rs_pat.next()) {//Все патерны что подходят модулю в кнопку
-                        arch_out.layers.get(s_lay).modules.get(s_mod).avilable_paterns.add(new Pattern(rs_pat.getInt("ID"), rs_pat.getInt("MOD_ID"), rs_pat.getString("NAME"), rs_pat.getString("DESCRIPTION"), rs_pat.getString("VALUE")));
-                        //items.add(rs_pat.getString("ID") + "|" + rs_pat.getString("NAME"));
+                        arch_out.getLayers().get(s_lay).getModules().get(s_mod).getAvilable_paterns().add(new Pattern(rs_pat.getInt("ID"), rs_pat.getInt("MOD_ID"), rs_pat.getString("NAME"), rs_pat.getString("DESCRIPTION"), rs_pat.getString("VALUE")));
+                        items.add(rs_pat.getString("ID") + "|" + rs_pat.getString("NAME"));
                     }
                     s_mod++;
                 }
@@ -95,50 +95,52 @@ public class functions {
     public static boolean arch_save_to_DB(Architecture arch_in, DerbyDBManager derby_DB_connection) throws SQLException {//Зберегти архітектуру в БД
         boolean result = false;
         ResultSet rs_tmp;
+        if(arch_in.getDescription()==null)arch_in.setDescription("");
+        if(arch_in.getUsecase()==null)arch_in.setUsecase("");
         if (arch_in.getId() == null || arch_in.getId() == 0) {//Добавить в базу
             //TODO Нові патерни модулі і сама архітектура
-            derby_DB_connection.executeUpdate("INSERT INTO ARCHITECTURE (NAME,USECASE,DESCRIPTION) VALUES ('" + arch_in.name + "','" + arch_in.usecase + "','" + arch_in.description + "')");
+            derby_DB_connection.executeUpdate("INSERT INTO ARCHITECTURE (NAME,USECASE,DESCRIPTION) VALUES ('" + arch_in.getName() + "','" + arch_in.getUsecase() + "','" + arch_in.getDescription() + "')");
             rs_tmp = derby_DB_connection.executeQuery("SELECT MAX(ID) FROM ARCHITECTURE");
             rs_tmp.next();
-            arch_in.id = rs_tmp.getInt(1);
-            for (int s_lay = 0; s_lay < arch_in.layers.size(); s_lay++) {
-                derby_DB_connection.executeUpdate("INSERT INTO LAYER (ARCH_ID,NAME,DESCRIPTION) VALUES ('" + arch_in.id + "','" + arch_in.layers.get(s_lay).name + "','" + arch_in.layers.get(s_lay).description + "')");
+            arch_in.setId(rs_tmp.getInt(1));
+            for (int s_lay = 0; s_lay < arch_in.getLayers().size(); s_lay++) {
+                derby_DB_connection.executeUpdate("INSERT INTO LAYER (ARCH_ID,NAME,DESCRIPTION) VALUES (" + arch_in.getId() + ",'" + arch_in.getLayers().get(s_lay).getName() + "','" + arch_in.getLayers().get(s_lay).getDescription() + "')");
                 rs_tmp = derby_DB_connection.executeQuery("SELECT MAX(ID) FROM LAYER");
                 rs_tmp.next();
-                arch_in.layers.get(s_lay).id = rs_tmp.getInt(1);
-                for (int s_mod = 0; s_mod < arch_in.layers.get(s_lay).modules.size(); s_mod++) {
-                    derby_DB_connection.executeUpdate("INSERT INTO MODULE (LAY_ID,NAME,DESCRIPTION) VALUES ('" + arch_in.layers.get(s_lay).id + "','" + arch_in.layers.get(s_lay).modules.get(s_mod).name + "','" + arch_in.layers.get(s_lay).modules.get(s_mod).description + "')");
+                arch_in.getLayers().get(s_lay).setId(rs_tmp.getInt(1));
+                for (int s_mod = 0; s_mod < arch_in.getLayers().get(s_lay).getModules().size(); s_mod++) {
+                    derby_DB_connection.executeUpdate("INSERT INTO MODULE (LAY_ID,NAME,DESCRIPTION) VALUES (" + arch_in.getLayers().get(s_lay).getId() + ",'" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "','" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getDescription() + "')");
                     rs_tmp = derby_DB_connection.executeQuery("SELECT MAX(ID) FROM MODULE");
                     rs_tmp.next();
-                    arch_in.layers.get(s_lay).modules.get(s_mod).id = rs_tmp.getInt(1);
+                    arch_in.getLayers().get(s_lay).getModules().get(s_mod).setId(rs_tmp.getInt(1));
                 }
             }
         } else {
             //TODO якщо змінти дані про архітектуру
-            derby_DB_connection.executeUpdate("UPDATE ARCHITECTURE " + "SET NAME='" + arch_in.name + "',USECASE='" + arch_in.usecase + "',DESCRIPTION='" + arch_in.description + "' WHERE ID=" + arch_in.id);
-            for (int s_lay = 0; s_lay < arch_in.layers.size(); s_lay++) {
-                if(arch_in.layers.get(s_lay).getId()==null|| arch_in.getId()==0) {
+            derby_DB_connection.executeUpdate("UPDATE ARCHITECTURE " + "SET NAME='" + arch_in.getName() + "',USECASE='" + arch_in.getUsecase() + "',DESCRIPTION='" + arch_in.getDescription() + "' WHERE ID=" + arch_in.getId());
+            for (int s_lay = 0; s_lay < arch_in.getLayers().size(); s_lay++) {
+                if(arch_in.getLayers().get(s_lay).getId()==null|| arch_in.getId()==0) {
                     //TODO Якщо шар новий то створити нові моудул і сам шар
-                    derby_DB_connection.executeUpdate("INSERT INTO LAYER (ARCH_ID,NAME,DESCRIPTION) VALUES ('" + arch_in.id + "','" + arch_in.layers.get(s_lay).name + "','" + arch_in.layers.get(s_lay).description + "')");
+                    derby_DB_connection.executeUpdate("INSERT INTO LAYER (ARCH_ID,NAME,DESCRIPTION) VALUES (" + arch_in.getId() + ",'" + arch_in.getLayers().get(s_lay).getName() + "','" + arch_in.getLayers().get(s_lay).getDescription() + "')");
                     rs_tmp = derby_DB_connection.executeQuery("SELECT MAX(ID) FROM LAYER");
                     rs_tmp.next();
-                    arch_in.layers.get(s_lay).id = rs_tmp.getInt(1);
-                    for (int s_mod = 0; s_mod < arch_in.layers.get(s_lay).modules.size(); s_mod++) {
-                        derby_DB_connection.executeUpdate("INSERT INTO MODULE (LAY_ID,NAME,DESCRIPTION) VALUES ('" + arch_in.layers.get(s_lay).id + "','" + arch_in.layers.get(s_lay).modules.get(s_mod).name + "','" + arch_in.layers.get(s_lay).modules.get(s_mod).description + "')");
+                    arch_in.getLayers().get(s_lay).setId(rs_tmp.getInt(1));
+                    for (int s_mod = 0; s_mod < arch_in.getLayers().get(s_lay).getModules().size(); s_mod++) {
+                        derby_DB_connection.executeUpdate("INSERT INTO MODULE (LAY_ID,NAME,DESCRIPTION) VALUES (" + arch_in.getLayers().get(s_lay).getId() + ",'" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "','" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getDescription() + "')");
                         rs_tmp = derby_DB_connection.executeQuery("SELECT MAX(ID) FROM MODULE");
                         rs_tmp.next();
-                        arch_in.layers.get(s_lay).modules.get(s_mod).id = rs_tmp.getInt(1);
+                        arch_in.getLayers().get(s_lay).getModules().get(s_mod).setId(rs_tmp.getInt(1));
                     }
                 }else {
                     //TODO якщо змінили дані про шар
-                    derby_DB_connection.executeUpdate("UPDATE LAYER " + "SET NAME='" + arch_in.layers.get(s_lay).name + "',ARCH_ID='" + arch_in.id + "',DESCRIPTION='" + arch_in.layers.get(s_lay).description + "' WHERE ID=" + arch_in.layers.get(s_lay).id);
-                    for (int s_mod = 0; s_mod < arch_in.layers.get(s_lay).modules.size(); s_mod++) {
-                        if(arch_in.layers.get(s_lay).modules.get(s_mod).id==null||arch_in.layers.get(s_lay).modules.get(s_mod).id==0){
+                    derby_DB_connection.executeUpdate("UPDATE LAYER " + "SET NAME='" + arch_in.getLayers().get(s_lay).getName() + "',ARCH_ID=" + arch_in.getId() + ",DESCRIPTION='" + arch_in.getLayers().get(s_lay).getDescription() + "' WHERE ID=" + arch_in.getLayers().get(s_lay).getId());
+                    for (int s_mod = 0; s_mod < arch_in.getLayers().get(s_lay).getModules().size(); s_mod++) {
+                        if(arch_in.getLayers().get(s_lay).getModules().get(s_mod).getId()==null||arch_in.getLayers().get(s_lay).getModules().get(s_mod).getId()==0){
                             //TODO якщо модуль новий
-                            derby_DB_connection.executeUpdate("INSERT INTO MODULE (LAY_ID,NAME,DESCRIPTION) VALUES ('" + arch_in.layers.get(s_lay).id + "','" + arch_in.layers.get(s_lay).modules.get(s_mod).name + "','" + arch_in.layers.get(s_lay).modules.get(s_mod).description + "')");
+                            derby_DB_connection.executeUpdate("INSERT INTO MODULE (LAY_ID,NAME,DESCRIPTION) VALUES (" + arch_in.getLayers().get(s_lay).getId() + ",'" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "','" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getDescription() + "')");
                             rs_tmp = derby_DB_connection.executeQuery("SELECT MAX(ID) FROM MODULE");
                             rs_tmp.next();
-                            arch_in.layers.get(s_lay).modules.get(s_mod).id = rs_tmp.getInt(1);
+                            arch_in.getLayers().get(s_lay).getModules().get(s_mod).setId(rs_tmp.getInt(1));
                         }else {
                             //TODO якщо модуль редагований
                         }
@@ -147,13 +149,14 @@ public class functions {
                 }
             }
         }
+        System.out.printf("Arch save successful");
         return result;
     }
 
     //TODO Удаления архитектуре вместе со всеми связями
     //TODO Сравнивать загруженую архитектуру с отправленой на сохранение на наличее мертвих связей в первой и удалять их с бази
     public static Architecture del_mod_from_layer(Architecture arch_in, Integer lay_pos, Integer mod_pos) {
-        arch_in.layers.get(lay_pos).modules.remove(mod_pos);
+        arch_in.getLayers().get(lay_pos).getModules().remove(mod_pos);
         return arch_in;
     }
 }

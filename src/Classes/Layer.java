@@ -7,12 +7,12 @@ import java.util.ArrayList;
  * Created by Alex Shcherbak on 24.04.2014.
  */
 public class Layer implements Cloneable {
-    public Integer id;
-    public Integer arch_id;
-    public String name;
-    public String description;
-    public Integer id_done;
-    public ArrayList<Module> modules = new ArrayList<>();
+    private Integer id;
+    private Integer arch_id;
+    private String name;
+    private String description;
+    private Integer id_done;
+    private ArrayList<Module> modules = new ArrayList<>();
 
     public Layer clone() throws CloneNotSupportedException {
         Layer l_return = (Layer) super.clone();

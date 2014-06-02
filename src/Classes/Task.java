@@ -4,10 +4,10 @@ package Classes;
  * Created by Alex Shcherbak on 24.04.2014.
  */
 public class Task {
-    public Integer id;
-    public String name;
-    public String description;
-    public Architecture[] architectures;
+    private Integer id;
+    private String name;
+    private String description;
+    private Architecture[] architectures;
 
     public Task(Integer id, String name, String description, Architecture[] architectures) {
         this.id = id;

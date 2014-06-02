@@ -11,7 +11,7 @@
         <Pane layoutX="12.0" layoutY="31.0" prefHeight="140.0" prefWidth="200.0" style="-fx-border-style: solid; -fx-border-radius: 20; -fx-border-color: cccccc;">
             <children>
                 <Label fx:id="selected_DB" layoutX="96.0" layoutY="2.0" text="DB_NAME" />
-                <Label layoutX="61.0" layoutY="2.0" text="База:" />
+                <Label layoutX="61.0" layoutY="2.0" text="БД:" />
                 <Button fx:id="B_connect" disable="true" layoutX="43.0" layoutY="26.0" mnemonicParsing="false" onAction="#connect_DB" text="Підключитися до БД" />
                 <Button fx:id="B_create" disable="true" layoutX="43.0" layoutY="64.0" mnemonicParsing="false" onAction="#creat_DB" text="Створити БД" />
                 <Button fx:id="B_disconnect" disable="true" layoutX="43.0" layoutY="101.0" mnemonicParsing="false" onAction="#disconnect_DB" text="Відключитись від БД" />
@@ -20,12 +20,12 @@
         <Pane fx:id="B_G_editors" disable="false" layoutX="12.0" layoutY="193.0" prefHeight="170.0" prefWidth="200.0" style="-fx-border-style: solid; -fx-border-radius: 20; -fx-border-color: cccccc;">
             <children>
                 <Button layoutX="28.0" layoutY="14.0" mnemonicParsing="false" onAction="#start_arch_editor" text="Редагувати архітектури" />
-                <Button layoutX="41.0" layoutY="80.0" mnemonicParsing="false" onAction="#start_module_editor" text="Редагувати модулі" />
+                <Button disable="true" layoutX="41.0" layoutY="80.0" mnemonicParsing="false" onAction="#start_module_editor" text="Редагувати модулі" />
                 <Button layoutX="37.0" layoutY="112.0" mnemonicParsing="false" onAction="#start_patern_editor" text="Редагувати патерни" />
-                <Button layoutX="48.0" layoutY="48.0" mnemonicParsing="false" onAction="#start_layer_editor" text="Редагувати слої" />
+                <Button disable="true" layoutX="48.0" layoutY="48.0" mnemonicParsing="false" onAction="#start_layer_editor" text="Редагувати шари" />
             </children>
         </Pane>
-      <Button layoutX="33.0" layoutY="389.0" mnemonicParsing="false" text="Створити резервну копію" onAction="#create_backup" />
+      <Button layoutX="33.0" layoutY="389.0" mnemonicParsing="false" onAction="#create_backup" text="Створити резервну копію" />
 
     </children>
 </AnchorPane>

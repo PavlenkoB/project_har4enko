@@ -18,7 +18,7 @@ public class gen_arch_done {
             modd_arr_sellected.add(s_mod, 0);
 
             try {
-                modules_arr.get(s_mod).selected_patern = modules_arr.get(s_mod).avilable_paterns.get(0).clone();
+                modules_arr.get(s_mod).setSelected_patern(modules_arr.get(s_mod).getAvilable_paterns().get(0).clone());
             } catch (CloneNotSupportedException e) {
                 e.printStackTrace();
             }
@@ -28,9 +28,9 @@ public class gen_arch_done {
     }
 
     public static void combine(ArrayList<Architecture> return_Architectures, Architecture origin_arch, ArrayList<Module> modules_arr, ArrayList<Integer> modd_arr_sell, int s_pos) {
-        if (modd_arr_sell.get(s_pos) >= modules_arr.get(s_pos).avilable_paterns.size() && s_pos == 0) {
+        if (modd_arr_sell.get(s_pos) >= modules_arr.get(s_pos).getAvilable_paterns().size() && s_pos == 0) {
         } else {
-            if (modd_arr_sell.get(s_pos) >= modules_arr.get(s_pos).avilable_paterns.size()) {
+            if (modd_arr_sell.get(s_pos) >= modules_arr.get(s_pos).getAvilable_paterns().size()) {
                 modd_arr_sell.set(s_pos, 0);
                 s_pos--;//переход к счетчику на 1 уровень выше
                 modd_arr_sell.set(s_pos, modd_arr_sell.get(s_pos) + 1);
@@ -38,7 +38,7 @@ public class gen_arch_done {
             } else {
                 if(s_pos==-1){s_pos=0;}
                 try {
-                    modules_arr.get(s_pos).selected_patern = modules_arr.get(s_pos).avilable_paterns.get(modd_arr_sell.get(s_pos)).clone();
+                    modules_arr.get(s_pos).setSelected_patern(modules_arr.get(s_pos).getAvilable_paterns().get(modd_arr_sell.get(s_pos)).clone());
                 } catch (CloneNotSupportedException e) {
                     e.printStackTrace();
                 }
@@ -50,14 +50,14 @@ public class gen_arch_done {
                     e.printStackTrace();
                 }
                 int s_add = 0;
-                for (int s_lay = 0; s_lay < tmp_arch.layers.size(); s_lay++) {
-                    for (int s_mod = 0; s_mod < tmp_arch.layers.get(s_lay).modules.size(); s_mod++) {
+                for (int s_lay = 0; s_lay < tmp_arch.getLayers().size(); s_lay++) {
+                    for (int s_mod = 0; s_mod < tmp_arch.getLayers().get(s_lay).getModules().size(); s_mod++) {
                         for (int s_copy = 0; s_copy < modules_arr.size(); s_copy++) {
-                            if (tmp_arch.layers.get(s_lay).modules.get(s_mod).id == modules_arr.get(s_copy).id) {
+                            if (tmp_arch.getLayers().get(s_lay).getModules().get(s_mod).getId() == modules_arr.get(s_copy).getId()) {
                                 try {
-                                    tmp_arch.layers.get(s_lay).modules.get(s_mod).selected_patern=new Pattern();
+                                    tmp_arch.getLayers().get(s_lay).getModules().get(s_mod).setSelected_patern(new Pattern());
                                     //tmp_arch.layers.get(s_lay).modules.get(s_mod).selected_patern=
-                                            modules_arr.get(s_copy).selected_patern.clone();
+                                            modules_arr.get(s_copy).getSelected_patern().clone();
                                 } catch (CloneNotSupportedException e) {
                                    e.printStackTrace();
                                 }

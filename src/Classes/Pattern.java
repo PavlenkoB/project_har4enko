@@ -4,10 +4,11 @@ package Classes;
  * Created by Alex Shcherbak on 24.04.2014.
  */
 public class Pattern implements Cloneable {
-    public Integer id;
-    public Integer mod_id;
-    public String name;
-    public String description;
+    private Integer id;
+    private Integer mod_id;
+    private String name;
+    private String description;
+    private String uml_text;
 
     public Pattern clone() throws CloneNotSupportedException {
         Pattern p_return = (Pattern) super.clone();
@@ -23,9 +24,6 @@ public class Pattern implements Cloneable {
         p_return.description = new String(this.description);
         return p_return;
     }
-
-
-    public String uml_text;
 
     public Pattern() {
         this.id = null;

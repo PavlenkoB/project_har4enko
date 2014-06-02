@@ -1,7 +1,10 @@
 package editor.services;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 
 /**
@@ -51,7 +54,16 @@ public class draw_uml {
                 e.printStackTrace();
             }
             System.out.println("Batch file done.");
-            class_image = new Image("file:class.png", true);
+            BufferedImage bufferedImage;
+            try {
+                bufferedImage = ImageIO.read(new File("class.png"));
+                class_image = SwingFXUtils.toFXImage(bufferedImage, null);
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         } else {
             System.out.print("class_text_null");
         }
@@ -61,4 +73,6 @@ public class draw_uml {
 
         return class_image;
     }
+
 }
+

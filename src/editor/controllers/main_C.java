@@ -21,6 +21,8 @@ import javax.swing.*;
 import java.io.*;
 import java.net.URI;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
@@ -42,6 +44,7 @@ public class main_C implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
     }
 
     public void connect_DB(ActionEvent actionEvent) {
@@ -66,7 +69,7 @@ public class main_C implements Initializable {
             derby_DB.disconectDB();
             derby_DB = null;
         }
-        selected_DB.setText("<null>");
+        selected_DB.setText("<не обрана>");
         B_connect.setDisable(false);
         B_create.setDisable(false);
         B_disconnect.setDisable(true);
@@ -77,9 +80,9 @@ public class main_C implements Initializable {
         JFileChooser db_dir = new JFileChooser(new File(System.getProperty("user.dir")));
         db_dir.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         db_dir.setAcceptAllFileFilterUsed(false);
-        db_dir.setDialogTitle("Выберете каталог под базу");
-        db_dir.showDialog(null, "Выбрать...");
-        String new_db_name = JOptionPane.showInputDialog("Введите имя новой базы");
+        db_dir.setDialogTitle("Выберете каталог під базу");
+        db_dir.showDialog(null, "Обрати...");
+        String new_db_name = JOptionPane.showInputDialog("Введіть імя нової бази");
         new DerbyDBManager(db_dir.getSelectedFile().getAbsolutePath() + "\\" + new_db_name);
     }
 
@@ -92,7 +95,7 @@ public class main_C implements Initializable {
         try {
             Parent Parent = FXMLLoader.load(getClass().getResource("../views/help.fxml"));
             Stage Stage = new Stage();
-            Stage.setTitle("Помощь");
+            Stage.setTitle("Допомога");
             Stage.setScene(new Scene(Parent));
             Stage.show();
         } catch (IOException e) {
@@ -110,7 +113,7 @@ public class main_C implements Initializable {
             final Stage PS = (Stage) B_disconnect.getScene().getWindow();
             PS.setIconified(true);
 
-            Parent Parent = FXMLLoader.load(getClass().getResource("../views/arch_editor.fxml"));
+            Parent Parent = FXMLLoader.load(getClass().getResource("../views/arch_editor_din.fxml"));
             Stage Stage = new Stage();
             Stage.setTitle("Редактор архітектур");
             Stage.setScene(new Scene(Parent));
@@ -191,8 +194,8 @@ public class main_C implements Initializable {
     }
 
     public void create_backup(ActionEvent actionEvent) throws IOException {
-        File mydir = new File("derby");
-        File myfile = new File("db.zip");
+        File mydir = new File("DB");
+        File myfile = new File("DB_backup/"+new SimpleDateFormat("dd.MM.yyyy_HH_mm_ss").format(new Date())+".zip");
         zip.zip_dir(mydir, myfile);
         System.out.println(mydir.toURI().relativize(myfile.toURI()).getPath());
     }
