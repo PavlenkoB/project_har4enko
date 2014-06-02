@@ -79,8 +79,8 @@ public class arch_e_C implements Initializable {
         //Читае Идентиф. Параметра
         arch_tmp = functions.arch_load_from_DB(functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString()), derby_DB);
         arch_old=functions.arch_load_from_DB(functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString()), derby_DB);
-        TA_arch_relations.setText(arch_tmp.usecase);
-        TA_arch_description.setText(arch_tmp.description);
+        TA_arch_relations.setText(arch_tmp.getUsecase());
+        TA_arch_description.setText(arch_tmp.getDescription());
         draw_arch_struct();
     }
 
@@ -182,7 +182,7 @@ public class arch_e_C implements Initializable {
         Label tmp_label;
         //pos_x += s_x1;
         //pos_y += s_y1;
-        for (int s_lay = 0; s_lay < arch_tmp.layers.size(); s_lay++) {
+        for (int s_lay = 0; s_lay < arch_tmp.getLayers().size(); s_lay++) {
             //Редагування
             tmp_btn = new Button("\u270E");
             tmp_btn.setPrefWidth(s_x2);
@@ -212,13 +212,13 @@ public class arch_e_C implements Initializable {
             });
             P_arch_struct.getChildren().add(tmp_btn);
             // Імя шару
-            tmp_label = new Label("Шар "+arch_tmp.layers.get(s_lay).name);
+            tmp_label = new Label("Шар "+arch_tmp.getLayers().get(s_lay).getName());
             tmp_label.setLayoutX(pos_x + s_x2 + s_x2);
             tmp_label.setLayoutY(pos_y);
             P_arch_struct.getChildren().add(tmp_label);
             pos_y += s_y1;
             pos_x += s_x1;
-            for (int s_mod = 0; s_mod < arch_tmp.layers.get(s_lay).modules.size(); s_mod++) {//вивід модулів
+            for (int s_mod = 0; s_mod < arch_tmp.getLayers().get(s_lay).getModules().size(); s_mod++) {//вивід модулів
                 /*Кнопка редагування*/
                 tmp_btn = new Button("\u270E");
                 tmp_btn.setPrefWidth(s_x2);
@@ -251,7 +251,7 @@ public class arch_e_C implements Initializable {
                 });
                 P_arch_struct.getChildren().add(tmp_btn);
                 /*Імя модулю*/
-                tmp_label = new Label("Модуль "+arch_tmp.layers.get(s_lay).modules.get(s_mod).name);
+                tmp_label = new Label("Модуль "+arch_tmp.getLayers().get(s_lay).getModules().get(s_mod).getName());
                 tmp_label.setLayoutX(pos_x + s_x2 + s_x2);
                 tmp_label.setLayoutY(pos_y);
                 P_arch_struct.getChildren().add(tmp_label);
@@ -285,15 +285,15 @@ public class arch_e_C implements Initializable {
         //P_arch_struct.setPrefHeight(pos_y);
     }
 
-    public void add_custom_layer_to_arch(Architecture arch_in) {//Додати шар в аохітектуру
+    public void add_custom_layer_to_arch(Architecture arch_in) {//Додати шар в архітектуру
         Layer layer = new Layer();
 
         String name = (String) JOptionPane.showInputDialog("Введіть назву");
         if (name != null && !name.equals("")) {
             String description = (String) JOptionPane.showInputDialog("Введіть опис");
-            layer.name = name;
-            layer.description = description;
-            arch_in.layers.add(layer);
+            layer.setName(name);
+            layer.setDescription(description);
+            arch_in.getLayers().add(layer);
             arch_tmp = arch_in;
         }
         draw_arch_struct();
@@ -304,9 +304,9 @@ public class arch_e_C implements Initializable {
         String name = (String) JOptionPane.showInputDialog("Введіть назву");
         if (name != null && !name.equals("")) {//перевірка на пустий ввід
             String description = (String) JOptionPane.showInputDialog("Введіть опис");
-            module.name = name;
-            module.description = description;
-            arch_in.layers.get(lay_nom).modules.add(module);
+            module.setName(name);
+            module.setDescription(description);
+            arch_in.getLayers().get(lay_nom).getModules().add(module);
             arch_tmp = arch_in;
         }
         draw_arch_struct();
@@ -317,7 +317,7 @@ public class arch_e_C implements Initializable {
         int response = JOptionPane.showOptionDialog(null, "Ви впевнені що хочете видалити модуль?", "Питання",
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, stringArray, stringArray[0]);
         if (response == JOptionPane.YES_OPTION) {
-            arch_tmp.layers.get(lay_nom.intValue()).modules.remove(mod_nom.intValue());
+            arch_tmp.getLayers().get(lay_nom.intValue()).getModules().remove(mod_nom.intValue());
         }
         draw_arch_struct();
     }
@@ -327,25 +327,25 @@ public class arch_e_C implements Initializable {
         int response = JOptionPane.showOptionDialog(null, "Ви впевнені що хочете видалити шар?", "Питання",
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,null,stringArray,stringArray[0]);
         if (response == JOptionPane.YES_OPTION) {
-            arch_tmp.layers.remove(lay_nom.intValue());
+            arch_tmp.getLayers().remove(lay_nom.intValue());
         }
         draw_arch_struct();
     }
 
     public void edit_mod(Integer lay_nom, Integer mod_nom) {
-        String name = (String) JOptionPane.showInputDialog(null, "Введіть назву", "Ввід", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.layers.get(lay_nom).modules.get(mod_nom).name);
+        String name = (String) JOptionPane.showInputDialog(null, "Введіть назву", "Ввід", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).getName());
         if (name != null && !name.equals("")) {
-            arch_tmp.layers.get(lay_nom).modules.get(mod_nom).name = name;
-            arch_tmp.layers.get(lay_nom).modules.get(mod_nom).description = (String) JOptionPane.showInputDialog(null, "Введіть опис", "Ввід", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.layers.get(lay_nom).modules.get(mod_nom).description);
+            arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).setName(name);
+            arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).setDescription((String) JOptionPane.showInputDialog(null, "Введіть опис", "Ввід", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).getDescription()));
         }
         draw_arch_struct();
     }
 
     public void edit_lay(Integer lay_nom) {
-        String name = (String) JOptionPane.showInputDialog(null, "Введіть назву", "Ввід", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.layers.get(lay_nom).name);
+        String name = (String) JOptionPane.showInputDialog(null, "Введіть назву", "Ввід", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getName());
         if (name != null && !name.equals("")) {
-            arch_tmp.layers.get(lay_nom).name = name;
-            arch_tmp.layers.get(lay_nom).description = (String) JOptionPane.showInputDialog(null, "Введіть опис", "Ввід", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.layers.get(lay_nom).description);
+            arch_tmp.getLayers().get(lay_nom).setName( name);
+            arch_tmp.getLayers().get(lay_nom).setDescription((String) JOptionPane.showInputDialog(null, "Введіть опис", "Ввід", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getDescription()));
         }
         draw_arch_struct();
     }
@@ -366,7 +366,7 @@ public class arch_e_C implements Initializable {
     public void save_this_arch_to_DB(ActionEvent actionEvent) {
         arch_tmp.setUsecase(TA_arch_relations.getText());
         arch_tmp.setDescription(TA_arch_description.getText());
-        arch_tmp.id=Integer.parseInt(TF_arch_id_DB.getText());
+        arch_tmp.setId(Integer.parseInt(TF_arch_id_DB.getText()));
         try {
             functions.arch_save_to_DB(arch_tmp,derby_DB);
         } catch (SQLException e) {
