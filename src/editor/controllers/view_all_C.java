@@ -4,7 +4,7 @@ import Classes.Architecture;
 import Classes.Layer;
 import Classes.Module;
 import Classes.Pattern;
-import editor.classes.*;
+import editor.classes.DerbyDBManager;
 import editor.services.draw_uml;
 import editor.services.functions;
 import javafx.beans.value.ChangeListener;
@@ -99,7 +99,7 @@ public class view_all_C implements Initializable {
             //Выбрать все Слои даной архитектуры
             rs_lay = derby_DB.executeQuery("SELECT * FROM LAYER WHERE ARCH_ID=" + functions.get_ID((String) CB_archs.getItems().get(number.intValue())));
             while (rs_lay.next()) {
-                arch_struct.layers.add(new Layer(rs_lay.getInt("ID"), rs_lay.getInt("ARCH_ID"), rs_lay.getString("NAME"), rs_lay.getString("DESCRIPTION")));
+                arch_struct.getLayers().add(new Layer(rs_lay.getInt("ID"), rs_lay.getInt("ARCH_ID"), rs_lay.getString("NAME"), rs_lay.getString("DESCRIPTION")));
                 tmp_lable= new Label(rs_lay.getString("NAME"));
                 pos_y += Integer.parseInt(TF_Y1.getText());
                 tmp_lable.setLayoutX(pos_x);
@@ -109,13 +109,13 @@ public class view_all_C implements Initializable {
                 pos_x += Integer.parseInt(TF_X2.getText());//Сдвиг+
                 s_mod=0;
                 while (rs_mod.next()) {
-                    arch_struct.layers.get(s_lay).modules.add(new Module(rs_mod.getInt("ID"), rs_mod.getInt("LAY_ID"), rs_mod.getString("NAME"), rs_mod.getString("DESCRIPTION")));
+                    arch_struct.getLayers().get(s_lay).getModules().add(new Module(rs_mod.getInt("ID"), rs_mod.getInt("LAY_ID"), rs_mod.getString("NAME"), rs_mod.getString("DESCRIPTION")));
                     rs_pat = derby_DB.executeQuery("SELECT * FROM PATERNS WHERE MOD_ID=" + rs_mod.getInt("ID"));
                     pos_y += Integer.parseInt(TF_Y2.getText());
                     selected_paterns.add(s_pat, new ChoiceBox());
                     ObservableList<String> items = FXCollections.observableArrayList();
                     while (rs_pat.next()) {//Все патерны что подходят модулю в кнопку
-                        arch_struct.layers.get(s_lay).modules.get(s_mod).avilable_paterns.add(new Pattern(rs_pat.getInt("ID"),rs_pat.getInt("MOD_ID"),rs_pat.getString("NAME"),rs_pat.getString("DESCRIPTION"),rs_pat.getString("VALUE")));
+                        arch_struct.getLayers().get(s_lay).getModules().get(s_mod).getAvilable_paterns().add(new Pattern(rs_pat.getInt("ID"),rs_pat.getInt("MOD_ID"),rs_pat.getString("NAME"),rs_pat.getString("DESCRIPTION"),rs_pat.getString("VALUE")));
                         items.add(rs_pat.getString("ID") + "|" + rs_pat.getString("NAME"));
                     }
                     selected_paterns.get(s_pat).setItems(items);
@@ -127,7 +127,7 @@ public class view_all_C implements Initializable {
                         @Override
                         public void changed(ObservableValue<? extends Number> observableValue, Number value, Number new_value) {
                             //final Integer num=number;
-                            arch_struct.layers.get(ss_lay).modules.get(ss_mod).selected_patern=arch_struct.layers.get(ss_lay).modules.get(ss_mod).avilable_paterns.get(new_value.intValue());
+                            arch_struct.getLayers().get(ss_lay).getModules().get(ss_mod).setSelected_patern(arch_struct.getLayers().get(ss_lay).getModules().get(ss_mod).getAvilable_paterns().get(new_value.intValue()));
                         }
                     });
                     P_arch_ctruct.getChildren().add(selected_paterns.get(s_pat));

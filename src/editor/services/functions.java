@@ -143,6 +143,8 @@ public class functions {
                             arch_in.getLayers().get(s_lay).getModules().get(s_mod).setId(rs_tmp.getInt(1));
                         }else {
                             //TODO якщо модуль редагований
+                            derby_DB_connection.executeUpdate("UPDATE MODULE " + "SET NAME='" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "',DESCRIPTION='" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getDescription() + "' WHERE ID=" +  arch_in.getLayers().get(s_lay).getModules().get(s_mod).getId());
+
                         }
 
                     }
