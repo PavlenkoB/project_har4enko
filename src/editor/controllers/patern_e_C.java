@@ -140,7 +140,7 @@ public class patern_e_C implements Initializable {
                             "  NAME VARCHAR(255) NOT NULL,\n" +
                             "  VALUE CLOB(1073741823) NOT NULL,\n" +
                             "  DESCRIPTION CLOB(1073741823),\n" +
-                            "  PREVIEW LONG VARCHAR FOR BIT DATA" +
+                            "  PREVIEW BLOB" +
                             ")";
                     derby_DB.executeUpdate(query);
                     rs = derby_DB.executeQuery("SELECT * FROM PATERNS");

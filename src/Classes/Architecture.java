@@ -17,6 +17,14 @@ public class Architecture implements Cloneable {
     private String usecase;
     private ImageIcon preview;
 
+    public ImageIcon getPreview() {
+        return preview;
+    }
+
+    public void setPreview(ImageIcon preview) {
+        this.preview = preview;
+    }
+
     public Architecture clone() throws CloneNotSupportedException {
         Architecture a_return = (Architecture)super.clone();
         if (this.id != null)

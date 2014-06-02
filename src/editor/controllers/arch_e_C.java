@@ -71,7 +71,7 @@ public class arch_e_C implements Initializable {
         }
 //TODO Del
         derby_DB = new DerbyDBManager("DB/paterns_DB");
-        //list_load_DB();/**/
+        list_load_DB();/**/
     }
 
 
@@ -143,7 +143,7 @@ public class arch_e_C implements Initializable {
                             "  NAME VARCHAR(255) NOT NULL,\n" +
                             "    DESCRIPTION CLOB(1073741823),\n" +
                             "    USECASE CLOB(1073741823),\n" +
-                            "    PREVIEW LONG VARCHAR FOR BIT DATA\n" +
+                            "    PREVIEW BLOB\n" +
                             "  )";
                     derby_DB.executeUpdate(query);
                     rs = derby_DB.executeQuery("SELECT * FROM ARCHITECTURE");
@@ -172,8 +172,16 @@ public class arch_e_C implements Initializable {
             name = functions.get_NAME(id_name);
             TF_arch_id_DB.setText(id);
             TF_arch_name_DB.setText(name);
+
+
         }
         load_this_arch_DB(null);
+        /*arch_image = Image.impl_fromPlatformImage(arch_tmp.getPreview().getImage());
+            IV_arch_imageview.setFitHeight(arch_image.getRequestedHeight());
+            IV_arch_imageview.setFitWidth(arch_image.getRequestedWidth());
+            SP_P_IV.setPrefHeight(arch_image.getHeight());
+            SP_P_IV.setPrefWidth(arch_image.getWidth());
+            IV_arch_imageview.setImage(arch_image);*/
     }
 
     public void draw_arch_struct() {//відобразити структуру архітектури
@@ -366,6 +374,8 @@ public class arch_e_C implements Initializable {
     }
 
     public void save_this_arch_to_DB(ActionEvent actionEvent) {
+        arch_image = draw_uml.draw_class(functions.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
+        arch_tmp.setPreview(new ImageIcon((java.awt.Image) arch_image.getPixelReader()));
         arch_tmp.setUsecase(TA_arch_relations.getText());
         arch_tmp.setDescription(TA_arch_description.getText());
         arch_tmp.setId(Integer.parseInt(TF_arch_id_DB.getText()));

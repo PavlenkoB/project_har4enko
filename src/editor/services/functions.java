@@ -8,6 +8,10 @@ import editor.classes.DerbyDBManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import javax.swing.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -66,6 +70,20 @@ public class functions {
             rs_arch.next();
             arch_out = new Architecture(rs_arch.getInt("ID"), rs_arch.getString("NAME"), rs_arch.getString("DESCRIPTION"));
             arch_out.setUsecase(rs_arch.getString("USECASE"));
+            Blob photo = rs_arch.getBlob("PREVIEW");
+            ObjectInputStream ois = null;
+            try {
+                if (photo!=null) {
+                    ois = new ObjectInputStream(photo.getBinaryStream());
+                    arch_out.setPreview((ImageIcon) ois.readObject());
+                }else {
+                    arch_out.setPreview(new ImageIcon());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
 
             //Выбрать все Слои даной архитектуры
             rs_lay = derby_DB_connection.executeQuery("SELECT * FROM LAYER WHERE ARCH_ID=" + arch_id);
@@ -99,7 +117,7 @@ public class functions {
         if(arch_in.getUsecase()==null)arch_in.setUsecase("");
         if (arch_in.getId() == null || arch_in.getId() == 0) {//Добавить в базу
             //TODO Нові патерни модулі і сама архітектура
-            derby_DB_connection.executeUpdate("INSERT INTO ARCHITECTURE (NAME,USECASE,DESCRIPTION) VALUES ('" + arch_in.getName() + "','" + arch_in.getUsecase() + "','" + arch_in.getDescription() + "')");
+            derby_DB_connection.executeUpdate("INSERT INTO ARCHITECTURE (NAME,USECASE,DESCRIPTION,PREVIEW) VALUES ('" + arch_in.getName() + "','" + arch_in.getUsecase() + "','" + arch_in.getDescription() + "','"+arch_in.getPreview()+"')");
             rs_tmp = derby_DB_connection.executeQuery("SELECT MAX(ID) FROM ARCHITECTURE");
             rs_tmp.next();
             arch_in.setId(rs_tmp.getInt(1));
@@ -117,7 +135,7 @@ public class functions {
             }
         } else {
             //TODO якщо змінти дані про архітектуру
-            derby_DB_connection.executeUpdate("UPDATE ARCHITECTURE " + "SET NAME='" + arch_in.getName() + "',USECASE='" + arch_in.getUsecase() + "',DESCRIPTION='" + arch_in.getDescription() + "' WHERE ID=" + arch_in.getId());
+            derby_DB_connection.executeUpdate("UPDATE ARCHITECTURE " + "SET NAME='" + arch_in.getName() + "',USECASE='" + arch_in.getUsecase() + "',DESCRIPTION='" + arch_in.getDescription() + "',PREVIEW='"+arch_in.getPreview()+"' WHERE ID=" + arch_in.getId());
             for (int s_lay = 0; s_lay < arch_in.getLayers().size(); s_lay++) {
                 if(arch_in.getLayers().get(s_lay).getId()==null|| arch_in.getId()==0) {
                     //TODO Якщо шар новий то створити нові моудул і сам шар
