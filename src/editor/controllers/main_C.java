@@ -4,6 +4,7 @@ package editor.controllers;/*
  */
 
 import editor.classes.DerbyDBManager;
+import editor.services.zip;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -17,10 +18,14 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import javax.swing.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.URI;
 import java.net.URL;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * @author godex_000
@@ -105,7 +110,7 @@ public class main_C implements Initializable {
             final Stage PS = (Stage) B_disconnect.getScene().getWindow();
             PS.setIconified(true);
 
-            Parent Parent = FXMLLoader.load(getClass().getResource("../views/arch_editor_0.fxml"));
+            Parent Parent = FXMLLoader.load(getClass().getResource("../views/arch_editor.fxml"));
             Stage Stage = new Stage();
             Stage.setTitle("Редактор архітектур");
             Stage.setScene(new Scene(Parent));
@@ -184,4 +189,13 @@ public class main_C implements Initializable {
             e.printStackTrace();
         }
     }
+
+    public void create_backup(ActionEvent actionEvent) throws IOException {
+        File mydir = new File("derby");
+        File myfile = new File("db.zip");
+        zip.zip_dir(mydir, myfile);
+        System.out.println(mydir.toURI().relativize(myfile.toURI()).getPath());
+    }
+
+
 }
