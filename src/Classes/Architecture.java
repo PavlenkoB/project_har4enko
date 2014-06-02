@@ -1,5 +1,6 @@
 package Classes;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class Architecture implements Cloneable {
     private Integer id_done;
     private Integer task_id;
     private String usecase;
+    private ImageIcon preview;
 
     public Architecture clone() throws CloneNotSupportedException {
         Architecture a_return = (Architecture)super.clone();
@@ -40,6 +42,10 @@ public class Architecture implements Cloneable {
             a_return.usecase = new String(this.usecase);
         else
             a_return.usecase = null;
+        if (this.preview != null)
+            a_return.preview = new ImageIcon(this.preview.getImage());
+        else
+            a_return.preview = null;
 
         return a_return;
     }

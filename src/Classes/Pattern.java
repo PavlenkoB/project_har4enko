@@ -1,5 +1,7 @@
 package Classes;
 
+import javax.swing.*;
+
 /**
  * Created by Alex Shcherbak on 24.04.2014.
  */
@@ -9,6 +11,15 @@ public class Pattern implements Cloneable {
     private String name;
     private String description;
     private String uml_text;
+    private ImageIcon preview;
+
+    public ImageIcon getPreview() {
+        return preview;
+    }
+
+    public void setPreview(ImageIcon preview) {
+        this.preview = preview;
+    }
 
     public Pattern clone() throws CloneNotSupportedException {
         Pattern p_return = (Pattern) super.clone();
@@ -22,6 +33,12 @@ public class Pattern implements Cloneable {
             p_return.mod_id = null;
         p_return.name = new String(this.name);
         p_return.description = new String(this.description);
+
+        if (this.preview != null)
+            p_return.preview = new ImageIcon(this.preview.getImage());
+        else
+            p_return.preview = null;
+
         return p_return;
     }
 

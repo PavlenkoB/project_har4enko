@@ -139,7 +139,7 @@ public class patern_e_C implements Initializable {
                             "  MOD_ID INT NOT NULL,\n" +
                             "  NAME VARCHAR(255) NOT NULL,\n" +
                             "  VALUE CLOB(1073741823) NOT NULL,\n" +
-                            "  DESCRIPTION CLOB(1073741823)\n" +
+                            "  DESCRIPTION CLOB(1073741823),\n" +
                             "  PREVIEW LONG VARCHAR FOR BIT DATA" +
                             ")";
                     derby_DB.executeUpdate(query);

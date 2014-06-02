@@ -54,7 +54,7 @@ public class arch_e_C implements Initializable {
 
     DerbyDBManager derby_DB;
 
-    Architecture arch_tmp,arch_old = new Architecture();
+    Architecture arch_tmp, arch_old = new Architecture();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -71,14 +71,14 @@ public class arch_e_C implements Initializable {
         }
 //TODO Del
         derby_DB = new DerbyDBManager("DB/paterns_DB");
-        list_load_DB();/**/
+        //list_load_DB();/**/
     }
 
 
     public void load_this_arch_DB(ActionEvent actionEvent) {//ЗАгрузить архитектуру с базы
         //Читае Идентиф. Параметра
         arch_tmp = functions.arch_load_from_DB(functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString()), derby_DB);
-        arch_old=functions.arch_load_from_DB(functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString()), derby_DB);
+        arch_old = functions.arch_load_from_DB(functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString()), derby_DB);
         TA_arch_relations.setText(arch_tmp.getUsecase());
         TA_arch_description.setText(arch_tmp.getDescription());
         draw_arch_struct();
@@ -142,7 +142,8 @@ public class arch_e_C implements Initializable {
                             "        (START WITH 1, INCREMENT BY 1),\n" +
                             "  NAME VARCHAR(255) NOT NULL,\n" +
                             "    DESCRIPTION CLOB(1073741823),\n" +
-                            "    USECASE CLOB(1073741823)\n" +
+                            "    USECASE CLOB(1073741823),\n" +
+                            "    PREVIEW LONG VARCHAR FOR BIT DATA\n" +
                             "  )";
                     derby_DB.executeUpdate(query);
                     rs = derby_DB.executeQuery("SELECT * FROM ARCHITECTURE");
@@ -212,7 +213,7 @@ public class arch_e_C implements Initializable {
             });
             P_arch_struct.getChildren().add(tmp_btn);
             // Імя шару
-            tmp_label = new Label("Шар "+arch_tmp.getLayers().get(s_lay).getName());
+            tmp_label = new Label("Шар " + arch_tmp.getLayers().get(s_lay).getName());
             tmp_label.setLayoutX(pos_x + s_x2 + s_x2);
             tmp_label.setLayoutY(pos_y);
             P_arch_struct.getChildren().add(tmp_label);
@@ -251,7 +252,7 @@ public class arch_e_C implements Initializable {
                 });
                 P_arch_struct.getChildren().add(tmp_btn);
                 /*Імя модулю*/
-                tmp_label = new Label("Модуль "+arch_tmp.getLayers().get(s_lay).getModules().get(s_mod).getName());
+                tmp_label = new Label("Модуль " + arch_tmp.getLayers().get(s_lay).getModules().get(s_mod).getName());
                 tmp_label.setLayoutX(pos_x + s_x2 + s_x2);
                 tmp_label.setLayoutY(pos_y);
                 P_arch_struct.getChildren().add(tmp_label);
@@ -313,7 +314,7 @@ public class arch_e_C implements Initializable {
     }
 
     public void del_mod(Integer lay_nom, Integer mod_nom) {
-        Object stringArray[] = { "Так", "Ні" };
+        Object stringArray[] = {"Так", "Ні"};
         int response = JOptionPane.showOptionDialog(null, "Ви впевнені що хочете видалити модуль?", "Питання",
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, stringArray, stringArray[0]);
         if (response == JOptionPane.YES_OPTION) {
@@ -323,9 +324,9 @@ public class arch_e_C implements Initializable {
     }
 
     public void del_lay(Integer lay_nom) {
-        Object stringArray[] = { "Так", "Ні" };
+        Object stringArray[] = {"Так", "Ні"};
         int response = JOptionPane.showOptionDialog(null, "Ви впевнені що хочете видалити шар?", "Питання",
-                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,null,stringArray,stringArray[0]);
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, stringArray, stringArray[0]);
         if (response == JOptionPane.YES_OPTION) {
             arch_tmp.getLayers().remove(lay_nom.intValue());
         }
@@ -344,7 +345,7 @@ public class arch_e_C implements Initializable {
     public void edit_lay(Integer lay_nom) {
         String name = (String) JOptionPane.showInputDialog(null, "Введіть назву", "Ввід", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getName());
         if (name != null && !name.equals("")) {
-            arch_tmp.getLayers().get(lay_nom).setName( name);
+            arch_tmp.getLayers().get(lay_nom).setName(name);
             arch_tmp.getLayers().get(lay_nom).setDescription((String) JOptionPane.showInputDialog(null, "Введіть опис", "Ввід", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getDescription()));
         }
         draw_arch_struct();
@@ -352,7 +353,7 @@ public class arch_e_C implements Initializable {
 
 
     public void arch_uml_gen(ActionEvent actionEvent) {
-        arch_image = draw_uml.draw_class(functions.arch_uml_text_gen(arch_tmp)+new String(TA_arch_relations.getText()));
+        arch_image = draw_uml.draw_class(functions.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
         IV_arch_imageview.setFitHeight(arch_image.getRequestedHeight());
         IV_arch_imageview.setFitWidth(arch_image.getRequestedWidth());
         SP_P_IV.setPrefHeight(arch_image.getHeight());
@@ -369,7 +370,7 @@ public class arch_e_C implements Initializable {
         arch_tmp.setDescription(TA_arch_description.getText());
         arch_tmp.setId(Integer.parseInt(TF_arch_id_DB.getText()));
         try {
-            functions.arch_save_to_DB(arch_tmp,derby_DB);
+            functions.arch_save_to_DB(arch_tmp, derby_DB);
         } catch (SQLException e) {
             e.printStackTrace();
         }
