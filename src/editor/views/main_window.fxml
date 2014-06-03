@@ -27,6 +27,30 @@
         </Pane>
       <Button layoutX="33.0" layoutY="368.0" mnemonicParsing="false" onAction="#create_backup" text="Створити резервну копію" />
       <Button layoutX="54.0" layoutY="404.0" mnemonicParsing="false" onAction="#clear_db" text="Прибратися в базі" />
+      <MenuBar maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="228.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="База">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#connect_DB" text="Підключитися до БД" />
+                  <MenuItem mnemonicParsing="false" onAction="#creat_DB" text="Створити БД" />
+                  <MenuItem mnemonicParsing="false" onAction="#disconnect_DB" text="Відключитися від ДБ" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Сервіс">
+            <items>
+                  <MenuItem mnemonicParsing="false" onAction="#create_backup" text="Створити резервну копію БД" />
+              <MenuItem mnemonicParsing="false" onAction="#clear_db" text="Прибратися в базі" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Допомога">
+            <items>
+                  <MenuItem mnemonicParsing="false" text="Як користуватися" />
+              <MenuItem mnemonicParsing="false" text="Про програму" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Вихід" />
+        </menus>
+      </MenuBar>
 
     </children>
 </AnchorPane>
