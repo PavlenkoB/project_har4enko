@@ -384,10 +384,6 @@ public class arch_e_C implements Initializable {
         arch_tmp.setUsecase(TA_arch_relations.getText());
         arch_tmp.setDescription(TA_arch_description.getText());
         arch_tmp.setId(Integer.parseInt(TF_arch_id_DB.getText()));
-        try {
-            functions.arch_save_to_DB(arch_tmp, derby_DB);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        functions.arch_save_to_DB(arch_tmp, derby_DB);
     }
 }

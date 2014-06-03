@@ -42,7 +42,6 @@ public class DB_manager {
             return true;
         }
         return false;
-
     }
 
     // запрос на обновление базы данных  (INSERT, UPDATE, CREATE TABLE и т.п.)

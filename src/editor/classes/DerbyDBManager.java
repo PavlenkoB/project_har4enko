@@ -3,18 +3,10 @@ package editor.classes;
 import java.sql.*;
 
 public class DerbyDBManager {
-    public static Connection getCon() {
-        return con;
-    }
-
     private static Connection con = null;
     private static final String driver = "org.apache.derby.jdbc.EmbeddedDriver";
     private static final String url = "jdbc:derby:";
     private static String dbName = null;
-
-    public String getDbName() {
-        return dbName;
-    }
 
     public DerbyDBManager(String dbName) {
         this.dbName = dbName;
@@ -38,16 +30,21 @@ public class DerbyDBManager {
     }
 
     private Boolean dbExists() {
-        Boolean exists = false;
-        try {
-            Class.forName(driver);
-            con = DriverManager.getConnection(url + dbName);
-            exists = true;
-        } catch (Exception e) {
-            //TODO create DB
-            // Если база не создана то ничего не делаем
+        if (con == null) {
+            try {
+                Class.forName(driver);
+                con = DriverManager.getConnection(url + this.dbName);
+                return true;
+            } catch (Exception e) {
+                System.out.println("Connection error");
+                e.printStackTrace();
+
+                // Если база не создана то ничего не делаем
+            }
+        } else {
+            return true;
         }
-        return (exists);
+        return false;
     }
 
     // запрос на обновление базы данных  (INSERT, UPDATE, CREATE TABLE и т.п.)
@@ -71,5 +68,12 @@ public class DerbyDBManager {
             System.out.println("Не удалось закрыть подключение к БД");
             e.printStackTrace();
         }
+    }
+    public String getDbName() {
+        return dbName;
+    }
+
+    public static Connection getCon() {
+        return con;
     }
 }

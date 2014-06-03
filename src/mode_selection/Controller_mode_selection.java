@@ -60,7 +60,7 @@ public class Controller_mode_selection {
                 create_new_arch_win = new Stage();
                 Parent root;
                 root = FXMLLoader.load(getClass().getResource("/create_arch/Interface/Create_new_arch_1.fxml"));
-                create_new_arch_win.setTitle("Archery create");
+                create_new_arch_win.setTitle("Створення нової архітектури");
                 create_new_arch_win.setScene(new Scene(root, 1000, 600));
                 create_new_arch_win.setMinWidth(630);
                 create_new_arch_win.setMinHeight(400);

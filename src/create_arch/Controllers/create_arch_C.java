@@ -1,9 +1,7 @@
 package create_arch.Controllers;
 
-import Classes.Architecture;
-import Classes.Layer;
-import Classes.Module;
-import Classes.Pattern;
+import Classes.*;
+import editor.classes.DerbyDBManager;
 import editor.services.draw_uml;
 import editor.services.functions;
 import editor.services.gen_arch_done;
@@ -24,7 +22,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -52,14 +49,17 @@ public class create_arch_C implements Initializable {
     public TextArea Description;                // Поле опису вибраної архітектури
     public ImageView Usecase_view;              // Поле візуалізації вибраної архітектури
     public Button arch_create_next_1;
-    public Pane Arch_choise_1;
-    public Pane Arch_choise_2;
-    public Pane back_gr_grid;
-    public Pane back_grid_vis;
-    public Pane Arch_choise_3;
+    public AnchorPane Arch_choise_1;
+    public AnchorPane Arch_choise_2;
+    public AnchorPane back_gr_grid;
+    public AnchorPane back_grid_vis;
+    public AnchorPane Arch_choise_3;
     //Windows close dialog
     public Button cancelButton;
     public Button okButton;
+    public AnchorPane Task_save;
+    public TextField task_name;
+    public TextField task_description;
     ArrayList<Label> layer_names = new ArrayList<>();
     ArrayList<javafx.scene.control.Label> module_names = new ArrayList<>();
     ArrayList<ChoiceBox> selected_paterns = new ArrayList<>();
@@ -68,7 +68,9 @@ public class create_arch_C implements Initializable {
     ArrayList<Module> modules_done = new ArrayList<>();
     ArrayList<Layer> layers_done = new ArrayList<>();
     ArrayList<Architecture> architectures_done = new ArrayList<>();
-    DB_manager derby_DB = new DB_manager("DB/paterns_DB");
+
+    DerbyDBManager derby_DB = new DerbyDBManager("DB/paterns_DB");
+    Task task = new Task();
     @FXML
     private Image class_image;
 
@@ -119,6 +121,7 @@ public class create_arch_C implements Initializable {
         Arch_choise_1.setVisible(true);
         Arch_choise_2.setVisible(false);
         Arch_choise_3.setVisible(false);
+        Task_save.setVisible(false);
         ResultSet rs = null;
         try {
             try {
@@ -180,6 +183,7 @@ public class create_arch_C implements Initializable {
         Arch_choise_1.setVisible(false);
         Arch_choise_2.setVisible(true);
         Arch_choise_3.setVisible(false);
+        Task_save.setVisible(false);
         arc_choise.getLayers().clear();
         selected_paterns.clear();
         GridPane gridpane_lay = new GridPane();
@@ -271,7 +275,6 @@ public class create_arch_C implements Initializable {
         gridpane_lay.add(gridPane_mod_Title, 1, 0);
 
 
-
         //gridpane_lay.setGridLinesVisible(true);
         AnchorPane.setLeftAnchor(gridpane_lay, (double) 10);
         AnchorPane.setRightAnchor(gridpane_lay, (double) 10);
@@ -285,6 +288,7 @@ public class create_arch_C implements Initializable {
         Arch_choise_1.setVisible(false);
         Arch_choise_2.setVisible(false);
         Arch_choise_3.setVisible(true);
+        Task_save.setVisible(false);
         ResultSet rs = null;
         module_done.clear();
         for (int i = 0; i < selected_paterns.size(); i++) {
@@ -370,7 +374,7 @@ public class create_arch_C implements Initializable {
             tmp_lable.setMinWidth(200);
             tmp_lable.setMaxWidth(200);
 
-            gridpane_lay.add(tmp_lable, 0, i+1);
+            gridpane_lay.add(tmp_lable, 0, i + 1);
             gridPane_mod.add(new GridPane());
             gridPane_mod.get(i).getChildren().removeAll();
             gridPane_mod.get(i).getChildren().clear();
@@ -418,7 +422,7 @@ public class create_arch_C implements Initializable {
                 gridPane_mod.get(i).setPadding(new Insets(5, 5, 5, 5));
                 gridPane_mod.get(i).add(gridPanes_pat.get(i).get(j), 1, j);
             }
-            gridpane_lay.add(gridPane_mod.get(i), 1, i+1);
+            gridpane_lay.add(gridPane_mod.get(i), 1, i + 1);
         }
 
         int num_lay_done = 0;
@@ -462,8 +466,6 @@ public class create_arch_C implements Initializable {
         gridpane_lay.add(gridPane_mod_Title, 1, 0);
 
 
-
-
         //gridpane_lay.setGridLinesVisible(true);
         gridpane_lay.setPadding(new Insets(5, 5, 5, 5));
 
@@ -477,11 +479,26 @@ public class create_arch_C implements Initializable {
     }
 
     public void Save_arch(ActionEvent actionEvent) {
-
+        Arch_choise_1.setVisible(false);
+        Arch_choise_2.setVisible(false);
+        Arch_choise_3.setVisible(false);
+        Task_save.setVisible(true);
 
         architectures_done = gen_arch_done.pre_combine(arc_choise, module_done);
         System.out.print("Lol");
         System.out.print(architectures_done.get(0).getId());
+
+    }
+
+    public void Save_architecture_done(ActionEvent actionEvent) {
+        architectures_done.clear();
+        architectures_done = gen_arch_done.pre_combine(arc_choise, module_done);
+        task.setName(task_name.getText());
+        task.setDescription(task_description.getText());
+        task.setArchitectures(architectures_done);
+
+       boolean res_task = new functions().task_done_save_to_DB(task, derby_DB);
+
 
     }
 }
