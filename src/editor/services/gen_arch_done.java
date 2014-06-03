@@ -53,11 +53,10 @@ public class gen_arch_done {
                 for (int s_lay = 0; s_lay < tmp_arch.getLayers().size(); s_lay++) {
                     for (int s_mod = 0; s_mod < tmp_arch.getLayers().get(s_lay).getModules().size(); s_mod++) {
                         for (int s_copy = 0; s_copy < modules_arr.size(); s_copy++) {
-                            if (tmp_arch.getLayers().get(s_lay).getModules().get(s_mod).getId() == modules_arr.get(s_copy).getId()) {
+                            if (tmp_arch.getLayers().get(s_lay).getModules().get(s_mod).getId().intValue() == modules_arr.get(s_copy).getId().intValue()) {
                                 try {
                                     tmp_arch.getLayers().get(s_lay).getModules().get(s_mod).setSelected_patern(new Pattern());
-                                    //tmp_arch.layers.get(s_lay).modules.get(s_mod).selected_patern=
-                                            modules_arr.get(s_copy).getSelected_patern().clone();
+                                    tmp_arch.getLayers().get(s_lay).getModules().get(s_mod).setSelected_patern(modules_arr.get(s_copy).getSelected_patern().clone());
                                 } catch (CloneNotSupportedException e) {
                                    e.printStackTrace();
                                 }
