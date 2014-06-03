@@ -59,7 +59,7 @@ public class Controller_mode_selection {
             try {
                 create_new_arch_win = new Stage();
                 Parent root;
-                root = FXMLLoader.load(getClass().getResource("/create_arch/Interface/Create_new_arch_1.fxml"));
+                root = FXMLLoader.load(getClass().getResource("/create_arch/Interface/create_arch.fxml"));
                 create_new_arch_win.setTitle("Створення нової архітектури");
                 create_new_arch_win.setScene(new Scene(root, 1000, 600));
                 create_new_arch_win.setMinWidth(630);
@@ -75,10 +75,12 @@ public class Controller_mode_selection {
             try {
                 create_new_arch_win = new Stage();
                 Parent root;
-                root = FXMLLoader.load(getClass().getResource("/mode_selection/Close.fxml"));
-                create_new_arch_win.setTitle("Archery rate");
-                create_new_arch_win.setScene(new Scene(root, 800, 600));
-                create_new_arch_win.setResizable(false);
+                root = FXMLLoader.load(getClass().getResource("/rating_arch/Interface/rating_arch.fxml"));
+                create_new_arch_win.setTitle("Оцінювання існуючих архітектур");
+                create_new_arch_win.setScene(new Scene(root, 1000, 600));
+                create_new_arch_win.setMinWidth(630);
+                create_new_arch_win.setMinHeight(400);
+                create_new_arch_win.setResizable(true);
                 create_new_arch_win.show();
             } catch (IOException e) {
                 e.printStackTrace();

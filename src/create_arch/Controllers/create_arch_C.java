@@ -2,6 +2,7 @@ package create_arch.Controllers;
 
 import Classes.*;
 import editor.classes.DerbyDBManager;
+import editor.models.Main;
 import editor.services.draw_uml;
 import editor.services.functions;
 import editor.services.gen_arch_done;
@@ -26,7 +27,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import rating_arch.DB_manager;
 
 import java.io.IOException;
 import java.net.URL;
@@ -54,12 +54,13 @@ public class create_arch_C implements Initializable {
     public AnchorPane back_gr_grid;
     public AnchorPane back_grid_vis;
     public AnchorPane Arch_choise_3;
-    //Windows close dialog
     public Button cancelButton;
     public Button okButton;
     public AnchorPane Task_save;
     public TextField task_name;
     public TextField task_description;
+    public Button Save_all_done;
+    public Button Save_all;
     ArrayList<Label> layer_names = new ArrayList<>();
     ArrayList<javafx.scene.control.Label> module_names = new ArrayList<>();
     ArrayList<ChoiceBox> selected_paterns = new ArrayList<>();
@@ -74,6 +75,8 @@ public class create_arch_C implements Initializable {
     @FXML
     private Image class_image;
 
+
+    //Windows close dialog
     public void close(ActionEvent actionEvent) throws IOException {
         try {
             Stage stage = new Stage();
@@ -111,6 +114,9 @@ public class create_arch_C implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             Arch_choise_1.setVisible(true);
+            Arch_choise_2.setVisible(false);
+            Arch_choise_3.setVisible(false);
+            Task_save.setVisible(false);
             set_usecase();
         } catch (Exception e) {
             e.printStackTrace();
@@ -497,8 +503,34 @@ public class create_arch_C implements Initializable {
         task.setDescription(task_description.getText());
         task.setArchitectures(architectures_done);
 
-       boolean res_task = new functions().task_done_save_to_DB(task, derby_DB);
+        boolean res_task = new functions().task_done_save_to_DB(task, derby_DB);
+        if (res_task)
+            try {
+                for (int i = 0; i < architectures_done.size(); i++) {
+                    boolean res_arch = new functions().arch_done_save_to_DB(task.getId(), architectures_done.get(i), derby_DB);
+                }
 
+                try {
+                    Stage stage = new Stage();
+                    Parent root;
+                    root = FXMLLoader.load(getClass().getResource("/create_arch/Interface/Save_done.fxml"));
+                    stage.setTitle("Збереження успішне");
+                    stage.setScene(new Scene(root, 600, 130));
+                    stage.setResizable(false);
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
     }
+
+    public void Save_done_all(ActionEvent actionEvent) {
+        disconnect_DB(null);
+        System.exit(1);
+    }
+
 }
