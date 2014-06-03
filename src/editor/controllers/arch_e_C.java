@@ -7,6 +7,7 @@ import Classes.Architecture;
 import Classes.Layer;
 import Classes.Module;
 import editor.classes.DerbyDBManager;
+import editor.services.ImageConverter;
 import editor.services.draw_uml;
 import editor.services.functions;
 import javafx.collections.FXCollections;
@@ -28,6 +29,7 @@ import javafx.scene.layout.Pane;
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 import java.awt.*;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -172,16 +174,14 @@ public class arch_e_C implements Initializable {
             name = functions.get_NAME(id_name);
             TF_arch_id_DB.setText(id);
             TF_arch_name_DB.setText(name);
-
-
         }
         load_this_arch_DB(null);
-        /*arch_image = Image.impl_fromPlatformImage(arch_tmp.getPreview().getImage());
-            IV_arch_imageview.setFitHeight(arch_image.getRequestedHeight());
-            IV_arch_imageview.setFitWidth(arch_image.getRequestedWidth());
-            SP_P_IV.setPrefHeight(arch_image.getHeight());
-            SP_P_IV.setPrefWidth(arch_image.getWidth());
-            IV_arch_imageview.setImage(arch_image);*/
+        arch_image = arch_tmp.getPreview();
+        IV_arch_imageview.setFitHeight(arch_image.getRequestedHeight());
+        IV_arch_imageview.setFitWidth(arch_image.getRequestedWidth());
+        SP_P_IV.setPrefHeight(arch_image.getHeight());
+        SP_P_IV.setPrefWidth(arch_image.getWidth());
+        IV_arch_imageview.setImage(arch_image);
     }
 
     public void draw_arch_struct() {//відобразити структуру архітектури
@@ -361,7 +361,12 @@ public class arch_e_C implements Initializable {
 
 
     public void arch_uml_gen(ActionEvent actionEvent) {
-        arch_image = draw_uml.draw_class(functions.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
+        //arch_image = draw_uml.draw_class(functions.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
+        try {
+            arch_image = ImageConverter.AWTtoFX(ImageConverter.FXtoAWT(draw_uml.draw_class(functions.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }/**/
         IV_arch_imageview.setFitHeight(arch_image.getRequestedHeight());
         IV_arch_imageview.setFitWidth(arch_image.getRequestedWidth());
         SP_P_IV.setPrefHeight(arch_image.getHeight());
@@ -375,7 +380,7 @@ public class arch_e_C implements Initializable {
 
     public void save_this_arch_to_DB(ActionEvent actionEvent) {
         arch_image = draw_uml.draw_class(functions.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
-        arch_tmp.setPreview(new ImageIcon((java.awt.Image) arch_image.getPixelReader()));
+        arch_tmp.setPreview(arch_image);
         arch_tmp.setUsecase(TA_arch_relations.getText());
         arch_tmp.setDescription(TA_arch_description.getText());
         arch_tmp.setId(Integer.parseInt(TF_arch_id_DB.getText()));

@@ -21,7 +21,10 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -191,10 +194,56 @@ public class main_C implements Initializable {
 
     public void create_backup(ActionEvent actionEvent) throws IOException {
         File mydir = new File("DB");
-        File myfile = new File("DB_backup/"+new SimpleDateFormat("dd.MM.yyyy_HH_mm_ss").format(new Date())+".zip");
+        File myfile = new File("DB_backup/" + new SimpleDateFormat("dd.MM.yyyy_HH_mm_ss").format(new Date()) + ".zip");
         zip.zip_dir(mydir, myfile);
         System.out.println(mydir.toURI().relativize(myfile.toURI()).getPath());
     }
 
 
+    public void clear_db(ActionEvent actionEvent) {
+        //TODO del
+        derby_DB = new DerbyDBManager("DB/paterns_DB");
+        //TODO Уборка в базе
+        ArrayList<Integer> arch_id = new ArrayList<>();
+        ArrayList<Integer> lay_id = new ArrayList<>();
+        ArrayList<Integer> mod_id = new ArrayList<>();
+        ResultSet rs = null;
+        try {
+            rs = derby_DB.executeQuery("SELECT * FROM ARCHITECTURE");
+            while (rs.next()) {
+                arch_id.add(rs.getInt("ID"));
+            }
+            rs = derby_DB.executeQuery("SELECT * FROM LAYER");
+            while (rs.next()) {
+                Boolean svyazan = false;
+                for (int s = 0; s < arch_id.size(); s++) {
+                    if(rs.getInt("ARCH_ID")==arch_id.get(s))
+                        svyazan=true;
+                }
+                if (svyazan==true)
+                    lay_id.add(rs.getInt("ID"));
+                 else {
+                    derby_DB.executeUpdate("DELETE FROM LAYER WHERE ID="+rs.getInt("ID"));
+                }
+            }
+
+            rs = derby_DB.executeQuery("SELECT * FROM MODULE");
+            while (rs.next()) {
+                Boolean svyazan = false;
+                for (int s = 0; s < lay_id.size(); s++) {
+                    if(rs.getInt("LAY_ID")==lay_id.get(s))
+                        svyazan=true;
+                }
+                if (svyazan==true)
+                    mod_id.add(rs.getInt("ID"));
+                else {
+                    derby_DB.executeUpdate("DELETE FROM MODULE WHERE ID="+rs.getInt("ID"));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        derby_DB.disconectDB();
+    }
 }

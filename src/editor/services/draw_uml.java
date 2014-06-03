@@ -11,7 +11,7 @@ import java.io.*;
  * Created by godex_000 on 20.05.2014.
  */
 public class draw_uml {
-    public static Image draw_class(String class_text) {
+    public static javafx.scene.image.Image draw_class(String class_text) {
         Image class_image = null;
         if (class_text != null) {
             BufferedWriter out_data = null;

@@ -3,6 +3,10 @@ package editor.classes;
 import java.sql.*;
 
 public class DerbyDBManager {
+    public static Connection getCon() {
+        return con;
+    }
+
     private static Connection con = null;
     private static final String driver = "org.apache.derby.jdbc.EmbeddedDriver";
     private static final String url = "jdbc:derby:";

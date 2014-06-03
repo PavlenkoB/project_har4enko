@@ -1,5 +1,7 @@
 package Classes;
 
+import javafx.scene.image.Image;
+
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,15 +17,17 @@ public class Architecture implements Cloneable {
     private Integer id_done;
     private Integer task_id;
     private String usecase;
-    private ImageIcon preview;
 
-    public ImageIcon getPreview() {
+    public Image getPreview() {
         return preview;
     }
 
-    public void setPreview(ImageIcon preview) {
+    public void setPreview(Image preview) {
         this.preview = preview;
     }
+
+    private Image preview;
+
 
     public Architecture clone() throws CloneNotSupportedException {
         Architecture a_return = (Architecture)super.clone();
@@ -51,7 +55,7 @@ public class Architecture implements Cloneable {
         else
             a_return.usecase = null;
         if (this.preview != null)
-            a_return.preview = new ImageIcon(this.preview.getImage());
+            a_return.preview =  this.preview;
         else
             a_return.preview = null;
 
