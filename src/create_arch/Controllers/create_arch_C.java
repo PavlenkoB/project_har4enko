@@ -1,38 +1,42 @@
 package create_arch.Controllers;
 
+import Classes.Architecture;
+import Classes.Layer;
+import Classes.Module;
+import Classes.Pattern;
 import editor.services.draw_uml;
 import editor.services.functions;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import editor.services.gen_arch_done;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.VPos;
-import javafx.scene.Node;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import Classes.*;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import net.sourceforge.plantuml.project.Item;
 import rating_arch.DB_manager;
-import java.io.*;
+
+import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import editor.services.gen_arch_done;
 
 /**
  * Created by Alex Shcherbak on 24.04.2014.
@@ -42,23 +46,20 @@ import editor.services.gen_arch_done;
  * Created by Alex on 10.05.2014.
  */
 public class create_arch_C implements Initializable {
-    public MenuItem close;
-    public VBox background;
-    public ListView Arch_list;
-    public TextArea Description;
-    public ImageView Usecase_view;
+    public static Architecture arc_choise = new Architecture();
+    public MenuItem close;                      // пункт меню вихід
+    public ListView Arch_list;                  // Список архітектур для вибору
+    public TextArea Description;                // Поле опису вибраної архітектури
+    public ImageView Usecase_view;              // Поле візуалізації вибраної архітектури
     public Button arch_create_next_1;
-    public Button Save_arch;
-    public Button Arch_create_next_2;
     public Pane Arch_choise_1;
     public Pane Arch_choise_2;
     public Pane back_gr_grid;
     public Pane back_grid_vis;
     public Pane Arch_choise_3;
-    @FXML
-    private Image class_image;
-
-    public static Architecture arc_choise = new Architecture();
+    //Windows close dialog
+    public Button cancelButton;
+    public Button okButton;
     ArrayList<Label> layer_names = new ArrayList<>();
     ArrayList<javafx.scene.control.Label> module_names = new ArrayList<>();
     ArrayList<ChoiceBox> selected_paterns = new ArrayList<>();
@@ -67,13 +68,9 @@ public class create_arch_C implements Initializable {
     ArrayList<Module> modules_done = new ArrayList<>();
     ArrayList<Layer> layers_done = new ArrayList<>();
     ArrayList<Architecture> architectures_done = new ArrayList<>();
-
-
     DB_manager derby_DB = new DB_manager("DB/paterns_DB");
-
-    //Windows close dialog
-    public Button cancelButton;
-    public Button okButton;
+    @FXML
+    private Image class_image;
 
     public void close(ActionEvent actionEvent) throws IOException {
         try {
@@ -138,7 +135,7 @@ public class create_arch_C implements Initializable {
             }
             Arch_list.setItems(items);
         } catch (SQLException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
@@ -146,8 +143,9 @@ public class create_arch_C implements Initializable {
     }
 
     public void select_to_display() {
-        arc_choise=null;
+        arc_choise = null;
         arc_choise = new Architecture();
+        //arc_choise.getLayers().clear();
         if (derby_DB != null) {
             Number num_choise_arch = Arch_list.getSelectionModel().selectedIndexProperty().getValue();
             ResultSet rs_arch;
@@ -183,10 +181,13 @@ public class create_arch_C implements Initializable {
         Arch_choise_2.setVisible(true);
         Arch_choise_3.setVisible(false);
         arc_choise.getLayers().clear();
+        selected_paterns.clear();
         GridPane gridpane_lay = new GridPane();
         ArrayList<GridPane> gridPane_mod = new ArrayList<>();
+        gridPane_mod.clear();
         gridpane_lay.setHgap(2);
         gridpane_lay.setVgap(20);
+        gridpane_lay.setPadding(new Insets(5, 5, 5, 5));
         ResultSet rs_lay, rs_mod, rs_pat;
         int s_lay = 0, s_mod = 0;
         Label tmp_lable = new Label();
@@ -195,21 +196,27 @@ public class create_arch_C implements Initializable {
             while (rs_lay.next()) {
                 arc_choise.getLayers().add(new Layer(rs_lay.getInt("ID"), rs_lay.getInt("ARCH_ID"), rs_lay.getString("NAME"), rs_lay.getString("DESCRIPTION")));
                 tmp_lable = new Label(rs_lay.getString("NAME"));
-                GridPane.setHalignment(tmp_lable, HPos.CENTER);
+                tmp_lable.setAlignment(Pos.CENTER);
+                tmp_lable.setFont(Font.font(15));
                 tmp_lable.setMinWidth(200);
-                gridpane_lay.add(tmp_lable, 0, s_lay);
+                gridpane_lay.setHalignment(tmp_lable, HPos.CENTER);
+                gridpane_lay.setValignment(tmp_lable, VPos.CENTER);
+                gridpane_lay.add(tmp_lable, 0, s_lay + 1);
                 rs_mod = derby_DB.executeQuery("SELECT * FROM MODULE WHERE LAY_ID=" + rs_lay.getInt("ID"));
                 s_mod = 0;
                 gridPane_mod.add(new GridPane());
-                gridPane_mod.get(s_lay).getChildren().clear();
+                gridPane_mod.get(s_lay).getChildren().removeAll();
                 gridPane_mod.get(s_lay).setHgap(2);
                 gridPane_mod.get(s_lay).setVgap(20);
-                arc_choise.getLayers().get(arc_choise.getLayers().lastIndexOf(arc_choise.getLayers())).getModules().clear();
+                //arc_choise.getLayers().get(arc_choise.getLayers().lastIndexOf(arc_choise.getLayers())).getModules().clear();
                 while (rs_mod.next()) {
                     arc_choise.getLayers().get(s_lay).getModules().add(new Module(rs_mod.getInt("ID"), rs_mod.getInt("LAY_ID"), rs_mod.getString("NAME"), rs_mod.getString("DESCRIPTION")));
                     tmp_lable = new Label(rs_mod.getString("NAME"));
-                    gridPane_mod.get(s_lay).setHalignment(tmp_lable, HPos.LEFT);
-                    tmp_lable.setMinWidth(200);
+                    tmp_lable.setAlignment(Pos.CENTER);
+                    tmp_lable.setFont(Font.font(14));
+                    tmp_lable.setMinWidth(300);
+                    gridPane_mod.get(s_lay).setHalignment(tmp_lable, HPos.CENTER);
+                    gridPane_mod.get(s_lay).setValignment(tmp_lable, VPos.CENTER);
                     gridPane_mod.get(s_lay).add(tmp_lable, 0, s_mod);
                     selected_paterns.add(s_mod, new ChoiceBox());
                     ObservableList<String> items = FXCollections.observableArrayList();
@@ -219,20 +226,58 @@ public class create_arch_C implements Initializable {
                         items.add(rs_pat.getString("ID") + "|" + rs_pat.getString("NAME"));
                     }
                     selected_paterns.get(s_mod).setItems(items);
-                    selected_paterns.get(s_mod).setPrefWidth(200);
-                    GridPane.setHalignment(selected_paterns.get(s_mod), HPos.RIGHT);
+                    selected_paterns.get(s_mod).setMinWidth(300);
+                    selected_paterns.get(s_mod).setMaxWidth(300);
+                    gridPane_mod.get(s_lay).setHalignment(selected_paterns.get(s_mod), HPos.CENTER);
                     gridPane_mod.get(s_lay).add(selected_paterns.get(s_mod), 1, s_mod);
                     s_mod++;
                 }
-                gridPane_mod.get(s_lay).setGridLinesVisible(true);
-                GridPane.setHalignment(gridPane_mod.get(s_lay), HPos.RIGHT);
-                gridpane_lay.add(gridPane_mod.get(s_lay), 1, s_lay);
+                //gridPane_mod.get(s_lay).setGridLinesVisible(true);
+                gridpane_lay.add(gridPane_mod.get(s_lay), 1, s_lay + 1);
                 s_lay++;
             }
         } catch (SQLException e) {
         }
-        gridpane_lay.setGridLinesVisible(true);
-        gridpane_lay.setPadding(new Insets(20, 5, 20, 5));
+
+        //Назва шару - вивід
+        tmp_lable = new Label("Шар");
+        tmp_lable.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        tmp_lable.setAlignment(Pos.CENTER);
+        gridpane_lay.setHalignment(tmp_lable, HPos.CENTER);
+        gridpane_lay.setValignment(tmp_lable, VPos.CENTER);
+        gridpane_lay.add(tmp_lable, 0, 0);
+
+        GridPane gridPane_mod_Title = new GridPane();
+        gridPane_mod_Title.getChildren().clear();
+        gridPane_mod_Title.setHgap(2);
+        gridPane_mod_Title.setVgap(1);
+
+        tmp_lable = new Label("Модуль");
+        tmp_lable.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        tmp_lable.setAlignment(Pos.CENTER);
+        tmp_lable.setMinWidth(300);
+        gridPane_mod_Title.setHalignment(tmp_lable, HPos.CENTER);
+        gridPane_mod_Title.setValignment(tmp_lable, VPos.CENTER);
+        gridPane_mod_Title.add(tmp_lable, 0, 0);
+
+        tmp_lable = new Label("Паттерн");
+        tmp_lable.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        tmp_lable.setAlignment(Pos.CENTER);
+        tmp_lable.setMinWidth(300);
+        gridPane_mod_Title.setHalignment(tmp_lable, HPos.CENTER);
+        gridPane_mod_Title.setValignment(tmp_lable, VPos.CENTER);
+        gridPane_mod_Title.add(tmp_lable, 1, 0);
+
+        gridpane_lay.add(gridPane_mod_Title, 1, 0);
+
+
+
+        //gridpane_lay.setGridLinesVisible(true);
+        AnchorPane.setLeftAnchor(gridpane_lay, (double) 10);
+        AnchorPane.setRightAnchor(gridpane_lay, (double) 10);
+        gridpane_lay.setMaxWidth(Region.USE_COMPUTED_SIZE);
+        back_gr_grid.getChildren().removeAll();
+        back_gr_grid.getChildren().clear();
         back_gr_grid.getChildren().add(gridpane_lay);
     }
 
@@ -309,66 +354,134 @@ public class create_arch_C implements Initializable {
         }
 
         GridPane gridpane_lay = new GridPane();
-        gridpane_lay.getChildren().clear();
+        gridpane_lay.getChildren().removeAll();
         ArrayList<GridPane> gridPane_mod = new ArrayList<>();
+        gridPane_mod.clear();
         ArrayList<ArrayList<GridPane>> gridPanes_pat = new ArrayList<>();
+        gridPanes_pat.clear();
         Label tmp_lable = new Label();
+        TextArea tmp_text_area = new TextArea();
         gridpane_lay.setHgap(2);
         gridpane_lay.setVgap(arc_choise.getLayers().size());
-        for (int i=0; i<arc_choise.getLayers().size();i++){
+        for (int i = 0; i < arc_choise.getLayers().size(); i++) {
             tmp_lable = new Label(arc_choise.getLayers().get(i).getName());
-            tmp_lable.setMinWidth(150);
-            gridpane_lay.add(tmp_lable, 0, i);
+            tmp_lable.setAlignment(Pos.CENTER);
+            tmp_lable.setFont(Font.font(14));
+            tmp_lable.setMinWidth(200);
+            tmp_lable.setMaxWidth(200);
+
+            gridpane_lay.add(tmp_lable, 0, i+1);
             gridPane_mod.add(new GridPane());
+            gridPane_mod.get(i).getChildren().removeAll();
             gridPane_mod.get(i).getChildren().clear();
             gridPane_mod.get(i).setHgap(2);
             gridPane_mod.get(i).setVgap(arc_choise.getLayers().get(i).getModules().size());
             gridPanes_pat.add(new ArrayList());
-            for (int j=0; j<arc_choise.getLayers().get(i).getModules().size();j++){
+            for (int j = 0; j < arc_choise.getLayers().get(i).getModules().size(); j++) {
                 tmp_lable = new Label(arc_choise.getLayers().get(i).getModules().get(j).getName());
-                tmp_lable.setMinWidth(150);
+                tmp_lable.setAlignment(Pos.CENTER);
+                tmp_lable.setFont(Font.font(14));
+                tmp_lable.setMinWidth(300);
+                tmp_lable.setMaxWidth(300);
+
                 gridPane_mod.get(i).add(tmp_lable, 0, j);
                 gridPanes_pat.get(i).add(new GridPane());
+                gridPanes_pat.get(i).get(j).getChildren().removeAll();
                 gridPanes_pat.get(i).get(j).getChildren().clear();
                 gridPanes_pat.get(i).get(j).setHgap(2);
                 gridPanes_pat.get(i).get(j).setVgap(arc_choise.getLayers().get(i).getModules().get(j).getAvilable_paterns().size());
-                int com=0;
-                for (int k=0; k<module_done.size();k++){
-                    if (module_done.get(k).getId()==arc_choise.getLayers().get(i).getModules().get(j).getId()){
-                        for (int m=0;m<module_done.get(k).getAvilable_paterns().size();m++){
+                int com = 0;
+                for (int k = 0; k < module_done.size(); k++) {
+                    if (module_done.get(k).getId() == arc_choise.getLayers().get(i).getModules().get(j).getId()) {
+                        for (int m = 0; m < module_done.get(k).getAvilable_paterns().size(); m++) {
+
+                            tmp_text_area = new TextArea(module_done.get(k).getAvilable_paterns().get(m).getDescription());
+                            tmp_text_area.setMinWidth(200);
+                            tmp_text_area.setMaxHeight(35);
+                            tmp_text_area.setPrefWidth(200);
+                            tmp_text_area.setPrefHeight(40);
+                            tmp_text_area.setEditable(false);
+
                             tmp_lable = new Label(module_done.get(k).getAvilable_paterns().get(m).getName());
-                            tmp_lable.setMinWidth(150);
+                            tmp_lable.setMinWidth(300);
+                            tmp_lable.setMaxWidth(300);
                             gridPanes_pat.get(i).get(j).add(tmp_lable, 0, com);
-                            tmp_lable = new Label(module_done.get(k).getAvilable_paterns().get(m).getDescription());
-                            tmp_lable.setMinWidth(150);
-                            gridPanes_pat.get(i).get(j).add(tmp_lable,1,com);
+                            //tmp_lable = new Label(module_done.get(k).getAvilable_paterns().get(m).getDescription());
+                            //tmp_lable.setMinWidth(150);
+                            gridPanes_pat.get(i).get(j).setAlignment(Pos.CENTER);
+                            gridPanes_pat.get(i).get(j).add(tmp_text_area, 1, com);
                             com++;
                         }
                     }
                 }
-                gridPane_mod.get(i).setGridLinesVisible(true);
-                gridPane_mod.get(i).setPadding(new Insets(20, 5, 20, 5));
-                gridPane_mod.get(i).add(gridPanes_pat.get(i).get(j),1,j);
+                //gridPane_mod.get(i).setGridLinesVisible(true);
+                gridPane_mod.get(i).setPadding(new Insets(5, 5, 5, 5));
+                gridPane_mod.get(i).add(gridPanes_pat.get(i).get(j), 1, j);
             }
-            gridpane_lay.add(gridPane_mod.get(i),1,i);
+            gridpane_lay.add(gridPane_mod.get(i), 1, i+1);
         }
 
         int num_lay_done = 0;
-        for (int i =0; i<arc_choise.getLayers().size(); i++){
-            for (int j=0; j<module_done.size();j++){
-                if (modules_done.get(j).getLay_id()==arc_choise.getLayers().get(i).getId()){
+        for (int i = 0; i < arc_choise.getLayers().size(); i++) {
+            for (int j = 0; j < module_done.size(); j++) {
+                if (modules_done.get(j).getLay_id() == arc_choise.getLayers().get(i).getId()) {
 
                 }
             }
         }
-        gridpane_lay.setGridLinesVisible(true);
-        gridpane_lay.setPadding(new Insets(20, 5, 20, 5));
+
+        //Назва шару - вивід
+        tmp_lable = new Label("Шар");
+        tmp_lable.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        tmp_lable.setAlignment(Pos.CENTER);
+        gridpane_lay.setHalignment(tmp_lable, HPos.CENTER);
+        gridpane_lay.setValignment(tmp_lable, VPos.CENTER);
+        gridpane_lay.add(tmp_lable, 0, 0);
+
+        GridPane gridPane_mod_Title = new GridPane();
+        gridPane_mod_Title.getChildren().clear();
+        gridPane_mod_Title.setHgap(2);
+        gridPane_mod_Title.setVgap(1);
+
+        tmp_lable = new Label("Модуль");
+        tmp_lable.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        tmp_lable.setAlignment(Pos.CENTER);
+        tmp_lable.setMinWidth(300);
+        gridPane_mod_Title.setHalignment(tmp_lable, HPos.CENTER);
+        gridPane_mod_Title.setValignment(tmp_lable, VPos.CENTER);
+        gridPane_mod_Title.add(tmp_lable, 0, 0);
+
+        tmp_lable = new Label("Паттерн");
+        tmp_lable.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        tmp_lable.setAlignment(Pos.CENTER);
+        tmp_lable.setMinWidth(300);
+        gridPane_mod_Title.setHalignment(tmp_lable, HPos.CENTER);
+        gridPane_mod_Title.setValignment(tmp_lable, VPos.CENTER);
+        gridPane_mod_Title.add(tmp_lable, 1, 0);
+
+        gridpane_lay.add(gridPane_mod_Title, 1, 0);
+
+
+
+
+        //gridpane_lay.setGridLinesVisible(true);
+        gridpane_lay.setPadding(new Insets(5, 5, 5, 5));
+
+        AnchorPane.setLeftAnchor(gridpane_lay, (double) 10);
+        AnchorPane.setRightAnchor(gridpane_lay, (double) 10);
+        gridpane_lay.setMaxWidth(Region.USE_COMPUTED_SIZE);
+
+        back_grid_vis.getChildren().removeAll();
+        back_grid_vis.getChildren().clear();
         back_grid_vis.getChildren().add(gridpane_lay);
     }
 
     public void Save_arch(ActionEvent actionEvent) {
-        architectures_done = gen_arch_done.pre_combine(arc_choise,module_done);
+
+
+        architectures_done = gen_arch_done.pre_combine(arc_choise, module_done);
         System.out.print("Lol");
         System.out.print(architectures_done.get(0).getId());
+
     }
 }

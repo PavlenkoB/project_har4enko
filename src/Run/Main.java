@@ -26,6 +26,8 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/mode_selection/Selection_mode.fxml"));
         primaryStage.setTitle("АРХІТЕКТОР ПРОГРАМНИХ СИСТЕМ");
         primaryStage.setScene(new Scene(root, 700, 500));
+        primaryStage.setMinHeight(500);
+        primaryStage.setMinWidth(700);
         primaryStage.show();
     }
 
