@@ -182,6 +182,7 @@ public class create_arch_C implements Initializable {
         Arch_choise_1.setVisible(false);
         Arch_choise_2.setVisible(true);
         Arch_choise_3.setVisible(false);
+        arc_choise.getLayers().clear();
         GridPane gridpane_lay = new GridPane();
         ArrayList<GridPane> gridPane_mod = new ArrayList<>();
         gridpane_lay.setHgap(2);
@@ -203,6 +204,7 @@ public class create_arch_C implements Initializable {
                 gridPane_mod.get(s_lay).getChildren().clear();
                 gridPane_mod.get(s_lay).setHgap(2);
                 gridPane_mod.get(s_lay).setVgap(20);
+                arc_choise.getLayers().get(arc_choise.getLayers().lastIndexOf(arc_choise.getLayers())).getModules().clear();
                 while (rs_mod.next()) {
                     arc_choise.getLayers().get(s_lay).getModules().add(new Module(rs_mod.getInt("ID"), rs_mod.getInt("LAY_ID"), rs_mod.getString("NAME"), rs_mod.getString("DESCRIPTION")));
                     tmp_lable = new Label(rs_mod.getString("NAME"));
@@ -367,5 +369,6 @@ public class create_arch_C implements Initializable {
     public void Save_arch(ActionEvent actionEvent) {
         architectures_done = gen_arch_done.pre_combine(arc_choise,module_done);
         System.out.print("Lol");
+        System.out.print(architectures_done.get(0).getId());
     }
 }

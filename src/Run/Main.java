@@ -30,7 +30,7 @@ public class Main extends Application {
     }
 
 
-    public static void main() throws IOException, SQLException {
+    public static void main(String[] args) throws IOException, SQLException {
         launch();
 
 
