@@ -10,6 +10,7 @@ import java.util.ArrayList;
  * Created by godex_000 on 27.05.2014.
  */
 public class gen_arch_done {
+    //TODO опис функції
     public static ArrayList<Architecture> pre_combine(Architecture origin_arch, ArrayList<Module> modules_arr) {
         ArrayList<Architecture> return_Architectures = new ArrayList<>();
         ArrayList<Integer> modd_arr_sellected = new ArrayList<>();
@@ -26,7 +27,7 @@ public class gen_arch_done {
         combine(return_Architectures, origin_arch, modules_arr, modd_arr_sellected, modd_arr_sellected.size() - 1);
         return return_Architectures;
     }
-
+    //TODO опис функції
     public static void combine(ArrayList<Architecture> return_Architectures, Architecture origin_arch, ArrayList<Module> modules_arr, ArrayList<Integer> modd_arr_sell, int s_pos) {
         if (modd_arr_sell.get(s_pos) >= modules_arr.get(s_pos).getAvilable_paterns().size() && s_pos == 0) {
         } else {

@@ -13,8 +13,10 @@ import java.sql.*;
 
 /**
  * Created by godex_000 on 22.05.2014.
+ *
  */
 public class functions {
+    //TODO опис функції
     public static Integer get_ID(String in_string) {
         String out_string = "";
         int line_pos = 0;
@@ -24,6 +26,7 @@ public class functions {
         }
         return Integer.parseInt(out_string);
     }
+    //TODO опис функції
 
     public static String get_NAME(String in_string) {
         String out_string = "";
@@ -38,6 +41,7 @@ public class functions {
         }
         return out_string;
     }
+    //TODO опис функції
 
     public static String arch_uml_text_gen(Architecture architecture) {
         architecture.getName();
@@ -57,6 +61,7 @@ public class functions {
         return class_text;
     }
 
+    //TODO опис функції
     public static Architecture arch_load_from_DB(Integer arch_id, DerbyDBManager derby_DB_connection) {
         Architecture arch_out = new Architecture();
         ResultSet rs_arch, rs_lay, rs_mod, rs_pat = null;
@@ -124,7 +129,7 @@ public class functions {
             if (arch_in.getDescription() == null) arch_in.setDescription("");
             if (arch_in.getUsecase() == null) arch_in.setUsecase("");
             if (arch_in.getId() == null || arch_in.getId() == 0) {//Добавить в базу
-                //TODO Нові патерни модулі і сама архітектура
+                //Нові патерни модулі і сама архітектура
 
                 derby_DB_connection.executeUpdate("INSERT INTO ARCHITECTURE (NAME,USECASE,DESCRIPTION,PREVIEW) VALUES ('" + arch_in.getName() + "','" + arch_in.getUsecase() + "','" + arch_in.getDescription() + "','" + arch_in.getPreview() + "')");
 
@@ -145,7 +150,7 @@ public class functions {
                     }
                 }
             } else {
-                //TODO якщо змінти дані про архітектуру
+                //якщо змінти дані про архітектуру
                 derby_DB_connection.executeUpdate("UPDATE ARCHITECTURE " + "SET NAME='" + arch_in.getName() + "',USECASE='" + arch_in.getUsecase() + "',DESCRIPTION='" + arch_in.getDescription() + "' WHERE ID=" + arch_in.getId());
                 try {
                     save_arch_img_update(arch_in, derby_DB_connection);
@@ -154,7 +159,7 @@ public class functions {
                 }
                 for (int s_lay = 0; s_lay < arch_in.getLayers().size(); s_lay++) {
                     if (arch_in.getLayers().get(s_lay).getId() == null || arch_in.getId() == 0) {
-                        //TODO Якщо шар новий то створити нові моудул і сам шар
+                        // Якщо шар новий то створити нові моудул і сам шар
                         derby_DB_connection.executeUpdate("INSERT INTO LAYER (ARCH_ID,NAME,DESCRIPTION) VALUES (" + arch_in.getId() + ",'" + arch_in.getLayers().get(s_lay).getName() + "','" + arch_in.getLayers().get(s_lay).getDescription() + "')");
                         rs_tmp = derby_DB_connection.executeQuery("SELECT MAX(ID) FROM LAYER");
                         rs_tmp.next();
@@ -166,17 +171,17 @@ public class functions {
                             arch_in.getLayers().get(s_lay).getModules().get(s_mod).setId(rs_tmp.getInt(1));
                         }
                     } else {
-                        //TODO якщо змінили дані про шар
+                        // якщо змінили дані про шар
                         derby_DB_connection.executeUpdate("UPDATE LAYER " + "SET NAME='" + arch_in.getLayers().get(s_lay).getName() + "',ARCH_ID=" + arch_in.getId() + ",DESCRIPTION='" + arch_in.getLayers().get(s_lay).getDescription() + "' WHERE ID=" + arch_in.getLayers().get(s_lay).getId());
                         for (int s_mod = 0; s_mod < arch_in.getLayers().get(s_lay).getModules().size(); s_mod++) {
                             if (arch_in.getLayers().get(s_lay).getModules().get(s_mod).getId() == null || arch_in.getLayers().get(s_lay).getModules().get(s_mod).getId() == 0) {
-                                //TODO якщо модуль новий
+                                // якщо модуль новий
                                 derby_DB_connection.executeUpdate("INSERT INTO MODULE (LAY_ID,NAME,DESCRIPTION) VALUES (" + arch_in.getLayers().get(s_lay).getId() + ",'" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "','" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getDescription() + "')");
                                 rs_tmp = derby_DB_connection.executeQuery("SELECT MAX(ID) FROM MODULE");
                                 rs_tmp.next();
                                 arch_in.getLayers().get(s_lay).getModules().get(s_mod).setId(rs_tmp.getInt(1));
                             } else {
-                                //TODO якщо модуль редагований
+                                // якщо модуль редагований
                                 derby_DB_connection.executeUpdate("UPDATE MODULE " + "SET NAME='" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "',DESCRIPTION='" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getDescription() + "' WHERE ID=" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getId());
 
                             }
@@ -200,6 +205,7 @@ public class functions {
         return arch_in;
     }
 
+    //TODO опис функції
     public static boolean task_done_save_to_DB(Task task, DerbyDBManager derby_DB_connection) {
         boolean result = false;
         try {
@@ -212,6 +218,7 @@ public class functions {
         return result;
     }
 
+    //TODO опис функції
     public static Integer last_id_from_table_DB(String table_name, DerbyDBManager derby_DB_connection) {
         Integer last_id = null;
         ResultSet rs_tmp;
@@ -225,6 +232,7 @@ public class functions {
         return last_id;
     }
 
+    //TODO опис функції
     public static boolean arch_done_save_to_DB(int task_id, Architecture arch_in, DerbyDBManager derby_DB_connection) throws SQLException {//Зберегти архітектуру в БД
         boolean result = false;
         ResultSet rs_tmp;
@@ -248,6 +256,7 @@ public class functions {
         return result;
     }
 
+    //TODO опис функції
     private static void save_arch_img_update(Architecture architecture, DerbyDBManager derbyDBManager) throws Exception {
         Connection con;
         con = derbyDBManager.getCon();

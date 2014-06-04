@@ -94,7 +94,7 @@ public class main_C implements Initializable {
         if (derby_DB != null) {
             derby_DB.disconectDB();
         }
-            derby_DB = null;
+        derby_DB = null;
         LV_archs_DB.setItems(null);
         P_arch_struct.getChildren().clear();
 
@@ -109,22 +109,38 @@ public class main_C implements Initializable {
         db_dir.setDialogTitle("Выберете каталог під базу");
         db_dir.showDialog(null, "Обрати...");
         String new_db_name = JOptionPane.showInputDialog("Введіть імя нової бази");
-        DerbyDBManager new_DB=new DerbyDBManager(db_dir.getSelectedFile().getAbsolutePath() + "\\" + new_db_name);
+
+            new File(db_dir.getSelectedFile().getAbsolutePath() + "\\" + new_db_name).mkdir();
+
+        derby_DB = new DerbyDBManager(db_dir.getSelectedFile().getAbsolutePath() + "\\" + new_db_name);
 
         System.out.print("Создаю таблиці)");
         try {
-        String query = "CREATE TABLE ARCHITECTURE (\n" +
-                "  ID INT PRIMARY KEY NOT NULL GENERATED ALWAYS AS IDENTITY\n" +
-                "        (START WITH 1, INCREMENT BY 1),\n" +
-                "  NAME VARCHAR(255) NOT NULL,\n" +
-                "    DESCRIPTION CLOB(1073741823),\n" +
-                "    USECASE CLOB(1073741823),\n" +
-                "    PREVIEW BLOB\n" +
-                "  )";
-            new_DB.executeUpdate(query);
+            File in_dir = new File(getClass().getClassLoader().getResource("editor/sql/create_DB").getFile());
+            //ResourceAsStream("/editor/sql/creat_DB");
+
+            File[] fList;
+
+            fList = in_dir.listFiles();
+
+            for (int i = 0; i < fList.length; i++) {
+                //Нужны только папки в место isFile() пишим isDirectory()
+                if (fList[i].isFile()) {
+
+                    String filename = fList[i].getName();
+                    int dotPos = filename.lastIndexOf(".");
+                    String ext = filename.substring(dotPos);
+                    if (ext.equals(".sql")) {
+                        derby_DB.executeUpdate_from_file(fList[i]);
+                    }
+                }
+
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        //TODO создание
     }
 
 

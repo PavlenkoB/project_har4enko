@@ -11,6 +11,7 @@ import java.util.zip.ZipOutputStream;
  * Created by godex_000 on 02.06.2014.
  */
 public class zip {
+    //TODO опис функції
     public static void zip_dir(File directory, File zipfile) throws IOException {
         URI base = directory.toURI();
         Deque<File> queue = new LinkedList<File>();
@@ -39,7 +40,7 @@ public class zip {
             res.close();
         }
     }
-
+    //TODO опис функції
     private static void copy(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];
         while (true) {
