@@ -108,11 +108,11 @@ public class main_C implements Initializable {
         db_dir.setAcceptAllFileFilterUsed(false);
         db_dir.setDialogTitle("Выберете каталог під базу");
         db_dir.showDialog(null, "Обрати...");
-        String new_db_name = JOptionPane.showInputDialog("Введіть імя нової бази");
+        //String new_db_name = JOptionPane.showInputDialog("Введіть імя нової бази");
 
-            new File(db_dir.getSelectedFile().getAbsolutePath() + "\\" + new_db_name).mkdir();
 
-        derby_DB = new DerbyDBManager(db_dir.getSelectedFile().getAbsolutePath() + "\\" + new_db_name);
+
+        derby_DB = new DerbyDBManager(db_dir.getSelectedFile().getAbsolutePath() + "\\");
 
         System.out.print("Создаю таблиці)");
         try {

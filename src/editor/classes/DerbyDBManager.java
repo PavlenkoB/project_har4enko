@@ -25,7 +25,7 @@ public class DerbyDBManager {
                 try {
                     //TODO проверить створення БД
                     con = DriverManager.getConnection(url + dbName + ";create=true");
-                    con = null;
+                    //con = null;
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
