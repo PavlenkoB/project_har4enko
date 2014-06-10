@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 /**
  * Created by Alex Shcherbak on 24.04.2014.
  */
-public class rating_arch_C {
+public class rating_arch_C implements Initializable {
     public AnchorPane Rating_arch_1;
     public ChoiceBox task_list;
     public TextArea task_description;
