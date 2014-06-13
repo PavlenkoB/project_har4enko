@@ -10,7 +10,14 @@ import java.util.ArrayList;
  * Created by godex_000 on 27.05.2014.
  */
 public class gen_arch_done {
-    //TODO опис функції
+    /**
+     * генерирует всевозможные варианты архитектур
+     * с разными патернами
+     *
+     * @param origin_arch оригынальна рахытектура
+     * @param modules_arr Список модулыв етой архитектуры
+     * @return Список сгенерированых архитектур
+     */
     public static ArrayList<Architecture> pre_combine(Architecture origin_arch, ArrayList<Module> modules_arr) {
         ArrayList<Architecture> return_Architectures = new ArrayList<>();
         ArrayList<Integer> modd_arr_sellected = new ArrayList<>();
@@ -27,6 +34,14 @@ public class gen_arch_done {
         combine(return_Architectures, origin_arch, modules_arr, modd_arr_sellected, modd_arr_sellected.size() - 1);
         return return_Architectures;
     }
+
+    /**
+     * @param return_Architectures
+     * @param origin_arch
+     * @param modules_arr
+     * @param modd_arr_sell
+     * @param s_pos
+     */
     //TODO опис функції
     public static void combine(ArrayList<Architecture> return_Architectures, Architecture origin_arch, ArrayList<Module> modules_arr, ArrayList<Integer> modd_arr_sell, int s_pos) {
         if (modd_arr_sell.get(s_pos) >= modules_arr.get(s_pos).getAvilable_paterns().size() && s_pos == 0) {
@@ -37,7 +52,9 @@ public class gen_arch_done {
                 modd_arr_sell.set(s_pos, modd_arr_sell.get(s_pos) + 1);
                 combine(return_Architectures, origin_arch, modules_arr, modd_arr_sell, s_pos);
             } else {
-                if(s_pos==-1){s_pos=0;}
+                if (s_pos == -1) {
+                    s_pos = 0;
+                }
                 try {
                     modules_arr.get(s_pos).setSelected_patern(modules_arr.get(s_pos).getAvilable_paterns().get(modd_arr_sell.get(s_pos)).clone());
                 } catch (CloneNotSupportedException e) {
@@ -59,7 +76,7 @@ public class gen_arch_done {
                                     tmp_arch.getLayers().get(s_lay).getModules().get(s_mod).setSelected_patern(new Pattern());
                                     tmp_arch.getLayers().get(s_lay).getModules().get(s_mod).setSelected_patern(modules_arr.get(s_copy).getSelected_patern().clone());
                                 } catch (CloneNotSupportedException e) {
-                                   e.printStackTrace();
+                                    e.printStackTrace();
                                 }
                             }
                         }
@@ -69,10 +86,8 @@ public class gen_arch_done {
 
                 return_Architectures.add(tmp_arch);
                 modd_arr_sell.set(s_pos, modd_arr_sell.get(s_pos) + 1);
-                combine(return_Architectures, origin_arch, modules_arr, modd_arr_sell, modd_arr_sell.size()-1);
+                combine(return_Architectures, origin_arch, modules_arr, modd_arr_sell, modd_arr_sell.size() - 1);
             }
         }
     }
-
-
 }

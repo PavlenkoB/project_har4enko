@@ -536,7 +536,8 @@ public class main_C implements Initializable {
     }
 
     public void save_this_arch_to_DB(ActionEvent actionEvent) {
-        arch_image = draw_uml.draw_class(functions.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
+        //TODO решить как лутьше
+        //arch_image = draw_uml.draw_class(functions.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
         arch_tmp.setPreview(arch_image);
         arch_tmp.setUsecase(TA_arch_relations.getText());
         arch_tmp.setDescription(TA_arch_description.getText());
