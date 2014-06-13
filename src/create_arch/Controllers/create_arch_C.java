@@ -166,7 +166,13 @@ public class create_arch_C implements Initializable {
             }
             ;
             Description.setText(arc_choise.getDescription());
-            //Action_draw_class();
+            try {
+                Action_draw_class();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             class_image = draw_uml.draw_class(arc_choise.getUsecase());
             Usecase_view.setFitHeight(class_image.getRequestedHeight());
             Usecase_view.setFitWidth(class_image.getRequestedWidth());
@@ -181,7 +187,6 @@ public class create_arch_C implements Initializable {
         class_image = draw_uml.draw_class("Class1 ..> class2");
         Usecase_view.setFitHeight(class_image.getRequestedHeight());
         Usecase_view.setFitWidth(class_image.getRequestedWidth());
-        Usecase_view.setImage(class_image);
         Usecase_view.setImage(class_image);
     }
 
