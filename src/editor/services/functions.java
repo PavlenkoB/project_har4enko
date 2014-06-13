@@ -4,6 +4,7 @@ import Classes.*;
 import editor.classes.DerbyDBManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.image.Image;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -13,7 +14,6 @@ import java.sql.*;
 
 /**
  * Created by godex_000 on 22.05.2014.
- *
  */
 public class functions {
     //TODO опис функції
@@ -72,22 +72,33 @@ public class functions {
             arch_out = new Architecture(rs_arch.getInt("ID"), rs_arch.getString("NAME"), rs_arch.getString("DESCRIPTION"));
             arch_out.setUsecase(rs_arch.getString("USECASE"));
             /*Зчитати превю*/
-            Blob photo = rs_arch.getBlob("PREVIEW");
-            ObjectInputStream ois = null;
-            ImageIcon image;
-            if (photo != null) {
-                try {
-                    ois = new ObjectInputStream(photo.getBinaryStream());
-                    image = (ImageIcon) ois.readObject();
-                    arch_out.setPreview(ImageConverter.AWTtoFX(image.getImage()));//конвертировать с свинг в FX
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
+
+            ImageIcon image = null;
+            //TODO конект не тот(
+            Connection con = DriverManager.getConnection("jdbc:derby:D:/Dropbox/Work/project_har4enko/DB/paterns_DB");
+            Statement s = con.createStatement();
+            ResultSet rs = s.executeQuery("SELECT * FROM ARCHITECTURE WHERE ID=" + arch_id);
+            if (rs.next()) {
+                Blob photo = rs.getBlob("PREVIEW");
+                if(photo!=null) {
+                    ObjectInputStream ois = null;
+                    try {
+                        ois = new ObjectInputStream(photo.getBinaryStream());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        image = (ImageIcon) ois.readObject();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    arch_out.setPreview(ImageConverter.AWTImgtoFXImg(image.getImage()));
                 }
-            } else {
-                arch_out.setPreview(null);
+                else {arch_out.setPreview(null);}
             }
+            s.close();
 
 
             //Выбрать все Слои даной архитектуры
@@ -116,7 +127,7 @@ public class functions {
     }
 
     /**
-     * Converts a given Image into a BufferedImage
+     * Збаріга архітектуру в базу
      *
      * @param arch_in             Архітектура яку потрібно зберегти
      * @param derby_DB_connection Підключення до БД
@@ -218,7 +229,13 @@ public class functions {
         return result;
     }
 
-    //TODO опис функції
+    /**
+     * Отримати максимальний(останій) ID з таблиці
+     *
+     * @param table_name          Імя таблиці
+     * @param derby_DB_connection Підключення до БД
+     * @return максимальни ID з таблиці
+     */
     public static Integer last_id_from_table_DB(String table_name, DerbyDBManager derby_DB_connection) {
         Integer last_id = null;
         ResultSet rs_tmp;
@@ -265,7 +282,7 @@ public class functions {
         ps = con.prepareStatement("UPDATE ARCHITECTURE SET PREVIEW=" + "?" + " WHERE ID=" + architecture.getId());
 
         Blob blob = con.createBlob();
-        ImageIcon ii = new ImageIcon(ImageConverter.FXtoAWT(architecture.getPreview()));
+        ImageIcon ii = new ImageIcon(ImageConverter.FXimgToAWTimg(architecture.getPreview()));
 
         ObjectOutputStream oos;
         oos = new ObjectOutputStream(blob.setBinaryStream(1));

@@ -7,6 +7,7 @@ import Classes.Architecture;
 import Classes.Layer;
 import Classes.Module;
 import editor.classes.DerbyDBManager;
+import editor.services.ImageConverter;
 import editor.services.draw_uml;
 import editor.services.functions;
 import editor.services.zip;
@@ -68,7 +69,7 @@ public class main_C implements Initializable {
     Architecture arch_tmp, arch_old = new Architecture();
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {/*
+    public void initialize(URL url, ResourceBundle rb) {
 //TODO Del
         try{
         derby_DB = new DerbyDBManager("DB/paterns_DB");
@@ -186,69 +187,7 @@ public class main_C implements Initializable {
 
     }
 
-    public void start_module_editor(ActionEvent actionEvent) {
-        try {
-            final Stage PS = (Stage) B_disconnect.getScene().getWindow();
-            PS.setIconified(true);
 
-            Parent Parent = FXMLLoader.load(getClass().getResource("../views/modules_editor.fxml"));
-            Stage Stage = new Stage();
-            Stage.setTitle("Редактор модулів");
-            Stage.setScene(new Scene(Parent));
-            Stage.show();
-
-            Stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                public void handle(WindowEvent we) {
-                    PS.setIconified(false);
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void start_patern_editor(ActionEvent actionEvent) {
-        try {
-            final Stage PS = (Stage) B_disconnect.getScene().getWindow();
-            PS.setIconified(true);
-
-            Parent Parent = FXMLLoader.load(getClass().getResource("../views/paterns_editor.fxml"));
-            Stage Stage = new Stage();
-            Stage.setTitle("Редактор патенів");
-            Stage.setScene(new Scene(Parent));
-            Stage.show();
-
-            Stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                public void handle(WindowEvent we) {
-                    PS.setIconified(false);
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public void start_layer_editor(ActionEvent actionEvent) {
-        try {
-            final Stage PS = (Stage) B_disconnect.getScene().getWindow();
-            PS.setIconified(true);
-
-            Parent Parent = FXMLLoader.load(getClass().getResource("../views/layer_editor.fxml"));
-            Stage Stage = new Stage();
-            Stage.setTitle("Редактор слоїв");
-            Stage.setScene(new Scene(Parent));
-            Stage.show();
-
-            Stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                public void handle(WindowEvent we) {
-                    // PS.setIconified(false);
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void create_backup(ActionEvent actionEvent) throws IOException {
         File mydir = new File("DB");
@@ -319,14 +258,6 @@ public class main_C implements Initializable {
         draw_arch_struct();
     }
 
-    public void edit_arch(ActionEvent actionEvent) {//Редактировать патерн
-        TF_arch_id_DB.setEditable(false);
-        LV_archs_DB.setDisable(true);
-        select_to_save_DB();
-        load_this_arch_DB(null);
-
-    }
-
 
 
     public void delete_arch_DB(ActionEvent actionEvent) {//удалить з базы по ID
@@ -370,11 +301,16 @@ public class main_C implements Initializable {
             TF_arch_name_DB.setText(name);
         }
         load_this_arch_DB(null);
-        arch_image = arch_tmp.getPreview();
+        if(arch_tmp.getPreview()!=null) {
+            arch_image = arch_tmp.getPreview();
+        }else {
+            arch_image = new Image("editor/res/img/preview-not-available.jpg");
+        }
+        //TODO перепроверить вывод что бы было удобно
         IV_arch_imageview.setFitHeight(arch_image.getRequestedHeight());
         IV_arch_imageview.setFitWidth(arch_image.getRequestedWidth());
         SP_P_IV.setPrefHeight(arch_image.getHeight());
-        SP_P_IV.setPrefWidth(arch_image.getWidth());
+        //SP_P_IV.setPrefWidth(arch_image.getWidth());
         IV_arch_imageview.setImage(arch_image);
     }
 
@@ -515,7 +451,6 @@ public class main_C implements Initializable {
             e.printStackTrace();
         }
         functions.arch_save_to_DB(arch_old,derby_DB);
-
     }
 
     public void add_custom_layer_to_arch(Architecture arch_in) {//Додати шар в архітектуру
@@ -585,12 +520,10 @@ public class main_C implements Initializable {
 
 
     public void arch_uml_gen(ActionEvent actionEvent) {
-        arch_image = draw_uml.draw_class(functions.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
-        /*try {
-            arch_image = ImageConverter.AWTtoFX(ImageConverter.FXtoAWT(draw_uml.draw_class(functions.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()))));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }/**/
+        //arch_image = draw_uml.draw_class(functions.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
+
+            arch_image = ImageConverter.AWTImgtoFXImg(ImageConverter.FXimgToAWTimg(draw_uml.draw_class(functions.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()))));
+        /**/
         IV_arch_imageview.setFitHeight(arch_image.getRequestedHeight());
         IV_arch_imageview.setFitWidth(arch_image.getRequestedWidth());
         SP_P_IV.setPrefHeight(arch_image.getHeight());
