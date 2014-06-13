@@ -58,6 +58,9 @@ public class main_C implements Initializable {
     public ImageView IV_arch_imageview;
     public Pane P_IV;
     public ScrollPane SP_P_IV;
+    public MenuItem MM_1_1_connect;
+    public MenuItem MM_1_2_create_DB;
+    public MenuItem MM_1_3_disconnect;
     @FXML
     private Image arch_image;
 
@@ -67,7 +70,19 @@ public class main_C implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+//TODO Del
+        try{
+        derby_DB = new DerbyDBManager("DB/paterns_DB");
+        list_load_DB();
+    } catch (Exception e) {
+        e.printStackTrace();
+        derby_DB = null;
+    }
 
+        if(derby_DB!=null){
+            MM_1_1_connect.setDisable(true);
+            MM_1_3_disconnect.setDisable(false);
+        }/**/
     }
 
     public void connect_DB(ActionEvent actionEvent) {
@@ -88,6 +103,10 @@ public class main_C implements Initializable {
             e.printStackTrace();
             derby_DB = null;
         }
+        if(derby_DB!=null){
+            MM_1_1_connect.setDisable(true);
+            MM_1_3_disconnect.setDisable(false);
+        }
     }
 
     public void disconnect_DB(ActionEvent actionEvent) {//отключиться от БД
@@ -100,6 +119,10 @@ public class main_C implements Initializable {
 
         selected_DB.setText("<не обрана>");
         //TODO доступность кнопок
+        if(derby_DB==null){
+            MM_1_1_connect.setDisable(false);
+            MM_1_3_disconnect.setDisable(true);
+        }
     }
 
     public void creat_DB(ActionEvent actionEvent) { //Создать БД
@@ -109,7 +132,6 @@ public class main_C implements Initializable {
         db_dir.setDialogTitle("Выберете каталог під базу");
         db_dir.showDialog(null, "Обрати...");
         //String new_db_name = JOptionPane.showInputDialog("Введіть імя нової бази");
-
 
 
         derby_DB = new DerbyDBManager(db_dir.getSelectedFile().getAbsolutePath() + "\\");
@@ -165,90 +187,7 @@ public class main_C implements Initializable {
 
     }
 
-    public void start_arch_editor(ActionEvent actionEvent) {
-        try {
-            final Stage PS = (Stage) B_disconnect.getScene().getWindow();
-            PS.setIconified(true);
 
-            Parent Parent = FXMLLoader.load(getClass().getResource("../views/arch_editor_din.fxml"));
-            Stage Stage = new Stage();
-            Stage.setTitle("Редактор архітектур");
-            Stage.setScene(new Scene(Parent));
-            Stage.show();
-
-            Stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                public void handle(WindowEvent we) {
-                    PS.setIconified(false);
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void start_module_editor(ActionEvent actionEvent) {
-        try {
-            final Stage PS = (Stage) B_disconnect.getScene().getWindow();
-            PS.setIconified(true);
-
-            Parent Parent = FXMLLoader.load(getClass().getResource("../views/modules_editor.fxml"));
-            Stage Stage = new Stage();
-            Stage.setTitle("Редактор модулів");
-            Stage.setScene(new Scene(Parent));
-            Stage.show();
-
-            Stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                public void handle(WindowEvent we) {
-                    PS.setIconified(false);
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void start_patern_editor(ActionEvent actionEvent) {
-        try {
-            final Stage PS = (Stage) B_disconnect.getScene().getWindow();
-            PS.setIconified(true);
-
-            Parent Parent = FXMLLoader.load(getClass().getResource("../views/paterns_editor.fxml"));
-            Stage Stage = new Stage();
-            Stage.setTitle("Редактор патенів");
-            Stage.setScene(new Scene(Parent));
-            Stage.show();
-
-            Stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                public void handle(WindowEvent we) {
-                    PS.setIconified(false);
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public void start_layer_editor(ActionEvent actionEvent) {
-        try {
-            final Stage PS = (Stage) B_disconnect.getScene().getWindow();
-            PS.setIconified(true);
-
-            Parent Parent = FXMLLoader.load(getClass().getResource("../views/layer_editor.fxml"));
-            Stage Stage = new Stage();
-            Stage.setTitle("Редактор слоїв");
-            Stage.setScene(new Scene(Parent));
-            Stage.show();
-
-            Stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                public void handle(WindowEvent we) {
-                    // PS.setIconified(false);
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void create_backup(ActionEvent actionEvent) throws IOException {
         File mydir = new File("DB");
@@ -309,44 +248,17 @@ public class main_C implements Initializable {
     public void load_this_arch_DB(ActionEvent actionEvent) {//ЗАгрузить архитектуру с базы
         //Читае Идентиф. Параметра
         arch_tmp = functions.arch_load_from_DB(functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString()), derby_DB);
-        arch_old = functions.arch_load_from_DB(functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString()), derby_DB);
+        try {
+            arch_old = arch_tmp.clone();//сохраним оригинальный вариант архитектуры
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
         TA_arch_relations.setText(arch_tmp.getUsecase());
         TA_arch_description.setText(arch_tmp.getDescription());
         draw_arch_struct();
     }
 
-    public void edit_arch(ActionEvent actionEvent) {//Редактировать патерн
-        TF_arch_id_DB.setEditable(false);
-        LV_archs_DB.setDisable(true);
-        select_to_save_DB();
-        load_this_arch_DB(null);
 
-    }
-
-    public void save_this_arch_DB(ActionEvent actionEvent) {//добавить патерн в базу
-        if (TF_arch_id_DB.getText().length() == 0) {
-            String query = "INSERT INTO ARCHITECTURE (NAME,USECASE,DESCRIPTION) VALUES ('" + TF_arch_name_DB.getText() + "','" + TA_arch_relations.getText() + "','" + TA_arch_description.getText() + "')";
-            ResultSet q_result;
-            try {
-                derby_DB.executeUpdate(query);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } else {
-            String query = "UPDATE ARCHITECTURE " +
-                    "SET NAME='" + TF_arch_name_DB.getText() + "',USECASE='" + TA_arch_relations.getText() + "',DESCRIPTION='" + TA_arch_description.getText() + "' WHERE ID=" + functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString());
-            ResultSet q_result;
-            try {
-                derby_DB.executeUpdate(query);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        list_load_DB();
-        TF_arch_id_DB.setEditable(true);
-        LV_archs_DB.setDisable(false);
-    }
 
     public void delete_arch_DB(ActionEvent actionEvent) {//удалить з базы по ID
         String query = "DELETE FROM ARCHITECTURE WHERE ID=" + functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString());
@@ -389,26 +301,31 @@ public class main_C implements Initializable {
             TF_arch_name_DB.setText(name);
         }
         load_this_arch_DB(null);
-        arch_image = arch_tmp.getPreview();
+        if(arch_tmp.getPreview()!=null) {
+            arch_image = arch_tmp.getPreview();
+        }else {
+            arch_image = new Image("editor/res/img/preview-not-available.jpg");
+        }
+        //TODO перепроверить вывод что бы было удобно
         IV_arch_imageview.setFitHeight(arch_image.getRequestedHeight());
         IV_arch_imageview.setFitWidth(arch_image.getRequestedWidth());
         SP_P_IV.setPrefHeight(arch_image.getHeight());
-        SP_P_IV.setPrefWidth(arch_image.getWidth());
+        //SP_P_IV.setPrefWidth(arch_image.getWidth());
         IV_arch_imageview.setImage(arch_image);
     }
 
     public void draw_arch_struct() {//відобразити структуру архітектури
         P_arch_struct.getChildren().clear();
-        Integer pos_x = 0, pos_y = 0, s_x1 = 30, s_y1 = 30, s_x2 = 40, s_y2 = 30;
+        Integer pos_x = 0, pos_y = 0, s_x1 = 30, s_y1 = 30, s_x2 = 80, s_y2 = 30;
         Button tmp_btn;
         Label tmp_label;
         //pos_x += s_x1;
         //pos_y += s_y1;
         for (int s_lay = 0; s_lay < arch_tmp.getLayers().size(); s_lay++) {
             //Редагування
-            tmp_btn = new Button("\u270E");
-            tmp_btn.setPrefWidth(s_x2);
-            tmp_btn.setPrefHeight(s_y2);
+            tmp_btn = new Button("Редагувати");
+            //tmp_btn.setPrefWidth(s_x2);
+            //tmp_btn.setPrefHeight(s_y2);
             tmp_btn.setLayoutX(pos_x);
             tmp_btn.setLayoutY(pos_y);
             final int finalS_lay4 = s_lay;
@@ -420,9 +337,9 @@ public class main_C implements Initializable {
             });
             P_arch_struct.getChildren().add(tmp_btn);
                 /*Кнопка видалення*/
-            tmp_btn = new Button("\u2718");
-            tmp_btn.setPrefWidth(s_x2);
-            tmp_btn.setPrefHeight(s_y2);
+            tmp_btn = new Button("Видалити");
+            //tmp_btn.setPrefWidth(s_x2);
+            //tmp_btn.setPrefHeight(s_y2);
             tmp_btn.setLayoutX(pos_x + s_x2);
             tmp_btn.setLayoutY(pos_y);
             final int finalS_lay2 = s_lay;
@@ -440,11 +357,28 @@ public class main_C implements Initializable {
             P_arch_struct.getChildren().add(tmp_label);
             pos_y += s_y1;
             pos_x += s_x1;
+            //Модулі
             for (int s_mod = 0; s_mod < arch_tmp.getLayers().get(s_lay).getModules().size(); s_mod++) {//вивід модулів
+                /*Кнопка Патернів*/
+                tmp_btn = new Button("Патерни...");
+                //tmp_btn.setPrefWidth(s_x2);
+                //tmp_btn.setPrefHeight(s_y2);
+                tmp_btn.setLayoutX(pos_x);
+                tmp_btn.setLayoutY(pos_y);
+                final int finalS_mod4 = s_mod;
+                final int finalS_lay5 = s_lay;
+                tmp_btn.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        edit_mod_paterns(finalS_lay5, finalS_mod4);
+                    }
+                });
+                P_arch_struct.getChildren().add(tmp_btn);
                 /*Кнопка редагування*/
-                tmp_btn = new Button("\u270E");
-                tmp_btn.setPrefWidth(s_x2);
-                tmp_btn.setPrefHeight(s_y2);
+                tmp_btn = new Button("Редагувати");
+                //tmp_btn.setPrefWidth(s_x2);
+                //tmp_btn.setPrefHeight(s_y2);
+                pos_x += s_x2;
                 tmp_btn.setLayoutX(pos_x);
                 tmp_btn.setLayoutY(pos_y);
                 final int finalS_mod1 = s_mod;
@@ -458,10 +392,11 @@ public class main_C implements Initializable {
                 P_arch_struct.getChildren().add(tmp_btn);
                 /*Кнопка видалення*/
 
-                tmp_btn = new Button("\u2718");
-                tmp_btn.setPrefWidth(s_x2);
-                tmp_btn.setPrefHeight(s_y2);
-                tmp_btn.setLayoutX(pos_x + s_x2);
+                tmp_btn = new Button("Видалити");
+                //tmp_btn.setPrefWidth(s_x2);
+                //tmp_btn.setPrefHeight(s_y2);
+                pos_x += s_x2;
+                tmp_btn.setLayoutX(pos_x);
                 tmp_btn.setLayoutY(pos_y);
                 final int finalS_mod = s_mod;
                 final int finalS_lay1 = s_lay;
@@ -474,11 +409,13 @@ public class main_C implements Initializable {
                 P_arch_struct.getChildren().add(tmp_btn);
                 /*Імя модулю*/
                 tmp_label = new Label("Модуль " + arch_tmp.getLayers().get(s_lay).getModules().get(s_mod).getName());
-                tmp_label.setLayoutX(pos_x + s_x2 + s_x2);
+                pos_x += s_x2;
+                tmp_label.setLayoutX(pos_x);
                 tmp_label.setLayoutY(pos_y);
                 P_arch_struct.getChildren().add(tmp_label);
                 pos_y += s_y2 - s_y1;//різниця між висотой між слоями і розміром кнопки
                 pos_y += s_y1 + 5;//Сдвиг вниз
+                pos_x = s_x1;
             }
             tmp_btn = new Button("Додати модуль");
             tmp_btn.setLayoutX(pos_x);
@@ -505,6 +442,15 @@ public class main_C implements Initializable {
         });
         P_arch_struct.getChildren().add(tmp_btn);
         //P_arch_struct.setPrefHeight(pos_y);
+    }
+
+    private void edit_mod_paterns(int lay, int mod) {//Редагувати патрни шару
+        try {
+            arch_old=arch_tmp.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        functions.arch_save_to_DB(arch_old,derby_DB);
     }
 
     public void add_custom_layer_to_arch(Architecture arch_in) {//Додати шар в архітектуру
@@ -575,11 +521,9 @@ public class main_C implements Initializable {
 
     public void arch_uml_gen(ActionEvent actionEvent) {
         //arch_image = draw_uml.draw_class(functions.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
-        try {
-            arch_image = ImageConverter.AWTtoFX(ImageConverter.FXtoAWT(draw_uml.draw_class(functions.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()))));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }/**/
+
+            arch_image = ImageConverter.AWTImgtoFXImg(ImageConverter.FXimgToAWTimg(draw_uml.draw_class(functions.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()))));
+        /**/
         IV_arch_imageview.setFitHeight(arch_image.getRequestedHeight());
         IV_arch_imageview.setFitWidth(arch_image.getRequestedWidth());
         SP_P_IV.setPrefHeight(arch_image.getHeight());

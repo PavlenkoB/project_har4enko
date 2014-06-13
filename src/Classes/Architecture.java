@@ -1,7 +1,5 @@
 package Classes;
 
-import javafx.scene.image.Image;
-
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,15 +16,15 @@ public class Architecture implements Cloneable {
     private Integer task_id;
     private String usecase;
 
-    public Image getPreview() {
+    public javafx.scene.image.Image getPreview() {
         return preview;
     }
 
-    public void setPreview(Image preview) {
+    public void setPreview(javafx.scene.image.Image preview) {
         this.preview = preview;
     }
 
-    private Image preview;
+    private javafx.scene.image.Image preview;
 
 
     public Architecture clone() throws CloneNotSupportedException {

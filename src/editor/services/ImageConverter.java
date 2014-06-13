@@ -2,6 +2,7 @@ package editor.services;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -22,66 +23,21 @@ import javafx.scene.image.Image;
  * Created by godex_000 on 03.06.2014.
  */
 public class ImageConverter {
-    public static java.awt.image.BufferedImage FXtoAWT(javafx.scene.image.Image image) {
-        final int width = (int) image.getWidth();
-        final int height = (int) image.getHeight();
-
-        final BufferedImage awtImage = new BufferedImage(width, height,
-                BufferedImage.TYPE_INT_ARGB);
-        final Graphics g = awtImage.createGraphics();
-
-        ImageView imageView = new ImageView(image);
-        final BorderPane borderPane = new BorderPane();
-        borderPane.setCenter(imageView);
-        final JFXPanel panel = new JFXPanel();
-        panel.setSize(width, height);
-        Platform.runLater(new Runnable() {
-
-            @Override
-            public void run() {
-                Scene scene = new Scene(borderPane, width, height);
-                panel.setScene(scene);
-            }
-        });
-        try {
-            Thread.sleep(20);
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
-        SwingUtilities.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-                panel.paint(g);
-                g.dispose();
-            }
-        });
-        return awtImage;
+    public static java.awt.Image FXimgToAWTimg(javafx.scene.image.Image image) {
+        return SwingFXUtils.fromFXImage(image,null);
     }
 
-    public static javafx.scene.image.Image AWTtoFX(java.awt.Image image) throws IOException {
-        if (!(image instanceof RenderedImage)) {
-            BufferedImage bufferedImage = new BufferedImage(image.getWidth(null),
-                    image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-            Graphics g = bufferedImage.createGraphics();
-            g.drawImage(image, 0, 0, null);
-            g.dispose();
-            image = bufferedImage;
-        }
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        ImageIO.write((RenderedImage) image, "png", out);
-        out.flush();
-        ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
-        return new javafx.scene.image.Image(in);
+    public static javafx.scene.image.Image AWTImgtoFXImg(java.awt.Image awtimage) {
+        return SwingFXUtils.toFXImage(AWTImgtoBufferedImage(awtimage),null);
     }
 
     /**
-     * Converts a given Image into a BufferedImage
+     * Converts a given awt Image into a BufferedImage
      *
      * @param img The Image to be converted
      * @return The converted BufferedImage
      */
-    public static BufferedImage toBufferedImage(java.awt.Image img)
+    public static BufferedImage AWTImgtoBufferedImage(java.awt.Image img)
     {
         if (img instanceof BufferedImage)
         {
@@ -95,6 +51,21 @@ public class ImageConverter {
         Graphics2D bGr = bimage.createGraphics();
         bGr.drawImage(img, 0, 0, null);
         bGr.dispose();
+
+        // Return the buffered image
+        return bimage;
+    }
+
+    /**
+     * Converts a given FX Image into a BufferedImage
+     *
+     * @param fxImage The Image to be converted
+     * @return The converted BufferedImage
+     */
+    public static BufferedImage FXImgtoBufferedImage(Image fxImage)
+    {
+        // Create a buffered image with transparency
+        BufferedImage bimage = SwingFXUtils.fromFXImage(fxImage, null);
 
         // Return the buffered image
         return bimage;
