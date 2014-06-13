@@ -17,9 +17,9 @@
                 <menus>
                     <Menu mnemonicParsing="false" text="База">
                         <items>
-                            <MenuItem mnemonicParsing="false" onAction="#connect_DB" text="Підключитися до БД" />
-                            <MenuItem mnemonicParsing="false" onAction="#creat_DB" text="Створити БД" />
-                            <MenuItem mnemonicParsing="false" onAction="#disconnect_DB" text="Відключитися від ДБ" />
+                            <MenuItem fx:id="MM_1_1_connect" mnemonicParsing="false" onAction="#connect_DB" text="Підключитися до БД" />
+                            <MenuItem fx:id="MM_1_2_create_DB" mnemonicParsing="false" onAction="#creat_DB" text="Створити БД" />
+                            <MenuItem fx:id="MM_1_3_disconnect" mnemonicParsing="false" disable="true" onAction="#disconnect_DB" text="Відключитися від ДБ" />
                         </items>
                     </Menu>
                     <Menu mnemonicParsing="false" text="Сервіс">
