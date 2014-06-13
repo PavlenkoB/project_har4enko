@@ -75,7 +75,7 @@ public class functions {
 
             ImageIcon image = null;
             //TODO конект не тот(
-            Connection con = DriverManager.getConnection("jdbc:derby:D:/Dropbox/Work/project_har4enko/DB/paterns_DB");
+            Connection con = DerbyDBManager.getCon();
             Statement s = con.createStatement();
             ResultSet rs = s.executeQuery("SELECT * FROM ARCHITECTURE WHERE ID=" + arch_id);
             if (rs.next()) {
