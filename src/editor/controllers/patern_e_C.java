@@ -73,22 +73,29 @@ public class patern_e_C implements Initializable {
     //TODO загрузка превю
     public void load_this_patern_DB(ActionEvent actionEvent) {//ЗАгрузить патерн с базы
         //Читае Идентиф. Параметра
-        //edited_pattern=
-        String query = "SELECT * FROM PATERNS WHERE ID=" + functions.get_ID(LV_paterns_DB.getSelectionModel().getSelectedItem().toString());
-        ResultSet q_result;
-        try {
-            q_result = derby_DB.executeQuery(query);
-            q_result.next();
-            class_text.setText(q_result.getString("VALUE"));
-            TA_patern_description.setText(q_result.getString("DESCRIPTION"));
+        edited_pattern = pattern_work.pattern_load_from_DB(functions.get_ID(LV_paterns_DB.getSelectionModel().getSelectedItem().toString()), derby_DB);
 
+
+        TA_patern_description.setText(edited_pattern.getDescription());
+        if (edited_pattern.getMod_id() == null) {
+            CB_paterns_master.setValue("");//Поставить селект
+        } else {
             ResultSet rs = null;
-            rs = derby_DB.executeQuery("SELECT * FROM MODULE WHERE ID=" + q_result.getString("MOD_ID"));//Получить данные о слою
-            rs.next();
-            CB_paterns_master.setValue(rs.getInt("ID") + "|" + rs.getString("NAME"));//Поставить селект
-        } catch (SQLException e) {
-            e.printStackTrace();
+            try {
+                rs = derby_DB.executeQuery("SELECT * FROM MODULE WHERE ID=" + edited_pattern.getMod_id().toString());//Получить данные о слою            rs.next();
+                rs.next();
+                CB_paterns_master.setValue(rs.getInt("ID") + "|" + rs.getString("NAME"));//Поставить селект
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+        TF_patern_id_DB.setText(edited_pattern.getId().toString());
+        class_text.setText(edited_pattern.getUml_text());
+        TF_patern_name_DB.setText(edited_pattern.getName());
+class_image=edited_pattern.getPreview();
+        class_imageview.setFitHeight(class_image.getRequestedHeight());
+        class_imageview.setFitWidth(class_image.getRequestedWidth());
+        class_imageview.setImage(class_image);
     }
 
     //TODO сохранение превю
@@ -99,7 +106,7 @@ public class patern_e_C implements Initializable {
         edited_pattern.setDescription(TA_patern_description.getText());
         edited_pattern.setPreview(class_image);
         if (pattern_work.pattern_save_to_DB(edited_pattern, derby_DB).getStatus() == true) {
-            JOptionPane.showMessageDialog(null, "Паттерн збережено.","Інформація",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Паттерн збережено.", "Інформація", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, "Помилка збереження зверныться до Адмыныстратора чи програміста.", "Попередження", JOptionPane.WARNING_MESSAGE);
         }
@@ -125,7 +132,6 @@ public class patern_e_C implements Initializable {
                 //derby_DB
                 rs = derby_DB.executeQuery("SELECT * FROM PATERNS");
             } catch (SQLException e) {
-                System.out.print("ssdsa");
                 //если БД не существовала, то создаем таблицу и после этого заполняем её значениями
                 try {
                     String query = "CREATE TABLE PATERNS (\n" +
@@ -147,7 +153,6 @@ public class patern_e_C implements Initializable {
             ObservableList<String> items = FXCollections.observableArrayList();
 
             while (rs.next()) {
-                System.out.println(rs.getInt("ID") + "|" + rs.getString("NAME"));
                 items.add(rs.getString("ID") + "|" + rs.getString("NAME"));
             }
             LV_paterns_DB.setItems(items);
@@ -212,7 +217,6 @@ public class patern_e_C implements Initializable {
             ObservableList<String> items = FXCollections.observableArrayList();
 
             while (rs.next()) {
-                System.out.println(rs.getInt("ID") + "|" + rs.getString("NAME"));
                 items.add(rs.getString("ID") + "|" + rs.getString("NAME"));
             }
             CB_paterns_master.setItems(items);

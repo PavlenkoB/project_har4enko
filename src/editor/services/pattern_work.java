@@ -3,8 +3,11 @@ package editor.services;
 import Classes.Pattern;
 import editor.classes.DerbyDBManager;
 import editor.classes.result_info;
+import javafx.scene.image.Image;
 
 import javax.swing.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.*;
 
@@ -15,6 +18,54 @@ public class pattern_work {
     //TODO опис функції
     public static Pattern pattern_load_from_DB(Integer pattern_id, DerbyDBManager derby_DB_connection) {
         Pattern pattern_out = new Pattern();
+        String query = "SELECT * FROM PATERNS WHERE ID=" + pattern_id.toString();
+        ResultSet q_result;
+        try {
+            q_result = derby_DB_connection.executeQuery(query);
+            q_result.next();
+            pattern_out.setId(pattern_id);
+            pattern_out.setMod_id(q_result.getInt("MOD_ID"));
+            pattern_out.setName(q_result.getString("NAME"));
+            pattern_out.setUml_text(q_result.getString("VALUE"));
+            pattern_out.setDescription(q_result.getString("DESCRIPTION"));
+
+            /*Зчитати превю*/
+
+            ImageIcon image = null;
+            //TODO конект не тот(
+            Connection con = DerbyDBManager.getCon();
+            Statement s = con.createStatement();
+            ResultSet rs = s.executeQuery("SELECT * FROM PATERNS WHERE ID=" + pattern_id);
+            if (rs.next()) {
+                Blob photo = rs.getBlob("PREVIEW");
+                if (photo != null) {
+                    ObjectInputStream ois = null;
+                    try {
+                        ois = new ObjectInputStream(photo.getBinaryStream());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        image = (ImageIcon) ois.readObject();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    pattern_out.setPreview(ImageConverter.AWTImgtoFXImg(image.getImage()));
+                } else {
+                    pattern_out.setPreview(null);
+                }
+            }
+            s.close();
+
+            if (pattern_out.getPreview() == null||pattern_out.getPreview().getHeight()<20) {
+                pattern_out.setPreview(new Image("editor/res/img/preview-not-available.jpg"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return pattern_out;
     }
 

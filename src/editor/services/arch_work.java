@@ -8,6 +8,7 @@ import editor.classes.DerbyDBManager;
 import editor.classes.result_info;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.image.Image;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -60,6 +61,10 @@ public class arch_work {
             }
             s.close();
 
+            if (arch_out.getPreview() == null||arch_out.getPreview().getHeight()<20) {
+                arch_out.setPreview(new Image("editor/res/img/preview-not-available.jpg"));
+            }
+
 
             //Выбрать все Слои даной архитектуры
             rs_lay = derby_DB_connection.executeQuery("SELECT * FROM LAYER WHERE ARCH_ID=" + arch_id);
@@ -102,7 +107,7 @@ public class arch_work {
             if (arch_in.getId() == null || arch_in.getId() == 0) {//Добавить в базу
                 //Нові патерни модулі і сама архітектура
 
-                derby_DB_connection.executeUpdate("INSERT INTO ARCHITECTURE2 (NAME,USECASE,DESCRIPTION) VALUES ('" + arch_in.getName() + "','" + arch_in.getUsecase() + "','" + arch_in.getDescription() + "'");
+                derby_DB_connection.executeUpdate("INSERT INTO ARCHITECTURE (NAME,USECASE,DESCRIPTION) VALUES ('" + arch_in.getName() + "','" + arch_in.getUsecase() + "','" + arch_in.getDescription() + "'");
 
 
                 rs_tmp = derby_DB_connection.executeQuery("SELECT MAX(ID) FROM ARCHITECTURE");
