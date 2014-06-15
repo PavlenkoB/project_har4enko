@@ -36,7 +36,7 @@ public class Pattern implements Cloneable {
 
         if (this.preview != null)
             //TODO картинку тоже клонировать
-            p_return.preview = new javafx.scene.image.Image(this.preview);
+            p_return.preview =this.preview;//new javafx.scene.image.Image(this.preview);
         else
             p_return.preview = null;
 
