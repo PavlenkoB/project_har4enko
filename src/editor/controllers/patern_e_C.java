@@ -3,6 +3,7 @@ package editor.controllers;/*
  * and open the template in the editor.
  */
 
+import Classes.Pattern;
 import editor.classes.DerbyDBManager;
 import editor.services.draw_uml;
 import editor.services.functions;
@@ -40,6 +41,7 @@ public class patern_e_C implements Initializable {
     public TextField TF_patern_id_DB;
     public TextArea TA_patern_description;
     public ChoiceBox CB_paterns_master;
+    public Pattern edited_pattern;
     /*Кнопки*/
     @FXML
     private TextArea class_text;
@@ -71,6 +73,7 @@ public class patern_e_C implements Initializable {
     //TODO загрузка превю
     public void load_this_patern_DB(ActionEvent actionEvent) {//ЗАгрузить патерн с базы
         //Читае Идентиф. Параметра
+        //edited_pattern=
         String query = "SELECT * FROM PATERNS WHERE ID=" + functions.get_ID(LV_paterns_DB.getSelectionModel().getSelectedItem().toString());
         ResultSet q_result;
         try {
@@ -91,7 +94,7 @@ public class patern_e_C implements Initializable {
     //TODO сохранение превю
     public void save_this_patern_DB(ActionEvent actionEvent) {//добавить патерн в базу
         if (TF_patern_id_DB.getText().length() == 0) {
-            String query = "INSERT INTO PATERNS (MOD_ID,NAME,VALUE,DESCRIPTION) VALUES (" + functions.get_ID(CB_paterns_master.getSelectionModel().getSelectedItem().toString()) + ",'" + TF_patern_name_DB.getText() + "','" + class_text.getText() + "','" + TA_patern_description.getText() + "')";
+            String query = "INSERT INTO PATERNS (MOD_ID,NAME,VALUE,DESCRIPTION,PREVIEW) VALUES (" + functions.get_ID(CB_paterns_master.getSelectionModel().getSelectedItem().toString()) + ",'" + TF_patern_name_DB.getText() + "','" + class_text.getText() + "','" + TA_patern_description.getText() + "','"+edited_pattern.getPreview()+"')";
             ResultSet q_result;
             try {
                 derby_DB.executeUpdate(query);

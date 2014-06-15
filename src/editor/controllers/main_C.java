@@ -7,10 +7,7 @@ import Classes.Architecture;
 import Classes.Layer;
 import Classes.Module;
 import editor.classes.DerbyDBManager;
-import editor.services.ImageConverter;
-import editor.services.draw_uml;
-import editor.services.functions;
-import editor.services.zip;
+import editor.services.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -247,7 +244,7 @@ public class main_C implements Initializable {
 
     public void load_this_arch_DB(ActionEvent actionEvent) {//ЗАгрузить архитектуру с базы
         //Читае Идентиф. Параметра
-        arch_tmp = functions.arch_load_from_DB(functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString()), derby_DB);
+        arch_tmp = arch_work.arch_load_from_DB(functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString()), derby_DB);
         try {
             arch_old = arch_tmp.clone();//сохраним оригинальный вариант архитектуры
         } catch (CloneNotSupportedException e) {
@@ -450,7 +447,7 @@ public class main_C implements Initializable {
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
-        functions.arch_save_to_DB(arch_old,derby_DB);
+        arch_work.arch_save_to_DB(arch_old,derby_DB);
     }
 
     public void add_custom_layer_to_arch(Architecture arch_in) {//Додати шар в архітектуру
@@ -522,7 +519,7 @@ public class main_C implements Initializable {
     public void arch_uml_gen(ActionEvent actionEvent) {
         //arch_image = draw_uml.draw_class(functions.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
 
-            arch_image = ImageConverter.AWTImgtoFXImg(ImageConverter.FXimgToAWTimg(draw_uml.draw_class(functions.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()))));
+            arch_image = ImageConverter.AWTImgtoFXImg(ImageConverter.FXimgToAWTimg(draw_uml.draw_class(arch_work.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()))));
         /**/
         IV_arch_imageview.setFitHeight(arch_image.getRequestedHeight());
         IV_arch_imageview.setFitWidth(arch_image.getRequestedWidth());
@@ -542,6 +539,6 @@ public class main_C implements Initializable {
         arch_tmp.setUsecase(TA_arch_relations.getText());
         arch_tmp.setDescription(TA_arch_description.getText());
         arch_tmp.setId(Integer.parseInt(TF_arch_id_DB.getText()));
-        functions.arch_save_to_DB(arch_tmp, derby_DB);
+        arch_work.arch_save_to_DB(arch_tmp, derby_DB);
     }
 }
