@@ -295,11 +295,7 @@ public class main_C implements Initializable {
             TF_arch_name_DB.setText(name);
         }
         load_this_arch_DB(null);
-        if (arch_tmp.getPreview() != null) {
-            arch_image = arch_tmp.getPreview();
-        } else {
-            arch_image = new Image("editor/res/img/preview-not-available.jpg");
-        }
+        arch_image = arch_tmp.getPreview();
         //TODO перепроверить вывод что бы было удобно
         IV_arch_imageview.setFitHeight(arch_image.getRequestedHeight());
         IV_arch_imageview.setFitWidth(arch_image.getRequestedWidth());
@@ -547,10 +543,8 @@ public class main_C implements Initializable {
             JOptionPane.showMessageDialog(null, "Архітектура успішно збережена.","Інформація",JOptionPane.INFORMATION_MESSAGE);
         } else {
             //TODO ВТорое окно
-            /*Label message = new Label("Cay's message");
-            Node  source = (Node)  actionEvent.getSource();
-            Stage stage  = (Stage) source.getScene().getWindow();
-            //stage.setScene(new Scene(message));*/
+            //Label message = new Label("Cay's message");
+            //functions.get_stage_by_element(TA_arch_description).setScene(new Scene(message));
             JOptionPane.showMessageDialog(null, "Архітектура не збереження зверныться до Адмыныстратора чи програміста.\n"+result.getComment(), "Попередження", JOptionPane.WARNING_MESSAGE);
         }
     }

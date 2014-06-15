@@ -15,13 +15,15 @@ import java.sql.SQLException;
 public class functions {
     //TODO опис функції
     public static Integer get_ID(String in_string) {
+        Integer out_int;
         String out_string = "";
         int line_pos = 0;
         while ((in_string.charAt(line_pos) != '|') == true) {
             out_string = out_string + Character.toString(in_string.charAt(line_pos));
             line_pos++;
         }
-        return Integer.parseInt(out_string);
+        out_int=Integer.parseInt(out_string);
+        return out_int;
     }
     //TODO опис функції
 

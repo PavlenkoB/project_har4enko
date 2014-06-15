@@ -13,11 +13,11 @@
             <menus>
                 <Menu mnemonicParsing="false" text="Файл">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#creat_DB" text="Создать БД"/>
-                        <MenuItem fx:id="MI_connect" mnemonicParsing="false" onAction="#connect_DB"
+                        <MenuItem mnemonicParsing="false" text="Создать БД"/>
+                        <MenuItem fx:id="MI_connect" mnemonicParsing="false"
                                   text="Подключиться БД"/>
                         <MenuItem xmlns:fx="http://javafx.com/fxml/1" fx:id="MI_disconnect" disable="true" mnemonicParsing="false"
-                                  onAction="#disconnect_DB" text="Отключиться БД"
+                                  text="Отключиться БД"
                                   xmlns="http://javafx.com/javafx/8"/>
                         <MenuItem mnemonicParsing="false" onAction="#close_mw" text="Закрыть"/>
                     </items>
