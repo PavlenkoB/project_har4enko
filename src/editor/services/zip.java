@@ -40,6 +40,7 @@ public class zip {
             res.close();
         }
     }
+
     //TODO опис функції
     private static void copy(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];

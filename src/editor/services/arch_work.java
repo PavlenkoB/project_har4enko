@@ -1,6 +1,9 @@
 package editor.services;
 
-import Classes.*;
+import Classes.Architecture;
+import Classes.Layer;
+import Classes.Module;
+import Classes.Pattern;
 import editor.classes.DerbyDBManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -35,7 +38,7 @@ public class arch_work {
             ResultSet rs = s.executeQuery("SELECT * FROM ARCHITECTURE WHERE ID=" + arch_id);
             if (rs.next()) {
                 Blob photo = rs.getBlob("PREVIEW");
-                if(photo!=null) {
+                if (photo != null) {
                     ObjectInputStream ois = null;
                     try {
                         ois = new ObjectInputStream(photo.getBinaryStream());
@@ -50,8 +53,9 @@ public class arch_work {
                         e.printStackTrace();
                     }
                     arch_out.setPreview(ImageConverter.AWTImgtoFXImg(image.getImage()));
+                } else {
+                    arch_out.setPreview(null);
                 }
-                else {arch_out.setPreview(null);}
             }
             s.close();
 
@@ -97,12 +101,17 @@ public class arch_work {
             if (arch_in.getId() == null || arch_in.getId() == 0) {//Добавить в базу
                 //Нові патерни модулі і сама архітектура
 
-                derby_DB_connection.executeUpdate("INSERT INTO ARCHITECTURE (NAME,USECASE,DESCRIPTION,PREVIEW) VALUES ('" + arch_in.getName() + "','" + arch_in.getUsecase() + "','" + arch_in.getDescription() + "','" + arch_in.getPreview() + "')");
+                derby_DB_connection.executeUpdate("INSERT INTO ARCHITECTURE (NAME,USECASE,DESCRIPTION) VALUES ('" + arch_in.getName() + "','" + arch_in.getUsecase() + "','" + arch_in.getDescription() + "'");
 
 
                 rs_tmp = derby_DB_connection.executeQuery("SELECT MAX(ID) FROM ARCHITECTURE");
                 rs_tmp.next();
                 arch_in.setId(rs_tmp.getInt(1));
+                try {
+                    save_arch_img_update(arch_in, derby_DB_connection);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 for (int s_lay = 0; s_lay < arch_in.getLayers().size(); s_lay++) {
                     derby_DB_connection.executeUpdate("INSERT INTO LAYER (ARCH_ID,NAME,DESCRIPTION) VALUES (" + arch_in.getId() + ",'" + arch_in.getLayers().get(s_lay).getName() + "','" + arch_in.getLayers().get(s_lay).getDescription() + "')");
                     rs_tmp = derby_DB_connection.executeQuery("SELECT MAX(ID) FROM LAYER");
@@ -163,7 +172,6 @@ public class arch_work {
         }
         return result;
     }
-
 
 
     //TODO Удаления архитектуре вместе со всеми связями

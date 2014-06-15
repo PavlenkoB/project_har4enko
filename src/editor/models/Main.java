@@ -9,6 +9,10 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("../views/main_window_V2.fxml"));
@@ -22,10 +26,5 @@ public class Main extends Application {
 
     public void stop() {
         //Чистим за собой
-    }
-
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

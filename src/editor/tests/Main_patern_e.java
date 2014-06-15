@@ -9,6 +9,10 @@ import javafx.stage.Stage;
 
 public class Main_patern_e extends Application {
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("../views/paterns_editor.fxml"));
@@ -22,9 +26,5 @@ public class Main_patern_e extends Application {
 
     public void stop() {
 
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

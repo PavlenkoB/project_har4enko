@@ -22,7 +22,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import javax.swing.*;
 import java.io.File;
@@ -58,25 +57,23 @@ public class main_C implements Initializable {
     public MenuItem MM_1_1_connect;
     public MenuItem MM_1_2_create_DB;
     public MenuItem MM_1_3_disconnect;
+    DerbyDBManager derby_DB;
+    Architecture arch_tmp, arch_old = new Architecture();
     @FXML
     private Image arch_image;
-
-    DerbyDBManager derby_DB;
-
-    Architecture arch_tmp, arch_old = new Architecture();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 //TODO Del
-        try{
-        derby_DB = new DerbyDBManager("DB/paterns_DB");
-        list_load_DB();
-    } catch (Exception e) {
-        e.printStackTrace();
-        derby_DB = null;
-    }
+        try {
+            derby_DB = new DerbyDBManager("DB/paterns_DB");
+            list_load_DB();
+        } catch (Exception e) {
+            e.printStackTrace();
+            derby_DB = null;
+        }
 
-        if(derby_DB!=null){
+        if (derby_DB != null) {
             MM_1_1_connect.setDisable(true);
             MM_1_3_disconnect.setDisable(false);
         }/**/
@@ -100,7 +97,7 @@ public class main_C implements Initializable {
             e.printStackTrace();
             derby_DB = null;
         }
-        if(derby_DB!=null){
+        if (derby_DB != null) {
             MM_1_1_connect.setDisable(true);
             MM_1_3_disconnect.setDisable(false);
         }
@@ -116,7 +113,7 @@ public class main_C implements Initializable {
 
         selected_DB.setText("<не обрана>");
         //TODO доступность кнопок
-        if(derby_DB==null){
+        if (derby_DB == null) {
             MM_1_1_connect.setDisable(false);
             MM_1_3_disconnect.setDisable(true);
         }
@@ -183,7 +180,6 @@ public class main_C implements Initializable {
 
 
     }
-
 
 
     public void create_backup(ActionEvent actionEvent) throws IOException {
@@ -256,7 +252,6 @@ public class main_C implements Initializable {
     }
 
 
-
     public void delete_arch_DB(ActionEvent actionEvent) {//удалить з базы по ID
         String query = "DELETE FROM ARCHITECTURE WHERE ID=" + functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString());
         try {
@@ -298,9 +293,9 @@ public class main_C implements Initializable {
             TF_arch_name_DB.setText(name);
         }
         load_this_arch_DB(null);
-        if(arch_tmp.getPreview()!=null) {
+        if (arch_tmp.getPreview() != null) {
             arch_image = arch_tmp.getPreview();
-        }else {
+        } else {
             arch_image = new Image("editor/res/img/preview-not-available.jpg");
         }
         //TODO перепроверить вывод что бы было удобно
@@ -443,11 +438,11 @@ public class main_C implements Initializable {
 
     private void edit_mod_paterns(int lay, int mod) {//Редагувати патрни шару
         try {
-            arch_old=arch_tmp.clone();
+            arch_old = arch_tmp.clone();
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
-        arch_work.arch_save_to_DB(arch_old,derby_DB);
+        arch_work.arch_save_to_DB(arch_old, derby_DB);
     }
 
     public void add_custom_layer_to_arch(Architecture arch_in) {//Додати шар в архітектуру
@@ -519,7 +514,7 @@ public class main_C implements Initializable {
     public void arch_uml_gen(ActionEvent actionEvent) {
         //arch_image = draw_uml.draw_class(functions.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
 
-            arch_image = ImageConverter.AWTImgtoFXImg(ImageConverter.FXimgToAWTimg(draw_uml.draw_class(arch_work.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()))));
+        arch_image = ImageConverter.AWTImgtoFXImg(ImageConverter.FXimgToAWTimg(draw_uml.draw_class(arch_work.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()))));
         /**/
         IV_arch_imageview.setFitHeight(arch_image.getRequestedHeight());
         IV_arch_imageview.setFitWidth(arch_image.getRequestedWidth());

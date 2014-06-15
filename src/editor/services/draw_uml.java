@@ -12,7 +12,8 @@ import java.io.*;
  */
 public class draw_uml {
     /**
-     *  С текста UML генерирует картинку
+     * С текста UML генерирует картинку
+     *
      * @param class_text текст на базе которого генерируе картнку
      * @return картинка javaFX
      */

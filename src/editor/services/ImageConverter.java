@@ -1,34 +1,21 @@
 package editor.services;
 
-import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.image.Image;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.awt.image.BufferedImage;
-
-import javafx.scene.image.Image;
 
 /**
  * Created by godex_000 on 03.06.2014.
  */
 public class ImageConverter {
     public static java.awt.Image FXimgToAWTimg(javafx.scene.image.Image image) {
-        return SwingFXUtils.fromFXImage(image,null);
+        return SwingFXUtils.fromFXImage(image, null);
     }
 
     public static javafx.scene.image.Image AWTImgtoFXImg(java.awt.Image awtimage) {
-        return SwingFXUtils.toFXImage(AWTImgtoBufferedImage(awtimage),null);
+        return SwingFXUtils.toFXImage(AWTImgtoBufferedImage(awtimage), null);
     }
 
     /**
@@ -37,10 +24,8 @@ public class ImageConverter {
      * @param img The Image to be converted
      * @return The converted BufferedImage
      */
-    public static BufferedImage AWTImgtoBufferedImage(java.awt.Image img)
-    {
-        if (img instanceof BufferedImage)
-        {
+    public static BufferedImage AWTImgtoBufferedImage(java.awt.Image img) {
+        if (img instanceof BufferedImage) {
             return (BufferedImage) img;
         }
 
@@ -62,8 +47,7 @@ public class ImageConverter {
      * @param fxImage The Image to be converted
      * @return The converted BufferedImage
      */
-    public static BufferedImage FXImgtoBufferedImage(Image fxImage)
-    {
+    public static BufferedImage FXImgtoBufferedImage(Image fxImage) {
         // Create a buffered image with transparency
         BufferedImage bimage = SwingFXUtils.fromFXImage(fxImage, null);
 

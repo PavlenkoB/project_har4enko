@@ -1,16 +1,11 @@
 package editor.services;
 
-import Classes.*;
+import Classes.Architecture;
+import Classes.Task;
 import editor.classes.DerbyDBManager;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.image.Image;
 
-import javax.swing.*;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Created by godex_000 on 22.05.2014.
@@ -74,6 +69,7 @@ public class functions {
         }
         return last_id;
     }
+
     //TODO опис функції
     public static boolean arch_done_save_to_DB(int task_id, Architecture arch_in, DerbyDBManager derby_DB_connection) throws SQLException {//Зберегти архітектуру в БД
         boolean result = false;

@@ -11,6 +11,10 @@ import java.io.File;
 
 public class Main_arch_e extends Application {
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("../views/arch_editor_0.fxml"));
@@ -28,10 +32,5 @@ public class Main_arch_e extends Application {
         //Чистим за собой
         new File("class.txt").delete();
         new File("class.png").delete();
-    }
-
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

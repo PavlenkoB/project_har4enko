@@ -42,6 +42,7 @@ public class patern_e_C implements Initializable {
     public TextArea TA_patern_description;
     public ChoiceBox CB_paterns_master;
     public Pattern edited_pattern;
+    DerbyDBManager derby_DB;
     /*Кнопки*/
     @FXML
     private TextArea class_text;
@@ -51,8 +52,6 @@ public class patern_e_C implements Initializable {
     private Image class_image;
     @FXML
     private javafx.scene.image.ImageView class_imageview;
-
-    DerbyDBManager derby_DB;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -70,6 +69,7 @@ public class patern_e_C implements Initializable {
         class_imageview.setFitWidth(class_image.getRequestedWidth());
         class_imageview.setImage(class_image);
     }
+
     //TODO загрузка превю
     public void load_this_patern_DB(ActionEvent actionEvent) {//ЗАгрузить патерн с базы
         //Читае Идентиф. Параметра
@@ -94,7 +94,7 @@ public class patern_e_C implements Initializable {
     //TODO сохранение превю
     public void save_this_patern_DB(ActionEvent actionEvent) {//добавить патерн в базу
         if (TF_patern_id_DB.getText().length() == 0) {
-            String query = "INSERT INTO PATERNS (MOD_ID,NAME,VALUE,DESCRIPTION,PREVIEW) VALUES (" + functions.get_ID(CB_paterns_master.getSelectionModel().getSelectedItem().toString()) + ",'" + TF_patern_name_DB.getText() + "','" + class_text.getText() + "','" + TA_patern_description.getText() + "','"+edited_pattern.getPreview()+"')";
+            String query = "INSERT INTO PATERNS (MOD_ID,NAME,VALUE,DESCRIPTION,PREVIEW) VALUES (" + functions.get_ID(CB_paterns_master.getSelectionModel().getSelectedItem().toString()) + ",'" + TF_patern_name_DB.getText() + "','" + class_text.getText() + "','" + TA_patern_description.getText() + "','" + edited_pattern.getPreview() + "')";
             ResultSet q_result;
             try {
                 derby_DB.executeUpdate(query);
