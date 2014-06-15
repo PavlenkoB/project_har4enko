@@ -23,7 +23,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/mode_selection/Selection_mode.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/mode_selection/Selection_mode_user.fxml"));
         primaryStage.setTitle("АРХІТЕКТОР ПРОГРАМНИХ СИСТЕМ");
         primaryStage.setScene(new Scene(root, 700, 500));
         primaryStage.setMinHeight(500);
