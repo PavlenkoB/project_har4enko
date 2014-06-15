@@ -11,13 +11,13 @@ public class Pattern implements Cloneable {
     private String name;
     private String description;
     private String uml_text;
-    private ImageIcon preview;
+    private javafx.scene.image.Image preview;
 
-    public ImageIcon getPreview() {
+    public javafx.scene.image.Image getPreview() {
         return preview;
     }
 
-    public void setPreview(ImageIcon preview) {
+    public void setPreview(javafx.scene.image.Image preview) {
         this.preview = preview;
     }
 
@@ -35,7 +35,8 @@ public class Pattern implements Cloneable {
         p_return.description = new String(this.description);
 
         if (this.preview != null)
-            p_return.preview = new ImageIcon(this.preview.getImage());
+            //TODO картинку тоже клонировать
+            p_return.preview = new javafx.scene.image.Image(this.preview);
         else
             p_return.preview = null;
 

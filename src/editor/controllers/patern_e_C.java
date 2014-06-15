@@ -68,7 +68,7 @@ public class patern_e_C implements Initializable {
         class_imageview.setFitWidth(class_image.getRequestedWidth());
         class_imageview.setImage(class_image);
     }
-
+    //TODO загрузка превю
     public void load_this_patern_DB(ActionEvent actionEvent) {//ЗАгрузить патерн с базы
         //Читае Идентиф. Параметра
         String query = "SELECT * FROM PATERNS WHERE ID=" + functions.get_ID(LV_paterns_DB.getSelectionModel().getSelectedItem().toString());
@@ -88,6 +88,7 @@ public class patern_e_C implements Initializable {
         }
     }
 
+    //TODO сохранение превю
     public void save_this_patern_DB(ActionEvent actionEvent) {//добавить патерн в базу
         if (TF_patern_id_DB.getText().length() == 0) {
             String query = "INSERT INTO PATERNS (MOD_ID,NAME,VALUE,DESCRIPTION) VALUES (" + functions.get_ID(CB_paterns_master.getSelectionModel().getSelectedItem().toString()) + ",'" + TF_patern_name_DB.getText() + "','" + class_text.getText() + "','" + TA_patern_description.getText() + "')";

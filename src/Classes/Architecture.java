@@ -53,6 +53,7 @@ public class Architecture implements Cloneable {
         else
             a_return.usecase = null;
         if (this.preview != null)
+            //TODO картинку тоже клонировать
             a_return.preview =  this.preview;
         else
             a_return.preview = null;
