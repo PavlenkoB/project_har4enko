@@ -5,6 +5,7 @@ import Classes.Layer;
 import Classes.Module;
 import Classes.Pattern;
 import editor.classes.DerbyDBManager;
+import editor.classes.result_info;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -92,8 +93,8 @@ public class arch_work {
      * @param derby_DB_connection Підключення до БД
      * @return чи вдалося зберегти
      */
-    public static boolean arch_save_to_DB(Architecture arch_in, DerbyDBManager derby_DB_connection) {//Зберегти архітектуру в БД
-        boolean result = false;
+    public static result_info arch_save_to_DB(Architecture arch_in, DerbyDBManager derby_DB_connection) {//Зберегти архітектуру в БД
+        result_info result = new result_info();
         try {
             ResultSet rs_tmp;
             if (arch_in.getDescription() == null) arch_in.setDescription("");
@@ -101,7 +102,7 @@ public class arch_work {
             if (arch_in.getId() == null || arch_in.getId() == 0) {//Добавить в базу
                 //Нові патерни модулі і сама архітектура
 
-                derby_DB_connection.executeUpdate("INSERT INTO ARCHITECTURE (NAME,USECASE,DESCRIPTION) VALUES ('" + arch_in.getName() + "','" + arch_in.getUsecase() + "','" + arch_in.getDescription() + "'");
+                derby_DB_connection.executeUpdate("INSERT INTO ARCHITECTURE2 (NAME,USECASE,DESCRIPTION) VALUES ('" + arch_in.getName() + "','" + arch_in.getUsecase() + "','" + arch_in.getDescription() + "'");
 
 
                 rs_tmp = derby_DB_connection.executeQuery("SELECT MAX(ID) FROM ARCHITECTURE");
@@ -165,9 +166,10 @@ public class arch_work {
                     }
                 }
             }
-            result = true;
+            result.setStatus(true);
             System.out.printf("Arch save successful");
         } catch (SQLException e) {
+            result.setComment(e);
             e.printStackTrace();
         }
         return result;

@@ -3,6 +3,8 @@ package editor.services;
 import Classes.Architecture;
 import Classes.Task;
 import editor.classes.DerbyDBManager;
+import javafx.scene.Node;
+import javafx.stage.Stage;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -93,6 +95,7 @@ public class functions {
         System.out.printf("Arch save successful");
         return result;
     }
-
-
+    public static Stage get_stage_by_element(Node element) {
+        return (Stage) element.getScene().getWindow();
+    }
 }

@@ -2,6 +2,7 @@ package editor.services;
 
 import Classes.Pattern;
 import editor.classes.DerbyDBManager;
+import editor.classes.result_info;
 
 import javax.swing.*;
 import java.io.ObjectOutputStream;
@@ -24,8 +25,8 @@ public class pattern_work {
      * @param derby_DB_connection Підключення до БД
      * @return чи вдалося зберегти
      */
-    public static boolean pattern_save_to_DB(Pattern pattern_in, DerbyDBManager derby_DB_connection) {//Зберегти архітектуру в БД
-        boolean result = false;
+    public static result_info pattern_save_to_DB(Pattern pattern_in, DerbyDBManager derby_DB_connection) {//Зберегти архітектуру в БД
+        result_info result = new result_info();
         if (pattern_in.getId() == null) {
             String query = "INSERT INTO PATERNS (MOD_ID,NAME,VALUE,DESCRIPTION,PREVIEW) VALUES (" + pattern_in.getMod_id() + ",'" + pattern_in.getName() + "','" + pattern_in.getUml_text() + "','" + pattern_in.getDescription() + "')";
             ResultSet rs_tmp;
@@ -36,7 +37,7 @@ public class pattern_work {
                 pattern_in.setId(rs_tmp.getInt(1));
                 try {
                     save_pattern_img_update(pattern_in, derby_DB_connection);
-                    result = true;
+                    result.setStatus(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -52,7 +53,7 @@ public class pattern_work {
                 derby_DB_connection.executeUpdate(query);
                 try {
                     save_pattern_img_update(pattern_in, derby_DB_connection);
-                    result = true;
+                    result.setStatus(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

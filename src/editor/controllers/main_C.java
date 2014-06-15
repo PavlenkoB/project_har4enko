@@ -7,6 +7,7 @@ import Classes.Architecture;
 import Classes.Layer;
 import Classes.Module;
 import editor.classes.DerbyDBManager;
+import editor.classes.result_info;
 import editor.services.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,6 +25,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import javax.swing.*;
+import javax.xml.soap.Node;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -533,7 +535,23 @@ public class main_C implements Initializable {
         arch_tmp.setPreview(arch_image);
         arch_tmp.setUsecase(TA_arch_relations.getText());
         arch_tmp.setDescription(TA_arch_description.getText());
-        arch_tmp.setId(Integer.parseInt(TF_arch_id_DB.getText()));
-        arch_work.arch_save_to_DB(arch_tmp, derby_DB);
+        try {
+        arch_tmp.setId(Integer.parseInt(TF_arch_id_DB.getText()));}
+        catch (NumberFormatException e){
+            e.printStackTrace();
+            arch_tmp.setId(null);
+        }
+        result_info result=arch_work.arch_save_to_DB(arch_tmp, derby_DB);
+        if(result.getStatus()==true){
+
+            JOptionPane.showMessageDialog(null, "Архітектура успішно збережена.","Інформація",JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            //TODO ВТорое окно
+            /*Label message = new Label("Cay's message");
+            Node  source = (Node)  actionEvent.getSource();
+            Stage stage  = (Stage) source.getScene().getWindow();
+            //stage.setScene(new Scene(message));*/
+            JOptionPane.showMessageDialog(null, "Архітектура не збереження зверныться до Адмыныстратора чи програміста.\n"+result.getComment(), "Попередження", JOptionPane.WARNING_MESSAGE);
+        }
     }
 }

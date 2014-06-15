@@ -10,7 +10,7 @@ public class result_info {
     private Boolean status;
     private String comment;
 
-    result_info() {
+    public result_info() {
         status = false;
         comment = "Unknown error";
     }
@@ -30,6 +30,14 @@ public class result_info {
 
     public String getComment() {
         return comment;
+    }
+
+    public void setComment(Exception e) {
+        StackTraceElement[] stack = e.getStackTrace();
+        for (int s = 0; s < e.getStackTrace().length; s++) {
+            if (!stack[s].toString().equals("Unknown Source")||!stack[s].toString().equals("com.sun"))
+                this.comment += stack[s].toString() + "\n";
+        }
     }
 
     public void setComment(String comment) {
