@@ -237,21 +237,7 @@ public class arch_work {
      * @return картинка архитектуры с патернами внутри
      */
     public static javafx.scene.image.Image arch_image_gen_with_patterns(Architecture architecture) {
-        javafx.scene.image.Image return_img = new Image("editor/res/img/preview-not-available.jpg");
-        architecture.getName();
-        String class_text = new String();
-        class_text += "package \"" + architecture.getName() + "\"{\n";
-        for (int s_lay = 0; s_lay < architecture.getLayers().size(); s_lay++) {
-            class_text += "package \"" + architecture.getLayers().get(s_lay).getName() + "\"{\n";
-            for (int s_mod = 0; s_mod < architecture.getLayers().get(s_lay).getModules().size(); s_mod++) {
-                class_text += "package \"" + architecture.getLayers().get(s_lay).getModules().get(s_mod).getName() + "\"{\n";
-                if (architecture.getLayers().get(s_lay).getModules().get(s_mod).getSelected_patern() != null)
-                    class_text += architecture.getLayers().get(s_lay).getModules().get(s_mod).getSelected_patern().getUml_text() + "\n";
-                class_text += "}\n";
-            }
-            class_text += "}\n";
-        }
-        class_text += "}\n";
+        javafx.scene.image.Image return_img = draw_uml.draw_class(arch_uml_text_gen(architecture));
         return return_img;
     }
 
