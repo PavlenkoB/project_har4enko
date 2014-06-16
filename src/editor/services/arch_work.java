@@ -230,5 +230,29 @@ public class arch_work {
         return class_text;
     }
 
+    /**
+     * Генерирует картинку архитектуры с выбраными патернами
+     * @param architecture архитектура для которой сделать картинку
+     * @return картинка архитектуры с патернами внутри
+     */
+    public static javafx.scene.image.Image arch_image_gen_with_paterns(Architecture architecture) {
+        javafx.scene.image.Image return_img=new Image("editor/res/img/preview-not-available.jpg");
+        architecture.getName();
+        String class_text = new String();
+        class_text += "package \"" + architecture.getName() + "\"{\n";
+        for (int s_lay = 0; s_lay < architecture.getLayers().size(); s_lay++) {
+            class_text += "package \"" + architecture.getLayers().get(s_lay).getName() + "\"{\n";
+            for (int s_mod = 0; s_mod < architecture.getLayers().get(s_lay).getModules().size(); s_mod++) {
+                class_text += "package \"" + architecture.getLayers().get(s_lay).getModules().get(s_mod).getName() + "\"{\n";
+                if (architecture.getLayers().get(s_lay).getModules().get(s_mod).getSelected_patern() != null)
+                    class_text += architecture.getLayers().get(s_lay).getModules().get(s_mod).getSelected_patern().getUml_text() + "\n";
+                class_text += "}\n";
+            }
+            class_text += "}\n";
+        }
+        class_text += "}\n";
+        return return_img;
+    }
+
 
 }

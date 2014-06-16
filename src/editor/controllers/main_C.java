@@ -522,7 +522,6 @@ public class main_C implements Initializable {
     }
 
     public void arch_uml_text_draw(ActionEvent actionEvent) {
-
     }
 
     public void save_this_arch_to_DB(ActionEvent actionEvent) {
@@ -539,7 +538,6 @@ public class main_C implements Initializable {
         }
         result_info result=arch_work.arch_save_to_DB(arch_tmp, derby_DB);
         if(result.getStatus()==true){
-
             JOptionPane.showMessageDialog(null, "Архітектура успішно збережена.","Інформація",JOptionPane.INFORMATION_MESSAGE);
         } else {
             //TODO ВТорое окно
