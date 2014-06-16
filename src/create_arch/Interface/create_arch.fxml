@@ -41,7 +41,7 @@
 <content><AnchorPane fx:id="back_grid_vis" />
 </content>
 </ScrollPane><Button id="Arch_create_next_2" layoutX="519.0" layoutY="319.0" mnemonicParsing="false" onAction="#Save_arch" prefWidth="-1.0" text="Зберігти" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0" /><Button id="Cancel" layoutX="438.0" layoutY="319.0" mnemonicParsing="false" onAction="#arch_create_next_1" text="Відміна" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="180.0" />
-</children></AnchorPane><AnchorPane fx:id="Task_save" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+</children></AnchorPane><AnchorPane fx:id="Task_save" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
 <children><Button id="Cancel" layoutX="438.0" layoutY="319.0" mnemonicParsing="false" onAction="#arch_create_next_2" text="Відміна" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="180.0" /><Button id="Arch_create_next_2" fx:id="Save_all" layoutX="530.0" layoutY="320.0" mnemonicParsing="false" onAction="#Save_architecture_done" prefWidth="-1.0" text="Зберігти" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0" /><Label alignment="CENTER" layoutX="179.0" layoutY="14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Збереження варіантів архітектур" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="20.0">
 <font>
 <Font size="18.0" />
@@ -75,7 +75,7 @@
     <MenuBar id="new_arch_menu" prefHeight="25.0" prefWidth="629.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <menus>
         <Menu mnemonicParsing="false" text="Файл">
-          <items>
+          <items><MenuItem mnemonicParsing="false" onAction="#connect_DB" text="Під'єднання до ДБ" />
             <MenuItem mnemonicParsing="false" onAction="#close" text="Вихід" />
           </items>
         </Menu>

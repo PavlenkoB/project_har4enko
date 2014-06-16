@@ -29,6 +29,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
+import javax.swing.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -71,7 +73,7 @@ public class create_arch_C implements Initializable {
     ArrayList<Layer> layers_done = new ArrayList<>();
     ArrayList<Architecture> architectures_done = new ArrayList<>();
 
-    DerbyDBManager derby_DB = new DerbyDBManager("DB/paterns_DB");
+    DerbyDBManager derby_DB;// = new DerbyDBManager("DB/paterns_DB");
     Task task = new Task();
     @FXML
     private Image class_image;
@@ -111,6 +113,26 @@ public class create_arch_C implements Initializable {
         }
         ObservableList<String> items = FXCollections.observableArrayList();
     }
+
+    public void connect_DB(ActionEvent actionEvent) {
+        try {
+            disconnect_DB(null);
+            JFileChooser db_dir = new JFileChooser(new File(System.getProperty("user.dir")));
+            db_dir.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            db_dir.setAcceptAllFileFilterUsed(false);
+            db_dir.setDialogTitle("Выберете каталог с базой");
+            db_dir.showDialog(null, "Выбрать...");
+            // существет ли база(создана ли)
+
+            derby_DB = new DerbyDBManager(db_dir.getSelectedFile().getAbsolutePath());
+            set_usecase();
+        } catch (Exception e) {
+            e.printStackTrace();
+            derby_DB = null;
+        }
+    }
+
+
 
     public void initialize(URL url, ResourceBundle rb) {
         try {

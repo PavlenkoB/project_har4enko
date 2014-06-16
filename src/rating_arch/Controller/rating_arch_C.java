@@ -17,16 +17,23 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import javax.swing.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import static editor.services.arch_work.arch_image_gen_with_patterns;
 
 /**
  * Created by Alex Shcherbak on 24.04.2014.
@@ -43,9 +50,15 @@ public class rating_arch_C implements Initializable {
     public ChoiceBox mark_crit;
     public AnchorPane mark;
     public AnchorPane Rating_arch_2;
+    public ImageView arch_1_im;
+    public ImageView arch_2_im;
+    public AnchorPane arch_1_text;
+    public AnchorPane arch_2_text;
+    public int[] arch_mark_combine = new int[2];
+    public Image arch_1_image, arch_2_image;
 
 
-    DerbyDBManager derby_DB = new DerbyDBManager("DB/paterns_DB");
+    DerbyDBManager derby_DB;// = new DerbyDBManager("DB/paterns_DB");
 
     //Windows close dialog
     public void close(ActionEvent actionEvent) throws IOException {
@@ -143,6 +156,7 @@ public class rating_arch_C implements Initializable {
         ResultSet rs = null;
         task_choise = new Task();
         architecture_done_choise_type = new Architecture();
+        architecture_done_choise.clear();
 
         try {
             rs = derby_DB.executeQuery("SELECT * FROM TASK WHERE ID=" + functions.get_ID(task_list.getSelectionModel().getSelectedItem().toString()));
@@ -192,11 +206,120 @@ public class rating_arch_C implements Initializable {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            System.out.print("lol");
+        }
+
+        arch_mark_combine[0] = 0;
+        if (architecture_done_choise.size() > 1) {
+            arch_mark_combine[1] = 1;
+        } else {
+            arch_mark_combine[1] = 0;
+        }
+
+        draw_arch_im_text();
+
+        /*arch_1_image = arch_image_gen_with_patterns(architecture_done_choise.get(arch_mark_combine[0]));
+        arch_2_image = arch_image_gen_with_patterns(architecture_done_choise.get(arch_mark_combine[1]));
+
+        double zoom = 0.8;
+        arch_1_im.setFitHeight(arch_1_image.getRequestedHeight() * zoom);
+        arch_1_im.setFitWidth(arch_1_image.getRequestedWidth() * zoom);
+        arch_2_im.setFitHeight(arch_2_image.getRequestedHeight() * zoom);
+        arch_2_im.setFitWidth(arch_2_image.getRequestedWidth() * zoom);
+        arch_1_im.setImage(arch_1_image);
+        arch_2_im.setImage(arch_2_image);
+        */
+
+        System.out.print("lol");
+    }
+
+    public void draw_arch_im_text() {
+        arch_1_image = arch_image_gen_with_patterns(architecture_done_choise.get(arch_mark_combine[0]));
+        arch_2_image = arch_image_gen_with_patterns(architecture_done_choise.get(arch_mark_combine[1]));
+
+        double zoom = 0.8;
+        arch_1_im.setFitHeight(arch_1_image.getRequestedHeight() * zoom);
+        arch_1_im.setFitWidth(arch_1_image.getRequestedWidth() * zoom);
+        arch_2_im.setFitHeight(arch_2_image.getRequestedHeight() * zoom);
+        arch_2_im.setFitWidth(arch_2_image.getRequestedWidth() * zoom);
+
+        arch_1_im.setImage(arch_1_image);
+        arch_2_im.setImage(arch_2_image);
+
+        int vpos = 15, xpos = 10;
+        ArrayList<Label> label_1 = new ArrayList<>(),
+                label_2 = new ArrayList<>();
+        label_1.clear();
+        label_2.clear();
+
+        label_1.add(new Label());
+        label_1.get(label_1.size()-1).setText(architecture_done_choise.get(arch_mark_combine[0]).getName());
+        label_1.get(label_1.size()-1).setLayoutY(vpos);
+        vpos += 15;
+        label_1.get(label_1.size()-1).setLayoutX(xpos);
+        for (int i = 0; i < architecture_done_choise.get(arch_mark_combine[0]).getLayers().size(); i++) {
+            label_1.add(new Label());
+            label_1.get(label_1.size()-1).setText(architecture_done_choise.get(arch_mark_combine[0]).getLayers().get(i).getName());
+            label_1.get(label_1.size()-1).setLayoutY(vpos);
+            vpos += 15;
+            label_1.get(label_1.size()-1).setLayoutX(xpos + 25);
+            for (int j = 0; j < architecture_done_choise.get(arch_mark_combine[0]).getLayers().get(i).getModules().size(); j++) {
+                label_1.add(new Label());
+                label_1.get(label_1.size()-1).setText(architecture_done_choise.get(arch_mark_combine[0]).getLayers().get(i).getModules().get(j).getName());
+                label_1.get(label_1.size()-1).setLayoutY(vpos);
+                vpos += 15;
+                label_1.get(label_1.size()-1).setLayoutX(xpos + 50);
+                label_1.add(new Label());
+                label_1.get(label_1.size()-1).setText(architecture_done_choise.get(arch_mark_combine[0]).getLayers().get(i).getModules().get(j).getSelected_patern().getName());
+                label_1.get(label_1.size()-1).setLayoutY(vpos);
+                vpos += 15;
+                label_1.get(label_1.size()-1).setLayoutX(xpos + 75);
+            }
+        }
+        vpos = 15;
+        label_2.add(new Label());
+        label_2.get(label_2.size()-1).setText(architecture_done_choise.get(arch_mark_combine[1]).getName());
+        label_2.get(label_2.size()-1).setLayoutY(vpos);
+        vpos += 15;
+        label_2.get(label_2.size()-1).setLayoutX(xpos);
+        for (int i = 0; i < architecture_done_choise.get(arch_mark_combine[1]).getLayers().size(); i++) {
+            label_2.add(new Label());
+            label_2.get(label_2.size()-1).setText(architecture_done_choise.get(arch_mark_combine[1]).getLayers().get(i).getName());
+            label_2.get(label_2.size()-1).setLayoutY(vpos);
+            vpos += 15;
+            label_2.get(label_2.size()-1).setLayoutX(xpos + 25);
+            for (int j = 0; j < architecture_done_choise.get(arch_mark_combine[1]).getLayers().get(i).getModules().size(); j++) {
+                label_2.add(new Label());
+                label_2.get(label_2.size()-1).setText(architecture_done_choise.get(arch_mark_combine[1]).getLayers().get(i).getModules().get(j).getName());
+                label_2.get(label_2.size()-1).setLayoutY(vpos);
+                vpos += 15;
+                label_2.get(label_2.size()-1).setLayoutX(xpos + 50);
+                label_2.add(new Label());
+                label_2.get(label_2.size()-1).setText(architecture_done_choise.get(arch_mark_combine[1]).getLayers().get(i).getModules().get(j).getSelected_patern().getName());
+                label_2.get(label_2.size()-1).setLayoutY(vpos);
+                vpos += 15;
+                label_2.get(label_2.size()-1).setLayoutX(xpos + 75);
+            }
+        }
+        arch_1_text.getChildren().addAll(label_1);
+        arch_2_text.getChildren().addAll(label_2);
+    }
+
+    public void setArch_mark_combine_combine_next() {
+        if (arch_mark_combine[1] < architecture_done_choise.size()) {
+            arch_mark_combine[1]++;
+        } else if ((arch_mark_combine[1] == architecture_done_choise.size()) & (arch_mark_combine[0] < (architecture_done_choise.size() - 1))) {
+            arch_mark_combine[0]++;
+            arch_mark_combine[1] = arch_mark_combine[0]++;
+        } else if (arch_mark_combine[0] == (architecture_done_choise.size() - 1)) {
+            System.out.print("Оцінка завершина");
+        } else {
+            System.out.print("Помилка");
         }
     }
 
     public void next_twise(ActionEvent actionEvent) {
+        setArch_mark_combine_combine_next();
+        draw_arch_im_text();
     }
 
     public void mark_1(ActionEvent actionEvent) {
@@ -224,6 +347,25 @@ public class rating_arch_C implements Initializable {
     }
 
     public void mark_9(ActionEvent actionEvent) {
+    }
+
+    // Під'єднання до БД
+    public void connect_DB(ActionEvent actionEvent) {
+        try {
+            disconnect_DB(null);
+            JFileChooser db_dir = new JFileChooser(new File(System.getProperty("user.dir")));
+            db_dir.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            db_dir.setAcceptAllFileFilterUsed(false);
+            db_dir.setDialogTitle("Выберете каталог с базой");
+            db_dir.showDialog(null, "Выбрать...");
+            // существет ли база(создана ли)
+
+            derby_DB = new DerbyDBManager(db_dir.getSelectedFile().getAbsolutePath());
+            Start_rating();
+        } catch (Exception e) {
+            e.printStackTrace();
+            derby_DB = null;
+        }
     }
 }
 
