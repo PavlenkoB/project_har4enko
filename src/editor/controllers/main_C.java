@@ -512,7 +512,7 @@ public class main_C implements Initializable {
     public void arch_uml_gen(ActionEvent actionEvent) {
         //arch_image = draw_uml.draw_class(functions.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
 
-        arch_image = ImageConverter.AWTImgtoFXImg(ImageConverter.FXimgToAWTimg(draw_uml.draw_class(arch_work.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()))));
+        arch_image = draw_uml.draw_class(arch_work.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
         /**/
         IV_arch_imageview.setFitHeight(arch_image.getRequestedHeight());
         IV_arch_imageview.setFitWidth(arch_image.getRequestedWidth());

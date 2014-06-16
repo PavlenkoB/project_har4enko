@@ -71,6 +71,16 @@ public class Architecture implements Cloneable {
         this.task_id = 0;
         this.usecase = new String();
     }
+
+    public Architecture(Integer id, String name, Integer id_done, Integer task_id) {
+        this.id = id;
+        this.name = name;
+        this.id_done = id_done;
+        this.task_id = task_id;
+        this.layers = null;
+        this.description = new String();
+    }
+
     public Architecture(Integer id, String name, String description) {
         this.id = id;
         this.name = name;

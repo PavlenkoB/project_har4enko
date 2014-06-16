@@ -1,7 +1,9 @@
 package rating_arch.Controller;
 
 import Classes.Architecture;
+import Classes.Task;
 import editor.classes.DerbyDBManager;
+import editor.services.arch_work;
 import editor.services.functions;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -23,6 +25,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
@@ -33,6 +36,14 @@ public class rating_arch_C implements Initializable {
     public ChoiceBox task_list;
     public TextArea task_description;
     public Button cancelButton;
+    public Task task_choise;
+    public ArrayList<Architecture> architecture_done_choise = new ArrayList<>();
+    public Architecture architecture_done_choise_type;
+    public ArrayList<ArrayList<Integer>> marks = new ArrayList<>();
+    public ChoiceBox mark_crit;
+    public AnchorPane mark;
+    public AnchorPane Rating_arch_2;
+
 
     DerbyDBManager derby_DB = new DerbyDBManager("DB/paterns_DB");
 
@@ -81,8 +92,9 @@ public class rating_arch_C implements Initializable {
         }
     }
 
-    private void Start_rating() {
+    public void Start_rating() {
         Rating_arch_1.setVisible(true);
+        Rating_arch_2.setVisible(false);
         ResultSet rs = null;
         try {
             try {
@@ -126,6 +138,93 @@ public class rating_arch_C implements Initializable {
     }
 
     public void choice_task(ActionEvent actionEvent) {
+        Rating_arch_1.setVisible(false);
+        Rating_arch_2.setVisible(true);
+        ResultSet rs = null;
+        task_choise = new Task();
+        architecture_done_choise_type = new Architecture();
+
+        try {
+            rs = derby_DB.executeQuery("SELECT * FROM TASK WHERE ID=" + functions.get_ID(task_list.getSelectionModel().getSelectedItem().toString()));
+            rs.next();
+            task_choise.setId(rs.getInt("ID"));
+            task_choise.setName(rs.getString("NAME"));
+            task_choise.setDescription(rs.getString("DESCRIPTION"));
+
+            rs = null;
+            rs = derby_DB.executeQuery("SELECT * FROM ARCH_DONE WHERE TASK_ID=" + task_choise.getId());
+            while (rs.next()) {
+                architecture_done_choise.add(new Architecture(rs.getInt("ARCH_ID"), "", rs.getInt("ID"), task_choise.getId()));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        architecture_done_choise_type = arch_work.arch_load_from_DB(architecture_done_choise.get(0).getId(), derby_DB);
+
+        for (int i = 0; i < architecture_done_choise.size(); i++) {
+            architecture_done_choise.get(i).setLayers(architecture_done_choise_type.getLayers());
+            architecture_done_choise.get(i).setName(architecture_done_choise_type.getName());
+            try {
+                rs = derby_DB.executeQuery("SELECT * FROM LAY_DONE WHERE ARCH_DONE_ID=" + architecture_done_choise.get(i).getId_done());
+                while (rs.next()) {
+                    for (int j = 0; j < architecture_done_choise.get(i).getLayers().size(); j++) {
+                        if (rs.getInt("LAY_ID") == architecture_done_choise.get(i).getLayers().get(j).getId()) {
+                            architecture_done_choise.get(i).getLayers().get(j).setId_done(rs.getInt("ID"));
+                        }
+                    }
+                }
+                for (int j = 0; j < architecture_done_choise.get(i).getLayers().size(); j++) {
+                    rs = null;
+                    rs = derby_DB.executeQuery("SELECT * FROM MODULE_DONE WHERE LAY_DONE_ID=" + architecture_done_choise.get(i).getLayers().get(j).getId_done());
+                    while (rs.next()) {
+                        for (int k = 0; k < architecture_done_choise.get(i).getLayers().get(j).getModules().size(); k++) {
+                            if (rs.getInt("MOD_ID") == architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).getId()) {
+                                architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).setId_done(rs.getInt("ID"));
+                                for (int p = 0; p < architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).getAvilable_paterns().size(); p++) {
+                                    if (architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).getAvilable_paterns().get(p).getId() == rs.getInt("PATTERN_ID")) {
+                                        architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).setSelected_patern(architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).getAvilable_paterns().get(p));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.print("lol");
+        }
     }
 
+    public void next_twise(ActionEvent actionEvent) {
+    }
+
+    public void mark_1(ActionEvent actionEvent) {
+    }
+
+    public void mark_2(ActionEvent actionEvent) {
+    }
+
+    public void mark_3(ActionEvent actionEvent) {
+    }
+
+    public void mark_4(ActionEvent actionEvent) {
+    }
+
+    public void mark_5(ActionEvent actionEvent) {
+    }
+
+    public void mark_6(ActionEvent actionEvent) {
+    }
+
+    public void mark_7(ActionEvent actionEvent) {
+    }
+
+    public void mark_8(ActionEvent actionEvent) {
+    }
+
+    public void mark_9(ActionEvent actionEvent) {
+    }
 }
+
+

@@ -3,6 +3,7 @@ package create_arch.Controllers;
 import Classes.*;
 import editor.classes.DerbyDBManager;
 import editor.models.Main;
+import editor.services.arch_work;
 import editor.services.draw_uml;
 import editor.services.functions;
 import editor.services.gen_arch_done;
@@ -158,36 +159,15 @@ public class create_arch_C implements Initializable {
         if (derby_DB != null) {
             Number num_choise_arch = Arch_list.getSelectionModel().selectedIndexProperty().getValue();
             ResultSet rs_arch;
-            try {
-                rs_arch = derby_DB.executeQuery("SELECT * FROM ARCHITECTURE WHERE ID=" + functions.get_ID((String) Arch_list.getItems().get(num_choise_arch.intValue())));
-                rs_arch.next();
-                arc_choise = new Architecture(rs_arch.getInt("ID"), rs_arch.getString("NAME"), rs_arch.getString("DESCRIPTION"));
-            } catch (SQLException e) {
-            }
-            ;
+                        arc_choise = arch_work.arch_load_from_DB(functions.get_ID((String) Arch_list.getItems().get(num_choise_arch.intValue())),derby_DB);
+
             Description.setText(arc_choise.getDescription());
-            try {
-                Action_draw_class();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            class_image = draw_uml.draw_class(arc_choise.getUsecase());
+            class_image = arc_choise.getPreview();
             Usecase_view.setFitHeight(class_image.getRequestedHeight());
             Usecase_view.setFitWidth(class_image.getRequestedWidth());
             Usecase_view.setImage(class_image);
             Usecase_view.setImage(class_image);
         }
-    }
-
-    /*Действия*/
-    @FXML//Отрисовка класса
-    public void Action_draw_class() throws IOException, InterruptedException {
-        class_image = draw_uml.draw_class("Class1 ..> class2");
-        Usecase_view.setFitHeight(class_image.getRequestedHeight());
-        Usecase_view.setFitWidth(class_image.getRequestedWidth());
-        Usecase_view.setImage(class_image);
     }
 
     public void arch_create_next_1(ActionEvent actionEvent) throws IOException, SQLException {
@@ -429,7 +409,7 @@ public class create_arch_C implements Initializable {
                         }
                     }
                 }
-                //gridPane_mod.get(i).setGridLinesVisible(true);
+                gridPane_mod.get(i).setGridLinesVisible(true);
                 gridPane_mod.get(i).setPadding(new Insets(5, 5, 5, 5));
                 gridPane_mod.get(i).add(gridPanes_pat.get(i).get(j), 1, j);
             }
@@ -473,11 +453,12 @@ public class create_arch_C implements Initializable {
         gridPane_mod_Title.setHalignment(tmp_lable, HPos.CENTER);
         gridPane_mod_Title.setValignment(tmp_lable, VPos.CENTER);
         gridPane_mod_Title.add(tmp_lable, 1, 0);
+        //gridPane_mod_Title.setGridLinesVisible(true);
 
         gridpane_lay.add(gridPane_mod_Title, 1, 0);
 
 
-        //gridpane_lay.setGridLinesVisible(true);
+        gridpane_lay.setGridLinesVisible(true);
         gridpane_lay.setPadding(new Insets(5, 5, 5, 5));
 
         AnchorPane.setLeftAnchor(gridpane_lay, (double) 10);
