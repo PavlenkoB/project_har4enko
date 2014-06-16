@@ -237,8 +237,7 @@ public class arch_work {
      * @return картинка архитектуры с патернами внутри
      */
     public static javafx.scene.image.Image arch_image_gen_with_patterns(Architecture architecture) {
-        javafx.scene.image.Image return_img = draw_uml.draw_class(arch_uml_text_gen(architecture));
-        return return_img;
+        return draw_uml.draw_class(arch_uml_text_gen(architecture));
     }
 
 
