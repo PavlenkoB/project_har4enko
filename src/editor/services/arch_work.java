@@ -61,7 +61,7 @@ public class arch_work {
             }
             s.close();
 
-            if (arch_out.getPreview() == null||arch_out.getPreview().getHeight()<20) {
+            if (arch_out.getPreview() == null || arch_out.getPreview().getHeight() < 20) {
                 arch_out.setPreview(new Image("editor/res/img/preview-not-available.jpg"));
             }
 
@@ -232,11 +232,12 @@ public class arch_work {
 
     /**
      * Генерирует картинку архитектуры с выбраными патернами
+     *
      * @param architecture архитектура для которой сделать картинку
      * @return картинка архитектуры с патернами внутри
      */
-    public static javafx.scene.image.Image arch_image_gen_with_paterns(Architecture architecture) {
-        javafx.scene.image.Image return_img=new Image("editor/res/img/preview-not-available.jpg");
+    public static javafx.scene.image.Image arch_image_gen_with_patterns(Architecture architecture) {
+        javafx.scene.image.Image return_img = new Image("editor/res/img/preview-not-available.jpg");
         architecture.getName();
         String class_text = new String();
         class_text += "package \"" + architecture.getName() + "\"{\n";
