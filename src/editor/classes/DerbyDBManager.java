@@ -14,6 +14,11 @@ public class DerbyDBManager {
     }
 
     private static Connection con = null;
+
+    public static void setDbName(String dbName) {
+        DerbyDBManager.dbName = dbName;
+    }
+
     private static String dbName = null;
 
     public DerbyDBManager(String dbName) {
@@ -35,6 +40,24 @@ public class DerbyDBManager {
                     e1.printStackTrace();
                 }
             }
+        }
+    }
+    public DerbyDBManager(File db_dir){//Создать в папке БД
+        this.dbName = db_dir.getAbsolutePath();
+        db_dir.delete();
+        dbName = dbName.replace('\\', '/');
+        try {
+            Class.forName(driver);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            //TODO проверить створення БД
+            con = DriverManager.getConnection(url + dbName + ";create=true");
+
+        } catch (SQLException e1) {
+            e1.printStackTrace();
         }
     }
 

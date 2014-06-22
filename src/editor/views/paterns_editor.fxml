@@ -7,7 +7,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="526.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="editor.controllers.patern_e_C">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../css/main_style.css" prefHeight="526.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="editor.controllers.patern_e_C">
     <children>
         <MenuBar fx:id="MB_main_menu" prefHeight="25.0" prefWidth="798.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <menus>
@@ -67,7 +67,7 @@
                 </ImageView>
             </graphic>
         </Button>
-        <Label layoutX="78.0" layoutY="42.0" text="Класы в базе" />
+        <Label layoutX="78.0" layoutY="42.0" text="Паттерни в базі" />
         <Label layoutX="5.0" layoutY="25.0" text="Імя БД:" />
         <Label fx:id="selected_DB" layoutX="46.0" layoutY="25.0" text="DB_NAME" />
         <ScrollPane layoutX="529.0" layoutY="25.0" prefHeight="501.0" prefWidth="255.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="505.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
@@ -77,7 +77,7 @@
         </ScrollPane>
 
         <Label layoutX="326.0" layoutY="25.0" text="Структура патерну" />
-        <Button layoutX="7.0" layoutY="476.0" mnemonicParsing="false" onAction="#create_pattern" prefHeight="38.0" prefWidth="107.0" text="Создать новый паттерн" AnchorPane.bottomAnchor="12.0" />
+        <Button layoutX="7.0" layoutY="476.0" mnemonicParsing="false" onAction="#create_pattern" prefHeight="38.0" prefWidth="107.0" text="Створити новий паттерн" AnchorPane.bottomAnchor="12.0" />
         <TextArea fx:id="TA_patern_description" layoutX="233.0" layoutY="411.0" prefHeight="112.0" prefWidth="263.0" />
         <Label layoutX="296.0" layoutY="396.0" text="Опис патерну" />
         <Label layoutX="61.0" layoutY="392.0" text="Імя" />

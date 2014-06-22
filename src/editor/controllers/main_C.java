@@ -101,11 +101,13 @@ public class main_C extends JPanel implements Initializable {
             // существет ли база(создана ли)
             DirectoryChooser db_dir_FC = new DirectoryChooser();
             db_dir_FC.setInitialDirectory(new File(System.getProperty("user.dir")));
-            db_dir_FC.setTitle("Open Resource File");
+            db_dir_FC.setTitle("Вкажіть шлях до папки з БД");
             File db_dir = db_dir_FC.showDialog(functions.get_stage_by_element(TA_arch_description));
             if(db_dir!=null){
             derby_DB = new DerbyDBManager(db_dir.getAbsolutePath());
-            selected_DB.setText(db_dir.getName());
+
+                derby_DB.setDbName(db_dir.getName());
+                selected_DB.setText(db_dir.getName());
             //TODO доступность кнопок
             list_load_DB();
             }
@@ -125,9 +127,11 @@ public class main_C extends JPanel implements Initializable {
 
     public void disconnect_DB(ActionEvent actionEvent) {//отключиться от БД
         try {
-            if (!derby_DB.getCon().isClosed()) {
-                derby_DB.disconectDB();
-            }
+            if(derby_DB.getCon()!=null) {
+                if (!derby_DB.getCon().isClosed()) {
+                    derby_DB.disconectDB();
+                }
+
 
         LV_archs_DB.setItems(null);
         P_arch_struct.getChildren().clear();
@@ -138,25 +142,25 @@ public class main_C extends JPanel implements Initializable {
             MM_1_1_connect.setDisable(false);
             MM_1_3_disconnect.setDisable(true);
         }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public void creat_DB(ActionEvent actionEvent) { //Создать БД
-        JFileChooser db_dir = new JFileChooser(new File(System.getProperty("user.dir")));
-        db_dir.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        db_dir.setAcceptAllFileFilterUsed(false);
-        db_dir.setDialogTitle("Выберете каталог під базу");
-        db_dir.showDialog(null, "Обрати...");
-        //String new_db_name = JOptionPane.showInputDialog("Введіть імя нової бази");
-
-
-        derby_DB = new DerbyDBManager(db_dir.getSelectedFile().getAbsolutePath() + "\\");
+        disconnect_DB(null);
+        // существет ли база(создана ли)
+        DirectoryChooser db_dir_FC = new DirectoryChooser();
+        db_dir_FC.setInitialDirectory(new File(System.getProperty("user.dir")));
+        db_dir_FC.setTitle("Вкажіть шлях до папки для нової БД");
+        File db_dir = db_dir_FC.showDialog(functions.get_stage_by_element(TA_arch_description));
+        if(db_dir!=null){
+        derby_DB = new DerbyDBManager(db_dir);
 
         System.out.print("Создаю таблиці)");
         try {
-            File in_dir = new File(getClass().getClassLoader().getResource("/editor/sql/create_DB").getFile());
+            File in_dir = new File(getClass().getClassLoader().getResource("editor/sql/create_DB").getFile());
             //ResourceAsStream("/editor/sql/creat_DB");
 
             File[] fList;
@@ -177,10 +181,12 @@ public class main_C extends JPanel implements Initializable {
 
             }
 
+            System.out.print("Создал таблиці)");
         } catch (SQLException e) {
             e.printStackTrace();
         }
         //TODO создание
+        }
     }
 
 
@@ -211,6 +217,21 @@ public class main_C extends JPanel implements Initializable {
         File myfile = new File("DB_backup/" + new SimpleDateFormat("dd.MM.yyyy_HH_mm_ss").format(new Date()) + ".zip");
         zip.zip_dir(mydir, myfile);
         System.out.println(mydir.toURI().relativize(myfile.toURI()).getPath());
+    }
+    public void creat_arch(ActionEvent actionEvent) {
+        JDialog Jname=new JDialog();
+        Jname.setAlwaysOnTop(true);
+        String name = (String) JOptionPane.showInputDialog(null, "Введіть назву", "Ввід", JOptionPane.QUESTION_MESSAGE, null, null, "");
+
+        //dialog.get
+        if (name != null && !name.equals("")) {
+            try {
+                derby_DB.executeUpdate("INSERT INTO ARCHITECTURE (NAME,USECASE,DESCRIPTION) VALUES ('" + name + "','" + " " + "','" + " " + "')");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            list_load_DB();
+        }/**/
     }
 
 
@@ -336,8 +357,8 @@ public class main_C extends JPanel implements Initializable {
         for (int s_lay = 0; s_lay < arch_tmp.getLayers().size(); s_lay++) {
             //Редагування
             tmp_btn = new Button("Редагувати");
-            //tmp_btn.setPrefWidth(s_x2);
-            //tmp_btn.setPrefHeight(s_y2);
+            tmp_btn.getStyleClass().add("lay_edit");
+
             tmp_btn.setLayoutX(pos_x);
             tmp_btn.setLayoutY(pos_y);
             final int finalS_lay4 = s_lay;
@@ -350,8 +371,7 @@ public class main_C extends JPanel implements Initializable {
             P_arch_struct.getChildren().add(tmp_btn);
                 /*Кнопка видалення*/
             tmp_btn = new Button("Видалити");
-            //tmp_btn.setPrefWidth(s_x2);
-            //tmp_btn.setPrefHeight(s_y2);
+            tmp_btn.getStyleClass().add("lay_del");
             tmp_btn.setLayoutX(pos_x + s_x2);
             tmp_btn.setLayoutY(pos_y);
             final int finalS_lay2 = s_lay;
@@ -377,6 +397,7 @@ public class main_C extends JPanel implements Initializable {
                 //tmp_btn.setPrefHeight(s_y2);
                 tmp_btn.setLayoutX(pos_x);
                 tmp_btn.setLayoutY(pos_y);
+                tmp_btn.getStyleClass().add("pat_edit");
                 final int finalS_mod4 = s_mod;
                 final int finalS_lay5 = s_lay;
                 tmp_btn.setOnAction(new EventHandler<ActionEvent>() {
@@ -388,6 +409,7 @@ public class main_C extends JPanel implements Initializable {
                 P_arch_struct.getChildren().add(tmp_btn);
                 /*Кнопка редагування*/
                 tmp_btn = new Button("Редагувати");
+                tmp_btn.getStyleClass().add("mod_edit");
                 //tmp_btn.setPrefWidth(s_x2);
                 //tmp_btn.setPrefHeight(s_y2);
                 pos_x += s_x2;
@@ -405,6 +427,7 @@ public class main_C extends JPanel implements Initializable {
                 /*Кнопка видалення*/
 
                 tmp_btn = new Button("Видалити");
+                tmp_btn.getStyleClass().add("mod_del");
                 //tmp_btn.setPrefWidth(s_x2);
                 //tmp_btn.setPrefHeight(s_y2);
                 pos_x += s_x2;
@@ -430,6 +453,7 @@ public class main_C extends JPanel implements Initializable {
                 pos_x = s_x1;
             }
             tmp_btn = new Button("Додати модуль");
+            tmp_btn.getStyleClass().add("mod_add");
             tmp_btn.setLayoutX(pos_x);
             tmp_btn.setLayoutY(pos_y);
             final int finalS_lay = s_lay;
@@ -444,6 +468,7 @@ public class main_C extends JPanel implements Initializable {
             pos_x -= s_x1;
         }
         tmp_btn = new Button("Додати шар");
+        tmp_btn.getStyleClass().add("lay_add");
         tmp_btn.setLayoutX(pos_x);
         tmp_btn.setLayoutY(pos_y);
         tmp_btn.setOnAction(new EventHandler<ActionEvent>() {
