@@ -1,6 +1,7 @@
 package mode_selection;
 
 import editor.models.Main;
+import mode_selection.win_choiser;
 import editor.services.functions;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -98,41 +99,11 @@ public class Controller_mode_selection_user implements Initializable {
     public void sel_next_open_main(ActionEvent actionEvent) {
         Stage sel_mode = (Stage) sel_next.getScene().getWindow();
         if (func_choise.getSelectionModel().getSelectedItem().equals("Конструктор нових варіантів архітектур")){
-            try {
-                create_new_arch_win = new Stage();
-                Parent root;
-                root = FXMLLoader.load(getClass().getResource("/create_arch/Interface/create_arch.fxml"));
-                create_new_arch_win.setTitle("Створення нової архітектури");
-                create_new_arch_win.setScene(new Scene(root, 1000, 600));
-                create_new_arch_win.setMinWidth(630);
-                create_new_arch_win.setMinHeight(400);
-                create_new_arch_win.setResizable(true);
-                create_new_arch_win.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            sel_mode.close();
+            new win_choiser().win_choiser(0,sel_mode);
         } else if (func_choise.getSelectionModel().getSelectedItem().equals("Оцінювання існуючих архітектур")){
-            try {
-                create_new_arch_win = new Stage();
-                Parent root;
-                root = FXMLLoader.load(getClass().getResource("/rating_arch/Interface/rating_arch.fxml"));
-                create_new_arch_win.setTitle("Оцінювання існуючих архітектур");
-                create_new_arch_win.setScene(new Scene(root, 1000, 600));
-                create_new_arch_win.setMinWidth(630);
-                create_new_arch_win.setMinHeight(400);
-                create_new_arch_win.setResizable(true);
-                create_new_arch_win.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            sel_mode.close();
+            new win_choiser().win_choiser(2,sel_mode);
         } else if (func_choise.getSelectionModel().getSelectedItem().equals("Редактор патернів та архітектур")){
-            try {
-                editor.start(sel_mode);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            new win_choiser().win_choiser(1,sel_mode);
         }
     }
 
