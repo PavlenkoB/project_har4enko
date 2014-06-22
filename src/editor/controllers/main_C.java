@@ -291,9 +291,17 @@ public class main_C extends JPanel implements Initializable {
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
+
         TA_arch_relations.setText(arch_tmp.getUsecase());
         TA_arch_description.setText(arch_tmp.getDescription());
         draw_arch_struct();
+        arch_image = arch_tmp.getPreview();
+        //TODO перепроверить вывод что бы было удобно
+        IV_arch_imageview.setFitHeight(arch_image.getRequestedHeight());
+        IV_arch_imageview.setFitWidth(arch_image.getRequestedWidth());
+        SP_P_IV.setPrefHeight(arch_image.getHeight());
+        //SP_P_IV.setPrefWidth(arch_image.getWidth());
+        IV_arch_imageview.setImage(arch_image);
     }
 
 
@@ -337,7 +345,7 @@ public class main_C extends JPanel implements Initializable {
             TF_arch_id_DB.setText(id);
             TF_arch_name_DB.setText(name);
         }
-        load_this_arch_DB(null);
+        //load_this_arch_DB(null);
         arch_image = arch_tmp.getPreview();
         //TODO перепроверить вывод что бы было удобно
         IV_arch_imageview.setFitHeight(arch_image.getRequestedHeight());
@@ -587,7 +595,7 @@ public class main_C extends JPanel implements Initializable {
         IV_arch_imageview.setFitHeight(arch_image.getRequestedHeight());
         IV_arch_imageview.setFitWidth(arch_image.getRequestedWidth());
         SP_P_IV.setPrefHeight(arch_image.getHeight());
-        SP_P_IV.setPrefWidth(arch_image.getWidth());
+        //SP_P_IV.setPrefWidth(arch_image.getWidth());
         IV_arch_imageview.setImage(arch_image);
     }
 
@@ -597,6 +605,7 @@ public class main_C extends JPanel implements Initializable {
     public void save_this_arch_to_DB(ActionEvent actionEvent) {
         //TODO решить как лутьше
         //arch_image = draw_uml.draw_class(functions.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
+        arch_tmp.setName(TF_arch_name_DB.getText());
         arch_tmp.setPreview(arch_image);
         arch_tmp.setUsecase(TA_arch_relations.getText());
         arch_tmp.setDescription(TA_arch_description.getText());
@@ -615,5 +624,6 @@ public class main_C extends JPanel implements Initializable {
             //functions.get_stage_by_element(TA_arch_description).setScene(new Scene(message));
             JOptionPane.showMessageDialog(null, "Архітектура не збереження зверныться до Адмыныстратора чи програміста.\n" + result.getComment(), "Попередження", JOptionPane.WARNING_MESSAGE);
         }
+        list_load_DB();
     }
 }
