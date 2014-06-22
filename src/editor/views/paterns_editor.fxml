@@ -1,127 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="526.0"
-            prefWidth="760.0" xmlns="http://javafx.com/javafx/8"
-            fx:controller="editor.controllers.patern_e_C">
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="526.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="editor.controllers.patern_e_C">
     <children>
-        <MenuBar fx:id="MB_main_menu" prefHeight="25.0" prefWidth="798.0" AnchorPane.leftAnchor="0.0"
-                 AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <MenuBar fx:id="MB_main_menu" prefHeight="25.0" prefWidth="798.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <menus>
                 <Menu mnemonicParsing="false" text="Файл">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Создать БД"/>
-                        <MenuItem fx:id="MI_connect" mnemonicParsing="false"
-                                  text="Подключиться БД"/>
-                        <MenuItem xmlns:fx="http://javafx.com/fxml/1" fx:id="MI_disconnect" disable="true" mnemonicParsing="false"
-                                  text="Отключиться БД"
-                                  xmlns="http://javafx.com/javafx/8"/>
-                        <MenuItem mnemonicParsing="false" onAction="#close_mw" text="Закрыть"/>
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Редагувати">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Видалити"/>
+                        <MenuItem mnemonicParsing="false" onAction="#close_mw" text="Закрыть" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Допомога">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#show_help" text="Як користуватися"/>
-                        <MenuItem mnemonicParsing="false" onAction="#show_about" text="Про программу"/>
+                        <MenuItem mnemonicParsing="false" onAction="#show_help" text="Як користуватися" />
+                        <MenuItem mnemonicParsing="false" onAction="#show_about" text="Про программу" />
                     </items>
                 </Menu>
             </menus>
         </MenuBar>
-        <Button layoutX="332.0" layoutY="330.0" mnemonicParsing="false" onAction="#Action_draw_class"
-                text="Намалювати патерн">
+        <Button layoutX="332.0" layoutY="330.0" mnemonicParsing="false" onAction="#Action_draw_class" text="Намалювати патерн">
             <graphic>
-                <ImageView fitHeight="30.0" fitWidth="200.0" layoutX="308.5" layoutY="294.5" pickOnBounds="true"
-                           preserveRatio="true">
+                <ImageView fitHeight="30.0" fitWidth="200.0" layoutX="308.5" layoutY="294.5" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="/editor/res/img/Corel Draw 11.png"/>
+                        <Image url="/editor/res/img/Corel Draw 11.png" />
                     </image>
                 </ImageView>
             </graphic>
         </Button>
-        <TextArea fx:id="class_text" layoutX="233.0" layoutY="42.0" prefHeight="287.0" prefWidth="263.0"
-                  text="Class01 &lt;|-- Class02&#10;Class03 *-- Class04"/>
-        <ListView fx:id="LV_paterns_DB" disable="false" layoutX="5.0" layoutY="63.0" onMouseClicked="#select_to_save_DB"
-                  prefHeight="325.0" prefWidth="228.0" visible="true">
+        <TextArea fx:id="class_text" layoutX="233.0" layoutY="42.0" prefHeight="287.0" prefWidth="263.0" text="Class01 &lt;|-- Class02&#10;Class03 *-- Class04" />
+        <ListView fx:id="LV_paterns_DB" disable="false" layoutX="5.0" layoutY="63.0" onMouseClicked="#select_to_save_DB" prefHeight="325.0" prefWidth="228.0" visible="true">
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
         </ListView>
-        <TextField fx:id="TF_patern_name_DB" layoutX="91.0" layoutY="390.0" prefHeight="25.0" prefWidth="142.0"/>
-        <Button layoutX="121.0" layoutY="476.0" mnemonicParsing="false" onAction="#delete_patern_DB" prefHeight="38.0"
-                prefWidth="99.0" text="Видалити" AnchorPane.bottomAnchor="12.0">
+        <TextField fx:id="TF_patern_name_DB" layoutX="91.0" layoutY="390.0" prefHeight="25.0" prefWidth="142.0" />
+        <Button layoutX="121.0" layoutY="476.0" mnemonicParsing="false" onAction="#delete_patern_DB" prefHeight="38.0" prefWidth="99.0" text="Видалити" AnchorPane.bottomAnchor="12.0">
             <graphic>
-                <ImageView fitHeight="30.0" fitWidth="27.0" layoutX="148.0" layoutY="279.5" pickOnBounds="true"
-                           preserveRatio="true">
+                <ImageView fitHeight="30.0" fitWidth="27.0" layoutX="148.0" layoutY="279.5" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="/editor/res/img/delete.png"/>
+                        <Image url="/editor/res/img/delete.png" />
                     </image>
                 </ImageView>
             </graphic>
         </Button>
-        <Button layoutX="121.0" layoutY="418.0" mnemonicParsing="false" onAction="#load_this_patern_DB"
-                prefHeight="38.0" prefWidth="99.0" text="Завантажити" AnchorPane.bottomAnchor="70.0">
+        <Button layoutX="121.0" layoutY="418.0" mnemonicParsing="false" onAction="#load_this_patern_DB" prefHeight="38.0" prefWidth="99.0" text="Завантажити" AnchorPane.bottomAnchor="70.0">
             <graphic>
-                <ImageView fitHeight="30.0" fitWidth="200.0" layoutX="278.0" layoutY="306.5" pickOnBounds="true"
-                           preserveRatio="true">
+                <ImageView fitHeight="30.0" fitWidth="200.0" layoutX="278.0" layoutY="306.5" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="/editor/res/img/open-file.png"/>
+                        <Image url="/editor/res/img/open-file.png" />
                     </image>
                 </ImageView>
             </graphic>
         </Button>
-        <Button layoutX="7.0" layoutY="418.0" mnemonicParsing="false" onAction="#save_this_patern_DB" prefHeight="38.0"
-                prefWidth="107.0" text="Зберегти" AnchorPane.bottomAnchor="70.0">
+        <Button layoutX="7.0" layoutY="418.0" mnemonicParsing="false" onAction="#save_this_patern_DB" prefHeight="38.0" prefWidth="107.0" text="Зберегти" AnchorPane.bottomAnchor="70.0">
             <graphic>
-                <ImageView fitHeight="30.0" fitWidth="35.0" layoutX="154.0" layoutY="242.0" pickOnBounds="true"
-                           preserveRatio="true">
+                <ImageView fitHeight="30.0" fitWidth="35.0" layoutX="154.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="/editor/res/img/Save-icon.png"/>
+                        <Image url="/editor/res/img/Save-icon.png" />
                     </image>
                 </ImageView>
             </graphic>
         </Button>
-        <Label layoutX="78.0" layoutY="42.0" text="Класы в базе"/>
-        <Label layoutX="5.0" layoutY="25.0" text="Імя БД:"/>
-        <Label fx:id="selected_DB" layoutX="46.0" layoutY="25.0" text="DB_NAME"/>
-        <ScrollPane layoutX="529.0" layoutY="25.0" prefHeight="501.0" prefWidth="255.0" AnchorPane.bottomAnchor="0.0"
-                    AnchorPane.leftAnchor="505.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+        <Label layoutX="78.0" layoutY="42.0" text="Класы в базе" />
+        <Label layoutX="5.0" layoutY="25.0" text="Імя БД:" />
+        <Label fx:id="selected_DB" layoutX="46.0" layoutY="25.0" text="DB_NAME" />
+        <ScrollPane layoutX="529.0" layoutY="25.0" prefHeight="501.0" prefWidth="255.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="505.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
             <content>
-                <ImageView fx:id="class_imageview" fitHeight="150.0" fitWidth="200.0" layoutX="186.0048828125"
-                           layoutY="361.0" pickOnBounds="true" preserveRatio="true"/>
+                <ImageView fx:id="class_imageview" fitHeight="150.0" fitWidth="200.0" layoutX="186.0048828125" layoutY="361.0" pickOnBounds="true" preserveRatio="true" />
             </content>
         </ScrollPane>
 
-        <Label layoutX="326.0" layoutY="25.0" text="Структура патерну"/>
-        <Button layoutX="7.0" layoutY="476.0" mnemonicParsing="false" onAction="#edit_patern" prefHeight="38.0"
-                prefWidth="107.0" text="Редагувати" AnchorPane.bottomAnchor="12.0">
-            <graphic>
-                <ImageView fitHeight="15.0" fitWidth="22.0" layoutX="-17.0" layoutY="390.0" pickOnBounds="true"
-                           preserveRatio="true">
-                    <image>
-                        <Image url="/editor/res/img/edit.png"/>
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-        <TextArea fx:id="TA_patern_description" layoutX="233.0" layoutY="411.0" prefHeight="90.0" prefWidth="263.0"/>
-        <Label layoutX="296.0" layoutY="396.0" text="Опис патерну"/>
-        <Label layoutX="241.0" layoutY="375.0" text="Кому належить"/>
-        <Label layoutX="61.0" layoutY="392.0" text="Імя"/>
-        <Label layoutX="7.0048828125" layoutY="392.0" text="ID"/>
-        <TextField fx:id="TF_patern_id_DB" layoutX="19.0" layoutY="390.0" prefHeight="25.0" prefWidth="42.0"/>
-        <Separator layoutX="230.0" layoutY="313.0" orientation="VERTICAL" prefHeight="200.0"
-                   AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="25.0"/>
-        <Separator layoutX="500.0" layoutY="25.0" orientation="VERTICAL" prefHeight="200.0"
-                   AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="25.0"/>
-        <ChoiceBox fx:id="CB_paterns_master" layoutX="336.0" layoutY="371.0" onMouseClicked="#layer_master_select"
-                   prefWidth="150.0" AnchorPane.bottomAnchor="130.0"/>
+        <Label layoutX="326.0" layoutY="25.0" text="Структура патерну" />
+        <Button layoutX="7.0" layoutY="476.0" mnemonicParsing="false" onAction="#create_pattern" prefHeight="38.0" prefWidth="107.0" text="Создать новый паттерн" AnchorPane.bottomAnchor="12.0" />
+        <TextArea fx:id="TA_patern_description" layoutX="233.0" layoutY="411.0" prefHeight="112.0" prefWidth="263.0" />
+        <Label layoutX="296.0" layoutY="396.0" text="Опис патерну" />
+        <Label layoutX="61.0" layoutY="392.0" text="Імя" />
+        <Label layoutX="7.0048828125" layoutY="392.0" text="ID" />
+        <TextField fx:id="TF_patern_id_DB" editable="false" layoutX="19.0" layoutY="390.0" prefHeight="25.0" prefWidth="42.0" />
+        <Separator layoutX="230.0" layoutY="313.0" orientation="VERTICAL" prefHeight="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="25.0" />
+        <Separator layoutX="500.0" layoutY="25.0" orientation="VERTICAL" prefHeight="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="25.0" />
     </children>
 </AnchorPane>

@@ -8,6 +8,11 @@ import java.sql.*;
 public class DerbyDBManager {
     private static final String driver = "org.apache.derby.jdbc.EmbeddedDriver";
     private static final String url = "jdbc:derby:";
+
+    public static void setCon(Connection con) {
+        DerbyDBManager.con = con;
+    }
+
     private static Connection con = null;
     private static String dbName = null;
 
@@ -38,19 +43,34 @@ public class DerbyDBManager {
     }
 
     private Boolean dbExists() {
-        if (con == null) {
-            try {
-                Class.forName(driver);
-                con = DriverManager.getConnection(url + this.dbName);
-                return true;
-            } catch (Exception e) {
-                System.out.println("Connection error");
-                e.printStackTrace();
+        try {
+            if (con.isClosed()||con==null) {
+                try {
+                    Class.forName(driver);
+                    con = DriverManager.getConnection(url + this.dbName);
+                    return true;
+                } catch (Exception e) {
+                    System.out.println("Connection error");
+                    e.printStackTrace();
 
-                // Если база не создана то ничего не делаем
+                    // Если база не создана то ничего не делаем
+                }
+            } else {
+                return true;
             }
-        } else {
-            return true;
+        } catch (Exception e) {
+            if (con==null) {
+                try {
+                    Class.forName(driver);
+                    con = DriverManager.getConnection(url + this.dbName);
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                    e.printStackTrace();
+                }
+                return true;
+            } else {
+                return true;
+            }
         }
         return false;
     }

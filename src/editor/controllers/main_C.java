@@ -8,7 +8,10 @@ import Classes.Layer;
 import Classes.Module;
 import editor.classes.DerbyDBManager;
 import editor.classes.result_info;
-import editor.services.*;
+import editor.services.arch_work;
+import editor.services.draw_uml;
+import editor.services.functions;
+import editor.services.zip;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,10 +25,12 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import javax.swing.*;
-import javax.xml.soap.Node;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -39,7 +44,7 @@ import java.util.ResourceBundle;
 /**
  * @author godex_000
  */
-public class main_C implements Initializable {
+public class main_C extends JPanel implements Initializable {
     public Label selected_DB;
     public Button B_connect;
     public Button B_create;
@@ -64,9 +69,18 @@ public class main_C implements Initializable {
     @FXML
     private Image arch_image;
 
+    void initData(Module module,DerbyDBManager derby_con) {
+        derby_DB = derby_con;
+        if (derby_DB != null) {
+            MM_1_1_connect.setDisable(true);
+            MM_1_3_disconnect.setDisable(false);
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 //TODO Del
+
         try {
             derby_DB = new DerbyDBManager("DB/paterns_DB");
             list_load_DB();
@@ -84,40 +98,48 @@ public class main_C implements Initializable {
     public void connect_DB(ActionEvent actionEvent) {
         try {
             disconnect_DB(null);
-            JFileChooser db_dir = new JFileChooser(new File(System.getProperty("user.dir")));
-            db_dir.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            db_dir.setAcceptAllFileFilterUsed(false);
-            db_dir.setDialogTitle("Выберете каталог с базой");
-            db_dir.showDialog(null, "Выбрать...");
             // существет ли база(создана ли)
-
-            derby_DB = new DerbyDBManager(db_dir.getSelectedFile().getAbsolutePath());
-            selected_DB.setText(db_dir.getName(db_dir.getSelectedFile()));
+            DirectoryChooser db_dir_FC = new DirectoryChooser();
+            db_dir_FC.setInitialDirectory(new File(System.getProperty("user.dir")));
+            db_dir_FC.setTitle("Open Resource File");
+            File db_dir = db_dir_FC.showDialog(functions.get_stage_by_element(TA_arch_description));
+            if(db_dir!=null){
+            derby_DB = new DerbyDBManager(db_dir.getAbsolutePath());
+            selected_DB.setText(db_dir.getName());
             //TODO доступность кнопок
             list_load_DB();
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            derby_DB = null;
+            try {
+                derby_DB.getCon().close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         }
         if (derby_DB != null) {
             MM_1_1_connect.setDisable(true);
             MM_1_3_disconnect.setDisable(false);
-        }
+        }/**/
     }
 
     public void disconnect_DB(ActionEvent actionEvent) {//отключиться от БД
-        if (derby_DB != null) {
-            derby_DB.disconectDB();
-        }
-        derby_DB = null;
+        try {
+            if (!derby_DB.getCon().isClosed()) {
+                derby_DB.disconectDB();
+            }
+
         LV_archs_DB.setItems(null);
         P_arch_struct.getChildren().clear();
 
         selected_DB.setText("<не обрана>");
         //TODO доступность кнопок
-        if (derby_DB == null) {
+        if (derby_DB.getCon().isClosed()) {
             MM_1_1_connect.setDisable(false);
             MM_1_3_disconnect.setDisable(true);
+        }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -134,7 +156,7 @@ public class main_C implements Initializable {
 
         System.out.print("Создаю таблиці)");
         try {
-            File in_dir = new File(getClass().getClassLoader().getResource("editor/sql/create_DB").getFile());
+            File in_dir = new File(getClass().getClassLoader().getResource("/editor/sql/create_DB").getFile());
             //ResourceAsStream("/editor/sql/creat_DB");
 
             File[] fList;
@@ -360,7 +382,7 @@ public class main_C implements Initializable {
                 tmp_btn.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        edit_mod_paterns(finalS_lay5, finalS_mod4);
+                        edit_mod_patterns(finalS_lay5, finalS_mod4);
                     }
                 });
                 P_arch_struct.getChildren().add(tmp_btn);
@@ -434,13 +456,36 @@ public class main_C implements Initializable {
         //P_arch_struct.setPrefHeight(pos_y);
     }
 
-    private void edit_mod_paterns(int lay, int mod) {//Редагувати патрни шару
+    private void edit_mod_patterns(int layer, int module) {//Редагувати патрни шару
         try {
             arch_old = arch_tmp.clone();
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
         arch_work.arch_save_to_DB(arch_old, derby_DB);
+
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/paterns_editor.fxml")
+        );
+
+        Stage stage = new Stage(StageStyle.DECORATED);
+        try {
+            stage.setScene(new Scene((Pane) loader.load()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        patern_e_C controller =
+                loader.<patern_e_C>getController();
+        controller.initData(arch_old.getLayers().get(layer).getModules().get(module), derby_DB);
+
+        stage.show();
+        Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();
+        // do what you have to do
+        stage_c.close();
+
+        //return stage;
+
     }
 
     public void add_custom_layer_to_arch(Architecture arch_in) {//Додати шар в архітектуру
@@ -531,19 +576,19 @@ public class main_C implements Initializable {
         arch_tmp.setUsecase(TA_arch_relations.getText());
         arch_tmp.setDescription(TA_arch_description.getText());
         try {
-        arch_tmp.setId(Integer.parseInt(TF_arch_id_DB.getText()));}
-        catch (NumberFormatException e){
+            arch_tmp.setId(Integer.parseInt(TF_arch_id_DB.getText()));
+        } catch (NumberFormatException e) {
             e.printStackTrace();
             arch_tmp.setId(null);
         }
-        result_info result=arch_work.arch_save_to_DB(arch_tmp, derby_DB);
-        if(result.getStatus()==true){
-            JOptionPane.showMessageDialog(null, "Архітектура успішно збережена.","Інформація",JOptionPane.INFORMATION_MESSAGE);
+        result_info result = arch_work.arch_save_to_DB(arch_tmp, derby_DB);
+        if (result.getStatus() == true) {
+            JOptionPane.showMessageDialog(null, "Архітектура успішно збережена.", "Інформація", JOptionPane.INFORMATION_MESSAGE);
         } else {
             //TODO ВТорое окно
             //Label message = new Label("Cay's message");
             //functions.get_stage_by_element(TA_arch_description).setScene(new Scene(message));
-            JOptionPane.showMessageDialog(null, "Архітектура не збереження зверныться до Адмыныстратора чи програміста.\n"+result.getComment(), "Попередження", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Архітектура не збереження зверныться до Адмыныстратора чи програміста.\n" + result.getComment(), "Попередження", JOptionPane.WARNING_MESSAGE);
         }
     }
 }
