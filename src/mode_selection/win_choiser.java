@@ -38,8 +38,9 @@ public class win_choiser {
                     e.printStackTrace();
                 }
                 win.close();
+                break;
             }
-            case 1: {
+            case 2: {
                 try {
                     root = FXMLLoader.load(getClass().getResource("/rating_arch/Interface/rating_arch.fxml"));
                     create_new_arch_win.setTitle("Оцінювання існуючих архітектур");
@@ -52,13 +53,15 @@ public class win_choiser {
                     e.printStackTrace();
                 }
                 win.close();
+                break;
             }
-            case 2: {
+            case 1: {
                 try {
                     editor.start(win);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                break;
             }
         }
     }

@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,6 +23,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import javax.swing.*;
@@ -52,10 +56,11 @@ public class rating_arch_C implements Initializable {
     public AnchorPane Rating_arch_2;
     public ImageView arch_1_im;
     public ImageView arch_2_im;
-    public AnchorPane arch_1_text;
-    public AnchorPane arch_2_text;
     public int[] arch_mark_combine = new int[2];
     public Image arch_1_image, arch_2_image;
+    public AnchorPane text_view;
+    public AnchorPane ankor_im_1;
+    public AnchorPane ankor_im_2;
 
 
     DerbyDBManager derby_DB;// = new DerbyDBManager("DB/paterns_DB");
@@ -176,8 +181,17 @@ public class rating_arch_C implements Initializable {
         architecture_done_choise_type = arch_work.arch_load_from_DB(architecture_done_choise.get(0).getId(), derby_DB);
 
         for (int i = 0; i < architecture_done_choise.size(); i++) {
-            architecture_done_choise.get(i).setLayers(architecture_done_choise_type.getLayers());
-            architecture_done_choise.get(i).setName(architecture_done_choise_type.getName());
+            int task_id=architecture_done_choise.get(i).getTask_id(),
+                    id_done=architecture_done_choise.get(i).getId_done();
+
+            try {
+                architecture_done_choise.set(i,architecture_done_choise_type.clone());
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+            architecture_done_choise.get(i).setId_done(id_done);
+            architecture_done_choise.get(i).setTask_id(task_id);
+
             try {
                 rs = derby_DB.executeQuery("SELECT * FROM LAY_DONE WHERE ARCH_DONE_ID=" + architecture_done_choise.get(i).getId_done());
                 while (rs.next()) {
@@ -245,63 +259,155 @@ public class rating_arch_C implements Initializable {
         arch_1_im.setImage(arch_1_image);
         arch_2_im.setImage(arch_2_image);
 
-        int vpos = 15, xpos = 10;
+        Label label_ar_1 = new Label();
+        Label label_ar_2 = new Label();
+
+        label_ar_1.setText("Архітектура A" + (arch_mark_combine[0] + 1));
+        label_ar_1.setLayoutY(0);
+        label_ar_1.setLayoutX(0);
+        label_ar_1.setFont(Font.font(15));
+        label_ar_2.setText("Архітектура A" + (arch_mark_combine[1] + 1));
+        label_ar_2.setLayoutY(0);
+        label_ar_2.setLayoutX(0);
+        label_ar_2.setFont(Font.font(15));
+
+        ankor_im_1.getChildren().add(label_ar_1);
+        ankor_im_2.getChildren().add(label_ar_2);
+
+
+        int vsize = 0,
+                hsize = 0;
+
+        hsize = 4;
+        for (int i = 0; i < architecture_done_choise_type.getLayers().size(); i++) {
+            vsize++;
+            vsize += architecture_done_choise_type.getLayers().get(i).getModules().size();
+        }
+
+        vsize++; //для описової частини
+
+        GridPane gridPane_arch = new GridPane();
+        gridPane_arch.getChildren().clear();
+        gridPane_arch.setHgap(hsize);
+        gridPane_arch.setVgap(vsize);
+        gridPane_arch.setPadding(new Insets(10, 10, 10, 10));
+        gridPane_arch.setBorder(Border.EMPTY);
+        //gridPane_arch.setGridLinesVisible(true);
+
+        Label label_arch = new Label();
+        label_arch.setText(architecture_done_choise_type.getName());
+        label_arch.setFont(Font.font(16));
+
+
+        Label label_ar_3 = new Label();
+        Label label_ar_4 = new Label();
+
+        label_ar_3.setText("Архітектура A" + (arch_mark_combine[0] + 1));
+        label_ar_3.setLayoutY(0);
+        label_ar_3.setLayoutX(0);
+        label_ar_3.setFont(Font.font(15));
+        label_ar_4.setText("Архітектура A" + (arch_mark_combine[1] + 1));
+        label_ar_4.setLayoutY(0);
+        label_ar_4.setLayoutX(0);
+        label_ar_4.setFont(Font.font(15));
+
+        gridPane_arch.add(label_arch, 0, 0);
+        gridPane_arch.add(label_ar_3, 2, 0);
+        gridPane_arch.add(label_ar_4, 3, 0);
+
         ArrayList<Label> label_1 = new ArrayList<>(),
-                label_2 = new ArrayList<>();
+                label_2 = new ArrayList<>(),
+                label_0 = new ArrayList<>();
+        label_0.clear();
+        label_1.clear();
+        label_2.clear();
+
+        int vpos = 1;
+        for (int i = 0; i < architecture_done_choise_type.getLayers().size(); i++) {
+            label_0.add(new Label());
+            label_0.get(label_0.size() - 1).setText(architecture_done_choise_type.getLayers().get(i).getName());
+            label_0.get(label_0.size() - 1).setFont(Font.font(14));
+            gridPane_arch.add(label_0.get(label_0.size() - 1), 0, vpos);
+            vpos++;
+            for (int j=0;j<architecture_done_choise_type.getLayers().get(i).getModules().size();j++){
+                label_0.add(new Label());
+                label_0.get(label_0.size() - 1).setText(architecture_done_choise_type.getLayers().get(i).getModules().get(j).getName());
+                label_0.get(label_0.size() - 1).setFont(Font.font(12));
+                gridPane_arch.add(label_0.get(label_0.size() - 1), 1, vpos);
+
+                label_1.add(new Label());
+                label_1.get(label_1.size() - 1).setText(architecture_done_choise.get(arch_mark_combine[0]).getLayers().get(i).getModules().get(j).getSelected_patern().getName());
+                label_1.get(label_1.size() - 1).setFont(Font.font(12));
+                gridPane_arch.add(label_1.get(label_1.size() - 1), 2, vpos);
+
+                label_2.add(new Label());
+                label_2.get(label_2.size() - 1).setText(architecture_done_choise.get(arch_mark_combine[1]).getLayers().get(i).getModules().get(j).getSelected_patern().getName());
+                label_2.get(label_2.size() - 1).setFont(Font.font(12));
+                gridPane_arch.add(label_2.get(label_2.size() - 1), 3, vpos);
+
+
+                vpos++;
+
+            }
+        }
+
+
+        text_view.getChildren().add(gridPane_arch);
+
+
+        int  xpos = 10;
         label_1.clear();
         label_2.clear();
 
         label_1.add(new Label());
-        label_1.get(label_1.size()-1).setText(architecture_done_choise.get(arch_mark_combine[0]).getName());
-        label_1.get(label_1.size()-1).setLayoutY(vpos);
+        label_1.get(label_1.size() - 1).setText(architecture_done_choise.get(arch_mark_combine[0]).getName());
+        label_1.get(label_1.size() - 1).setLayoutY(vpos);
         vpos += 15;
-        label_1.get(label_1.size()-1).setLayoutX(xpos);
+        label_1.get(label_1.size() - 1).setLayoutX(xpos);
         for (int i = 0; i < architecture_done_choise.get(arch_mark_combine[0]).getLayers().size(); i++) {
             label_1.add(new Label());
-            label_1.get(label_1.size()-1).setText(architecture_done_choise.get(arch_mark_combine[0]).getLayers().get(i).getName());
-            label_1.get(label_1.size()-1).setLayoutY(vpos);
+            label_1.get(label_1.size() - 1).setText(architecture_done_choise.get(arch_mark_combine[0]).getLayers().get(i).getName());
+            label_1.get(label_1.size() - 1).setLayoutY(vpos);
             vpos += 15;
-            label_1.get(label_1.size()-1).setLayoutX(xpos + 25);
+            label_1.get(label_1.size() - 1).setLayoutX(xpos + 25);
             for (int j = 0; j < architecture_done_choise.get(arch_mark_combine[0]).getLayers().get(i).getModules().size(); j++) {
                 label_1.add(new Label());
-                label_1.get(label_1.size()-1).setText(architecture_done_choise.get(arch_mark_combine[0]).getLayers().get(i).getModules().get(j).getName());
-                label_1.get(label_1.size()-1).setLayoutY(vpos);
+                label_1.get(label_1.size() - 1).setText(architecture_done_choise.get(arch_mark_combine[0]).getLayers().get(i).getModules().get(j).getName());
+                label_1.get(label_1.size() - 1).setLayoutY(vpos);
                 vpos += 15;
-                label_1.get(label_1.size()-1).setLayoutX(xpos + 50);
+                label_1.get(label_1.size() - 1).setLayoutX(xpos + 50);
                 label_1.add(new Label());
-                label_1.get(label_1.size()-1).setText(architecture_done_choise.get(arch_mark_combine[0]).getLayers().get(i).getModules().get(j).getSelected_patern().getName());
-                label_1.get(label_1.size()-1).setLayoutY(vpos);
+                label_1.get(label_1.size() - 1).setText(architecture_done_choise.get(arch_mark_combine[0]).getLayers().get(i).getModules().get(j).getSelected_patern().getName());
+                label_1.get(label_1.size() - 1).setLayoutY(vpos);
                 vpos += 15;
-                label_1.get(label_1.size()-1).setLayoutX(xpos + 75);
+                label_1.get(label_1.size() - 1).setLayoutX(xpos + 75);
             }
         }
         vpos = 15;
         label_2.add(new Label());
-        label_2.get(label_2.size()-1).setText(architecture_done_choise.get(arch_mark_combine[1]).getName());
-        label_2.get(label_2.size()-1).setLayoutY(vpos);
+        label_2.get(label_2.size() - 1).setText(architecture_done_choise.get(arch_mark_combine[1]).getName());
+        label_2.get(label_2.size() - 1).setLayoutY(vpos);
         vpos += 15;
-        label_2.get(label_2.size()-1).setLayoutX(xpos);
+        label_2.get(label_2.size() - 1).setLayoutX(xpos);
         for (int i = 0; i < architecture_done_choise.get(arch_mark_combine[1]).getLayers().size(); i++) {
             label_2.add(new Label());
-            label_2.get(label_2.size()-1).setText(architecture_done_choise.get(arch_mark_combine[1]).getLayers().get(i).getName());
-            label_2.get(label_2.size()-1).setLayoutY(vpos);
+            label_2.get(label_2.size() - 1).setText(architecture_done_choise.get(arch_mark_combine[1]).getLayers().get(i).getName());
+            label_2.get(label_2.size() - 1).setLayoutY(vpos);
             vpos += 15;
-            label_2.get(label_2.size()-1).setLayoutX(xpos + 25);
+            label_2.get(label_2.size() - 1).setLayoutX(xpos + 25);
             for (int j = 0; j < architecture_done_choise.get(arch_mark_combine[1]).getLayers().get(i).getModules().size(); j++) {
                 label_2.add(new Label());
-                label_2.get(label_2.size()-1).setText(architecture_done_choise.get(arch_mark_combine[1]).getLayers().get(i).getModules().get(j).getName());
-                label_2.get(label_2.size()-1).setLayoutY(vpos);
+                label_2.get(label_2.size() - 1).setText(architecture_done_choise.get(arch_mark_combine[1]).getLayers().get(i).getModules().get(j).getName());
+                label_2.get(label_2.size() - 1).setLayoutY(vpos);
                 vpos += 15;
-                label_2.get(label_2.size()-1).setLayoutX(xpos + 50);
+                label_2.get(label_2.size() - 1).setLayoutX(xpos + 50);
                 label_2.add(new Label());
-                label_2.get(label_2.size()-1).setText(architecture_done_choise.get(arch_mark_combine[1]).getLayers().get(i).getModules().get(j).getSelected_patern().getName());
-                label_2.get(label_2.size()-1).setLayoutY(vpos);
+                label_2.get(label_2.size() - 1).setText(architecture_done_choise.get(arch_mark_combine[1]).getLayers().get(i).getModules().get(j).getSelected_patern().getName());
+                label_2.get(label_2.size() - 1).setLayoutY(vpos);
                 vpos += 15;
-                label_2.get(label_2.size()-1).setLayoutX(xpos + 75);
+                label_2.get(label_2.size() - 1).setLayoutX(xpos + 75);
             }
         }
-        arch_1_text.getChildren().addAll(label_1);
-        arch_2_text.getChildren().addAll(label_2);
     }
 
     public void setArch_mark_combine_combine_next() {

@@ -29,6 +29,7 @@ public class draw_uml {
             StringReader stringReader = new StringReader(class_text);
             BufferedReader bufferedReader = new BufferedReader(stringReader);
             try {
+                out_data.flush();
                 out_data.write("@startuml");
 
                 out_data.newLine();
