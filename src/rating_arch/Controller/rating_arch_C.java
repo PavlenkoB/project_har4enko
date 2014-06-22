@@ -137,6 +137,10 @@ public class rating_arch_C implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        ObservableList<String> mark_crit = FXCollections.observableArrayList();
+        mark_crit.addAll("Швидкодія", "Безпека", "Надійність");
+        mark_crit.addAll(mark_crit);
+
     }
 
     private void task_description_view(Number new_value) {
