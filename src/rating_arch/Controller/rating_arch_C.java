@@ -137,9 +137,9 @@ public class rating_arch_C implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        ObservableList<String> mark_crit = FXCollections.observableArrayList();
-        mark_crit.addAll("Швидкодія", "Безпека", "Надійність");
-        mark_crit.addAll(mark_crit);
+        //ObservableList<String> mark_crit = FXCollections.observableArrayList();
+        //mark_crit.addAll("Швидкодія", "Безпека", "Надійність");
+       // mark_crit.addAll(mark_crit);
 
     }
 
@@ -251,6 +251,11 @@ public class rating_arch_C implements Initializable {
     }
 
     public void draw_arch_im_text() {
+
+        ankor_im_1.getChildren().clear();
+        ankor_im_2.getChildren().clear();
+        text_view.getChildren().clear();
+
         arch_1_image = arch_image_gen_with_patterns(architecture_done_choise.get(arch_mark_combine[0]));
         arch_2_image = arch_image_gen_with_patterns(architecture_done_choise.get(arch_mark_combine[1]));
 

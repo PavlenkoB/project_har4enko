@@ -7,8 +7,8 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="630.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rating_arch.Controller.rating_arch_C">
-  <children><AnchorPane fx:id="Rating_arch_1" layoutY="26.0" prefHeight="174.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
-<children><AnchorPane fx:id="back_gr_grid" prefHeight="279.0" prefWidth="610.0" visible="false" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+  <children><AnchorPane fx:id="Rating_arch_1" layoutY="26.0" prefHeight="174.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+<children><AnchorPane fx:id="back_gr_grid" prefHeight="279.0" prefWidth="610.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
 <children><Label alignment="CENTER" layoutX="44.0048828125" layoutY="14.0" text="Виберіть завдання для оцінки альтернативних архітектур" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="20.0">
 <font>
 <Font size="18.0" />

@@ -345,7 +345,7 @@ public class main_C extends JPanel implements Initializable {
             TF_arch_id_DB.setText(id);
             TF_arch_name_DB.setText(name);
         }
-        //load_this_arch_DB(null);
+        load_this_arch_DB(null);
         arch_image = arch_tmp.getPreview();
         //TODO перепроверить вывод что бы было удобно
         IV_arch_imageview.setFitHeight(arch_image.getRequestedHeight());
