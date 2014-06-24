@@ -6,12 +6,14 @@ package editor.controllers;/*
 import Classes.Module;
 import Classes.Pattern;
 import editor.classes.DerbyDBManager;
+import editor.classes.id_list;
 import editor.services.draw_uml;
 import editor.services.functions;
 import editor.services.pattern_work;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,9 +26,12 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,13 +39,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
  * @author godex_000
  */
 public class patern_e_C implements Initializable {
-
     @FXML
     public ListView LV_paterns_DB;
     @FXML
@@ -54,15 +59,13 @@ public class patern_e_C implements Initializable {
     @FXML
     public MenuItem MI_disconnect;
     @FXML
-    public TextField TF_patern_id_DB;
-    @FXML
     public TextArea TA_patern_description;
     @FXML
     public ChoiceBox CB_paterns_master;
     @FXML
     public Pattern edited_pattern;
-    Module edited_module;
-    DerbyDBManager derby_DB;
+    @FXML
+    public Parent root;
     /*Кнопки*/
     @FXML
     private TextArea class_text;
@@ -73,14 +76,56 @@ public class patern_e_C implements Initializable {
     @FXML
     private javafx.scene.image.ImageView class_imageview;
 
+    Module edited_module;
+    DerbyDBManager derby_DB;
+    ArrayList<id_list> pat_id_list=new ArrayList<id_list>();
+
     void initData(Module module, DerbyDBManager derby_con) {
         derby_DB = derby_con;
         edited_module = module;
         selected_DB.setText(derby_DB.getDbName().toString());
         list_load_DB();
+        Stage thisstage = (Stage) root.getScene().getWindow();
+        thisstage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+                Object[] options = {"Так",
+                        "Ні"};
+                int n = JOptionPane.showOptionDialog(null,
+                        "Ви впевнені що бажаете вийти не збарежені зміни буде втрачено?",
+                        "Увага",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE,
+                        null,     //do not use a custom Icon
+                        options,  //the titles of buttons
+                        options[0]); //default button title
+                if (n == 0) {
+
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/main_window_V2.fxml")
+                    );
+
+                    Stage stage = new Stage(StageStyle.DECORATED);
+                    try {
+                        stage.setScene(new Scene((Pane) loader.load()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    main_C controller = loader.<main_C>getController();
+                    controller.initData(edited_module, derby_DB);
+
+                    stage.show();
+                    Stage stage_this = (Stage) MB_main_menu.getScene().getWindow();
+                    // do what you have to do
+                    stage_this.close();
+                } else {
+                    we.consume();
+                }
+            }
+        });
     }
 
     public void initialize(URL url, ResourceBundle rb) {
+
 
         //list_load_DB();/**/
 
@@ -101,11 +146,8 @@ public class patern_e_C implements Initializable {
     //TODO загрузка превю
     public void load_this_patern_DB(ActionEvent actionEvent) {//ЗАгрузить патерн с базы
         //Читае Идентиф. Параметра
-        edited_pattern = pattern_work.pattern_load_from_DB(functions.get_ID(LV_paterns_DB.getSelectionModel().getSelectedItem().toString()), derby_DB);
-
-
+        edited_pattern = pattern_work.pattern_load_from_DB(pat_id_list.get(LV_paterns_DB.getSelectionModel().getSelectedIndex()).getID(), derby_DB);
         TA_patern_description.setText(edited_pattern.getDescription());
-        TF_patern_id_DB.setText(edited_pattern.getId().toString());
         class_text.setText(edited_pattern.getUml_text());
         TF_patern_name_DB.setText(edited_pattern.getName());
         class_image = edited_pattern.getPreview();
@@ -116,7 +158,7 @@ public class patern_e_C implements Initializable {
 
     //TODO сохранение превю
     public void save_this_patern_DB(ActionEvent actionEvent) {//добавить патерн в базу
-        edited_pattern.setMod_id(functions.get_ID(CB_paterns_master.getSelectionModel().getSelectedItem().toString()));
+        edited_pattern.setMod_id(edited_module.getId());
         edited_pattern.setName(TF_patern_name_DB.getText());
         edited_pattern.setUml_text(class_text.getText());
         edited_pattern.setDescription(TA_patern_description.getText());
@@ -127,18 +169,29 @@ public class patern_e_C implements Initializable {
             JOptionPane.showMessageDialog(null, "Помилка збереження зверныться до Адмыныстратора чи програміста.", "Попередження", JOptionPane.WARNING_MESSAGE);
         }
         list_load_DB();
-        TF_patern_id_DB.setEditable(true);
         LV_paterns_DB.setDisable(false);
     }
 
     public void delete_patern_DB(ActionEvent actionEvent) {//удалить з базы по ID
-        String query = "DELETE FROM PATERNS WHERE ID=" + functions.get_ID(LV_paterns_DB.getSelectionModel().getSelectedItem().toString());
-        try {
-            derby_DB.executeUpdate(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        Object[] options = {"Так",
+                "Ні"};
+        int n = JOptionPane.showOptionDialog(null,
+                "Ви впевнені що бажаете видалити?",
+                "Увага",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,     //do not use a custom Icon
+                options,  //the titles of buttons
+                options[0]); //default button title
+        if(n==0) {
+            String query = "DELETE FROM PATERNS WHERE ID=" + pat_id_list.get(LV_paterns_DB.getSelectionModel().getSelectedIndex()).getID();
+            try {
+                derby_DB.executeUpdate(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            list_load_DB();
         }
-        list_load_DB();
     }
 
     private void list_load_DB() {//Загрузка з базы
@@ -166,10 +219,21 @@ public class patern_e_C implements Initializable {
                 }
                 e.printStackTrace();
             }
-            ObservableList<String> items = FXCollections.observableArrayList();
+            ObservableList<Label> items = FXCollections.observableArrayList();
 
+            pat_id_list.clear();
             while (rs.next()) {
-                items.add(rs.getString("ID") + "|" + rs.getString("NAME"));
+                pat_id_list.add(new id_list(rs.getInt("ID"), rs.getString("NAME")));
+                Label tmp_lable=new Label(rs.getString("NAME"));
+                tmp_lable.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        if (event.getClickCount() > 1) {
+                            load_this_patern_DB(null);
+                        }
+                    }
+                });
+                items.add(tmp_lable);
             }
             LV_paterns_DB.setItems(items);
         } catch (SQLException e) {
@@ -180,11 +244,8 @@ public class patern_e_C implements Initializable {
 
     public void select_to_save_DB() {//скопировать имя патерна для сохранения
         if (derby_DB != null) {
-            String id_name = LV_paterns_DB.getSelectionModel().getSelectedItem().toString();
-            String id, name = new String();
-            id = functions.get_ID(id_name).toString();
-            name = functions.get_NAME(id_name);
-            TF_patern_id_DB.setText(id);
+            Label tmp_l= (Label) LV_paterns_DB.getSelectionModel().getSelectedItem();
+            String name = tmp_l.getText();
             TF_patern_name_DB.setText(name);
         }
         //load_this_patern_DB(null);
@@ -198,8 +259,6 @@ public class patern_e_C implements Initializable {
             Stage.setTitle("Помощь");
             Stage.setScene(new Scene(Parent));
             Stage.show();
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -210,53 +269,47 @@ public class patern_e_C implements Initializable {
     }
 
     public void close_mw(ActionEvent actionEvent) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/main_window_V2.fxml")
-        );
+        Object[] options = {"Так",
+                "Ні"};
+        int n = JOptionPane.showOptionDialog(null,
+                "Ви впевнені що бажаете вийти не збарежені зміни буде втрачено?",
+                "Увага",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,     //do not use a custom Icon
+                options,  //the titles of buttons
+                options[0]); //default button title
+        if (n == 0) {
 
-        Stage stage = new Stage(StageStyle.DECORATED);
-        try {
-            stage.setScene(new Scene((Pane) loader.load()));
-        } catch (IOException e) {
-            e.printStackTrace();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/main_window_V2.fxml")
+            );
+
+            Stage stage = new Stage(StageStyle.DECORATED);
+            try {
+                stage.setScene(new Scene((Pane) loader.load()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            main_C controller = loader.<main_C>getController();
+            controller.initData(edited_module, derby_DB);
+
+            stage.show();
+            Stage stage_this = (Stage) MB_main_menu.getScene().getWindow();
+            // do what you have to do
+            stage_this.close();
+        } else {
+            actionEvent.consume();
         }
-
-        main_C controller = loader.<main_C>getController();
-        controller.initData(edited_module,derby_DB);
-
-        stage.show();
-        Stage stage_this = (Stage) MB_main_menu.getScene().getWindow();
-        // do what you have to do
-        stage_this.close();
 
     }
 
     public void edit_patern(ActionEvent actionEvent) {//Редактировать патерн
-        TF_patern_id_DB.setEditable(false);
         LV_paterns_DB.setDisable(true);
         select_to_save_DB();
         load_this_patern_DB(null);
 
-    }
-
-    public void moduls_load() {//загрузить модули
-        ResultSet rs = null;
-        try {
-            try {
-                //derby_DB
-                rs = derby_DB.executeQuery("SELECT * FROM MODULE");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            ObservableList<String> items = FXCollections.observableArrayList();
-
-            while (rs.next()) {
-                items.add(rs.getString("ID") + "|" + rs.getString("NAME"));
-            }
-            CB_paterns_master.setItems(items);
-        } catch (SQLException e) {
-            e.printStackTrace();
-
-        }
     }
 
     public void layer_master_select() {

@@ -25,10 +25,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import javafx.stage.*;
 
 import javax.swing.*;
 import java.io.File;
@@ -45,6 +42,7 @@ import java.util.ResourceBundle;
  * @author godex_000
  */
 public class main_C extends JPanel implements Initializable {
+    @FXML
     public Label selected_DB;
     public Button B_connect;
     public Button B_create;
@@ -64,6 +62,7 @@ public class main_C extends JPanel implements Initializable {
     public MenuItem MM_1_1_connect;
     public MenuItem MM_1_2_create_DB;
     public MenuItem MM_1_3_disconnect;
+    public Parent  root;
     DerbyDBManager derby_DB;
     Architecture arch_tmp, arch_old = new Architecture();
     @FXML
@@ -75,10 +74,31 @@ public class main_C extends JPanel implements Initializable {
             MM_1_1_connect.setDisable(true);
             MM_1_3_disconnect.setDisable(false);
         }
+        Stage thisstage = (Stage) root.getScene().getWindow();
+        thisstage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+                Object[] options = {"Так",
+                        "Ні"};
+                int n = JOptionPane.showOptionDialog(null,
+                        "Ви впевнені що бажаете вийти не збарежені зміни буде втрачено?",
+                        "Увага",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE,
+                        null,     //do not use a custom Icon
+                        options,  //the titles of buttons
+                        options[0]); //default button title
+                if (n == 0) {
+                } else {
+                    we.consume();
+                }
+            }
+        });
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+
 //TODO Del
 
         try {
@@ -191,7 +211,9 @@ public class main_C extends JPanel implements Initializable {
 
 
     public void close_mw(ActionEvent actionEvent) {
-        System.exit(1);
+
+            System.exit(1);
+
     }
 
     public void show_help(ActionEvent actionEvent) {// Отобразить помощь
@@ -306,13 +328,25 @@ public class main_C extends JPanel implements Initializable {
 
 
     public void delete_arch_DB(ActionEvent actionEvent) {//удалить з базы по ID
-        String query = "DELETE FROM ARCHITECTURE WHERE ID=" + functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString());
-        try {
-            derby_DB.executeUpdate(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        Object[] options = {"Так",
+                "Ні"};
+        int n = JOptionPane.showOptionDialog(null,
+                "Ви впевнені що бажаете видалити?",
+                "Увага",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,     //do not use a custom Icon
+                options,  //the titles of buttons
+                options[0]); //default button title
+        if(n==0) {
+            String query = "DELETE FROM ARCHITECTURE WHERE ID=" + functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString());
+            try {
+                   derby_DB.executeUpdate(query);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            list_load_DB();
         }
-        list_load_DB();
     }
 
     private void list_load_DB() {//Загрузка з базы
@@ -328,6 +362,18 @@ public class main_C extends JPanel implements Initializable {
             while (rs.next()) {
                 System.out.println(rs.getInt("ID") + "|" + rs.getString("NAME"));
                 items.add(rs.getString("ID") + "|" + rs.getString("NAME"));
+                /*
+                Label tmp_lable=new Label(rs.getString("NAME"));
+                tmp_lable.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        if (event.getClickCount() > 1) {
+                            load_this_arch_DB(null);
+                        }
+                    }
+                });
+                items.add(tmp_lable);
+                 */
             }
             LV_archs_DB.setItems(items);
         } catch (SQLException e) {
@@ -342,17 +388,17 @@ public class main_C extends JPanel implements Initializable {
             String id, name = new String();
             id = functions.get_ID(id_name).toString();
             name = functions.get_NAME(id_name);
-            TF_arch_id_DB.setText(id);
+//            TF_arch_id_DB.setText(id);
             TF_arch_name_DB.setText(name);
         }
-        load_this_arch_DB(null);
-        arch_image = arch_tmp.getPreview();
+        //load_this_arch_DB(null);
+//        arch_image = arch_tmp.getPreview();
         //TODO перепроверить вывод что бы было удобно
-        IV_arch_imageview.setFitHeight(arch_image.getRequestedHeight());
+/*        IV_arch_imageview.setFitHeight(arch_image.getRequestedHeight());
         IV_arch_imageview.setFitWidth(arch_image.getRequestedWidth());
         SP_P_IV.setPrefHeight(arch_image.getHeight());
         //SP_P_IV.setPrefWidth(arch_image.getWidth());
-        IV_arch_imageview.setImage(arch_image);
+        IV_arch_imageview.setImage(arch_image);*/
     }
 
     public void draw_arch_struct() {//відобразити структуру архітектури
@@ -400,7 +446,7 @@ public class main_C extends JPanel implements Initializable {
             //Модулі
             for (int s_mod = 0; s_mod < arch_tmp.getLayers().get(s_lay).getModules().size(); s_mod++) {//вивід модулів
                 /*Кнопка Патернів*/
-                tmp_btn = new Button("Патерни...");
+                tmp_btn = new Button("Патерни("+arch_tmp.getLayers().get(s_lay).getModules().get(s_mod).getAvilable_paterns().size()+")...");
                 //tmp_btn.setPrefWidth(s_x2);
                 //tmp_btn.setPrefHeight(s_y2);
                 tmp_btn.setLayoutX(pos_x);
@@ -420,7 +466,7 @@ public class main_C extends JPanel implements Initializable {
                 tmp_btn.getStyleClass().add("mod_edit");
                 //tmp_btn.setPrefWidth(s_x2);
                 //tmp_btn.setPrefHeight(s_y2);
-                pos_x += s_x2;
+                pos_x += s_x2+20;
                 tmp_btn.setLayoutX(pos_x);
                 tmp_btn.setLayoutY(pos_y);
                 final int finalS_mod1 = s_mod;
@@ -511,7 +557,7 @@ public class main_C extends JPanel implements Initializable {
         patern_e_C controller =
                 loader.<patern_e_C>getController();
         controller.initData(arch_old.getLayers().get(layer).getModules().get(module), derby_DB);
-
+        stage.setTitle("Редагування патернів \""+arch_old.getLayers().get(layer).getModules().get(module).getName()+"\" архітектури \""+arch_old.getName()+"\"");
         stage.show();
         Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();
         // do what you have to do

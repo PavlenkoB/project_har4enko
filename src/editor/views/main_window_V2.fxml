@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../css/main_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="editor.controllers.main_C">
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../css/main_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="editor.controllers.main_C">
     <top>
         <BorderPane BorderPane.alignment="CENTER">
             <top>
@@ -97,10 +98,11 @@
             <top>
                 <FlowPane BorderPane.alignment="CENTER">
                     <children>
-                        <Label text="ID" />
-                        <TextField fx:id="TF_arch_id_DB" disable="true" editable="false" />
                         <Label text="Імя архітектури" />
-                        <TextField fx:id="TF_arch_name_DB" />
+                        <TextField fx:id="TF_arch_name_DB" maxWidth="-Infinity" prefHeight="25.0" prefWidth="303.0">
+                     <FlowPane.margin>
+                        <Insets />
+                     </FlowPane.margin></TextField>
                     </children>
                 </FlowPane>
             </top>
@@ -112,7 +114,7 @@
                 </ScrollPane>
             </center>
             <bottom>
-                <Button mnemonicParsing="false" onAction="#arch_uml_gen" text="Намалювати" BorderPane.alignment="CENTER" />
+                <Button mnemonicParsing="false" onAction="#arch_uml_gen" text="Візуалізувати" BorderPane.alignment="CENTER" />
             </bottom>
         </BorderPane>
     </center>

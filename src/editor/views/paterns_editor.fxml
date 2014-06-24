@@ -7,7 +7,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../css/main_style.css" prefHeight="526.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="editor.controllers.patern_e_C">
+<AnchorPane fx:id="root" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="526.0" prefWidth="760.0" stylesheets="@../css/main_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="editor.controllers.patern_e_C">
     <children>
         <MenuBar fx:id="MB_main_menu" prefHeight="25.0" prefWidth="798.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <menus>
@@ -24,7 +24,7 @@
                 </Menu>
             </menus>
         </MenuBar>
-        <Button layoutX="332.0" layoutY="330.0" mnemonicParsing="false" onAction="#Action_draw_class" text="Намалювати патерн">
+        <Button layoutX="325.0" layoutY="330.0" mnemonicParsing="false" onAction="#Action_draw_class" text="Візуалізувати патерн">
             <graphic>
                 <ImageView fitHeight="30.0" fitWidth="200.0" layoutX="308.5" layoutY="294.5" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -39,7 +39,7 @@
                 <Cursor fx:constant="HAND" />
             </cursor>
         </ListView>
-        <TextField fx:id="TF_patern_name_DB" layoutX="91.0" layoutY="390.0" prefHeight="25.0" prefWidth="142.0" />
+        <TextField fx:id="TF_patern_name_DB" layoutX="31.0" layoutY="390.0" prefHeight="25.0" prefWidth="202.0" />
         <Button layoutX="121.0" layoutY="476.0" mnemonicParsing="false" onAction="#delete_patern_DB" prefHeight="38.0" prefWidth="99.0" text="Видалити" AnchorPane.bottomAnchor="12.0">
             <graphic>
                 <ImageView fitHeight="30.0" fitWidth="27.0" layoutX="148.0" layoutY="279.5" pickOnBounds="true" preserveRatio="true">
@@ -80,9 +80,7 @@
         <Button layoutX="7.0" layoutY="476.0" mnemonicParsing="false" onAction="#create_pattern" prefHeight="38.0" prefWidth="107.0" text="Створити новий паттерн" AnchorPane.bottomAnchor="12.0" />
         <TextArea fx:id="TA_patern_description" layoutX="233.0" layoutY="411.0" prefHeight="112.0" prefWidth="263.0" />
         <Label layoutX="296.0" layoutY="396.0" text="Опис патерну" />
-        <Label layoutX="61.0" layoutY="392.0" text="Імя" />
-        <Label layoutX="7.0048828125" layoutY="392.0" text="ID" />
-        <TextField fx:id="TF_patern_id_DB" editable="false" layoutX="19.0" layoutY="390.0" prefHeight="25.0" prefWidth="42.0" />
+        <Label layoutX="8.0" layoutY="392.0" text="Імя" />
         <Separator layoutX="230.0" layoutY="313.0" orientation="VERTICAL" prefHeight="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="25.0" />
         <Separator layoutX="500.0" layoutY="25.0" orientation="VERTICAL" prefHeight="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="25.0" />
     </children>
