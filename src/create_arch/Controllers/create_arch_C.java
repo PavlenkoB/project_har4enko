@@ -2,9 +2,7 @@ package create_arch.Controllers;
 
 import Classes.*;
 import editor.classes.DerbyDBManager;
-import editor.models.Main;
 import editor.services.arch_work;
-import editor.services.draw_uml;
 import editor.services.functions;
 import editor.services.gen_arch_done;
 import javafx.collections.FXCollections;
@@ -66,7 +64,8 @@ public class create_arch_C implements Initializable {
     public Button Save_all;
     ArrayList<Label> layer_names = new ArrayList<>();
     ArrayList<javafx.scene.control.Label> module_names = new ArrayList<>();
-    ArrayList<ChoiceBox> selected_paterns = new ArrayList<>();
+    //ArrayList<ChoiceBox> selected_paterns = new ArrayList<>();
+    ArrayList<SplitMenuButton> sel_pat_splitmenu = new ArrayList<>();
     //public static Stage Primary_arch_create;
     ArrayList<Module> module_done = new ArrayList<>();
     ArrayList<Module> modules_done = new ArrayList<>();
@@ -133,7 +132,6 @@ public class create_arch_C implements Initializable {
     }
 
 
-
     public void initialize(URL url, ResourceBundle rb) {
         try {
             Arch_choise_1.setVisible(true);
@@ -181,7 +179,7 @@ public class create_arch_C implements Initializable {
         if (derby_DB != null) {
             Number num_choise_arch = Arch_list.getSelectionModel().selectedIndexProperty().getValue();
             ResultSet rs_arch;
-                        arc_choise = arch_work.arch_load_from_DB(functions.get_ID((String) Arch_list.getItems().get(num_choise_arch.intValue())),derby_DB);
+            arc_choise = arch_work.arch_load_from_DB(functions.get_ID((String) Arch_list.getItems().get(num_choise_arch.intValue())), derby_DB);
 
             Description.setText(arc_choise.getDescription());
             class_image = arc_choise.getPreview();
@@ -198,7 +196,8 @@ public class create_arch_C implements Initializable {
         Arch_choise_3.setVisible(false);
         Task_save.setVisible(false);
         arc_choise.getLayers().clear();
-        selected_paterns.clear();
+        //selected_paterns.clear();
+        sel_pat_splitmenu.clear();
         GridPane gridpane_lay = new GridPane();
         ArrayList<GridPane> gridPane_mod = new ArrayList<>();
         gridPane_mod.clear();
@@ -235,18 +234,29 @@ public class create_arch_C implements Initializable {
                     gridPane_mod.get(s_lay).setHalignment(tmp_lable, HPos.CENTER);
                     gridPane_mod.get(s_lay).setValignment(tmp_lable, VPos.CENTER);
                     gridPane_mod.get(s_lay).add(tmp_lable, 0, s_mod);
-                    selected_paterns.add(s_mod, new ChoiceBox());
-                    ObservableList<String> items = FXCollections.observableArrayList();
+                    //selected_paterns.add(s_mod, new ChoiceBox());
+                    sel_pat_splitmenu.add(s_mod, new SplitMenuButton());
+                    //ObservableList<String> items = FXCollections.observableArrayList();
+                    ObservableList<CheckMenuItem> mitems = FXCollections.observableArrayList();
                     rs_pat = derby_DB.executeQuery("SELECT * FROM PATERNS WHERE MOD_ID=" + rs_mod.getInt("ID"));
                     while (rs_pat.next()) {//Все патерны что подходят модулю в кнопку
                         arc_choise.getLayers().get(s_lay).getModules().get(s_mod).getAvilable_paterns().add(new Pattern(rs_pat.getInt("ID"), rs_pat.getInt("MOD_ID"), rs_pat.getString("NAME"), rs_pat.getString("DESCRIPTION"), rs_pat.getString("VALUE")));
-                        items.add(rs_pat.getString("ID") + "|" + rs_pat.getString("NAME"));
+                        //items.add(rs_pat.getString("ID") + "|" + rs_pat.getString("NAME"));
+                        mitems.add(new CheckMenuItem(rs_pat.getString("ID") + "|" + rs_pat.getString("NAME")));
                     }
-                    selected_paterns.get(s_mod).setItems(items);
-                    selected_paterns.get(s_mod).setMinWidth(300);
-                    selected_paterns.get(s_mod).setMaxWidth(300);
-                    gridPane_mod.get(s_lay).setHalignment(selected_paterns.get(s_mod), HPos.CENTER);
-                    gridPane_mod.get(s_lay).add(selected_paterns.get(s_mod), 1, s_mod);
+                    mitems.add(new CheckMenuItem("Обрати усі"));
+                    mitems.get(mitems.size() - 1).isSelected();
+                    //selected_paterns.get(s_mod).setItems(items);
+                    sel_pat_splitmenu.get(s_mod).setText("Виберіть патерни");
+                    sel_pat_splitmenu.get(s_mod).getItems().addAll(mitems);
+                    sel_pat_splitmenu.get(s_mod).setMinWidth(300);
+                    sel_pat_splitmenu.get(s_mod).setMaxWidth(300);
+                    //selected_paterns.get(s_mod).setMinWidth(300);
+                    //selected_paterns.get(s_mod).setMaxWidth(300);
+                    gridPane_mod.get(s_lay).setHalignment(sel_pat_splitmenu.get(s_mod), HPos.CENTER);
+                    gridPane_mod.get(s_lay).add(sel_pat_splitmenu.get(s_mod), 1, s_mod);
+                    //gridPane_mod.get(s_lay).setHalignment(selected_paterns.get(s_mod), HPos.CENTER);
+                    //gridPane_mod.get(s_lay).add(selected_paterns.get(s_mod), 1, s_mod);
                     s_mod++;
                 }
                 //gridPane_mod.get(s_lay).setGridLinesVisible(true);
@@ -304,33 +314,28 @@ public class create_arch_C implements Initializable {
         Task_save.setVisible(false);
         ResultSet rs = null;
         module_done.clear();
-        for (int i = 0; i < selected_paterns.size(); i++) {
+
+        sel_pat_splitmenu.size();
+
+        for (int i = 0; i < sel_pat_splitmenu.size(); i++) {
             rs = null;
             Pattern paterns = new Pattern();
             Module modules = new Module();
             module_done.add(new Module());
-            if (selected_paterns.get(i).getSelectionModel().getSelectedItem() != null) {
-                ResultSet rs_mod = null;
-                try {
-                    rs = derby_DB.executeQuery("SELECT * FROM PATERNS WHERE ID=" + functions.get_ID(selected_paterns.get(i).getSelectionModel().getSelectedItem().toString()));
-                    rs.next();
-                    paterns = new Pattern(rs.getInt("ID"), rs.getInt("MOD_ID"), rs.getString("NAME"), rs.getString("DESCRIPTION"), rs.getString("VALUE"));
-                    rs_mod = derby_DB.executeQuery("SELECT * FROM MODULE WHERE ID=" + rs.getInt("MOD_ID"));
-                    rs_mod.next();
-                    modules = new Module(rs_mod.getInt("ID"), rs_mod.getInt("LAY_ID"), rs_mod.getString("NAME"), rs_mod.getString("DESCRIPTION"));
+            boolean all = false;
 
-                } catch (SQLException e) {
-                    e.printStackTrace();
+            for (int j = 0; j < sel_pat_splitmenu.get(i).getItems().size(); j++) {
+                if (((CheckMenuItem) sel_pat_splitmenu.get(i).getItems().get(j)).selectedProperty().getValue() & (sel_pat_splitmenu.get(i).getItems().get(j)).getText().equals("Обрати усі")) {
+                    all = true;
                 }
-                module_done.get(i).getAvilable_paterns().add(paterns);
-                module_done.get(i).setId(modules.getId());
-                module_done.get(i).setLay_id(modules.getLay_id());
-                module_done.get(i).setName(modules.getName());
-            } else {
+            }
+
+
+            if (all) {
                 Layer layer = new Layer();
                 ResultSet rs_mod = null, rs_lay = null;
                 try {
-                    rs = derby_DB.executeQuery("SELECT * FROM PATERNS WHERE ID=" + functions.get_ID(selected_paterns.get(i).getItems().get(0).toString()));
+                    rs = derby_DB.executeQuery("SELECT * FROM PATERNS WHERE ID=" + functions.get_ID(((CheckMenuItem) sel_pat_splitmenu.get(i).getItems().get(0)).getText().toString()));
                     rs.next();
                     rs_mod = derby_DB.executeQuery("SELECT * FROM MODULE WHERE ID=" + rs.getInt("MOD_ID"));
                     rs_mod.next();
@@ -341,11 +346,11 @@ public class create_arch_C implements Initializable {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                for (int j = 0; j < arc_choise.getLayers().size(); j++) {
-                    if (arc_choise.getLayers().get(j).getId() == layer.getId()) {
-                        for (int k = 0; k < arc_choise.getLayers().get(j).getModules().size(); k++) {
-                            if (arc_choise.getLayers().get(j).getModules().get(k).getId() == modules.getId()) {
-                                module_done.get(i).getAvilable_paterns().addAll(arc_choise.getLayers().get(j).getModules().get(k).getAvilable_paterns());
+                for (int l = 0; l < arc_choise.getLayers().size(); l++) {
+                    if (arc_choise.getLayers().get(l).getId() == layer.getId()) {
+                        for (int k = 0; k < arc_choise.getLayers().get(l).getModules().size(); k++) {
+                            if (arc_choise.getLayers().get(l).getModules().get(k).getId() == modules.getId()) {
+                                module_done.get(i).getAvilable_paterns().addAll(arc_choise.getLayers().get(l).getModules().get(k).getAvilable_paterns());
                             }
                         }
                     }
@@ -353,8 +358,82 @@ public class create_arch_C implements Initializable {
                 module_done.get(i).setId(modules.getId());
                 module_done.get(i).setLay_id(modules.getLay_id());
                 module_done.get(i).setName(modules.getName());
+            } else {
+                for (int j = 0; j < sel_pat_splitmenu.get(i).getItems().size(); j++) {
+                    if (((CheckMenuItem) sel_pat_splitmenu.get(i).getItems().get(j)).selectedProperty().getValue() & !sel_pat_splitmenu.get(i).getItems().get(j).getText().equals("Обрати усі")) {
+                        ResultSet rs_mod = null;
+                        try {
+                            rs = derby_DB.executeQuery("SELECT * FROM PATERNS WHERE ID=" + functions.get_ID(((CheckMenuItem) sel_pat_splitmenu.get(i).getItems().get(j)).getText().toString()));
+                            rs.next();
+                            paterns = new Pattern(rs.getInt("ID"), rs.getInt("MOD_ID"), rs.getString("NAME"), rs.getString("DESCRIPTION"), rs.getString("VALUE"));
+                            rs_mod = derby_DB.executeQuery("SELECT * FROM MODULE WHERE ID=" + rs.getInt("MOD_ID"));
+                            rs_mod.next();
+                            modules = new Module(rs_mod.getInt("ID"), rs_mod.getInt("LAY_ID"), rs_mod.getString("NAME"), rs_mod.getString("DESCRIPTION"));
+
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                        module_done.get(i).getAvilable_paterns().add(paterns);
+                        module_done.get(i).setId(modules.getId());
+                        module_done.get(i).setLay_id(modules.getLay_id());
+                        module_done.get(i).setName(modules.getName());
+                    }
+                }
             }
         }
+
+/**
+ for (int i = 0; i < selected_paterns.size(); i++) {
+ rs = null;
+ Pattern paterns = new Pattern();
+ Module modules = new Module();
+ module_done.add(new Module());
+ if (selected_paterns.get(i).getSelectionModel().getSelectedItem() != null) {
+ ResultSet rs_mod = null;
+ try {
+ rs = derby_DB.executeQuery("SELECT * FROM PATERNS WHERE ID=" + functions.get_ID(selected_paterns.get(i).getSelectionModel().getSelectedItem().toString()));
+ rs.next();
+ paterns = new Pattern(rs.getInt("ID"), rs.getInt("MOD_ID"), rs.getString("NAME"), rs.getString("DESCRIPTION"), rs.getString("VALUE"));
+ rs_mod = derby_DB.executeQuery("SELECT * FROM MODULE WHERE ID=" + rs.getInt("MOD_ID"));
+ rs_mod.next();
+ modules = new Module(rs_mod.getInt("ID"), rs_mod.getInt("LAY_ID"), rs_mod.getString("NAME"), rs_mod.getString("DESCRIPTION"));
+
+ } catch (SQLException e) {
+ e.printStackTrace();
+ }
+ module_done.get(i).getAvilable_paterns().add(paterns);
+ module_done.get(i).setId(modules.getId());
+ module_done.get(i).setLay_id(modules.getLay_id());
+ module_done.get(i).setName(modules.getName());
+ } else {
+ Layer layer = new Layer();
+ ResultSet rs_mod = null, rs_lay = null;
+ try {
+ rs = derby_DB.executeQuery("SELECT * FROM PATERNS WHERE ID=" + functions.get_ID(selected_paterns.get(i).getItems().get(0).toString()));
+ rs.next();
+ rs_mod = derby_DB.executeQuery("SELECT * FROM MODULE WHERE ID=" + rs.getInt("MOD_ID"));
+ rs_mod.next();
+ modules = new Module(rs_mod.getInt("ID"), rs_mod.getInt("LAY_ID"), rs_mod.getString("NAME"), rs_mod.getString("DESCRIPTION"));
+ rs_lay = derby_DB.executeQuery("SELECT * FROM LAYER WHERE ID=" + modules.getLay_id());
+ rs_lay.next();
+ layer = new Layer(rs_lay.getInt("ID"), rs_lay.getInt("ARCH_ID"), rs_lay.getString("NAME"), rs_lay.getString("DESCRIPTION"));
+ } catch (SQLException e) {
+ e.printStackTrace();
+ }
+ for (int j = 0; j < arc_choise.getLayers().size(); j++) {
+ if (arc_choise.getLayers().get(j).getId() == layer.getId()) {
+ for (int k = 0; k < arc_choise.getLayers().get(j).getModules().size(); k++) {
+ if (arc_choise.getLayers().get(j).getModules().get(k).getId() == modules.getId()) {
+ module_done.get(i).getAvilable_paterns().addAll(arc_choise.getLayers().get(j).getModules().get(k).getAvilable_paterns());
+ }
+ }
+ }
+ }
+ module_done.get(i).setId(modules.getId());
+ module_done.get(i).setLay_id(modules.getLay_id());
+ module_done.get(i).setName(modules.getName());
+ }
+ }**/
 
         int num_mod_done = 0;
         modules_done.clear();
