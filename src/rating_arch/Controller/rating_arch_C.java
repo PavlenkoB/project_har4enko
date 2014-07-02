@@ -1,6 +1,7 @@
 package rating_arch.Controller;
 
 import Classes.Architecture;
+import Classes.Mark;
 import Classes.Task;
 import editor.classes.DerbyDBManager;
 import editor.services.arch_work;
@@ -16,8 +17,8 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -29,6 +30,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.TextField;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -50,7 +53,7 @@ public class rating_arch_C implements Initializable {
     public Task task_choise;
     public ArrayList<Architecture> architecture_done_choise = new ArrayList<>();
     public Architecture architecture_done_choise_type;
-    public ArrayList<ArrayList<Integer>> marks = new ArrayList<>();
+    public ArrayList<Mark> marks = new ArrayList<>();
     public ChoiceBox mark_crit;
     public AnchorPane mark;
     public AnchorPane Rating_arch_2;
@@ -61,9 +64,10 @@ public class rating_arch_C implements Initializable {
     public AnchorPane text_view;
     public AnchorPane ankor_im_1;
     public AnchorPane ankor_im_2;
+    public AnchorPane Rating_arch_3;
 
 
-    DerbyDBManager derby_DB;// = new DerbyDBManager("DB/paterns_DB");
+    DerbyDBManager derby_DB = new DerbyDBManager("DB/paterns_DB");
 
     //Windows close dialog
     public void close(ActionEvent actionEvent) throws IOException {
@@ -113,6 +117,7 @@ public class rating_arch_C implements Initializable {
     public void Start_rating() {
         Rating_arch_1.setVisible(true);
         Rating_arch_2.setVisible(false);
+        Rating_arch_3.setVisible(false);
         ResultSet rs = null;
         try {
             try {
@@ -145,6 +150,7 @@ public class rating_arch_C implements Initializable {
 
     private void task_description_view(Number new_value) {
         ResultSet rs_task;
+        task_description.clear();
         try {
             rs_task = derby_DB.executeQuery("SELECT * FROM TASK WHERE ID=" + functions.get_ID((String) task_list.getItems().get(new_value.intValue())));
             rs_task.next();
@@ -162,6 +168,7 @@ public class rating_arch_C implements Initializable {
     public void choice_task(ActionEvent actionEvent) {
         Rating_arch_1.setVisible(false);
         Rating_arch_2.setVisible(true);
+        Rating_arch_3.setVisible(false);
         ResultSet rs = null;
         task_choise = new Task();
         architecture_done_choise_type = new Architecture();
@@ -280,8 +287,8 @@ public class rating_arch_C implements Initializable {
         label_ar_2.setLayoutX(0);
         label_ar_2.setFont(Font.font(15));
 
-        ankor_im_1.getChildren().add(label_ar_1);
-        ankor_im_2.getChildren().add(label_ar_2);
+       ankor_im_1.getChildren().add(label_ar_1);
+       ankor_im_2.getChildren().add(label_ar_2);
 
 
         int vsize = 0,
@@ -420,13 +427,14 @@ public class rating_arch_C implements Initializable {
     }
 
     public void setArch_mark_combine_combine_next() {
-        if (arch_mark_combine[1] < architecture_done_choise.size()) {
+        if (arch_mark_combine[1] < (architecture_done_choise.size()-1)) {
             arch_mark_combine[1]++;
-        } else if ((arch_mark_combine[1] == architecture_done_choise.size()) & (arch_mark_combine[0] < (architecture_done_choise.size() - 1))) {
+        } else if ((arch_mark_combine[1] == (architecture_done_choise.size()-1)) & (arch_mark_combine[0] < (architecture_done_choise.size() - 2))) {
             arch_mark_combine[0]++;
-            arch_mark_combine[1] = arch_mark_combine[0]++;
-        } else if (arch_mark_combine[0] == (architecture_done_choise.size() - 1)) {
+            arch_mark_combine[1] = arch_mark_combine[0]+1;
+        } else if (arch_mark_combine[0] == (architecture_done_choise.size() - 2)) {
             System.out.print("Оцінка завершина");
+            mark_done();
         } else {
             System.out.print("Помилка");
         }
@@ -438,30 +446,97 @@ public class rating_arch_C implements Initializable {
     }
 
     public void mark_1(ActionEvent actionEvent) {
+        marks.add(new Mark(arch_mark_combine[0],arch_mark_combine[1],1));
+        setArch_mark_combine_combine_next();
+        draw_arch_im_text();
     }
 
     public void mark_2(ActionEvent actionEvent) {
+        marks.add(new Mark(arch_mark_combine[0],arch_mark_combine[1],2));
+        setArch_mark_combine_combine_next();
+        draw_arch_im_text();
     }
 
     public void mark_3(ActionEvent actionEvent) {
+        marks.add(new Mark(arch_mark_combine[0],arch_mark_combine[1],3));
+        setArch_mark_combine_combine_next();
+        draw_arch_im_text();
     }
 
     public void mark_4(ActionEvent actionEvent) {
+        marks.add(new Mark(arch_mark_combine[0],arch_mark_combine[1],4));
+        setArch_mark_combine_combine_next();
+        draw_arch_im_text();
     }
 
     public void mark_5(ActionEvent actionEvent) {
+        marks.add(new Mark(arch_mark_combine[0], arch_mark_combine[1], 5));
+        setArch_mark_combine_combine_next();
+        draw_arch_im_text();
     }
 
     public void mark_6(ActionEvent actionEvent) {
+        marks.add(new Mark(arch_mark_combine[0],arch_mark_combine[1],6));
+        setArch_mark_combine_combine_next();
+        draw_arch_im_text();
     }
 
     public void mark_7(ActionEvent actionEvent) {
+        marks.add(new Mark(arch_mark_combine[0],arch_mark_combine[1],7));
+        setArch_mark_combine_combine_next();
+        draw_arch_im_text();
     }
 
     public void mark_8(ActionEvent actionEvent) {
+        marks.add(new Mark(arch_mark_combine[0],arch_mark_combine[1],8));
+        setArch_mark_combine_combine_next();
+        draw_arch_im_text();
     }
 
     public void mark_9(ActionEvent actionEvent) {
+        marks.add(new Mark(arch_mark_combine[0],arch_mark_combine[1],9));
+        setArch_mark_combine_combine_next();
+        draw_arch_im_text();
+    }
+
+    public void mark_done (){
+        Rating_arch_1.setVisible(false);
+        Rating_arch_2.setVisible(false);
+        Rating_arch_3.setVisible(true);
+
+
+        int hsize=architecture_done_choise.size()+1;
+        int vsize=architecture_done_choise.size()+1;
+
+        GridPane gridPane_mark = new GridPane();
+        gridPane_mark.getChildren().clear();
+        gridPane_mark.setHgap(hsize);
+        gridPane_mark.setVgap(vsize);
+        gridPane_mark.setPadding(new Insets(10, 10, 10, 10));
+        gridPane_mark.setBorder(Border.EMPTY);
+        gridPane_mark.setGridLinesVisible(true);
+
+        Label tmp_label = new Label();
+        tmp_label.setText("Архітектура");
+        gridPane_mark.add(tmp_label,0,0);
+
+        for (int i =1; i<(architecture_done_choise.size()+1);i++){
+            tmp_label=null;
+            tmp_label.setText(String.valueOf('A'+ i));
+            gridPane_mark.add(tmp_label, 0, i);
+            gridPane_mark.add(tmp_label,i,0);
+        }
+
+        ArrayList<javafx.scene.control.TextField> textField_marks = new ArrayList<>();
+        textField_marks.clear();
+        for (int i=0;i<marks.size();i++){
+            textField_marks.add(new javafx.scene.control.TextField());
+            textField_marks.get(textField_marks.size()-1).setText(marks.get(i).getMark().toString());
+
+            gridPane_mark.add(textField_marks.get(textField_marks.size()-1),marks.get(i).getNum_arch_0(),marks.get(i).getNum_arch_1());
+        }
+        Rating_arch_3.getChildren().add(gridPane_mark);
+
     }
 
     // Під'єднання до БД

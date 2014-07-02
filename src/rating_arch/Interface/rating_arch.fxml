@@ -64,10 +64,10 @@
 </TabPane><Label alignment="CENTER" layoutX="32.0" layoutY="263.0" prefHeight="17.0" prefWidth="274.0" text="Градація оцінок" textAlignment="CENTER" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="300.0">
 <font>
 <Font size="13.0" />
-</font></Label><Label alignment="CENTER" layoutX="159.0" layoutY="263.0" prefHeight="17.0" prefWidth="137.0" text="1-3 не значною мірою краща" textAlignment="CENTER" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="300.0">
+</font></Label><Label alignment="CENTER" layoutX="159.0" layoutY="263.0" prefHeight="17.0" prefWidth="137.0" text="1-3 не значно краща" textAlignment="CENTER" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="300.0">
 <font>
 <Font size="11.0" />
-</font></Label><Label alignment="CENTER" layoutX="159.0" layoutY="263.0" prefHeight="17.0" prefWidth="137.0" text="4-6 - помірно краща" textAlignment="CENTER" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="300.0">
+</font></Label><Label alignment="CENTER" layoutX="159.0" layoutY="263.0" prefHeight="17.0" prefWidth="137.0" text="4-6 - краща" textAlignment="CENTER" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="300.0">
 <font>
 <Font size="11.0" />
 </font>
@@ -81,7 +81,7 @@
 <Button id="Cancel" layoutX="439.0" layoutY="331.0" mnemonicParsing="false" onAction="#Start_rating" text="Відміна" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="180.0" />
 <Button id="Arch_create_next_2" layoutX="519.0" layoutY="331.0" mnemonicParsing="false" onAction="#next_twise" prefWidth="-1.0" text="Наступна пара" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0" />
 </children>
-</AnchorPane>
+</AnchorPane><AnchorPane fx:id="Rating_arch_3" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0" />
     <MenuBar id="new_arch_menu" prefHeight="25.0" prefWidth="629.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <menus>
         <Menu mnemonicParsing="false" text="Файл">
