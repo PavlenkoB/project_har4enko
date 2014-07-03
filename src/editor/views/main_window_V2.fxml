@@ -23,6 +23,7 @@
                             <items>
                                 <MenuItem mnemonicParsing="false" onAction="#create_backup" text="Створити резервну копію БД" />
                                 <MenuItem mnemonicParsing="false" onAction="#clear_db" text="Прибратися в базі" />
+                        <MenuItem mnemonicParsing="false" onAction="#open_patrern_manager" text="Управління патернами" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Допомога">
@@ -113,13 +114,20 @@
                     </content>
                 </ScrollPane>
             </center>
-            <bottom>
-                <Button mnemonicParsing="false" onAction="#arch_uml_gen" text="Візуалізувати" BorderPane.alignment="CENTER" />
-            </bottom>
+         <bottom>
+            <BorderPane BorderPane.alignment="CENTER">
+               <top>
+                      <Button mnemonicParsing="false" onAction="#arch_uml_gen" text="Візуалізувати" BorderPane.alignment="CENTER" />
+               </top>
+               <bottom>
+                  <Button mnemonicParsing="false" onAction="#arch_view_prev" text="Превю" BorderPane.alignment="CENTER" />
+               </bottom>
+            </BorderPane>
+         </bottom>
         </BorderPane>
     </center>
     <bottom>
-        <ScrollPane fx:id="SP_P_IV" BorderPane.alignment="CENTER">
+        <ScrollPane fx:id="SP_P_IV" maxHeight="0.0" maxWidth="0.0" visible="false" BorderPane.alignment="CENTER">
             <content>
                 <Pane fx:id="P_IV" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                     <children>

@@ -499,8 +499,7 @@ public class main_C extends JPanel implements Initializable {
         arch_work.arch_save_to_DB(arch_old, derby_DB);
 
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/paterns_editor.fxml")
-        );
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/paterns_editor.fxml"));
 
         Stage stage = new Stage(StageStyle.DECORATED);
         try {
@@ -509,8 +508,7 @@ public class main_C extends JPanel implements Initializable {
             e.printStackTrace();
         }
 
-        patern_e_C controller =
-                loader.<patern_e_C>getController();
+        patern_e_C controller = loader.<patern_e_C>getController();
         controller.initData(arch_old.getLayers().get(layer).getModules().get(module), derby_DB);
         stage.setTitle("Редагування патернів \"" + arch_old.getLayers().get(layer).getModules().get(module).getName() + "\" архітектури \"" + arch_old.getName() + "\"");
         stage.show();
@@ -597,7 +595,25 @@ public class main_C extends JPanel implements Initializable {
         IV_arch_imageview.setFitWidth(arch_image.getRequestedWidth());
         SP_P_IV.setPrefHeight(arch_image.getHeight());
         //SP_P_IV.setPrefWidth(arch_image.getWidth());
+
         IV_arch_imageview.setImage(arch_image);
+        arch_view_prev();
+    }
+    public void arch_view_prev(){
+        //arch_image = draw_uml.draw_class(arch_work.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/image_view.fxml"));
+
+        Stage stage = new Stage(StageStyle.DECORATED);
+        try {
+            stage.setScene(new Scene((Pane) loader.load()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        image_view_C controller = loader.<image_view_C>getController();
+        controller.initData(arch_image);
+        stage.setTitle("" + arch_old.getName());
+        stage.show();
     }
 
     public void arch_uml_text_draw(ActionEvent actionEvent) {
@@ -605,7 +621,7 @@ public class main_C extends JPanel implements Initializable {
 
     public void save_this_arch_to_DB(ActionEvent actionEvent) {
         //TODO решить как лутьше
-        //arch_image = draw_uml.draw_class(functions.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
+        arch_image = draw_uml.draw_class(arch_work.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
         arch_tmp.setName(TF_arch_name_DB.getText());
         arch_tmp.setPreview(arch_image);
         arch_tmp.setUsecase(TA_arch_relations.getText());
@@ -620,5 +636,24 @@ public class main_C extends JPanel implements Initializable {
             JOptionPane.showMessageDialog(null, "Архітектура не збереження зверныться до Адмыныстратора чи програміста.\n" + result.getComment(), "Попередження", JOptionPane.WARNING_MESSAGE);
         }
         list_load_DB();
+    }
+
+    public void open_patrern_manager(ActionEvent actionEvent) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/pattern_manager.fxml"));
+
+        Stage stage = new Stage(StageStyle.DECORATED);
+        try {
+            stage.setScene(new Scene((Pane) loader.load()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        patterns_manager_C controller = loader.<patterns_manager_C>getController();
+        controller.initData(derby_DB);
+        stage.setTitle("Менеджер патернів ");
+        stage.show();
+        Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();
+        // do what you have to do
+        stage_c.close();
     }
 }

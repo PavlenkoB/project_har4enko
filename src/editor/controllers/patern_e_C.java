@@ -7,6 +7,7 @@ import Classes.Module;
 import Classes.Pattern;
 import editor.classes.DerbyDBManager;
 import editor.classes.id_Lable;
+import editor.services.arch_work;
 import editor.services.draw_uml;
 import editor.services.functions;
 import editor.services.pattern_work;
@@ -326,4 +327,22 @@ public class patern_e_C implements Initializable {
             list_load_DB(null);
         }/**/
     }
+    public void patern_view_prev(){
+        class_image = draw_uml.draw_class(class_text.getText());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/image_view.fxml"));
+
+        Stage stage = new Stage(StageStyle.DECORATED);
+        try {
+            stage.setScene(new Scene((Pane) loader.load()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        image_view_C controller = loader.<image_view_C>getController();
+        controller.initData(class_image);
+        stage.setTitle("" + TF_patern_name_DB);
+        stage.show();
+    }
+
+
 }
