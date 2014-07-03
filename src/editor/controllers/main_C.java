@@ -85,15 +85,15 @@ public class main_C extends JPanel implements Initializable {
                 Object[] options = {"Так",
                         "Ні"};
                 int n = JOptionPane.showOptionDialog(null,
-                        "Ви впевнені що бажаете вийти не збарежені зміни буде втрачено?",
+                        "Ви впевнені що бажаете вийти незбережені зміни буде втрачено?",
                         "Увага",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE,
                         null,     //do not use a custom Icon
                         options,  //the titles of buttons
                         options[0]); //default button title
-                if (n == 0) {
-                } else {
+                if (n == 0) {//да
+                } else {//нет
                     we.consume();
                 }
             }

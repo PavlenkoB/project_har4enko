@@ -109,6 +109,41 @@ public class arch_work {
             ArrayList<Layer> layers_old=new ArrayList<>();
             ArrayList<Layer> layers_new=new ArrayList<>();
 
+            //arch_in=arch_load_from_DB(arch_old.getId(),derby_DB_connection);//загрузить архитекутур уже с новыми слоями и модулями
+            //Удалить не существующие слои
+            for(int i=0;i<arch_old.getLayers().size();i++){//Перебор слойов в старой
+                boolean save=false;
+                for(int s=0;s<arch_in.getLayers().size();s++){
+                    //сравниваем если в новой такой слой
+                    if(arch_in.getLayers().get(s).getId()==arch_old.getLayers().get(i).getId()){
+                        save=true; //если остался то нужно сохранить
+                    }
+                }
+                if(save==false)
+                {
+                    derby_DB_connection.executeUpdate("DELETE FROM LAYER WHERE ID=" + arch_old.getLayers().get(i).getId());
+                }
+            }
+            //Удалить не существующие модули
+            for(int l_o=0;l_o<arch_old.getLayers().size();l_o++){
+                for(int m_o=0;m_o<arch_old.getLayers().get(l_o).getModules().size();m_o++){
+                    boolean save=false;
+
+                    for(int l_n=0;l_n<arch_in.getLayers().size();l_n++){
+                        for(int m_n=0;m_n<arch_in.getLayers().get(l_n).getModules().size();m_n++){
+                            System.out.printf("\n"+String.valueOf(l_o)+"|"+String.valueOf(m_o)+"|"+String.valueOf(l_n)+"|"+String.valueOf(m_n));
+                            if(arch_old.getLayers().get(l_o).getModules().get(m_o).getId()==arch_in.getLayers().get(l_n).getModules().get(m_n).getId())
+                                save=true;
+                        }
+                    }
+                    if(save==false)
+                    {
+                        derby_DB_connection.executeUpdate("DELETE FROM MODULE WHERE ID="+arch_old.getLayers().get(l_o).getModules().get(m_o).getId());
+                    }
+                }
+
+            }
+
 
             ResultSet rs_tmp;
             if (arch_in.getDescription() == null) arch_in.setDescription("");
@@ -180,33 +215,7 @@ public class arch_work {
             }
             result.setStatus(true);
             System.out.printf("Arch save successful");
-            arch_in=arch_load_from_DB(arch_old.getId(),derby_DB_connection);//загрузить архитекутур уже с новыми слоями и модулями
-            //Удалить не существующие слои
-            for(int i=0;i<arch_old.getLayers().size();i++){//Перебор слойов в старой
-                boolean save=false;
-                for(int s=0;s<arch_in.getLayers().size();s++){
-                    //сравниваем если в новой такой слой
-                    if(arch_in.getLayers().get(s).getId()==arch_old.getLayers().get(i).getId()){
-                        save=true; //если остался то нужно сохранить
-                    }
-                }
-                if(save==false)
-                {
-                    derby_DB_connection.executeUpdate("DELETE * FROM LAYER WHERE ID="+arch_old.getLayers().get(i).getId());
-                }
-            }
-            //Удалить не существующие модули
-            for(int l_o=0;l_o<arch_old.getLayers().size();l_o++){
-                for(int m_o=0;m_o<arch_old.getLayers().size();m_o++){
 
-                    for(int l_n=0;l_n<arch_old.getLayers().size();l_n++){
-                        for(int m_n=0;m_n<arch_old.getLayers().size();m_n++){
-
-                        }
-                    }
-                }
-
-            }
             functions.clread_DB(derby_DB_connection);
         } catch (SQLException e) {
             result.setComment(e);
