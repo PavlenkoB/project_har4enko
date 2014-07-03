@@ -7,6 +7,7 @@ import Classes.Architecture;
 import Classes.Layer;
 import Classes.Module;
 import editor.classes.DerbyDBManager;
+import editor.classes.id_Lable;
 import editor.classes.result_info;
 import editor.services.arch_work;
 import editor.services.draw_uml;
@@ -24,8 +25,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.stage.*;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 import javax.swing.*;
 import java.io.File;
@@ -62,13 +67,13 @@ public class main_C extends JPanel implements Initializable {
     public MenuItem MM_1_1_connect;
     public MenuItem MM_1_2_create_DB;
     public MenuItem MM_1_3_disconnect;
-    public Parent  root;
+    public Parent root;
     DerbyDBManager derby_DB;
     Architecture arch_tmp, arch_old = new Architecture();
     @FXML
     private Image arch_image;
 
-    void initData(Module module,DerbyDBManager derby_con) {
+    void initData(Module module, DerbyDBManager derby_con) {
         derby_DB = derby_con;
         if (derby_DB != null) {
             MM_1_1_connect.setDisable(true);
@@ -97,6 +102,15 @@ public class main_C extends JPanel implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //при двойном клике грузить архитекутуру
+        LV_archs_DB.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getClickCount() > 1 && derby_DB != null) {
+                    load_this_arch_DB(null);
+                }
+            }
+        });
 
 
 //TODO Del
@@ -123,13 +137,13 @@ public class main_C extends JPanel implements Initializable {
             db_dir_FC.setInitialDirectory(new File(System.getProperty("user.dir")));
             db_dir_FC.setTitle("Вкажіть шлях до папки з БД");
             File db_dir = db_dir_FC.showDialog(functions.get_stage_by_element(TA_arch_description));
-            if(db_dir!=null){
-            derby_DB = new DerbyDBManager(db_dir.getAbsolutePath());
+            if (db_dir != null) {
+                derby_DB = new DerbyDBManager(db_dir.getAbsolutePath());
 
                 derby_DB.setDbName(db_dir.getName());
                 selected_DB.setText(db_dir.getName());
-            //TODO доступность кнопок
-            list_load_DB();
+                //TODO доступность кнопок
+                list_load_DB();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -147,21 +161,21 @@ public class main_C extends JPanel implements Initializable {
 
     public void disconnect_DB(ActionEvent actionEvent) {//отключиться от БД
         try {
-            if(derby_DB.getCon()!=null) {
+            if (derby_DB.getCon() != null) {
                 if (!derby_DB.getCon().isClosed()) {
                     derby_DB.disconectDB();
                 }
 
 
-        LV_archs_DB.setItems(null);
-        P_arch_struct.getChildren().clear();
+                LV_archs_DB.setItems(null);
+                P_arch_struct.getChildren().clear();
 
-        selected_DB.setText("<не обрана>");
-        //TODO доступность кнопок
-        if (derby_DB.getCon().isClosed()) {
-            MM_1_1_connect.setDisable(false);
-            MM_1_3_disconnect.setDisable(true);
-        }
+                selected_DB.setText("<не обрана>");
+                //TODO доступность кнопок
+                if (derby_DB.getCon().isClosed()) {
+                    MM_1_1_connect.setDisable(false);
+                    MM_1_3_disconnect.setDisable(true);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -175,44 +189,44 @@ public class main_C extends JPanel implements Initializable {
         db_dir_FC.setInitialDirectory(new File(System.getProperty("user.dir")));
         db_dir_FC.setTitle("Вкажіть шлях до папки для нової БД");
         File db_dir = db_dir_FC.showDialog(functions.get_stage_by_element(TA_arch_description));
-        if(db_dir!=null){
-        derby_DB = new DerbyDBManager(db_dir);
+        if (db_dir != null) {
+            derby_DB = new DerbyDBManager(db_dir);
 
-        System.out.print("Создаю таблиці)");
-        try {
-            File in_dir = new File(getClass().getClassLoader().getResource("editor/sql/create_DB").getFile());
-            //ResourceAsStream("/editor/sql/creat_DB");
+            System.out.print("Создаю таблиці)");
+            try {
+                File in_dir = new File(getClass().getClassLoader().getResource("editor/sql/create_DB").getFile());
+                //ResourceAsStream("/editor/sql/creat_DB");
 
-            File[] fList;
+                File[] fList;
 
-            fList = in_dir.listFiles();
+                fList = in_dir.listFiles();
 
-            for (int i = 0; i < fList.length; i++) {
-                //Нужны только папки в место isFile() пишим isDirectory()
-                if (fList[i].isFile()) {
+                for (int i = 0; i < fList.length; i++) {
+                    //Нужны только папки в место isFile() пишим isDirectory()
+                    if (fList[i].isFile()) {
 
-                    String filename = fList[i].getName();
-                    int dotPos = filename.lastIndexOf(".");
-                    String ext = filename.substring(dotPos);
-                    if (ext.equals(".sql")) {
-                        derby_DB.executeUpdate_from_file(fList[i]);
+                        String filename = fList[i].getName();
+                        int dotPos = filename.lastIndexOf(".");
+                        String ext = filename.substring(dotPos);
+                        if (ext.equals(".sql")) {
+                            derby_DB.executeUpdate_from_file(fList[i]);
+                        }
                     }
+
                 }
 
+                System.out.print("Создал таблиці)");
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-
-            System.out.print("Создал таблиці)");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        //TODO создание
+            //TODO создание
         }
     }
 
 
     public void close_mw(ActionEvent actionEvent) {
 
-            System.exit(1);
+        System.exit(1);
 
     }
 
@@ -240,8 +254,9 @@ public class main_C extends JPanel implements Initializable {
         zip.zip_dir(mydir, myfile);
         System.out.println(mydir.toURI().relativize(myfile.toURI()).getPath());
     }
+
     public void creat_arch(ActionEvent actionEvent) {
-        JDialog Jname=new JDialog();
+        JDialog Jname = new JDialog();
         Jname.setAlwaysOnTop(true);
         String name = (String) JOptionPane.showInputDialog(null, "Введіть назву", "Ввід", JOptionPane.QUESTION_MESSAGE, null, null, "");
 
@@ -307,7 +322,7 @@ public class main_C extends JPanel implements Initializable {
 
     public void load_this_arch_DB(ActionEvent actionEvent) {//ЗАгрузить архитектуру с базы
         //Читае Идентиф. Параметра
-        arch_tmp = arch_work.arch_load_from_DB(functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString()), derby_DB);
+        arch_tmp = arch_work.arch_load_from_DB(((id_Lable) LV_archs_DB.getSelectionModel().getSelectedItems().get(0)).getDbid(), derby_DB);
         try {
             arch_old = arch_tmp.clone();//сохраним оригинальный вариант архитектуры
         } catch (CloneNotSupportedException e) {
@@ -338,10 +353,10 @@ public class main_C extends JPanel implements Initializable {
                 null,     //do not use a custom Icon
                 options,  //the titles of buttons
                 options[0]); //default button title
-        if(n==0) {
-            String query = "DELETE FROM ARCHITECTURE WHERE ID=" + functions.get_ID(LV_archs_DB.getSelectionModel().getSelectedItem().toString());
+        if (n == 0) {
+            String query = "DELETE FROM ARCHITECTURE WHERE ID=" + ((id_Lable) LV_archs_DB.getSelectionModel().getSelectedItems().get(0)).getDbid();
             try {
-                   derby_DB.executeUpdate(query);
+                derby_DB.executeUpdate(query);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -349,7 +364,7 @@ public class main_C extends JPanel implements Initializable {
         }
     }
 
-    private void list_load_DB() {//Загрузка з базы
+    public void list_load_DB() {//Загрузка з базы
         ResultSet rs = null;
         try {
             try {
@@ -358,22 +373,10 @@ public class main_C extends JPanel implements Initializable {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            ObservableList<String> items = FXCollections.observableArrayList();
+            ObservableList<id_Lable> items = FXCollections.observableArrayList();
             while (rs.next()) {
-                System.out.println(rs.getInt("ID") + "|" + rs.getString("NAME"));
-                items.add(rs.getString("ID") + "|" + rs.getString("NAME"));
-                /*
-                Label tmp_lable=new Label(rs.getString("NAME"));
-                tmp_lable.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        if (event.getClickCount() > 1) {
-                            load_this_arch_DB(null);
-                        }
-                    }
-                });
+                id_Lable tmp_lable = new id_Lable(rs.getInt("ID"), rs.getString("NAME"));
                 items.add(tmp_lable);
-                 */
             }
             LV_archs_DB.setItems(items);
         } catch (SQLException e) {
@@ -384,12 +387,7 @@ public class main_C extends JPanel implements Initializable {
 
     public void select_to_save_DB() {//скопировать имя патерна для сохранения
         if (derby_DB != null) {
-            String id_name = LV_archs_DB.getSelectionModel().getSelectedItem().toString();
-            String id, name = new String();
-            id = functions.get_ID(id_name).toString();
-            name = functions.get_NAME(id_name);
-//            TF_arch_id_DB.setText(id);
-            TF_arch_name_DB.setText(name);
+            TF_arch_name_DB.setText(((id_Lable) LV_archs_DB.getSelectionModel().getSelectedItems().get(0)).getText());
         }
         //load_this_arch_DB(null);
 //        arch_image = arch_tmp.getPreview();
@@ -446,7 +444,7 @@ public class main_C extends JPanel implements Initializable {
             //Модулі
             for (int s_mod = 0; s_mod < arch_tmp.getLayers().get(s_lay).getModules().size(); s_mod++) {//вивід модулів
                 /*Кнопка Патернів*/
-                tmp_btn = new Button("Патерни("+arch_tmp.getLayers().get(s_lay).getModules().get(s_mod).getAvilable_paterns().size()+")...");
+                tmp_btn = new Button("Патерни(" + arch_tmp.getLayers().get(s_lay).getModules().get(s_mod).getAvilable_paterns().size() + ")...");
                 //tmp_btn.setPrefWidth(s_x2);
                 //tmp_btn.setPrefHeight(s_y2);
                 tmp_btn.setLayoutX(pos_x);
@@ -466,7 +464,7 @@ public class main_C extends JPanel implements Initializable {
                 tmp_btn.getStyleClass().add("mod_edit");
                 //tmp_btn.setPrefWidth(s_x2);
                 //tmp_btn.setPrefHeight(s_y2);
-                pos_x += s_x2+20;
+                pos_x += s_x2 + 20;
                 tmp_btn.setLayoutX(pos_x);
                 tmp_btn.setLayoutY(pos_y);
                 final int finalS_mod1 = s_mod;
@@ -535,7 +533,7 @@ public class main_C extends JPanel implements Initializable {
         //P_arch_struct.setPrefHeight(pos_y);
     }
 
-    private void edit_mod_patterns(int layer, int module) {//Редагувати патрни шару
+    public void edit_mod_patterns(int layer, int module) {//Редагувати патрни шару
         try {
             arch_old = arch_tmp.clone();
         } catch (CloneNotSupportedException e) {
@@ -557,7 +555,7 @@ public class main_C extends JPanel implements Initializable {
         patern_e_C controller =
                 loader.<patern_e_C>getController();
         controller.initData(arch_old.getLayers().get(layer).getModules().get(module), derby_DB);
-        stage.setTitle("Редагування патернів \""+arch_old.getLayers().get(layer).getModules().get(module).getName()+"\" архітектури \""+arch_old.getName()+"\"");
+        stage.setTitle("Редагування патернів \"" + arch_old.getLayers().get(layer).getModules().get(module).getName() + "\" архітектури \"" + arch_old.getName() + "\"");
         stage.show();
         Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();
         // do what you have to do
@@ -655,12 +653,6 @@ public class main_C extends JPanel implements Initializable {
         arch_tmp.setPreview(arch_image);
         arch_tmp.setUsecase(TA_arch_relations.getText());
         arch_tmp.setDescription(TA_arch_description.getText());
-        try {
-            arch_tmp.setId(Integer.parseInt(TF_arch_id_DB.getText()));
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            arch_tmp.setId(null);
-        }
         result_info result = arch_work.arch_save_to_DB(arch_tmp, derby_DB);
         if (result.getStatus() == true) {
             JOptionPane.showMessageDialog(null, "Архітектура успішно збережена.", "Інформація", JOptionPane.INFORMATION_MESSAGE);

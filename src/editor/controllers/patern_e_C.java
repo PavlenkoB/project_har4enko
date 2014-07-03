@@ -6,7 +6,7 @@ package editor.controllers;/*
 import Classes.Module;
 import Classes.Pattern;
 import editor.classes.DerbyDBManager;
-import editor.classes.id_list;
+import editor.classes.id_Lable;
 import editor.services.draw_uml;
 import editor.services.functions;
 import editor.services.pattern_work;
@@ -78,13 +78,12 @@ public class patern_e_C implements Initializable {
 
     Module edited_module;
     DerbyDBManager derby_DB;
-    ArrayList<id_list> pat_id_list=new ArrayList<id_list>();
 
     void initData(Module module, DerbyDBManager derby_con) {
         derby_DB = derby_con;
         edited_module = module;
         selected_DB.setText(derby_DB.getDbName().toString());
-        list_load_DB();
+        list_load_DB(null);
         Stage thisstage = (Stage) root.getScene().getWindow();
         thisstage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
@@ -126,7 +125,15 @@ public class patern_e_C implements Initializable {
 
     public void initialize(URL url, ResourceBundle rb) {
 
-
+//при двойном клике грузить патерн
+        LV_paterns_DB.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getClickCount() > 1 && derby_DB != null) {
+                    load_this_patern_DB(null);
+                }
+            }
+        });
         //list_load_DB();/**/
 
     }
@@ -146,7 +153,7 @@ public class patern_e_C implements Initializable {
     //TODO загрузка превю
     public void load_this_patern_DB(ActionEvent actionEvent) {//ЗАгрузить патерн с базы
         //Читае Идентиф. Параметра
-        edited_pattern = pattern_work.pattern_load_from_DB(pat_id_list.get(LV_paterns_DB.getSelectionModel().getSelectedIndex()).getID(), derby_DB);
+        edited_pattern = pattern_work.pattern_load_from_DB(((id_Lable)LV_paterns_DB.getSelectionModel().getSelectedItems().get(0)).getDbid(), derby_DB);
         TA_patern_description.setText(edited_pattern.getDescription());
         class_text.setText(edited_pattern.getUml_text());
         TF_patern_name_DB.setText(edited_pattern.getName());
@@ -168,7 +175,7 @@ public class patern_e_C implements Initializable {
         } else {
             JOptionPane.showMessageDialog(null, "Помилка збереження зверныться до Адмыныстратора чи програміста.", "Попередження", JOptionPane.WARNING_MESSAGE);
         }
-        list_load_DB();
+        list_load_DB(null);
         LV_paterns_DB.setDisable(false);
     }
 
@@ -184,17 +191,17 @@ public class patern_e_C implements Initializable {
                 options,  //the titles of buttons
                 options[0]); //default button title
         if(n==0) {
-            String query = "DELETE FROM PATERNS WHERE ID=" + pat_id_list.get(LV_paterns_DB.getSelectionModel().getSelectedIndex()).getID();
+            String query = "DELETE FROM PATERNS WHERE ID=" + ((id_Lable)LV_paterns_DB.getSelectionModel().getSelectedItems().get(0)).getDbid();
             try {
                 derby_DB.executeUpdate(query);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            list_load_DB();
+            list_load_DB(null);
         }
     }
 
-    private void list_load_DB() {//Загрузка з базы
+    private void list_load_DB(ActionEvent actionEvent) {//Загрузка з базы
         ResultSet rs = null;
         try {
             try {
@@ -219,20 +226,10 @@ public class patern_e_C implements Initializable {
                 }
                 e.printStackTrace();
             }
-            ObservableList<Label> items = FXCollections.observableArrayList();
+            ObservableList<id_Lable> items = FXCollections.observableArrayList();
 
-            pat_id_list.clear();
             while (rs.next()) {
-                pat_id_list.add(new id_list(rs.getInt("ID"), rs.getString("NAME")));
-                Label tmp_lable=new Label(rs.getString("NAME"));
-                tmp_lable.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        if (event.getClickCount() > 1) {
-                            load_this_patern_DB(null);
-                        }
-                    }
-                });
+                id_Lable tmp_lable=new id_Lable(rs.getInt("ID"), rs.getString("NAME"));
                 items.add(tmp_lable);
             }
             LV_paterns_DB.setItems(items);
@@ -244,9 +241,7 @@ public class patern_e_C implements Initializable {
 
     public void select_to_save_DB() {//скопировать имя патерна для сохранения
         if (derby_DB != null) {
-            Label tmp_l= (Label) LV_paterns_DB.getSelectionModel().getSelectedItem();
-            String name = tmp_l.getText();
-            TF_patern_name_DB.setText(name);
+            TF_patern_name_DB.setText(((id_Lable)LV_paterns_DB.getSelectionModel().getSelectedItems().get(0)).getText());
         }
         //load_this_patern_DB(null);
     }
@@ -328,7 +323,7 @@ public class patern_e_C implements Initializable {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            list_load_DB();
+            list_load_DB(null);
         }/**/
     }
 }
