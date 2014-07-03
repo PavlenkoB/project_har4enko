@@ -369,7 +369,7 @@ public class main_C extends JPanel implements Initializable {
         try {
             try {
                 //derby_DB
-                rs = derby_DB.executeQuery("SELECT * FROM ARCHITECTURE");
+                rs = derby_DB.executeQuery("SELECT * FROM ARCHITECTURE ORDER BY NAME ASC ");
             } catch (SQLException e) {
                 e.printStackTrace();
             }

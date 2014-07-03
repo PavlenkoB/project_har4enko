@@ -206,7 +206,7 @@ public class patern_e_C implements Initializable {
         try {
             try {
                 //derby_DB
-                rs = derby_DB.executeQuery("SELECT * FROM PATERNS WHERE MOD_ID="+edited_module.getId());
+                rs = derby_DB.executeQuery("SELECT * FROM PATERNS WHERE MOD_ID="+edited_module.getId()+" ORDER BY NAME ASC");
             } catch (SQLException e) {
                 //если БД не существовала, то создаем таблицу и после этого заполняем её значениями
                 try {
