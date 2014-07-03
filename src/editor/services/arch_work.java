@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.*;
+import java.util.ArrayList;
 
 /**
  * Created by godex_000 on 15.06.2014.
@@ -101,6 +102,14 @@ public class arch_work {
     public static result_info arch_save_to_DB(Architecture arch_in, DerbyDBManager derby_DB_connection) {//Зберегти архітектуру в БД
         result_info result = new result_info();
         try {
+            //получить оригинал
+            Architecture arch_old=arch_load_from_DB(arch_in.getId(),derby_DB_connection);
+            ArrayList<Module> modules_old=new ArrayList<>();
+            ArrayList<Module> modules_new=new ArrayList<>();
+            ArrayList<Layer> layers_old=new ArrayList<>();
+            ArrayList<Layer> layers_new=new ArrayList<>();
+
+
             ResultSet rs_tmp;
             if (arch_in.getDescription() == null) arch_in.setDescription("");
             if (arch_in.getUsecase() == null) arch_in.setUsecase("");
@@ -171,6 +180,34 @@ public class arch_work {
             }
             result.setStatus(true);
             System.out.printf("Arch save successful");
+            arch_in=arch_load_from_DB(arch_old.getId(),derby_DB_connection);//загрузить архитекутур уже с новыми слоями и модулями
+            //Удалить не существующие слои
+            for(int i=0;i<arch_old.getLayers().size();i++){//Перебор слойов в старой
+                boolean save=false;
+                for(int s=0;s<arch_in.getLayers().size();s++){
+                    //сравниваем если в новой такой слой
+                    if(arch_in.getLayers().get(s).getId()==arch_old.getLayers().get(i).getId()){
+                        save=true; //если остался то нужно сохранить
+                    }
+                }
+                if(save==false)
+                {
+                    derby_DB_connection.executeUpdate("DELETE * FROM LAYER WHERE ID="+arch_old.getLayers().get(i).getId());
+                }
+            }
+            //Удалить не существующие модули
+            for(int l_o=0;l_o<arch_old.getLayers().size();l_o++){
+                for(int m_o=0;m_o<arch_old.getLayers().size();m_o++){
+
+                    for(int l_n=0;l_n<arch_old.getLayers().size();l_n++){
+                        for(int m_n=0;m_n<arch_old.getLayers().size();m_n++){
+
+                        }
+                    }
+                }
+
+            }
+            functions.clread_DB(derby_DB_connection);
         } catch (SQLException e) {
             result.setComment(e);
             e.printStackTrace();
