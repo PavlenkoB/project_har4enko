@@ -24,7 +24,6 @@ public class gen_arch_done {
         //Все устанавливаем в 1
         for (int s_mod = 0; s_mod < modules_arr.size(); s_mod++) {
             modd_arr_sellected.add(s_mod, 0);
-
             try {
                 modules_arr.get(s_mod).setSelected_patern(modules_arr.get(s_mod).getAvilable_paterns().get(0).clone());
             } catch (CloneNotSupportedException e) {
@@ -39,8 +38,8 @@ public class gen_arch_done {
      * @param return_Architectures
      * @param origin_arch
      * @param modules_arr
-     * @param modd_arr_sell
-     * @param s_pos
+     * @param modd_arr_sell -
+     * @param s_pos -на каком модуле
      */
     //TODO опис функції
     public static void combine(ArrayList<Architecture> return_Architectures, Architecture origin_arch, ArrayList<Module> modules_arr, ArrayList<Integer> modd_arr_sell, int s_pos) {
@@ -83,7 +82,6 @@ public class gen_arch_done {
                         s_add++;
                     }
                 }
-
                 return_Architectures.add(tmp_arch);
                 modd_arr_sell.set(s_pos, modd_arr_sell.get(s_pos) + 1);
                 combine(return_Architectures, origin_arch, modules_arr, modd_arr_sell, modd_arr_sell.size() - 1);

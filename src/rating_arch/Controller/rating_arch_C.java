@@ -17,8 +17,8 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -30,8 +30,6 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.TextField;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -144,7 +142,7 @@ public class rating_arch_C implements Initializable {
         }
         //ObservableList<String> mark_crit = FXCollections.observableArrayList();
         //mark_crit.addAll("Швидкодія", "Безпека", "Надійність");
-       // mark_crit.addAll(mark_crit);
+        // mark_crit.addAll(mark_crit);
 
     }
 
@@ -169,6 +167,7 @@ public class rating_arch_C implements Initializable {
         Rating_arch_1.setVisible(false);
         Rating_arch_2.setVisible(true);
         Rating_arch_3.setVisible(false);
+        marks.clear();
         ResultSet rs = null;
         task_choise = new Task();
         architecture_done_choise_type = new Architecture();
@@ -192,11 +191,11 @@ public class rating_arch_C implements Initializable {
         architecture_done_choise_type = arch_work.arch_load_from_DB(architecture_done_choise.get(0).getId(), derby_DB);
 
         for (int i = 0; i < architecture_done_choise.size(); i++) {
-            int task_id=architecture_done_choise.get(i).getTask_id(),
-                    id_done=architecture_done_choise.get(i).getId_done();
+            int task_id = architecture_done_choise.get(i).getTask_id(),
+                    id_done = architecture_done_choise.get(i).getId_done();
 
             try {
-                architecture_done_choise.set(i,architecture_done_choise_type.clone());
+                architecture_done_choise.set(i, architecture_done_choise_type.clone());
             } catch (CloneNotSupportedException e) {
                 e.printStackTrace();
             }
@@ -287,8 +286,8 @@ public class rating_arch_C implements Initializable {
         label_ar_2.setLayoutX(0);
         label_ar_2.setFont(Font.font(15));
 
-       ankor_im_1.getChildren().add(label_ar_1);
-       ankor_im_2.getChildren().add(label_ar_2);
+        ankor_im_1.getChildren().add(label_ar_1);
+        ankor_im_2.getChildren().add(label_ar_2);
 
 
         int vsize = 0,
@@ -308,7 +307,7 @@ public class rating_arch_C implements Initializable {
         gridPane_arch.setVgap(vsize);
         gridPane_arch.setPadding(new Insets(10, 10, 10, 10));
         gridPane_arch.setBorder(Border.EMPTY);
-        //gridPane_arch.setGridLinesVisible(true);
+        gridPane_arch.setGridLinesVisible(true);
 
         Label label_arch = new Label();
         label_arch.setText(architecture_done_choise_type.getName());
@@ -345,7 +344,7 @@ public class rating_arch_C implements Initializable {
             label_0.get(label_0.size() - 1).setFont(Font.font(14));
             gridPane_arch.add(label_0.get(label_0.size() - 1), 0, vpos);
             vpos++;
-            for (int j=0;j<architecture_done_choise_type.getLayers().get(i).getModules().size();j++){
+            for (int j = 0; j < architecture_done_choise_type.getLayers().get(i).getModules().size(); j++) {
                 label_0.add(new Label());
                 label_0.get(label_0.size() - 1).setText(architecture_done_choise_type.getLayers().get(i).getModules().get(j).getName());
                 label_0.get(label_0.size() - 1).setFont(Font.font(12));
@@ -360,18 +359,15 @@ public class rating_arch_C implements Initializable {
                 label_2.get(label_2.size() - 1).setText(architecture_done_choise.get(arch_mark_combine[1]).getLayers().get(i).getModules().get(j).getSelected_patern().getName());
                 label_2.get(label_2.size() - 1).setFont(Font.font(12));
                 gridPane_arch.add(label_2.get(label_2.size() - 1), 3, vpos);
-
-
                 vpos++;
-
             }
         }
 
 
         text_view.getChildren().add(gridPane_arch);
+/*
 
-
-        int  xpos = 10;
+        int xpos = 10;
         label_1.clear();
         label_2.clear();
 
@@ -423,15 +419,15 @@ public class rating_arch_C implements Initializable {
                 vpos += 15;
                 label_2.get(label_2.size() - 1).setLayoutX(xpos + 75);
             }
-        }
+        }*/
     }
 
     public void setArch_mark_combine_combine_next() {
-        if (arch_mark_combine[1] < (architecture_done_choise.size()-1)) {
+        if (arch_mark_combine[1] < (architecture_done_choise.size() - 1)) {
             arch_mark_combine[1]++;
-        } else if ((arch_mark_combine[1] == (architecture_done_choise.size()-1)) & (arch_mark_combine[0] < (architecture_done_choise.size() - 2))) {
+        } else if ((arch_mark_combine[1] == (architecture_done_choise.size() - 1)) & (arch_mark_combine[0] < (architecture_done_choise.size() - 2))) {
             arch_mark_combine[0]++;
-            arch_mark_combine[1] = arch_mark_combine[0]+1;
+            arch_mark_combine[1] = arch_mark_combine[0] + 1;
         } else if (arch_mark_combine[0] == (architecture_done_choise.size() - 2)) {
             System.out.print("Оцінка завершина");
             mark_done();
@@ -446,25 +442,25 @@ public class rating_arch_C implements Initializable {
     }
 
     public void mark_1(ActionEvent actionEvent) {
-        marks.add(new Mark(arch_mark_combine[0],arch_mark_combine[1],1));
+        marks.add(new Mark(arch_mark_combine[0], arch_mark_combine[1], 1));
         setArch_mark_combine_combine_next();
         draw_arch_im_text();
     }
 
     public void mark_2(ActionEvent actionEvent) {
-        marks.add(new Mark(arch_mark_combine[0],arch_mark_combine[1],2));
+        marks.add(new Mark(arch_mark_combine[0], arch_mark_combine[1], 2));
         setArch_mark_combine_combine_next();
         draw_arch_im_text();
     }
 
     public void mark_3(ActionEvent actionEvent) {
-        marks.add(new Mark(arch_mark_combine[0],arch_mark_combine[1],3));
+        marks.add(new Mark(arch_mark_combine[0], arch_mark_combine[1], 3));
         setArch_mark_combine_combine_next();
         draw_arch_im_text();
     }
 
     public void mark_4(ActionEvent actionEvent) {
-        marks.add(new Mark(arch_mark_combine[0],arch_mark_combine[1],4));
+        marks.add(new Mark(arch_mark_combine[0], arch_mark_combine[1], 4));
         setArch_mark_combine_combine_next();
         draw_arch_im_text();
     }
@@ -476,37 +472,37 @@ public class rating_arch_C implements Initializable {
     }
 
     public void mark_6(ActionEvent actionEvent) {
-        marks.add(new Mark(arch_mark_combine[0],arch_mark_combine[1],6));
+        marks.add(new Mark(arch_mark_combine[0], arch_mark_combine[1], 6));
         setArch_mark_combine_combine_next();
         draw_arch_im_text();
     }
 
     public void mark_7(ActionEvent actionEvent) {
-        marks.add(new Mark(arch_mark_combine[0],arch_mark_combine[1],7));
+        marks.add(new Mark(arch_mark_combine[0], arch_mark_combine[1], 7));
         setArch_mark_combine_combine_next();
         draw_arch_im_text();
     }
 
     public void mark_8(ActionEvent actionEvent) {
-        marks.add(new Mark(arch_mark_combine[0],arch_mark_combine[1],8));
+        marks.add(new Mark(arch_mark_combine[0], arch_mark_combine[1], 8));
         setArch_mark_combine_combine_next();
         draw_arch_im_text();
     }
 
     public void mark_9(ActionEvent actionEvent) {
-        marks.add(new Mark(arch_mark_combine[0],arch_mark_combine[1],9));
+        marks.add(new Mark(arch_mark_combine[0], arch_mark_combine[1], 9));
         setArch_mark_combine_combine_next();
         draw_arch_im_text();
     }
 
-    public void mark_done (){
+    public void mark_done() {
         Rating_arch_1.setVisible(false);
         Rating_arch_2.setVisible(false);
         Rating_arch_3.setVisible(true);
 
 
-        int hsize=architecture_done_choise.size()+1;
-        int vsize=architecture_done_choise.size()+1;
+        int hsize = architecture_done_choise.size() + 1;
+        int vsize = architecture_done_choise.size() + 1;
 
         GridPane gridPane_mark = new GridPane();
         gridPane_mark.getChildren().clear();
@@ -516,24 +512,26 @@ public class rating_arch_C implements Initializable {
         gridPane_mark.setBorder(Border.EMPTY);
         gridPane_mark.setGridLinesVisible(true);
 
-        Label tmp_label = new Label();
-        tmp_label.setText("Архітектура");
-        gridPane_mark.add(tmp_label,0,0);
-
-        for (int i =1; i<(architecture_done_choise.size()+1);i++){
-            tmp_label=null;
-            tmp_label.setText(String.valueOf('A'+ i));
+        Label tmp_label = new Label("Архітектура");
+        //tmp_label.setText("Архітектура");
+        gridPane_mark.add(tmp_label, 0, 0);
+        tmp_label = null;
+        for (int i = 1; i < (architecture_done_choise.size() + 1); i++) {
+            tmp_label = new Label("A" + i);
             gridPane_mark.add(tmp_label, 0, i);
-            gridPane_mark.add(tmp_label,i,0);
+        }
+        tmp_label = null;
+        for (int i = 1; i < (architecture_done_choise.size() + 1); i++) {
+            tmp_label = new Label("A" + i);
+            gridPane_mark.add(tmp_label, i, 0);
         }
 
         ArrayList<javafx.scene.control.TextField> textField_marks = new ArrayList<>();
         textField_marks.clear();
-        for (int i=0;i<marks.size();i++){
+        for (int i = 0; i < marks.size(); i++) {
             textField_marks.add(new javafx.scene.control.TextField());
-            textField_marks.get(textField_marks.size()-1).setText(marks.get(i).getMark().toString());
-
-            gridPane_mark.add(textField_marks.get(textField_marks.size()-1),marks.get(i).getNum_arch_0(),marks.get(i).getNum_arch_1());
+            textField_marks.get(textField_marks.size() - 1).setText(marks.get(i).getMark().toString());
+            gridPane_mark.add(textField_marks.get(textField_marks.size() - 1), marks.get(i).getNum_arch_0() + 1, marks.get(i).getNum_arch_1() + 1);
         }
         Rating_arch_3.getChildren().add(gridPane_mark);
 
