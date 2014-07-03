@@ -63,6 +63,8 @@ public class rating_arch_C implements Initializable {
     public AnchorPane ankor_im_1;
     public AnchorPane ankor_im_2;
     public AnchorPane Rating_arch_3;
+    public ImageView IV_test;
+    ArrayList<javafx.scene.control.TextField> textField_marks = new ArrayList<>();
 
 
     DerbyDBManager derby_DB = new DerbyDBManager("DB/paterns_DB");
@@ -92,6 +94,7 @@ public class rating_arch_C implements Initializable {
         // do what you have to do
         stage.close();
     }
+    //Windows close dialog
 
     public void disconnect_DB(ActionEvent actionEvent) {
         if (derby_DB != null) {
@@ -100,7 +103,6 @@ public class rating_arch_C implements Initializable {
         }
         ObservableList<String> items = FXCollections.observableArrayList();
     }
-    //Windows close dialog
 
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
@@ -273,6 +275,7 @@ public class rating_arch_C implements Initializable {
 
         arch_1_im.setImage(arch_1_image);
         arch_2_im.setImage(arch_2_image);
+        //IV_test.setImage(arch_1_image);
 
         Label label_ar_1 = new Label();
         Label label_ar_2 = new Label();
@@ -307,7 +310,7 @@ public class rating_arch_C implements Initializable {
         gridPane_arch.setVgap(vsize);
         gridPane_arch.setPadding(new Insets(10, 10, 10, 10));
         gridPane_arch.setBorder(Border.EMPTY);
-        gridPane_arch.setGridLinesVisible(true);
+        //gridPane_arch.setGridLinesVisible(true);
 
         Label label_arch = new Label();
         label_arch.setText(architecture_done_choise_type.getName());
@@ -526,7 +529,7 @@ public class rating_arch_C implements Initializable {
             gridPane_mark.add(tmp_label, i, 0);
         }
 
-        ArrayList<javafx.scene.control.TextField> textField_marks = new ArrayList<>();
+
         textField_marks.clear();
         for (int i = 0; i < marks.size(); i++) {
             textField_marks.add(new javafx.scene.control.TextField());
@@ -554,6 +557,112 @@ public class rating_arch_C implements Initializable {
             e.printStackTrace();
             derby_DB = null;
         }
+    }
+
+    public void Save_marks(ActionEvent actionEvent) {
+
+       /* try {
+            creat_mark_DB();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+        DerbyDBManager mark_db = new DerbyDBManager("DB/Marks");
+
+        try {
+            session_save_to_db(task_choise.getId(),mark_db);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        int session_id = functions.last_id_from_table_DB("SESSION", mark_db);
+
+        for (int i = 0; i < marks.size(); i++) {
+            try {
+                marks_save_to_DB(marks.get(i), architecture_done_choise.get(marks.get(i).getNum_arch_0()).getId(),architecture_done_choise.get(marks.get(i).getNum_arch_1()).getId(),session_id,mark_db);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        Object[] options = {"Вибір завдання",
+                "Вихід"};
+        int n = JOptionPane.showOptionDialog(null,
+                "Збереження оціно проведено успішно.",
+                "Повернутися до вибору завдання?",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,     //do not use a custom Icon
+                options,  //the titles of buttons
+                options[0]); //default button title
+        if (n == 0) {
+            Start_rating();
+        } else if (n == 1) {
+            Exit(new ActionEvent());
+        } else {
+        }
+    }
+
+    public void creat_mark_DB() throws IOException { //Создать БД
+        File db_dir = new File("DB/Marks");
+
+        //Если требуемого файла не существует.
+        if (!db_dir.exists()) {
+            //Создаем его.
+            db_dir.createNewFile();
+        }
+
+        if (db_dir != null) {
+            derby_DB = new DerbyDBManager(db_dir);
+
+            System.out.print("Создаю таблиці)");
+            try {
+                File in_dir = new File(getClass().getClassLoader().getResource("editor/sql/create_marks_DB").getFile());
+                //ResourceAsStream("/editor/sql/creat_DB");
+
+                File[] fList;
+
+                fList = in_dir.listFiles();
+
+                for (int i = 0; i < fList.length; i++) {
+                    //Нужны только папки в место isFile() пишим isDirectory()
+                    if (fList[i].isFile()) {
+
+                        String filename = fList[i].getName();
+                        int dotPos = filename.lastIndexOf(".");
+                        String ext = filename.substring(dotPos);
+                        if (ext.equals(".sql")) {
+                            derby_DB.executeUpdate_from_file(fList[i]);
+                        }
+                    }
+
+                }
+
+                System.out.print("Создал таблиці)");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            //TODO создание
+        }
+    }
+
+    public static boolean session_save_to_db(int task_id, DerbyDBManager mark_db_conn) throws SQLException {
+        boolean result = false;
+        ResultSet rs_tmp;
+        System.out.printf("INSERT INTO SESSION (TASK_ID) VALUES (" + task_id + ")\n");
+        mark_db_conn.executeUpdate("INSERT INTO SESSION (TASK_ID) VALUES (" + task_id + ")");
+
+        System.out.printf("session save successful");
+        return result;
+    }
+
+    public static boolean marks_save_to_DB(Mark mark, int arch_1_id, int arch_2_id, int session_id, DerbyDBManager mark_db_conn) throws SQLException {//Зберегти архітектуру в БД
+        boolean result = false;
+        ResultSet rs_tmp;
+        //Добавить в базу
+        mark_db_conn.executeUpdate("INSERT INTO MARK (SESSION_ID,ARCH_1_ID,ARCH_2_ID,MARK) VALUES (" + session_id + "," + arch_1_id + "," + arch_2_id + "," + mark.getMark() + ")");
+
+
+        System.out.printf("mark save successful");
+        return result;
     }
 }
 

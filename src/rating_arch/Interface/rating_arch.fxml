@@ -24,7 +24,27 @@
 </font>
 </Label><ChoiceBox fx:id="mark_crit" layoutX="15.0" layoutY="184.0" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="150.0" />
 </children></AnchorPane><Button id="Cancel" layoutX="439.0" layoutY="331.0" mnemonicParsing="false" onAction="#back_to_mode_sel" text="Відміна" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="180.0" /><Button id="Arch_create_next_2" layoutX="519.0" layoutY="331.0" mnemonicParsing="false" onAction="#choice_task" prefWidth="-1.0" text="Обрати" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0" />
-</children></AnchorPane><AnchorPane fx:id="Rating_arch_2" layoutY="26.0" prefHeight="375.0" prefWidth="630.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+</children></AnchorPane><AnchorPane fx:id="Rating_arch_3" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+<children><Button id="Arch_create_next_2" layoutX="505.0" layoutY="330.0" mnemonicParsing="false" onAction="#Save_marks" prefHeight="25.0" prefWidth="150.0" text="Зберігти оцінки" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0" /><Button id="Cancel" layoutX="496.0" layoutY="288.0" mnemonicParsing="false" onAction="#Start_rating" text="Відмінити оцінювання" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="230.0" />
+</children></AnchorPane>
+    <MenuBar id="new_arch_menu" prefHeight="25.0" prefWidth="629.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <menus>
+        <Menu mnemonicParsing="false" text="Файл">
+          <items><MenuItem mnemonicParsing="false" onAction="#connect_DB" text="Під'єднання до ДБ" /><Menu mnemonicParsing="false" text="Режим роботи">
+  <items>
+    <MenuItem mnemonicParsing="false" text="Адміністратор" /><MenuItem mnemonicParsing="false" text="Архітектор" /><MenuItem disable="true" mnemonicParsing="false" text="Експерт" />
+  </items>
+</Menu>
+            <MenuItem mnemonicParsing="false" onAction="#close" text="Вихід" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Допомога">
+          <items><MenuItem mnemonicParsing="false" text="Довідка" />
+            <MenuItem mnemonicParsing="false" text="Про програму" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar><AnchorPane fx:id="Rating_arch_2" layoutY="26.0" prefHeight="375.0" prefWidth="630.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
 <children>
 <AnchorPane prefHeight="279.0" prefWidth="610.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
 <children>
@@ -47,12 +67,15 @@
 <children><SplitPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
 <items><AnchorPane fx:id="ankor_im_1" prefHeight="200.0" prefWidth="200.0">
 <children><ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0" GridPane.columnIndex="1">
-<content><ImageView fx:id="arch_2_im" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+<content><ImageView fx:id="arch_1_im" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
 </content>
 </ScrollPane>
 </children></AnchorPane><AnchorPane fx:id="ankor_im_2" prefHeight="200.0" prefWidth="200.0">
 <children><ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
-<content><ImageView fx:id="arch_1_im" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+<content><ImageView fx:id="arch_2_im" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+<image>
+<Image url="file:/C:/Users/Alex/Pictures/WALL/1.jpg" />
+</image></ImageView>
 </content>
 </ScrollPane>
 </children></AnchorPane>
@@ -79,26 +102,8 @@
 </children>
 </AnchorPane>
 <Button id="Cancel" layoutX="439.0" layoutY="331.0" mnemonicParsing="false" onAction="#Start_rating" text="Відміна" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="180.0" />
-<Button id="Arch_create_next_2" layoutX="519.0" layoutY="331.0" mnemonicParsing="false" onAction="#next_twise" prefWidth="-1.0" text="Наступна пара" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0" />
+<Button id="Arch_create_next_2" layoutX="519.0" layoutY="331.0" mnemonicParsing="false" onAction="#next_twise" prefWidth="-1.0" text="Наступна пара" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0" /><ImageView fx:id="IV_test" fitHeight="150.0" fitWidth="200.0" layoutY="240.0" pickOnBounds="true" preserveRatio="true" />
 </children>
-</AnchorPane><AnchorPane fx:id="Rating_arch_3" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0" />
-    <MenuBar id="new_arch_menu" prefHeight="25.0" prefWidth="629.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-      <menus>
-        <Menu mnemonicParsing="false" text="Файл">
-          <items><MenuItem mnemonicParsing="false" onAction="#connect_DB" text="Під'єднання до ДБ" /><Menu mnemonicParsing="false" text="Режим роботи">
-  <items>
-    <MenuItem mnemonicParsing="false" text="Адміністратор" /><MenuItem mnemonicParsing="false" text="Архітектор" /><MenuItem disable="true" mnemonicParsing="false" text="Експерт" />
-  </items>
-</Menu>
-            <MenuItem mnemonicParsing="false" onAction="#close" text="Вихід" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Допомога">
-          <items><MenuItem mnemonicParsing="false" text="Довідка" />
-            <MenuItem mnemonicParsing="false" text="Про програму" />
-          </items>
-        </Menu>
-      </menus>
-    </MenuBar>
+</AnchorPane>
   </children>
 </AnchorPane>
