@@ -115,12 +115,13 @@ public class arch_work {
                 boolean save=false;
                 for(int s=0;s<arch_in.getLayers().size();s++){
                     //сравниваем если в новой такой слой
-                    if(arch_in.getLayers().get(s).getId()==arch_old.getLayers().get(i).getId()){
+                    if(arch_in.getLayers().get(s).getId().intValue()==arch_old.getLayers().get(i).getId().intValue()){
                         save=true; //если остался то нужно сохранить
                     }
                 }
                 if(save==false)
                 {
+                    System.out.printf("DELETE FROM LAYER WHERE ID=" + arch_old.getLayers().get(i).getId());
                     derby_DB_connection.executeUpdate("DELETE FROM LAYER WHERE ID=" + arch_old.getLayers().get(i).getId());
                 }
             }
@@ -131,13 +132,14 @@ public class arch_work {
 
                     for(int l_n=0;l_n<arch_in.getLayers().size();l_n++){
                         for(int m_n=0;m_n<arch_in.getLayers().get(l_n).getModules().size();m_n++){
-                            System.out.printf("\n"+String.valueOf(l_o)+"|"+String.valueOf(m_o)+"|"+String.valueOf(l_n)+"|"+String.valueOf(m_n));
-                            if(arch_old.getLayers().get(l_o).getModules().get(m_o).getId()==arch_in.getLayers().get(l_n).getModules().get(m_n).getId())
+                            //System.out.printf("\n"+String.valueOf(l_o)+"|"+String.valueOf(m_o)+"|"+String.valueOf(l_n)+"|"+String.valueOf(m_n));
+                            if(arch_old.getLayers().get(l_o).getModules().get(m_o).getId().intValue()==arch_in.getLayers().get(l_n).getModules().get(m_n).getId().intValue())
                                 save=true;
                         }
                     }
                     if(save==false)
                     {
+                        System.out.printf("DELETE FROM MODULE WHERE ID="+arch_old.getLayers().get(l_o).getModules().get(m_o).getId());
                         derby_DB_connection.executeUpdate("DELETE FROM MODULE WHERE ID="+arch_old.getLayers().get(l_o).getModules().get(m_o).getId());
                     }
                 }
@@ -216,7 +218,6 @@ public class arch_work {
             result.setStatus(true);
             System.out.printf("Arch save successful");
 
-            functions.clread_DB(derby_DB_connection);
         } catch (SQLException e) {
             result.setComment(e);
             e.printStackTrace();

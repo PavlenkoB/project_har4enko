@@ -1,87 +1,139 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.image.*?>
+<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="root" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="526.0" prefWidth="760.0" stylesheets="@../css/main_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="editor.controllers.patern_e_C">
-    <children>
-        <MenuBar fx:id="MB_main_menu" prefHeight="25.0" prefWidth="798.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <menus>
-                <Menu mnemonicParsing="false" text="Файл">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#close_mw" text="Закрити" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Допомога">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#show_help" text="Як користуватися" />
-                        <MenuItem mnemonicParsing="false" onAction="#show_about" text="Про программу" />
-                    </items>
-                </Menu>
-            </menus>
-        </MenuBar>
-        <Button layoutX="325.0" layoutY="330.0" mnemonicParsing="false" onAction="#Action_draw_class" text="Візуалізувати патерн">
-            <graphic>
-                <ImageView fitHeight="30.0" fitWidth="200.0" layoutX="308.5" layoutY="294.5" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="/editor/res/img/Corel Draw 11.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-        <TextArea fx:id="class_text" layoutX="233.0" layoutY="42.0" prefHeight="287.0" prefWidth="263.0" text="Class01 &lt;|-- Class02&#10;Class03 *-- Class04" />
-        <ListView fx:id="LV_paterns_DB" disable="false" layoutX="5.0" layoutY="63.0" onMouseClicked="#select_to_save_DB" prefHeight="325.0" prefWidth="228.0" visible="true">
-            <cursor>
-                <Cursor fx:constant="HAND" />
-            </cursor>
-        </ListView>
-        <TextField fx:id="TF_patern_name_DB" layoutX="31.0" layoutY="390.0" prefHeight="25.0" prefWidth="202.0" />
-        <Button layoutX="121.0" layoutY="476.0" mnemonicParsing="false" onAction="#delete_patern_DB" prefHeight="38.0" prefWidth="99.0" text="Видалити" AnchorPane.bottomAnchor="12.0">
-            <graphic>
-                <ImageView fitHeight="30.0" fitWidth="27.0" layoutX="148.0" layoutY="279.5" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="/editor/res/img/delete.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-        <Button layoutX="121.0" layoutY="418.0" mnemonicParsing="false" onAction="#load_this_patern_DB" prefHeight="38.0" prefWidth="99.0" text="Завантажити" AnchorPane.bottomAnchor="70.0">
-            <graphic>
-                <ImageView fitHeight="30.0" fitWidth="200.0" layoutX="278.0" layoutY="306.5" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="/editor/res/img/open-file.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-        <Button layoutX="7.0" layoutY="418.0" mnemonicParsing="false" onAction="#save_this_patern_DB" prefHeight="38.0" prefWidth="107.0" text="Зберегти" AnchorPane.bottomAnchor="70.0">
-            <graphic>
-                <ImageView fitHeight="30.0" fitWidth="35.0" layoutX="154.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="/editor/res/img/Save-icon.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-        <Label layoutX="78.0" layoutY="42.0" text="Паттерни в базі" />
-        <Label layoutX="5.0" layoutY="25.0" text="Імя БД:" />
-        <Label fx:id="selected_DB" layoutX="46.0" layoutY="25.0" text="DB_NAME" />
-        <ScrollPane layoutX="529.0" layoutY="25.0" prefHeight="501.0" prefWidth="255.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="505.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
-            <content>
-                <ImageView fx:id="class_imageview" fitHeight="150.0" fitWidth="200.0" layoutX="186.0048828125" layoutY="361.0" pickOnBounds="true" preserveRatio="true" />
-            </content>
-        </ScrollPane>
-
-        <Label layoutX="326.0" layoutY="25.0" text="Структура патерну" />
-        <Button layoutX="7.0" layoutY="476.0" mnemonicParsing="false" onAction="#create_pattern" prefHeight="38.0" prefWidth="107.0" text="Створити новий паттерн" AnchorPane.bottomAnchor="12.0" />
-        <TextArea fx:id="TA_patern_description" layoutX="233.0" layoutY="411.0" prefHeight="112.0" prefWidth="263.0" />
-        <Label layoutX="296.0" layoutY="396.0" text="Опис патерну" />
-        <Label layoutX="8.0" layoutY="392.0" text="Імя" />
-        <Separator layoutX="230.0" layoutY="313.0" orientation="VERTICAL" prefHeight="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="25.0" />
-        <Separator layoutX="500.0" layoutY="25.0" orientation="VERTICAL" prefHeight="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="25.0" />
-    </children>
-</AnchorPane>
+<GridPane fx:id="root" minHeight="400.0" minWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/main_style.css" fx:controller="editor.controllers.patern_e_C">
+   <children>
+      <MenuBar fx:id="MB_main_menu" prefHeight="25.0" prefWidth="798.0" GridPane.columnSpan="2">
+         <menus>
+            <Menu mnemonicParsing="false" text="Файл">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#close_mw" text="Закрити" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Допомога">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#show_help" text="Як користуватися" />
+                  <MenuItem mnemonicParsing="false" onAction="#show_about" text="Про программу" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+      <GridPane GridPane.rowIndex="1">
+         <children>
+            <HBox>
+               <children>
+                  <Label fx:id="selected_DB" text="DB_NAME" />
+                  <Label text="Імя БД:" />
+               </children>
+            </HBox>
+            <Label text="Паттерни в базі" GridPane.rowIndex="1" />
+            <HBox GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+               <children>
+                  <Label minHeight="-Infinity" minWidth="-Infinity" text="Імя" />
+                  <TextField fx:id="TF_patern_name_DB" prefHeight="25.0" prefWidth="277.0" />
+               </children>
+            </HBox>
+            <GridPane GridPane.rowIndex="4">
+               <children>
+                  <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#save_this_patern_DB" text="Зберегти">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="35.0" layoutX="154.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="/editor/res/img/Save-icon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#load_this_patern_DB" text="Завантажити" GridPane.columnIndex="1">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="200.0" layoutX="278.0" layoutY="306.5" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="/editor/res/img/open-file.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#create_pattern" prefHeight="38.0" text="Створити новий паттерн" GridPane.rowIndex="1" />
+                  <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#delete_patern_DB" text="Видалити" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="27.0" layoutX="148.0" layoutY="279.5" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="/editor/res/img/delete.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+               <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+               </rowConstraints>
+            </GridPane>
+            <ListView fx:id="LV_paterns_DB" disable="false" onMouseClicked="#select_to_save_DB" visible="true" GridPane.rowIndex="2">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ListView>
+         </children>
+         <columnConstraints>
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+      <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+          <RowConstraints vgrow="SOMETIMES" />
+          <RowConstraints vgrow="SOMETIMES" />
+          <RowConstraints vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <TextArea fx:id="TA_patern_description" prefHeight="112.0" prefWidth="263.0" GridPane.rowIndex="4" />
+            <Label text="Опис патерну" GridPane.rowIndex="3" />
+            <HBox GridPane.rowIndex="2">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#Action_draw_class" text="Візуалізувати патерн">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="200.0" layoutX="308.5" layoutY="294.5" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="/editor/res/img/Corel Draw 11.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" text="Візуалізувати" />
+               </children>
+            </HBox>
+            <TextArea fx:id="class_text" prefHeight="287.0" prefWidth="263.0" text="Class01 &lt;|-- Class02&#10;Class03 *-- Class04" GridPane.rowIndex="1" />
+            <Label text="Структура патерну" />
+         </children>
+      </GridPane>
+   </children>
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" />
+      <ColumnConstraints hgrow="SOMETIMES" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
+      <RowConstraints vgrow="SOMETIMES" />
+   </rowConstraints>
+</GridPane>
