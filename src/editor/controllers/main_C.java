@@ -39,7 +39,6 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -610,7 +609,7 @@ public class main_C extends JPanel implements Initializable {
             e.printStackTrace();
         }
 
-        image_view_C controller = loader.<image_view_C>getController();
+        image_view_C2 controller = loader.<image_view_C2>getController();
         controller.initData(arch_image);
         stage.setTitle("" + arch_old.getName());
         stage.show();

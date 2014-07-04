@@ -7,9 +7,7 @@ import Classes.Module;
 import Classes.Pattern;
 import editor.classes.DerbyDBManager;
 import editor.classes.id_Lable;
-import editor.services.arch_work;
 import editor.services.draw_uml;
-import editor.services.functions;
 import editor.services.pattern_work;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,19 +26,16 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
@@ -338,7 +333,7 @@ public class patern_e_C implements Initializable {
             e.printStackTrace();
         }
 
-        image_view_C controller = loader.<image_view_C>getController();
+        image_view_C2 controller = loader.<image_view_C2>getController();
         controller.initData(class_image);
         stage.setTitle("" + TF_patern_name_DB);
         stage.show();
