@@ -39,7 +39,6 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -601,7 +600,7 @@ public class main_C extends JPanel implements Initializable {
     }
     public void arch_view_prev(){
         //arch_image = draw_uml.draw_class(arch_work.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/image_view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/image_preview.fxml"));
 
         Stage stage = new Stage(StageStyle.DECORATED);
         try {
@@ -610,7 +609,7 @@ public class main_C extends JPanel implements Initializable {
             e.printStackTrace();
         }
 
-        image_view_C controller = loader.<image_view_C>getController();
+        image_preview_C controller = loader.<image_preview_C>getController();
         controller.initData(arch_image);
         stage.setTitle("" + arch_old.getName());
         stage.show();
