@@ -1,5 +1,6 @@
 package editor.classes;
 
+import javafx.beans.value.ChangeListener;
 import javafx.scene.control.Label;
 
 /**
@@ -21,4 +22,7 @@ public class id_Lable extends Label {
         this.dbid=id;
     }
 
+    public void addEventHandler(ChangeListener<id_Lable> changeListener) {
+        this.dbid=this.dbid;
+    }
 }
