@@ -333,7 +333,7 @@ public class patern_e_C implements Initializable {
             e.printStackTrace();
         }
 
-        image_view_C controller = loader.<image_view_C>getController();
+        image_view_C2 controller = loader.<image_view_C2>getController();
         controller.initData(class_image);
         stage.setTitle("" + TF_patern_name_DB);
         stage.show();
