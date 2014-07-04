@@ -44,7 +44,7 @@
           </items>
         </Menu>
       </menus>
-    </MenuBar><AnchorPane fx:id="Rating_arch_2" layoutY="26.0" prefHeight="375.0" prefWidth="630.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+    </MenuBar><AnchorPane fx:id="Rating_arch_2" layoutY="26.0" prefHeight="375.0" prefWidth="630.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
 <children>
 <AnchorPane prefHeight="279.0" prefWidth="610.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
 <children>

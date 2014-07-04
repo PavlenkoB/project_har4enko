@@ -68,6 +68,7 @@ public class rating_arch_C implements Initializable {
 
 
     DerbyDBManager derby_DB = new DerbyDBManager("DB/paterns_DB");
+    DerbyDBManager mark_db = new DerbyDBManager("DB/Marks");
 
     //Windows close dialog
     public void close(ActionEvent actionEvent) throws IOException {
@@ -260,8 +261,10 @@ public class rating_arch_C implements Initializable {
 
     public void draw_arch_im_text() {
 
-        ankor_im_1.getChildren().clear();
-        ankor_im_2.getChildren().clear();
+        //ankor_im_1.getChildren().clear();
+        //ankor_im_2.getChildren().clear();
+        //ankor_im_1.getChildren().add(arch_1_im);
+        //ankor_im_2.getChildren().add(arch_2_im);
         text_view.getChildren().clear();
 
         arch_1_image = arch_image_gen_with_patterns(architecture_done_choise.get(arch_mark_combine[0]));
@@ -513,7 +516,7 @@ public class rating_arch_C implements Initializable {
         gridPane_mark.setVgap(vsize);
         gridPane_mark.setPadding(new Insets(10, 10, 10, 10));
         gridPane_mark.setBorder(Border.EMPTY);
-        gridPane_mark.setGridLinesVisible(true);
+        //gridPane_mark.setGridLinesVisible(true);
 
         Label tmp_label = new Label("Архітектура");
         //tmp_label.setText("Архітектура");
@@ -521,12 +524,12 @@ public class rating_arch_C implements Initializable {
         tmp_label = null;
         for (int i = 1; i < (architecture_done_choise.size() + 1); i++) {
             tmp_label = new Label("A" + i);
-            gridPane_mark.add(tmp_label, 0, i);
+            gridPane_mark.add(tmp_label, i, 0);
         }
         tmp_label = null;
         for (int i = 1; i < (architecture_done_choise.size() + 1); i++) {
             tmp_label = new Label("A" + i);
-            gridPane_mark.add(tmp_label, i, 0);
+            gridPane_mark.add(tmp_label, 0, i);
         }
 
 
@@ -534,7 +537,7 @@ public class rating_arch_C implements Initializable {
         for (int i = 0; i < marks.size(); i++) {
             textField_marks.add(new javafx.scene.control.TextField());
             textField_marks.get(textField_marks.size() - 1).setText(marks.get(i).getMark().toString());
-            gridPane_mark.add(textField_marks.get(textField_marks.size() - 1), marks.get(i).getNum_arch_0() + 1, marks.get(i).getNum_arch_1() + 1);
+            gridPane_mark.add(textField_marks.get(textField_marks.size() - 1), marks.get(i).getNum_arch_1() + 1, marks.get(i).getNum_arch_0() + 1);
         }
         Rating_arch_3.getChildren().add(gridPane_mark);
 
@@ -566,7 +569,7 @@ public class rating_arch_C implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }*/
-        DerbyDBManager mark_db = new DerbyDBManager("DB/Marks");
+
 
         try {
             session_save_to_db(task_choise.getId(),mark_db);

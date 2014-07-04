@@ -144,10 +144,11 @@ public class patern_e_C implements Initializable {
     public void Action_draw_class(){
         Stage s = (Stage) class_text.getScene().getWindow();
         class_image = draw_uml.draw_class(class_text.getText());
+        patern_view_prev();
 
-        class_imageview.setFitHeight(class_image.getRequestedHeight());
+/*        class_imageview.setFitHeight(class_image.getRequestedHeight());
         class_imageview.setFitWidth(class_image.getRequestedWidth());
-        class_imageview.setImage(class_image);
+        class_imageview.setImage(class_image);*/
     }
 
 
