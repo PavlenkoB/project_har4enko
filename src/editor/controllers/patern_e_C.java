@@ -140,9 +140,9 @@ public class patern_e_C implements Initializable {
         Stage s = (Stage) class_text.getScene().getWindow();
         class_image = draw_uml.draw_class(class_text.getText());
 
-        class_imageview.setFitHeight(class_image.getRequestedHeight());
-        class_imageview.setFitWidth(class_image.getRequestedWidth());
-        class_imageview.setImage(class_image);
+//        class_imageview.setFitHeight(class_image.getRequestedHeight());
+ //       class_imageview.setFitWidth(class_image.getRequestedWidth());
+ //       class_imageview.setImage(class_image);
     }
 
 
@@ -324,7 +324,7 @@ public class patern_e_C implements Initializable {
     }
     public void patern_view_prev(){
         class_image = draw_uml.draw_class(class_text.getText());
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/image_view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/image_preview.fxml"));
 
         Stage stage = new Stage(StageStyle.DECORATED);
         try {
@@ -333,7 +333,7 @@ public class patern_e_C implements Initializable {
             e.printStackTrace();
         }
 
-        image_view_C controller = loader.<image_view_C>getController();
+        image_preview_C controller = loader.<image_preview_C>getController();
         controller.initData(class_image);
         stage.setTitle("" + TF_patern_name_DB);
         stage.show();
