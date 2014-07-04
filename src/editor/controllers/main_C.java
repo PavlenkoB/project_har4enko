@@ -609,7 +609,7 @@ public class main_C extends JPanel implements Initializable {
             e.printStackTrace();
         }
 
-        image_view_C2 controller = loader.<image_view_C2>getController();
+        image_view_C controller = loader.<image_view_C>getController();
         controller.initData(arch_image);
         stage.setTitle("" + arch_old.getName());
         stage.show();
