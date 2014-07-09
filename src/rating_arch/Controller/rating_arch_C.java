@@ -305,7 +305,7 @@ public class rating_arch_C implements Initializable {
             vsize += architecture_done_choise_type.getLayers().get(i).getModules().size();
         }
 
-        vsize++; //для описової частини
+        vsize+=2; //для описової частини
 
         GridPane gridPane_arch = new GridPane();
         gridPane_arch.getChildren().clear();
@@ -332,9 +332,23 @@ public class rating_arch_C implements Initializable {
         label_ar_4.setLayoutX(0);
         label_ar_4.setFont(Font.font(15));
 
+        Label label_op_1 = new Label("Шар");
+        label_op_1.setFont(Font.font(15));
+        Label label_op_2 = new Label("Модуль");
+        label_op_2.setFont(Font.font(15));
+        Label label_op_3 = new Label("Патерн");
+        label_op_3.setFont(Font.font(15));
+        Label label_op_4 = new Label("Патерн");
+        label_op_4.setFont(Font.font(15));
+
         gridPane_arch.add(label_arch, 0, 0);
         gridPane_arch.add(label_ar_3, 2, 0);
         gridPane_arch.add(label_ar_4, 3, 0);
+
+        gridPane_arch.add(label_op_1, 0, 1);
+        gridPane_arch.add(label_op_2, 1, 1);
+        gridPane_arch.add(label_op_3, 2, 1);
+        gridPane_arch.add(label_op_4, 3, 1);
 
         ArrayList<Label> label_1 = new ArrayList<>(),
                 label_2 = new ArrayList<>(),
@@ -343,7 +357,7 @@ public class rating_arch_C implements Initializable {
         label_1.clear();
         label_2.clear();
 
-        int vpos = 1;
+        int vpos = 2;
         for (int i = 0; i < architecture_done_choise_type.getLayers().size(); i++) {
             label_0.add(new Label());
             label_0.get(label_0.size() - 1).setText(architecture_done_choise_type.getLayers().get(i).getName());
