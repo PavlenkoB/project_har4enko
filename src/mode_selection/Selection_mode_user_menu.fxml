@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mode_selection.Controller_mode_selection_user_menu">
+    <children>
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+            <children><MenuBar layoutX="20.0" layoutY="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+  <menus>
+    <Menu mnemonicParsing="false" text="Файл">
+      <items>
+        <MenuItem fx:id="close" mnemonicParsing="false" onAction="#close" text="Вихід" />
+      </items>
+    </Menu>
+    <Menu mnemonicParsing="false" text="Архітектор">
+      <items>
+        <MenuItem mnemonicParsing="false" onAction="#create_new_arch" text="Конструктор нових варіантів архітектур" /><MenuItem mnemonicParsing="false" onAction="#rating_arch" text="Оцінювання існуючих архітектур" />
+      </items>
+    </Menu>
+    <Menu mnemonicParsing="false" text="Адміністратор">
+      <items>
+        <MenuItem mnemonicParsing="false" onAction="#edit_arch" text="Редактор патернів та архітектур" /><MenuItem mnemonicParsing="false" onAction="#create_new_arch" text="Конструктор нових варіантів архітектур" />
+      </items>
+    </Menu><Menu mnemonicParsing="false" text="Експерт">
+  <items>
+    <MenuItem mnemonicParsing="false" onAction="#rating_arch" text="Оцінювання існуючих архітектур" />
+  </items>
+</Menu><Menu mnemonicParsing="false" text="Допомога">
+  <items>
+    <MenuItem mnemonicParsing="false" text="Справка" />
+  </items>
+</Menu>
+  </menus>
+</MenuBar><AnchorPane fx:id="sel_next" layoutY="25.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+<children><Label alignment="CENTER" layoutX="273.0048828125" layoutY="119.5" text="Вас вітає " textAlignment="CENTER" textOverrun="CENTER_WORD_ELLIPSIS" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="80.0">
+<font>
+<Font name="Times New Roman" size="33.0" />
+</font></Label><Label alignment="CENTER" layoutX="273.0048828125" layoutY="119.5" text="АРХІТЕКТОР ПРОГРАМНИХ СИСТЕМ" textAlignment="CENTER" textOverrun="CENTER_WORD_ELLIPSIS" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="120.0">
+<font>
+<Font name="Times New Roman" size="33.0" />
+</font>
+</Label>
+</children></AnchorPane>
+            </children>
+        </AnchorPane>
+    </children>
+</VBox>

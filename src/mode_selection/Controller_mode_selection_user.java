@@ -106,5 +106,4 @@ public class Controller_mode_selection_user implements Initializable {
             new win_choiser().win_choiser(1,sel_mode);
         }
     }
-
 }
