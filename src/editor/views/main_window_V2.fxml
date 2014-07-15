@@ -24,6 +24,7 @@
                                 <MenuItem mnemonicParsing="false" onAction="#create_backup" text="Створити резервну копію БД" />
                                 <MenuItem mnemonicParsing="false" onAction="#clear_db" text="Прибратися в базі" />
                         <MenuItem mnemonicParsing="false" onAction="#open_patrern_manager" text="Управління патернами" />
+                        <MenuItem mnemonicParsing="false" onAction="#import_all_to_docx" text="Імпорт в *.docx" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Допомога">

@@ -221,9 +221,9 @@ public class rating_arch_C implements Initializable {
                         for (int k = 0; k < architecture_done_choise.get(i).getLayers().get(j).getModules().size(); k++) {
                             if (rs.getInt("MOD_ID") == architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).getId()) {
                                 architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).setId_done(rs.getInt("ID"));
-                                for (int p = 0; p < architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).getAvilable_paterns().size(); p++) {
-                                    if (architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).getAvilable_paterns().get(p).getId() == rs.getInt("PATTERN_ID")) {
-                                        architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).setSelected_patern(architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).getAvilable_paterns().get(p));
+                                for (int p = 0; p < architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).getAvilable_patterns().size(); p++) {
+                                    if (architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).getAvilable_patterns().get(p).getId() == rs.getInt("PATTERN_ID")) {
+                                        architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).setSelected_pattern(architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).getAvilable_patterns().get(p));
                                     }
                                 }
                             }
@@ -371,12 +371,12 @@ public class rating_arch_C implements Initializable {
                 gridPane_arch.add(label_0.get(label_0.size() - 1), 1, vpos);
 
                 label_1.add(new Label());
-                label_1.get(label_1.size() - 1).setText(architecture_done_choise.get(arch_mark_combine[0]).getLayers().get(i).getModules().get(j).getSelected_patern().getName());
+                label_1.get(label_1.size() - 1).setText(architecture_done_choise.get(arch_mark_combine[0]).getLayers().get(i).getModules().get(j).getSelected_pattern().getName());
                 label_1.get(label_1.size() - 1).setFont(Font.font(12));
                 gridPane_arch.add(label_1.get(label_1.size() - 1), 2, vpos);
 
                 label_2.add(new Label());
-                label_2.get(label_2.size() - 1).setText(architecture_done_choise.get(arch_mark_combine[1]).getLayers().get(i).getModules().get(j).getSelected_patern().getName());
+                label_2.get(label_2.size() - 1).setText(architecture_done_choise.get(arch_mark_combine[1]).getLayers().get(i).getModules().get(j).getSelected_pattern().getName());
                 label_2.get(label_2.size() - 1).setFont(Font.font(12));
                 gridPane_arch.add(label_2.get(label_2.size() - 1), 3, vpos);
                 vpos++;
@@ -409,7 +409,7 @@ public class rating_arch_C implements Initializable {
                 vpos += 15;
                 label_1.get(label_1.size() - 1).setLayoutX(xpos + 50);
                 label_1.add(new Label());
-                label_1.get(label_1.size() - 1).setText(architecture_done_choise.get(arch_mark_combine[0]).getLayers().get(i).getModules().get(j).getSelected_patern().getName());
+                label_1.get(label_1.size() - 1).setText(architecture_done_choise.get(arch_mark_combine[0]).getLayers().get(i).getModules().get(j).getSelected_pattern().getName());
                 label_1.get(label_1.size() - 1).setLayoutY(vpos);
                 vpos += 15;
                 label_1.get(label_1.size() - 1).setLayoutX(xpos + 75);
@@ -434,7 +434,7 @@ public class rating_arch_C implements Initializable {
                 vpos += 15;
                 label_2.get(label_2.size() - 1).setLayoutX(xpos + 50);
                 label_2.add(new Label());
-                label_2.get(label_2.size() - 1).setText(architecture_done_choise.get(arch_mark_combine[1]).getLayers().get(i).getModules().get(j).getSelected_patern().getName());
+                label_2.get(label_2.size() - 1).setText(architecture_done_choise.get(arch_mark_combine[1]).getLayers().get(i).getModules().get(j).getSelected_pattern().getName());
                 label_2.get(label_2.size() - 1).setLayoutY(vpos);
                 vpos += 15;
                 label_2.get(label_2.size() - 1).setLayoutX(xpos + 75);
