@@ -233,7 +233,7 @@ public class Architecture implements Cloneable {
                     rs_pat = derby_DB_connection.executeQuery("SELECT * FROM PATERNS WHERE MOD_ID=" + rs_mod.getInt("ID"));
                     ObservableList<String> items = FXCollections.observableArrayList();
                     while (rs_pat.next()) {//Все патерны что подходят модулю в кнопку
-                        arch_out.getLayers().get(s_lay).getModules().get(s_mod).getAvilable_patterns().add(new Pattern(rs_pat.getInt("ID"), rs_pat.getInt("MOD_ID"), rs_pat.getString("NAME"), rs_pat.getString("DESCRIPTION"), rs_pat.getString("VALUE")));
+                        arch_out.getLayers().get(s_lay).getModules().get(s_mod).getAvilable_patterns().add(Pattern.pattern_load_from_DB(rs_pat.getInt("ID"),derby_DB_connection));
                         items.add(rs_pat.getString("ID") + "|" + rs_pat.getString("NAME"));
                     }
                     s_mod++;

@@ -6,6 +6,7 @@ package editor.controllers;/*
 import Classes.Architecture;
 import Classes.Layer;
 import Classes.Module;
+import Classes.Pattern;
 import editor.classes.CustomXWPFDocument;
 import editor.classes.DerbyDBManager;
 import editor.classes.id_Lable;
@@ -37,7 +38,10 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -662,6 +666,7 @@ public class main_C extends JPanel implements Initializable {
     }
 
     public void import_all_to_docx(ActionEvent actionEvent) {
+        root.setDisable(true);
         try {
 
             CustomXWPFDocument document;
@@ -684,7 +689,7 @@ public class main_C extends JPanel implements Initializable {
                 tmpParagraph = docx.createParagraph();
                 tmpRun = tmpParagraph.createRun();
                 architecture = arch_work.arch_load_from_DB(((id_Lable) LV_archs_DB.getItems().get(arch_nom)).getDbid(), derby_DB);
-                tmpRun.setText(architecture.getName());
+                tmpRun.setText("(Архітектура)" + architecture.getName());
                 tmpRun.addBreak();
                 docx.write(new FileOutputStream(docx_f));
 
@@ -703,33 +708,48 @@ public class main_C extends JPanel implements Initializable {
                     docx = new XWPFDocument(new FileInputStream(docx_f));
                     tmpParagraph = docx.createParagraph();
                     tmpRun = tmpParagraph.createRun();
-                    tmpRun.setText("--" + architecture.getLayers().get(layer).getName());
-                    tmpRun.addBreak();
+                    tmpRun.setText("--(Шар)" + architecture.getLayers().get(layer).getName());
+                    docx.write(new FileOutputStream(docx_f));
                     for (int module = 0; module < architecture.getLayers().get(layer).getModules().size(); module++) {
-                        tmpRun.setText("------" + architecture.getLayers().get(layer).getModules().get(module).getName());
+                        new FileInputStream(outputfile).close();
                         tmpRun.addBreak();
+                        tmpRun.setText("------(Модуль)" + architecture.getLayers().get(layer).getModules().get(module).getName());
+                        docx.write(new FileOutputStream(docx_f));
                         for (int avilable_pattern = 0; avilable_pattern < architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().size(); avilable_pattern++) {
-                            tmpRun.setText("---------" + architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getName());
-                            tmpRun.addBreak();
+                            docx = new XWPFDocument(new FileInputStream(docx_f));
+                            tmpParagraph = docx.createParagraph();
+                            tmpRun = tmpParagraph.createRun();
+                            tmpRun.setText("---------(Патерн)" + architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getName());
                             docx.write(new FileOutputStream(docx_f));
-/*                        bi = ImageConverter.FXImgtoBufferedImage(architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview());
-                        ImageIO.write(bi, "png", outputfile);
-                        document = new CustomXWPFDocument(new FileInputStream(docx_f));
-                        fos = new FileOutputStream(docx_f);
-                        id = document.addPictureData(new FileInputStream(outputfile), Document.PICTURE_TYPE_PNG);
-                        document.createPicture(id, document.getNextPicNameNumber(Document.PICTURE_TYPE_PNG), ((Double) architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview().getWidth()).intValue(), ((Double) architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview().getHeight()).intValue());
-                        document.write(fos);
-                        fos.flush();
-                        fos.close();
-                        */
+                            if (architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview() == null) {//если превю не существует создать
+                                architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).setPreview(
+                                        functions.draw_class_image(architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getUml_text()));//создать превю
+                                Pattern.pattern_save_to_DB(architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern), derby_DB);//сохарнить в базу патерн с превюшкой
+                                bi = ImageConverter.FXImgtoBufferedImage(architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview());
+
+                            } else {
+                                bi = ImageConverter.FXImgtoBufferedImage(architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview());
+                            }
+                            ImageIO.write(bi, "png", outputfile);
+                            document = new CustomXWPFDocument(new FileInputStream(docx_f));
+                            fos = new FileOutputStream(docx_f);
+                            id = document.addPictureData(new FileInputStream(outputfile), Document.PICTURE_TYPE_PNG);
+                            document.createPicture(id, document.getNextPicNameNumber(Document.PICTURE_TYPE_PNG), ((Double) architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview().getWidth()).intValue(), ((Double) architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview().getHeight()).intValue());
+                            document.write(fos);
+                            fos.flush();
+                            fos.close();
+
                         }
                     }
 
 
                 }
+                new FileInputStream(outputfile).close();
+                docx.write(new FileOutputStream(docx_f));
             }/**/
         } catch (Exception e) {
             e.printStackTrace();
         }
+        root.setDisable(false);
     }
 }
