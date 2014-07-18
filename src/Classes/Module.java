@@ -10,24 +10,24 @@ public class Module implements Cloneable{
     private Integer lay_id;
     private String description;
     private String name;
-    private ArrayList<Pattern> avilable_paterns= new ArrayList<Pattern>();//патерни доступні цьому модулю
-    private Pattern selected_patern;//Вибраний патерн
+    private ArrayList<Pattern> avilable_patterns = new ArrayList<Pattern>();//патерни доступні цьому модулю
+    private Pattern selected_pattern;//Вибраний патерн
     private Integer id_done;
 
-    public ArrayList<Pattern> getAvilable_paterns() {
-        return avilable_paterns;
+    public ArrayList<Pattern> getAvilable_patterns() {
+        return avilable_patterns;
     }
 
-    public void setAvilable_paterns(ArrayList<Pattern> avilable_paterns) {
-        this.avilable_paterns = avilable_paterns;
+    public void setAvilable_patterns(ArrayList<Pattern> avilable_patterns) {
+        this.avilable_patterns = avilable_patterns;
     }
 
-    public Pattern getSelected_patern() {
-        return selected_patern;
+    public Pattern getSelected_pattern() {
+        return selected_pattern;
     }
 
-    public void setSelected_patern(Pattern selected_patern) {
-        this.selected_patern = selected_patern;
+    public void setSelected_pattern(Pattern selected_pattern) {
+        this.selected_pattern = selected_pattern;
     }
 
     public Module clone() throws CloneNotSupportedException {
@@ -44,13 +44,13 @@ public class Module implements Cloneable{
         m_return.description=new String(this.description);
         m_return.name=new String(this.name);
 
-        ArrayList<Pattern> avilable_p = new ArrayList<Pattern>(this.avilable_paterns.size());
-        for(Pattern item: this.avilable_paterns) avilable_p.add(item.clone());
-        m_return.avilable_paterns= avilable_p;
-if(selected_patern!=null)
-    m_return.selected_patern = this.selected_patern.clone();//Вибраний патерн
+        ArrayList<Pattern> avilable_p = new ArrayList<Pattern>(this.avilable_patterns.size());
+        for(Pattern item: this.avilable_patterns) avilable_p.add(item.clone());
+        m_return.avilable_patterns = avilable_p;
+if(selected_pattern !=null)
+    m_return.selected_pattern = this.selected_pattern.clone();//Вибраний патерн
 else
-m_return.selected_patern=null;
+m_return.selected_pattern =null;
         if (this.id_done != null)
             m_return.id_done = new Integer(this.id_done);
         else

@@ -120,7 +120,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button mnemonicParsing="false" text="Візуалізувати" />
+                  <Button mnemonicParsing="false" onAction="#patern_view_prev" text="Візуалізувати(new tab)" />
                </children>
             </HBox>
             <TextArea fx:id="class_text" prefHeight="287.0" prefWidth="263.0" text="Class01 &lt;|-- Class02&#10;Class03 *-- Class04" GridPane.rowIndex="1" />

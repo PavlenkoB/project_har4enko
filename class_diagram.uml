@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="780.0" y="929.741908635611">Classes.Task</node>
+    <node x="1784.0" y="553.741908635611">editor.services.ImageConverter</node>
+    <node x="-364.41113696242155" y="692.8696674657548">Classes.Layer</node>
+    <node x="1448.0" y="553.7419086356113">Classes.Mark</node>
+    <node x="186.00146887444367" y="943.6710225200318">Classes.Architecture</node>
+    <node x="2355.0" y="553.741908635611">editor.classes.id_Lable</node>
+    <node x="413.9491649235974" y="0.0">Classes.Pattern</node>
+    <node x="1100.0" y="553.741908635611">editor.services.functions</node>
+    <node x="654.2532451884381" y="598.9882714486367">editor.classes.result_info</node>
+    <node x="-314.0702128630022" y="216.04760157752116">Classes.Module</node>
+    <node x="1017.2600913886472" y="27.545123112589124">editor.classes.DerbyDBManager</node>
+    <node x="2094.0" y="553.741908635611">editor.services.zip</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="editor.classes.DerbyDBManager" target="editor.classes.result_info">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="Classes.Layer" target="Classes.Module">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="Classes.Architecture" target="Classes.Module">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="Classes.Task" target="Classes.Architecture">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="Classes.Pattern" target="editor.classes.result_info">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="Classes.Architecture" target="Classes.Layer">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="Classes.Architecture" target="editor.classes.result_info">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="Classes.Module" target="Classes.Pattern">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="Classes.Architecture" target="Classes.Pattern">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.1" x="2901.0" y="953.0" />
+  <SelectedNodes>
+    <node>editor.services.ImageConverter</node>
+    <node>Classes.Mark</node>
+    <node>editor.classes.id_Lable</node>
+    <node>editor.services.functions</node>
+    <node>editor.services.zip</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+    <Category>Inner Classes</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

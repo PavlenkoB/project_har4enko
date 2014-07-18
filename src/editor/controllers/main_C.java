@@ -6,13 +6,12 @@ package editor.controllers;/*
 import Classes.Architecture;
 import Classes.Layer;
 import Classes.Module;
+import Classes.Pattern;
+import editor.classes.CustomXWPFDocument;
 import editor.classes.DerbyDBManager;
 import editor.classes.id_Lable;
 import editor.classes.result_info;
-import editor.services.arch_work;
-import editor.services.draw_uml;
-import editor.services.functions;
-import editor.services.zip;
+import editor.services.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,9 +30,17 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import org.apache.poi.xwpf.usermodel.Document;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -41,6 +48,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
+
 
 /**
  * @author godex_000
@@ -57,7 +65,7 @@ public class main_C extends JPanel implements Initializable {
     public TextArea TA_arch_description;
     public TextField TF_arch_id_DB;
     public TextField TF_arch_name_DB;
-    public ListView LV_archs_DB;
+    public ListView LV_archs_DB; //список архітектур в базі
     public TextArea TA_arch_relations;
     public Pane P_arch_struct;
     public ImageView IV_arch_imageview;
@@ -139,7 +147,7 @@ public class main_C extends JPanel implements Initializable {
             if (db_dir != null) {
                 derby_DB = new DerbyDBManager(db_dir.getAbsolutePath());
 
-                derby_DB.setDbName(db_dir.getName());
+                //derby_DB.setDbName(db_dir.getName());
                 selected_DB.setText(db_dir.getName());
                 //TODO доступность кнопок
                 list_load_DB();
@@ -400,7 +408,7 @@ public class main_C extends JPanel implements Initializable {
             //Модулі
             for (int s_mod = 0; s_mod < arch_tmp.getLayers().get(s_lay).getModules().size(); s_mod++) {//вивід модулів
                 /*Кнопка Патернів*/
-                tmp_btn = new Button("Патерни(" + arch_tmp.getLayers().get(s_lay).getModules().get(s_mod).getAvilable_paterns().size() + ")...");
+                tmp_btn = new Button("Патерни(" + arch_tmp.getLayers().get(s_lay).getModules().get(s_mod).getAvilable_patterns().size() + ")...");
                 //tmp_btn.setPrefWidth(s_x2);
                 //tmp_btn.setPrefHeight(s_y2);
                 tmp_btn.setLayoutX(pos_x);
@@ -598,7 +606,8 @@ public class main_C extends JPanel implements Initializable {
         IV_arch_imageview.setImage(arch_image);
         arch_view_prev();
     }
-    public void arch_view_prev(){
+
+    public void arch_view_prev() {
         //arch_image = draw_uml.draw_class(arch_work.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/image_preview.fxml"));
 
@@ -654,5 +663,93 @@ public class main_C extends JPanel implements Initializable {
         Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();
         // do what you have to do
         stage_c.close();
+    }
+
+    public void import_all_to_docx(ActionEvent actionEvent) {
+        root.setDisable(true);
+        try {
+
+            CustomXWPFDocument document;
+            FileOutputStream fos;
+            String id;
+            BufferedImage bi;
+            XWPFDocument docx;
+            XWPFParagraph tmpParagraph;
+            XWPFRun tmpRun;
+            Architecture architecture;
+            File docx_f = new File("export.docx");//файл док
+            File imgFile = new File("tmp.png");//изображение
+            String imgfile = "tmp.png";
+            File outputfile = new File("tmp.png");
+            docx = new XWPFDocument();
+            docx.write(new FileOutputStream(docx_f));
+            for (int arch_nom = 0; arch_nom < LV_archs_DB.getItems().size(); arch_nom++) {
+
+                docx = new XWPFDocument(new FileInputStream(docx_f));
+                tmpParagraph = docx.createParagraph();
+                tmpRun = tmpParagraph.createRun();
+                architecture = arch_work.arch_load_from_DB(((id_Lable) LV_archs_DB.getItems().get(arch_nom)).getDbid(), derby_DB);
+                tmpRun.setText("(Архітектура)" + architecture.getName());
+                tmpRun.addBreak();
+                docx.write(new FileOutputStream(docx_f));
+
+                bi = ImageConverter.FXImgtoBufferedImage(architecture.getPreview());
+
+                ImageIO.write(bi, "png", outputfile);
+
+                document = new CustomXWPFDocument(new FileInputStream(docx_f));
+                fos = new FileOutputStream(docx_f);
+                id = document.addPictureData(new FileInputStream(outputfile), Document.PICTURE_TYPE_PNG);
+                document.createPicture(id, document.getNextPicNameNumber(Document.PICTURE_TYPE_PNG), ((Double) architecture.getPreview().getWidth()).intValue(), ((Double) architecture.getPreview().getHeight()).intValue());
+                document.write(fos);
+                fos.flush();
+                fos.close();
+                for (int layer = 0; layer < architecture.getLayers().size(); layer++) {
+                    docx = new XWPFDocument(new FileInputStream(docx_f));
+                    tmpParagraph = docx.createParagraph();
+                    tmpRun = tmpParagraph.createRun();
+                    tmpRun.setText("--(Шар)" + architecture.getLayers().get(layer).getName());
+                    docx.write(new FileOutputStream(docx_f));
+                    for (int module = 0; module < architecture.getLayers().get(layer).getModules().size(); module++) {
+                        new FileInputStream(outputfile).close();
+                        tmpRun.addBreak();
+                        tmpRun.setText("------(Модуль)" + architecture.getLayers().get(layer).getModules().get(module).getName());
+                        docx.write(new FileOutputStream(docx_f));
+                        for (int avilable_pattern = 0; avilable_pattern < architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().size(); avilable_pattern++) {
+                            docx = new XWPFDocument(new FileInputStream(docx_f));
+                            tmpParagraph = docx.createParagraph();
+                            tmpRun = tmpParagraph.createRun();
+                            tmpRun.setText("---------(Патерн)" + architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getName());
+                            docx.write(new FileOutputStream(docx_f));
+                            if (architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview() == null) {//если превю не существует создать
+                                architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).setPreview(
+                                        functions.draw_class_image(architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getUml_text()));//создать превю
+                                Pattern.pattern_save_to_DB(architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern), derby_DB);//сохарнить в базу патерн с превюшкой
+                                bi = ImageConverter.FXImgtoBufferedImage(architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview());
+
+                            } else {
+                                bi = ImageConverter.FXImgtoBufferedImage(architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview());
+                            }
+                            ImageIO.write(bi, "png", outputfile);
+                            document = new CustomXWPFDocument(new FileInputStream(docx_f));
+                            fos = new FileOutputStream(docx_f);
+                            id = document.addPictureData(new FileInputStream(outputfile), Document.PICTURE_TYPE_PNG);
+                            document.createPicture(id, document.getNextPicNameNumber(Document.PICTURE_TYPE_PNG), ((Double) architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview().getWidth()).intValue(), ((Double) architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview().getHeight()).intValue());
+                            document.write(fos);
+                            fos.flush();
+                            fos.close();
+
+                        }
+                    }
+
+
+                }
+                new FileInputStream(outputfile).close();
+                docx.write(new FileOutputStream(docx_f));
+            }/**/
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        root.setDisable(false);
     }
 }

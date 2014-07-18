@@ -8,18 +8,8 @@ import java.sql.*;
 public class DerbyDBManager {
     private static final String driver = "org.apache.derby.jdbc.EmbeddedDriver";
     private static final String url = "jdbc:derby:";
-
-    public static void setCon(Connection con) {
-        DerbyDBManager.con = con;
-    }
-
-    private static Connection con = null;
-
-    public static void setDbName(String dbName) {
-        DerbyDBManager.dbName = dbName;
-    }
-
     private static String dbName = null;
+    private static Connection con = null;
 
     public DerbyDBManager(String dbName) {
         this.dbName = dbName;
@@ -42,7 +32,9 @@ public class DerbyDBManager {
             }
         }
     }
-    public DerbyDBManager(File db_dir){//Создать в папке БД
+
+
+    public DerbyDBManager(File db_dir) {//Создать в папке БД
         this.dbName = db_dir.getAbsolutePath();
         db_dir.delete();
         dbName = dbName.replace('\\', '/');
@@ -65,9 +57,13 @@ public class DerbyDBManager {
         return con;
     }
 
+    public static void setCon(Connection con) {
+        DerbyDBManager.con = con;
+    }
+
     private Boolean dbExists() {
         try {
-            if (con.isClosed()||con==null) {
+            if (con.isClosed() || con == null) {
                 try {
                     Class.forName(driver);
                     con = DriverManager.getConnection(url + this.dbName);
@@ -82,7 +78,7 @@ public class DerbyDBManager {
                 return true;
             }
         } catch (Exception e) {
-            if (con==null) {
+            if (con == null) {
                 try {
                     Class.forName(driver);
                     con = DriverManager.getConnection(url + this.dbName);

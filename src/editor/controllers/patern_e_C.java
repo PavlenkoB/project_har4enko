@@ -154,9 +154,9 @@ public class patern_e_C implements Initializable {
         class_text.setText(edited_pattern.getUml_text());
         TF_patern_name_DB.setText(edited_pattern.getName());
         class_image = edited_pattern.getPreview();
-        class_imageview.setFitHeight(class_image.getRequestedHeight());
-        class_imageview.setFitWidth(class_image.getRequestedWidth());
-        class_imageview.setImage(class_image);
+//        class_imageview.setFitHeight(class_image.getRequestedHeight());
+  //      class_imageview.setFitWidth(class_image.getRequestedWidth());
+    //    class_imageview.setImage(class_image);
     }
 
     //TODO сохранение превю
