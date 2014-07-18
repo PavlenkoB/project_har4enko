@@ -24,7 +24,7 @@ public class Main extends Application {
         primaryStage.setTitle("Редактор");
         primaryStage.getIcons().add(new Image("/editor/res/img/uml_icon.png"));
         primaryStage.setScene(new Scene(root));
-        primaryStage.setTitle("Адмыныстратор $name$");
+        primaryStage.setTitle("Управління репозиторіем");
         primaryStage.setMinWidth(900);//Минимальная шырина
         primaryStage.setMinHeight(700);//Минимальная высота окна
         primaryStage.show();

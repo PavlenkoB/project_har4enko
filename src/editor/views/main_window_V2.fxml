@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
@@ -12,25 +12,25 @@
             <top>
                 <MenuBar maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="228.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                     <menus>
-                        <Menu mnemonicParsing="false" text="База">
+                        <Menu mnemonicParsing="false" text="База данних">
                             <items>
-                                <MenuItem fx:id="MM_1_1_connect" mnemonicParsing="false" onAction="#connect_DB" text="Підключитися до БД" />
-                                <MenuItem fx:id="MM_1_2_create_DB" mnemonicParsing="false" onAction="#creat_DB" text="Створити БД" />
+                                <MenuItem fx:id="MM_1_1_connect" mnemonicParsing="false" onAction="#connect_DB" text="Під'єднання до БД" />
                                 <MenuItem fx:id="MM_1_3_disconnect" disable="true" mnemonicParsing="false" onAction="#disconnect_DB" text="Відключитися від ДБ" />
+                                <MenuItem fx:id="MM_1_2_create_DB" mnemonicParsing="false" onAction="#creat_DB" text="Створити нову БД " />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Сервіс">
                             <items>
                                 <MenuItem mnemonicParsing="false" onAction="#create_backup" text="Створити резервну копію БД" />
-                                <MenuItem mnemonicParsing="false" onAction="#clear_db" text="Прибратися в базі" />
-                        <MenuItem mnemonicParsing="false" onAction="#open_patrern_manager" text="Управління патернами" />
+                                <MenuItem mnemonicParsing="false" onAction="#clear_db" text="Оптимізація БД" />
+                        <MenuItem mnemonicParsing="false" onAction="#open_patrern_manager" text="Менеджер патернів" />
                         <MenuItem mnemonicParsing="false" onAction="#import_all_to_docx" text="Імпорт в *.docx" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Допомога">
                             <items>
                                 <MenuItem mnemonicParsing="false" text="Як користуватися" />
-                                <MenuItem mnemonicParsing="false" text="Про програму" />
+                                <MenuItem mnemonicParsing="false" text="Довідка" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Вихід" />
