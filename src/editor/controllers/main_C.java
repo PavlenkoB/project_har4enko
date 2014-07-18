@@ -26,10 +26,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
+import javafx.stage.*;
 import org.apache.poi.xwpf.usermodel.Document;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
@@ -75,6 +72,7 @@ public class main_C extends JPanel implements Initializable {
     public MenuItem MM_1_2_create_DB;
     public MenuItem MM_1_3_disconnect;
     public Parent root;
+    Stage thisstage;
     DerbyDBManager derby_DB;
     Architecture arch_tmp, arch_old = new Architecture();
     @FXML
@@ -86,7 +84,8 @@ public class main_C extends JPanel implements Initializable {
             MM_1_1_connect.setDisable(true);
             MM_1_3_disconnect.setDisable(false);
         }
-        Stage thisstage = (Stage) root.getScene().getWindow();
+        thisstage = (Stage) root.getScene().getWindow();
+        thisstage.getIcons().add(new Image("/editor/res/img/uml_icon.png"));
         thisstage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
                 Object[] options = {"Так",
@@ -619,8 +618,8 @@ public class main_C extends JPanel implements Initializable {
         }
 
         image_preview_C controller = loader.<image_preview_C>getController();
-        controller.initData(arch_image);
-        stage.setTitle("" + arch_old.getName());
+        controller.initData(arch_image,arch_old.getName());
+        //stage.setTitle("" + arch_old.getName());
         stage.show();
     }
 
@@ -666,9 +665,16 @@ public class main_C extends JPanel implements Initializable {
     }
 
     public void import_all_to_docx(ActionEvent actionEvent) {
-        root.setDisable(true);
-        try {
 
+        root.setDisable(true);
+
+        FileChooser docx_FC = new FileChooser();
+        docx_FC.setInitialDirectory(new File(System.getProperty("user.dir")));
+        docx_FC.setTitle("Вкажіть куди імпортувати...");
+        docx_FC.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Word 2007", "*.docx")
+        );
+        //File db_dir = db_dir_FC.showDialog(functions.get_stage_by_element(TA_arch_description));
             CustomXWPFDocument document;
             FileOutputStream fos;
             String id;
@@ -677,11 +683,13 @@ public class main_C extends JPanel implements Initializable {
             XWPFParagraph tmpParagraph;
             XWPFRun tmpRun;
             Architecture architecture;
-            File docx_f = new File("export.docx");//файл док
+            File docx_f =                  docx_FC.showSaveDialog(thisstage);//файл док
             File imgFile = new File("tmp.png");//изображение
             String imgfile = "tmp.png";
-            File outputfile = new File("tmp.png");
+            File outputfile = new File(imgfile);
+        try {
             docx = new XWPFDocument();
+
             docx.write(new FileOutputStream(docx_f));
             for (int arch_nom = 0; arch_nom < LV_archs_DB.getItems().size(); arch_nom++) {
 
@@ -694,7 +702,7 @@ public class main_C extends JPanel implements Initializable {
                 docx.write(new FileOutputStream(docx_f));
 
                 bi = ImageConverter.FXImgtoBufferedImage(architecture.getPreview());
-
+                new FileOutputStream(outputfile).close();
                 ImageIO.write(bi, "png", outputfile);
 
                 document = new CustomXWPFDocument(new FileInputStream(docx_f));
@@ -719,7 +727,7 @@ public class main_C extends JPanel implements Initializable {
                             docx = new XWPFDocument(new FileInputStream(docx_f));
                             tmpParagraph = docx.createParagraph();
                             tmpRun = tmpParagraph.createRun();
-                            tmpRun.setText("---------(Патерн)" + architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getName());
+                            //tmpRun.setText("---------(Патерн)" + architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getName());
                             docx.write(new FileOutputStream(docx_f));
                             if (architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview() == null) {//если превю не существует создать
                                 architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).setPreview(
@@ -730,11 +738,16 @@ public class main_C extends JPanel implements Initializable {
                             } else {
                                 bi = ImageConverter.FXImgtoBufferedImage(architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview());
                             }
-                            ImageIO.write(bi, "png", outputfile);
+                            try{
+                                new FileOutputStream(outputfile).close();
+                                ImageIO.write(bi, "png", outputfile);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                             document = new CustomXWPFDocument(new FileInputStream(docx_f));
                             fos = new FileOutputStream(docx_f);
                             id = document.addPictureData(new FileInputStream(outputfile), Document.PICTURE_TYPE_PNG);
-                            document.createPicture(id, document.getNextPicNameNumber(Document.PICTURE_TYPE_PNG), ((Double) architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview().getWidth()).intValue(), ((Double) architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview().getHeight()).intValue());
+                            document.createPicture("---------(Патерн)" +architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getName(),id, document.getNextPicNameNumber(Document.PICTURE_TYPE_PNG), ((Double) architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview().getWidth()).intValue(), ((Double) architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview().getHeight()).intValue());
                             document.write(fos);
                             fos.flush();
                             fos.close();
@@ -748,8 +761,15 @@ public class main_C extends JPanel implements Initializable {
                 docx.write(new FileOutputStream(docx_f));
             }/**/
         } catch (Exception e) {
+            try {
+                new FileOutputStream(docx_f).close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
             e.printStackTrace();
         }
+        outputfile.delete();
+        System.out.printf("Import end");
         root.setDisable(false);
     }
 }

@@ -81,6 +81,9 @@ public class patern_e_C implements Initializable {
         selected_DB.setText(derby_DB.getDbName().toString());
         list_load_DB(null);
         Stage thisstage = (Stage) root.getScene().getWindow();
+        thisstage.getIcons().add(new Image("/editor/res/img/uml_icon.png"));
+
+
         thisstage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
                 Object[] options = {"Так",
@@ -303,10 +306,6 @@ public class patern_e_C implements Initializable {
 
     }
 
-    public void layer_master_select() {
-
-    }
-
     public void create_pattern(ActionEvent actionEvent) {
         JDialog Jname=new JDialog();
         Jname.setAlwaysOnTop(true);
@@ -322,6 +321,10 @@ public class patern_e_C implements Initializable {
             list_load_DB(null);
         }/**/
     }
+
+    /**
+     * Показати скомпільоване превю паттерну
+     */
     public void patern_view_prev(){
         class_image = draw_uml.draw_class(class_text.getText());
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/image_preview.fxml"));
@@ -334,8 +337,8 @@ public class patern_e_C implements Initializable {
         }
 
         image_preview_C controller = loader.<image_preview_C>getController();
-        controller.initData(class_image);
-        stage.setTitle("" + TF_patern_name_DB);
+        controller.initData(class_image,TF_patern_name_DB.getText());
+        //stage.setTitle("" + TF_patern_name_DB.getText());
         stage.show();
     }
 

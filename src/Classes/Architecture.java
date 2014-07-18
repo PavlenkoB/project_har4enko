@@ -408,6 +408,8 @@ public class Architecture implements Cloneable {
     public static String arch_uml_text_gen(Architecture architecture) {
         architecture.getName();
         String class_text = new String();
+        //class_text += "title Архітектура \""+architecture.getName()+"\"\n";//Заголовок
+        class_text += "left to right direction\n";//Зверху вниз
         class_text += "package \"" + architecture.getName() + "\"{\n";
         for (int s_lay = 0; s_lay < architecture.getLayers().size(); s_lay++) {
             class_text += "package \"" + architecture.getLayers().get(s_lay).getName() + "\"{\n";
