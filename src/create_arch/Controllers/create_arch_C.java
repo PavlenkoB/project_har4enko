@@ -62,6 +62,7 @@ public class create_arch_C implements Initializable {
     public TextField task_description;
     public Button Save_all_done;
     public Button Save_all;
+    public AnchorPane AP_UC;
     ArrayList<Label> layer_names = new ArrayList<>();
     ArrayList<javafx.scene.control.Label> module_names = new ArrayList<>();
     //ArrayList<ChoiceBox> selected_paterns = new ArrayList<>();
@@ -183,6 +184,8 @@ public class create_arch_C implements Initializable {
 
             Description.setText(arc_choise.getDescription());
             class_image = arc_choise.getPreview();
+            AP_UC.setMinHeight(class_image.getRequestedHeight());
+            AP_UC.setMinWidth(class_image.getRequestedWidth());
             Usecase_view.setFitHeight(class_image.getRequestedHeight());
             Usecase_view.setFitWidth(class_image.getRequestedWidth());
             Usecase_view.setImage(class_image);
@@ -299,12 +302,20 @@ public class create_arch_C implements Initializable {
 
 
         //gridpane_lay.setGridLinesVisible(true);
+        Label archery = new Label(arc_choise.getName());
+        archery.setFont(Font.font(16));
+        AnchorPane.setTopAnchor(archery, (double) 10);
+        AnchorPane.setLeftAnchor(archery, (double) 10);
+        AnchorPane.setRightAnchor(archery, (double) 10);
+
+        AnchorPane.setTopAnchor(gridpane_lay, (double) 30);
         AnchorPane.setLeftAnchor(gridpane_lay, (double) 10);
         AnchorPane.setRightAnchor(gridpane_lay, (double) 10);
         gridpane_lay.setMaxWidth(Region.USE_COMPUTED_SIZE);
         back_gr_grid.getChildren().removeAll();
         back_gr_grid.getChildren().clear();
         back_gr_grid.getChildren().add(gridpane_lay);
+        back_gr_grid.getChildren().add(archery);
     }
 
     public void arch_create_next_2(ActionEvent actionEvent) {
@@ -562,6 +573,13 @@ public class create_arch_C implements Initializable {
         gridpane_lay.setGridLinesVisible(true);
         gridpane_lay.setPadding(new Insets(5, 5, 5, 5));
 
+        Label archery = new Label(arc_choise.getName());
+        archery.setFont(Font.font(16));
+        AnchorPane.setTopAnchor(archery, (double) 10);
+        AnchorPane.setLeftAnchor(archery, (double) 10);
+        AnchorPane.setRightAnchor(archery, (double) 10);
+
+        AnchorPane.setTopAnchor(gridpane_lay, (double) 30);
         AnchorPane.setLeftAnchor(gridpane_lay, (double) 10);
         AnchorPane.setRightAnchor(gridpane_lay, (double) 10);
         gridpane_lay.setMaxWidth(Region.USE_COMPUTED_SIZE);
@@ -569,6 +587,7 @@ public class create_arch_C implements Initializable {
         back_grid_vis.getChildren().removeAll();
         back_grid_vis.getChildren().clear();
         back_grid_vis.getChildren().add(gridpane_lay);
+        back_grid_vis.getChildren().add(archery);
     }
 
     public void Save_arch(ActionEvent actionEvent) {
@@ -617,7 +636,8 @@ public class create_arch_C implements Initializable {
 
     public void Save_done_all(ActionEvent actionEvent) {
         disconnect_DB(null);
-        System.exit(1);
+        Stage sel_mode = (Stage) Task_save.getScene().getWindow();
+
     }
 
 }
