@@ -21,7 +21,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("../views/main_window_V2.fxml"));
-        primaryStage.setTitle("Редактор");
+        primaryStage.setTitle("Підсистема управління репозиторієм патернів");
         primaryStage.getIcons().add(new Image("/editor/res/img/uml_icon.png"));
         primaryStage.setScene(new Scene(root));
         primaryStage.setTitle("Адмыныстратор $name$");

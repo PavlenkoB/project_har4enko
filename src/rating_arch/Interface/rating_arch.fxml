@@ -44,7 +44,7 @@
           </items>
         </Menu>
       </menus>
-    </MenuBar><AnchorPane fx:id="Rating_arch_2" layoutY="26.0" prefHeight="375.0" prefWidth="630.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+    </MenuBar><AnchorPane fx:id="Rating_arch_2" layoutY="26.0" prefHeight="375.0" prefWidth="630.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
 <children>
 <AnchorPane prefHeight="279.0" prefWidth="610.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
 <children>
@@ -57,9 +57,15 @@
 </children></AnchorPane><TabPane layoutX="14.0" layoutY="53.0" prefHeight="200.0" prefWidth="580.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
   <tabs>
     <Tab text="Текстове зображення">
-      <content>
-        <AnchorPane fx:id="text_view" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-      </content>
+<content>
+        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0">
+<children><ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+  <content>
+    <AnchorPane fx:id="text_view" />
+  </content>
+</ScrollPane>
+</children></AnchorPane>
+</content>
     </Tab>
     <Tab text="Графічне зображення">
       <content>
@@ -72,10 +78,7 @@
 </ScrollPane>
 </children></AnchorPane><AnchorPane fx:id="ankor_im_2" prefHeight="200.0" prefWidth="200.0">
 <children><ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
-<content><ImageView fx:id="arch_2_im" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-<image>
-<Image url="file:/C:/Users/Alex/Pictures/WALL/1.jpg" />
-</image></ImageView>
+<content><ImageView fx:id="arch_2_im" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
 </content>
 </ScrollPane>
 </children></AnchorPane>
@@ -102,7 +105,7 @@
 </children>
 </AnchorPane>
 <Button id="Cancel" layoutX="439.0" layoutY="331.0" mnemonicParsing="false" onAction="#Start_rating" text="Відміна" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="180.0" />
-<Button id="Arch_create_next_2" layoutX="519.0" layoutY="331.0" mnemonicParsing="false" onAction="#next_twise" prefWidth="-1.0" text="Наступна пара" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0" /><ImageView fx:id="IV_test" fitHeight="150.0" fitWidth="200.0" layoutY="240.0" pickOnBounds="true" preserveRatio="true" />
+<Button id="Arch_create_next_2" layoutX="519.0" layoutY="331.0" mnemonicParsing="false" onAction="#next_twise" prefWidth="-1.0" text="Наступна пара" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0" />
 </children>
 </AnchorPane>
   </children>
