@@ -140,8 +140,21 @@ public class patern_e_C implements Initializable {
     /*Действия*/
     @FXML//Отрисовка класса
     public void Action_draw_class(){
-        Stage s = (Stage) class_text.getScene().getWindow();
         class_image = draw_uml.draw_class(class_text.getText());
+        edited_pattern.setPreview(class_image);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/image_preview.fxml"));
+
+        Stage stage = new Stage(StageStyle.DECORATED);
+        try {
+            stage.setScene(new Scene((Pane) loader.load()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        image_preview_C controller = loader.<image_preview_C>getController();
+        controller.initData(edited_pattern.getPreview(),TF_patern_name_DB.getText());
+        //stage.setTitle("" + TF_patern_name_DB.getText());
+        stage.show();
 
 //        class_imageview.setFitHeight(class_image.getRequestedHeight());
  //       class_imageview.setFitWidth(class_image.getRequestedWidth());
@@ -168,11 +181,11 @@ public class patern_e_C implements Initializable {
         edited_pattern.setName(TF_patern_name_DB.getText());
         edited_pattern.setUml_text(class_text.getText());
         edited_pattern.setDescription(TA_patern_description.getText());
-        edited_pattern.setPreview(class_image);
+        edited_pattern.setPreview(draw_uml.draw_class(class_text.getText()));
         if (pattern_work.pattern_save_to_DB(edited_pattern, derby_DB).getStatus() == true) {
             JOptionPane.showMessageDialog(null, "Паттерн збережено.", "Інформація", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Помилка збереження зверныться до Адмыныстратора чи програміста.", "Попередження", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Помилка збереження зверніться до Адміністратора чи програміста.", "Попередження", JOptionPane.WARNING_MESSAGE);
         }
         list_load_DB(null);
         LV_paterns_DB.setDisable(false);
@@ -247,19 +260,23 @@ public class patern_e_C implements Initializable {
 
 
     public void show_help(ActionEvent actionEvent) {// Отобразить помощь
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/help.fxml")
+        );
+
+        Stage stage = new Stage(StageStyle.DECORATED);
         try {
-            Parent Parent = FXMLLoader.load(getClass().getResource("../views/help.fxml"));
-            Stage Stage = new Stage();
-            Stage.setTitle("Помощь");
-            Stage.setScene(new Scene(Parent));
-            Stage.show();
+            stage.setScene(new Scene((Pane) loader.load()));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        help_C controller = loader.<help_C>getController();
+        //controller.initData(edited_module, derby_DB);
+
+        stage.show();
     }
 
     public void show_about(ActionEvent actionEvent) {
-
     }
 
     public void close_mw(ActionEvent actionEvent) {
@@ -326,7 +343,7 @@ public class patern_e_C implements Initializable {
      * Показати скомпільоване превю паттерну
      */
     public void patern_view_prev(){
-        class_image = draw_uml.draw_class(class_text.getText());
+        class_image = edited_pattern.getPreview();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/image_preview.fxml"));
 
         Stage stage = new Stage(StageStyle.DECORATED);

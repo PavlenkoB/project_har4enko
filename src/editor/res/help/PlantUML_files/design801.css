@@ -1,0 +1,552 @@
+#header {
+    position: fixed !important;
+    position: absolute; /* IE6 reads this */
+    height: 25px;
+    width: 100%;
+    top: 0px;
+    left: 160px;
+    background: #222222;
+    z-index: 2;
+}
+
+body {
+	max-width: 100%;
+	overflow-x: hidden;
+	height: 100%;
+	background: #DFDCD3;
+}
+
+#don {
+	padding-top:3px;
+	margin-left: 700px;
+}
+
+#sideback {
+    position: fixed !important;
+    position: absolute; /* IE6 reads this */
+    height: 100%;
+    width: 160px;
+    top: 0px;
+    left: 0px;
+    padding-top: 0px;
+    background: #222222;
+    z-index: 0;
+}
+        
+.scriptplantu{
+	align: left;
+	font-family: "Courier New";
+	font-size: 12px;
+	
+}
+
+#external li {
+	margin: 13px;
+}
+
+        #H1 {
+            z-index: 1;
+            position: fixed !important;
+            position: absolute; /* IE6 reads this */
+            height: 10px;
+            width: 100%;
+            top: 25px;
+            left: 170px;
+			/* http://www.colorzilla.com/gradient-editor/#222222+0,dfdcd3+100;Custom */
+background: #222222; /* Old browsers */
+background: -moz-linear-gradient(top,  #222222 0%, #dfdcd3 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#222222), color-stop(100%,#dfdcd3)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #222222 0%,#dfdcd3 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #222222 0%,#dfdcd3 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #222222 0%,#dfdcd3 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #222222 0%,#dfdcd3 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#222222', endColorstr='#dfdcd3',GradientType=0 ); /* IE6-9 */
+        }
+        #V1 {
+            z-index: 1;
+            position: fixed !important;
+            position: absolute; /* IE6 reads this */
+            height: 100%;
+            width: 10px;
+            top: 35px;
+            left: 160px;
+            /* http://www.colorzilla.com/gradient-editor/#222222+0,dfdcd3+100;Custom */
+background: #222222; /* Old browsers */
+background: -moz-linear-gradient(left,  #222222 0%, #dfdcd3 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, right top, color-stop(0%,#222222), color-stop(100%,#dfdcd3)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(left,  #222222 0%,#dfdcd3 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(left,  #222222 0%,#dfdcd3 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(left,  #222222 0%,#dfdcd3 100%); /* IE10+ */
+background: linear-gradient(to right,  #222222 0%,#dfdcd3 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#222222', endColorstr='#dfdcd3',GradientType=1 ); /* IE6-9 */
+        }
+        #C1 {
+            z-index: 1;
+            position: fixed !important;
+            position: absolute; /* IE6 reads this */
+            height: 10px;
+            width: 10px;
+            top: 25px;
+            left: 160px;
+	background-image: url("corner.png");
+	/* 20x20 radial http://www.colorzilla.com/gradient-editor/#dfdcd3+0,222222+70;Custom */ 
+    background-repeat: no-repeat;
+
+        }
+@media screen and (min-width: 1780px) and (min-height: 1120px) {
+#smallbar {
+	display: none;
+}
+#annonces7i {
+    height: 1px;
+    width: 135px;
+    background: #DFDCD3;
+}
+#annonces7 {
+    height: 15px;
+    width: 100%;
+    background: #DFDCD3;
+}
+#annonces8i {
+    height: 1px;
+    width: 105px;
+    background: #DFDCD3;
+}
+#annonces8 {
+    height: 15px;
+    width: 100%;
+    background: #DFDCD3;
+}
+#PUBH1 {
+    position: fixed !important;
+    position: absolute; /* IE6 reads this */
+    height: 100px;
+	top: 35px;
+	left: 160px;
+	right: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    background: #DFDCD3;
+}
+#puy {
+    margin-top: 135px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    background: #DFDCD3;
+}
+#puy2 {
+	display: none;
+}
+#content {
+    margin-top: 0px;
+    margin-bottom: 90px;
+    margin-left: 470px;
+    margin-right: 0px;
+    background: #DFDCD3;
+}
+#PUBH2 {
+    position: fixed !important;
+    position: absolute; /* IE6 reads this */
+	bottom: 0px;
+	left: 160px;
+	right: 0px;
+    height: 90px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    background: #DFDCD3;
+}
+#side {
+    position: fixed !important;
+    position: absolute; /* IE6 reads this */
+    height: 100%;
+    width: 160px;
+    top: 0px;
+    left: 0px;
+    padding-top: 0px;
+    background: #222222;
+    z-index: 1;
+}
+#ann1 {
+    position: fixed !important;
+    position: absolute; /* IE6 reads this */
+    height: 90px;
+    width: 160px;
+    top: 470px;
+    left: 0px;
+    background: #222222;
+    z-index: 1;
+}
+#side2i {
+    position: fixed !important;
+    position: absolute; /* IE6 reads this */
+    height: 1050px;
+    width: 300px;
+    top: 50%;
+    left: 170px;
+    margin-top: -525px;
+	background: #DFDCD3;
+    z-index: 0;
+}
+#side2 {
+    position: fixed !important;
+    position: absolute; /* IE6 reads this */
+    height: 1050px;
+    width: 300px;
+    top: 50%;
+    left: 170px;
+    margin-top: -525px;
+	background: #DFDCD3;
+    z-index: 1;
+}
+
+
+
+}
+
+@media screen and (max-width: 1780px) and (min-height: 1120px) {
+#smallbar {
+	display: none;
+}
+#annonces7i {
+    height: 1px;
+    width: 135px;
+    background: #DFDCD3;
+}
+#annonces7 {
+    height: 15px;
+    width: 100%;
+    background: #DFDCD3;
+}
+#annonces8i {
+    height: 1px;
+    width: 105px;
+    background: #DFDCD3;
+}
+#annonces8 {
+    height: 15px;
+    width: 100%;
+    background: #DFDCD3;
+}
+#PUBH1 {
+    position: fixed !important;
+    position: absolute; /* IE6 reads this */
+    height: 100px;
+	top: 35px;
+	left: 160px;
+	right: 300px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    background: #DFDCD3;
+}
+#puy {
+	display: none;
+}
+#puy2 {
+    margin-top: 135px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    background: #DFDCD3;
+}
+#content {
+    margin-top: 0px;
+    margin-bottom: 90px;
+    margin-left: 170px;
+    margin-right: 310px;
+    background: #DFDCD3;
+}
+#PUBH2 {
+    position: fixed !important;
+    position: absolute; /* IE6 reads this */
+	bottom: 0px;
+	left: 160px;
+	right: 300px;
+    height: 90px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    background: #DFDCD3;
+}
+#side {
+    position: fixed !important;
+    position: absolute; /* IE6 reads this */
+    height: 100%;
+    width: 160px;
+    top: 0px;
+    left: 0px;
+    padding-top: 0px;
+    background: #222222;
+    z-index: 1;
+}
+#ann1 {
+    position: fixed !important;
+    position: absolute; /* IE6 reads this */
+    height: 90px;
+    width: 160px;
+    top: 470px;
+    left: 0px;
+    background: #222222;
+    z-index: 1;
+}
+#side2i {
+    position: fixed !important;
+    position: absolute; /* IE6 reads this */
+    height: 1050px;
+    width: 310px;
+    top: 50%;
+    right: 0px;
+    margin-top: -525px;
+	background: #DFDCD3;
+    z-index: 0;
+}
+#side2 {
+    position: fixed !important;
+    position: absolute; /* IE6 reads this */
+    height: 1050px;
+    width: 310px;
+    top: 50%;
+    right: 0px;
+    margin-top: -525px;
+	background: #DFDCD3;
+    z-index: 3;
+}
+
+
+
+}
+
+@media screen and (min-width: 1780px) and (max-height: 1120px) {
+#smallbar {
+	display: none;
+}
+#annonces7i {
+    height: 1px;
+    width: 135px;
+    background: #DFDCD3;
+}
+#annonces7 {
+    height: 15px;
+    width: 100%;
+    background: #DFDCD3;
+}
+#annonces8i {
+    height: 1px;
+    width: 105px;
+    background: #DFDCD3;
+}
+#annonces8 {
+    height: 15px;
+    width: 100%;
+    background: #DFDCD3;
+}
+#PUBH1 {
+    position: fixed !important;
+    position: absolute; /* IE6 reads this */
+    height: 100px;
+	top: 35px;
+	left: 160px;
+	right: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    background: #DFDCD3;
+}
+#puy {
+    margin-top: 135px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    background: #DFDCD3;
+}
+#puy2 {
+	display: none;
+}
+#content {
+    margin-top: 0px;
+    margin-bottom: 90px;
+    margin-left: 470px;
+    margin-right: 0px;
+    background: #DFDCD3;
+}
+#PUBH2 {
+    position: fixed !important;
+    position: absolute; /* IE6 reads this */
+	bottom: 0px;
+	left: 160px;
+	right: 0px;
+    height: 90px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    background: #DFDCD3;
+}
+#side {
+    position: fixed !important;
+    position: absolute; /* IE6 reads this */
+    height: 100%;
+    width: 160px;
+    top: 0px;
+    left: 0px;
+    padding-top: 0px;
+    background: #222222;
+    z-index: 1;
+}
+#ann1 {
+    position: fixed !important;
+    position: absolute; /* IE6 reads this */
+    height: 90px;
+    width: 160px;
+    top: 470px;
+    left: 0px;
+    background: #222222;
+    z-index: 1;
+}
+#side2i {
+    position: fixed !important;
+    position: absolute; /* IE6 reads this */
+    height: 1050px;
+    width: 300px;
+    top: 35px;
+    left: 170px;
+	background: #DFDCD3;
+    z-index: 0;
+}
+#side2 {
+    position: fixed !important;
+    position: absolute; /* IE6 reads this */
+    height: 1050px;
+    width: 300px;
+    top: 35px;
+    left: 170px;
+	background: #DFDCD3;
+    z-index: 1;
+}
+
+
+
+}
+
+@media screen and (max-width: 1780px) and (max-height: 1120px) {
+#smallbar {
+	display: none;
+}
+#annonces7i {
+    height: 1px;
+    width: 135px;
+    background: #DFDCD3;
+}
+#annonces7 {
+    height: 15px;
+    width: 100%;
+    background: #DFDCD3;
+}
+#annonces8i {
+    height: 1px;
+    width: 105px;
+    background: #DFDCD3;
+}
+#annonces8 {
+    height: 15px;
+    width: 100%;
+    background: #DFDCD3;
+}
+#PUBH1 {
+    position: fixed !important;
+    position: absolute; /* IE6 reads this */
+    height: 100px;
+	top: 35px;
+	left: 160px;
+	right: 300px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    background: #DFDCD3;
+}
+#puy {
+	display: none;
+}
+#puy2 {
+    margin-top: 135px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    background: #DFDCD3;
+}
+#content {
+    margin-top: 0px;
+    margin-bottom: 90px;
+    margin-left: 170px;
+    margin-right: 310px;
+    background: #DFDCD3;
+}
+#PUBH2 {
+    position: fixed !important;
+    position: absolute; /* IE6 reads this */
+	bottom: 0px;
+	left: 160px;
+	right: 300px;
+    height: 90px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    background: #DFDCD3;
+}
+#side {
+    position: fixed !important;
+    position: absolute; /* IE6 reads this */
+    height: 100%;
+    width: 160px;
+    top: 0px;
+    left: 0px;
+    padding-top: 0px;
+    background: #222222;
+    z-index: 1;
+}
+#ann1 {
+    position: fixed !important;
+    position: absolute; /* IE6 reads this */
+    height: 90px;
+    width: 160px;
+    top: 470px;
+    left: 0px;
+    background: #222222;
+    z-index: 1;
+}
+#side2i {
+    position: fixed !important;
+    position: absolute; /* IE6 reads this */
+    height: 1050px;
+    width: 310px;
+    top: 35px;
+    right: 0px;
+	background: #DFDCD3;
+    z-index: 0;
+}
+#side2 {
+    position: fixed !important;
+    position: absolute; /* IE6 reads this */
+    height: 1050px;
+    width: 310px;
+    top: 35px;
+    right: 0px;
+	background: #DFDCD3;
+    z-index: 3;
+}
+
+
+
+}
+
+/* volt:signature _97WfI6IbYdEIzXa9mfYT000 */

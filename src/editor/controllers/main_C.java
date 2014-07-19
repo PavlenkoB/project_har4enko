@@ -291,7 +291,7 @@ public class main_C extends JPanel implements Initializable {
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
-
+        TF_arch_name_DB.setText(arch_tmp.getName());
         TA_arch_relations.setText(arch_tmp.getUsecase());
         TA_arch_description.setText(arch_tmp.getDescription());
         draw_arch_struct();
@@ -407,7 +407,7 @@ public class main_C extends JPanel implements Initializable {
             //Модулі
             for (int s_mod = 0; s_mod < arch_tmp.getLayers().get(s_lay).getModules().size(); s_mod++) {//вивід модулів
                 /*Кнопка Патернів*/
-                tmp_btn = new Button("Патерни(" + arch_tmp.getLayers().get(s_lay).getModules().get(s_mod).getAvilable_patterns().size() + ")...");
+                tmp_btn = new Button("Паттерни(" + arch_tmp.getLayers().get(s_lay).getModules().get(s_mod).getAvilable_patterns().size() + ")...");
                 //tmp_btn.setPrefWidth(s_x2);
                 //tmp_btn.setPrefHeight(s_y2);
                 tmp_btn.setLayoutX(pos_x);
@@ -516,7 +516,7 @@ public class main_C extends JPanel implements Initializable {
 
         patern_e_C controller = loader.<patern_e_C>getController();
         controller.initData(arch_old.getLayers().get(layer).getModules().get(module), derby_DB);
-        stage.setTitle("Редагування патернів \"" + arch_old.getLayers().get(layer).getModules().get(module).getName() + "\" архітектури \"" + arch_old.getName() + "\"");
+        stage.setTitle("Редагування паттернів \"" + arch_old.getLayers().get(layer).getModules().get(module).getName() + "\" архітектури \"" + arch_old.getName() + "\"");
         stage.show();
         Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();
         // do what you have to do

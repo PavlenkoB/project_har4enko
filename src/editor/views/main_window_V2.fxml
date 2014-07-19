@@ -12,10 +12,10 @@
             <top>
                 <MenuBar maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="228.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                     <menus>
-                        <Menu mnemonicParsing="false" text="База данних">
+                        <Menu mnemonicParsing="false" text="База даних">
                             <items>
                                 <MenuItem fx:id="MM_1_1_connect" mnemonicParsing="false" onAction="#connect_DB" text="Під'єднання до БД" />
-                                <MenuItem fx:id="MM_1_3_disconnect" disable="true" mnemonicParsing="false" onAction="#disconnect_DB" text="Відключитися від ДБ" />
+                                <MenuItem fx:id="MM_1_3_disconnect" disable="true" mnemonicParsing="false" onAction="#disconnect_DB" text="Від'єднатися від ДБ" />
                                 <MenuItem fx:id="MM_1_2_create_DB" mnemonicParsing="false" onAction="#creat_DB" text="Створити нову БД " />
                             </items>
                         </Menu>
@@ -37,9 +37,14 @@
                     </menus>
                 </MenuBar>
             </top>
-            <left>
-                <Label fx:id="selected_DB" text="DB_NAME" BorderPane.alignment="CENTER" />
-            </left>
+         <left>
+            <HBox BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="І'мя БД:" />
+                      <Label fx:id="selected_DB" text="DB_NAME" />
+               </children>
+            </HBox>
+         </left>
         </BorderPane>
     </top>
     <left>
@@ -48,7 +53,7 @@
                 <Label prefHeight="25.0" text="Архітектури в БД" BorderPane.alignment="CENTER" />
             </top>
             <center>
-                <ListView fx:id="LV_archs_DB" onMouseClicked="#select_to_save_DB" BorderPane.alignment="CENTER" />
+                <ListView fx:id="LV_archs_DB" BorderPane.alignment="CENTER" />
             </center>
             <bottom>
                 <GridPane BorderPane.alignment="CENTER">
@@ -71,7 +76,7 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#load_this_arch_DB" prefWidth="120.0" text="Завантажити" GridPane.rowIndex="2">
+                        <Button mnemonicParsing="false" onAction="#load_this_arch_DB" text="Завантажити" GridPane.rowIndex="2">
                             <graphic>
                                 <ImageView fitHeight="30.0" fitWidth="200.0" layoutX="278.0" layoutY="306.5" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -121,7 +126,7 @@
                       <Button mnemonicParsing="false" onAction="#arch_uml_gen" text="Візуалізувати" BorderPane.alignment="CENTER" />
                </top>
                <bottom>
-                  <Button mnemonicParsing="false" onAction="#arch_view_prev" text="Превю" BorderPane.alignment="CENTER" />
+                  <Button mnemonicParsing="false" onAction="#arch_view_prev" text="Попередній перегляд" BorderPane.alignment="CENTER" />
                </bottom>
             </BorderPane>
          </bottom>
