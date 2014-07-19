@@ -31,7 +31,7 @@
                   <Label fx:id="selected_DB" text="DB_NAME" />
                </children>
             </HBox>
-            <Label text="Паттерни в базі" GridPane.rowIndex="1" />
+            <Label text="Патерни в базі" GridPane.rowIndex="1" />
             <HBox GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                <children>
                   <Label minHeight="-Infinity" minWidth="-Infinity" text="Ім’я:" />
@@ -58,7 +58,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#create_pattern" prefHeight="38.0" text="Створити новий паттерн" GridPane.rowIndex="1" />
+                  <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#create_pattern" prefHeight="38.0" text="Створити новий патерн" GridPane.rowIndex="1" />
                   <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#delete_patern_DB" text="Видалити" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <graphic>
                         <ImageView fitHeight="30.0" fitWidth="27.0" layoutX="148.0" layoutY="279.5" pickOnBounds="true" preserveRatio="true">
@@ -108,10 +108,10 @@
         </rowConstraints>
          <children>
             <TextArea fx:id="TA_patern_description" prefHeight="112.0" prefWidth="263.0" GridPane.rowIndex="4" />
-            <Label text="Опис паттерну" GridPane.rowIndex="3" />
+            <Label text="Опис патерну" GridPane.rowIndex="3" />
             <HBox GridPane.rowIndex="2">
                <children>
-                  <Button mnemonicParsing="false" onAction="#Action_draw_class" text="Візуалізувати паттерн">
+                  <Button mnemonicParsing="false" onAction="#Action_draw_class" text="Візуалізувати патерн">
                      <graphic>
                         <ImageView fitHeight="30.0" fitWidth="200.0" layoutX="308.5" layoutY="294.5" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -124,7 +124,7 @@
                </children>
             </HBox>
             <TextArea fx:id="class_text" prefHeight="287.0" prefWidth="263.0" GridPane.rowIndex="1" />
-            <Label text="Структура паттерну" />
+            <Label text="Структура патерну" />
          </children>
       </GridPane>
    </children>

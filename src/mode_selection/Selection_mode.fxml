@@ -45,7 +45,7 @@
                                         <Font name="Arial Bold" size="36.0" />
                                     </font>
                                 </Label>
-                                <RadioButton fx:id="choice1_add_new_patt" mnemonicParsing="false" prefHeight="30.0" prefWidth="517.0" text="Додати нове рішення ( паттерн, архітектуру, слой)" GridPane.rowIndex="1">
+                                <RadioButton fx:id="choice1_add_new_patt" mnemonicParsing="false" prefHeight="30.0" prefWidth="517.0" text="Додати нове рішення ( патерн, архітектуру, слой)" GridPane.rowIndex="1">
 <font>
 <Font size="20.0" />
 </font></RadioButton>

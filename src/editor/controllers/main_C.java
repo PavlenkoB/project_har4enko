@@ -269,7 +269,7 @@ public class main_C extends JPanel implements Initializable {
     public void creat_arch(ActionEvent actionEvent) {
         JDialog Jname = new JDialog();
         Jname.setAlwaysOnTop(true);
-        String name = (String) JOptionPane.showInputDialog(null, "Введіть назву", "Ввід", JOptionPane.QUESTION_MESSAGE, null, null, "");
+        String name = (String) JOptionPane.showInputDialog(null, "Введіть назву", "Введення", JOptionPane.QUESTION_MESSAGE, null, null, "");
 
         //dialog.get
         if (name != null && !name.equals("")) {
@@ -412,7 +412,7 @@ public class main_C extends JPanel implements Initializable {
             //Модулі
             for (int s_mod = 0; s_mod < arch_tmp.getLayers().get(s_lay).getModules().size(); s_mod++) {//вивід модулів
                 /*Кнопка Патернів*/
-                tmp_btn = new Button("Паттерни(" + arch_tmp.getLayers().get(s_lay).getModules().get(s_mod).getAvilable_patterns().size() + ")...");
+                tmp_btn = new Button("Патерни(" + arch_tmp.getLayers().get(s_lay).getModules().get(s_mod).getAvilable_patterns().size() + ")...");
                 //tmp_btn.setPrefWidth(s_x2);
                 //tmp_btn.setPrefHeight(s_y2);
                 tmp_btn.setLayoutX(pos_x);
@@ -521,7 +521,7 @@ public class main_C extends JPanel implements Initializable {
 
         patern_e_C controller = loader.<patern_e_C>getController();
         controller.initData(arch_old.getLayers().get(layer).getModules().get(module), derby_DB);
-        stage.setTitle("Редагування паттернів \"" + arch_old.getLayers().get(layer).getModules().get(module).getName() + "\" архітектури \"" + arch_old.getName() + "\"");
+        stage.setTitle("Редагування патернів \"" + arch_old.getLayers().get(layer).getModules().get(module).getName() + "\" архітектури \"" + arch_old.getName() + "\"");
         stage.show();
         Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();
         // do what you have to do
@@ -548,7 +548,7 @@ public class main_C extends JPanel implements Initializable {
     public void add_custom_mod_to_layer(Architecture arch_in, Integer lay_nom) {//додати модуль в шар
         Module module = new Module();
         String name = (String) JOptionPane.showInputDialog("Введіть назву");
-        if (name != null && !name.equals("")) {//перевірка на пустий ввід
+        if (name != null && !name.equals("")) {//перевірка на пустий Введення
             String description = (String) JOptionPane.showInputDialog("Введіть опис");
             module.setName(name);
             module.setDescription(description);
@@ -579,19 +579,19 @@ public class main_C extends JPanel implements Initializable {
     }
 
     public void edit_mod(Integer lay_nom, Integer mod_nom) {
-        String name = (String) JOptionPane.showInputDialog(null, "Введіть назву", "Ввід", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).getName());
+        String name = (String) JOptionPane.showInputDialog(null, "Введіть назву", "Введення", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).getName());
         if (name != null && !name.equals("")) {
             arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).setName(name);
-            arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).setDescription((String) JOptionPane.showInputDialog(null, "Введіть опис", "Ввід", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).getDescription()));
+            arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).setDescription((String) JOptionPane.showInputDialog(null, "Введіть опис", "Введення", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).getDescription()));
         }
         draw_arch_struct();
     }
 
     public void edit_lay(Integer lay_nom) {
-        String name = (String) JOptionPane.showInputDialog(null, "Введіть назву", "Ввід", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getName());
+        String name = (String) JOptionPane.showInputDialog(null, "Введіть назву", "Введення", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getName());
         if (name != null && !name.equals("")) {
             arch_tmp.getLayers().get(lay_nom).setName(name);
-            arch_tmp.getLayers().get(lay_nom).setDescription((String) JOptionPane.showInputDialog(null, "Введіть опис", "Ввід", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getDescription()));
+            arch_tmp.getLayers().get(lay_nom).setDescription((String) JOptionPane.showInputDialog(null, "Введіть опис", "Введення", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getDescription()));
         }
         draw_arch_struct();
     }

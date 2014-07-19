@@ -183,7 +183,7 @@ public class patern_e_C implements Initializable {
         edited_pattern.setDescription(TA_patern_description.getText());
         edited_pattern.setPreview(draw_uml.draw_class(class_text.getText()));
         if (pattern_work.pattern_save_to_DB(edited_pattern, derby_DB).getStatus() == true) {
-            JOptionPane.showMessageDialog(null, "Паттерн збережено.", "Інформація", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Патерн збережено.", "Інформація", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, "Помилка збереження зверніться до Адміністратора чи програміста.", "Попередження", JOptionPane.WARNING_MESSAGE);
         }
@@ -326,7 +326,7 @@ public class patern_e_C implements Initializable {
     public void create_pattern(ActionEvent actionEvent) {
         JDialog Jname=new JDialog();
         Jname.setAlwaysOnTop(true);
-        String name = (String) JOptionPane.showInputDialog(null, "Введіть назву", "Ввід", JOptionPane.QUESTION_MESSAGE, null, null, "");
+        String name = (String) JOptionPane.showInputDialog(null, "Введіть назву", "Введення", JOptionPane.QUESTION_MESSAGE, null, null, "");
 
         //dialog.get
         if (name != null && !name.equals("")) {
