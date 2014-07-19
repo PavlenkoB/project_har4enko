@@ -4,11 +4,15 @@ package mode_selection;
  * Created by Alex on 22.06.2014.
  */
 
+import editor.controllers.main_C;
+import editor.controllers.patterns_manager_C;
 import editor.models.Main;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -57,7 +61,18 @@ public class win_choiser {
             }
             case 1: {
                 try {
-                    editor.start(win);
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/main_window_V2.fxml"));
+
+                    Stage stage = new Stage(StageStyle.DECORATED);
+                    try {
+                        stage.setScene(new Scene((Pane) loader.load()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    editor.controllers.main_C controller = loader.<main_C>getController();
+                    controller.initData();
+                    stage.setTitle("Управління репозиторіем патернів");
+                    stage.show();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

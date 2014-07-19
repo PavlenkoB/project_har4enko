@@ -78,7 +78,7 @@ public class main_C extends JPanel implements Initializable {
     @FXML
     private Image arch_image;
 
-    void initData(Module module, DerbyDBManager derby_con) {
+    public void initData(Module module, DerbyDBManager derby_con) {
         derby_DB = derby_con;
         if (derby_DB != null) {
             MM_1_1_connect.setDisable(true);
@@ -104,6 +104,11 @@ public class main_C extends JPanel implements Initializable {
                 }
             }
         });
+    }
+
+    public void initData() {
+            MM_1_1_connect.setDisable(true);
+            MM_1_3_disconnect.setDisable(false);
     }
 
     @Override
