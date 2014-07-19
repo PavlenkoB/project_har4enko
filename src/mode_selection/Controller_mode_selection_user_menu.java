@@ -27,8 +27,9 @@ import java.util.ResourceBundle;
  */
 
 
-public class Controller_mode_selection_user_menu {
+public class Controller_mode_selection_user_menu implements Initializable {
     public AnchorPane sel_next;
+    public ChoiceBox User_choise;
     Main editor = new Main();
     rating_arch_C rating = new rating_arch_C();
     public Button cancelButton;
@@ -46,6 +47,14 @@ public class Controller_mode_selection_user_menu {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void initialize(URL url, ResourceBundle rb) {
+        ObservableList<String> user = FXCollections.observableArrayList();
+        user.clear();
+        user.addAll("Адміністратор","Архітектор","Експерт");
+        User_choise.setItems(user);
+
     }
 
     public void GoBack_main(ActionEvent actionEvent) {

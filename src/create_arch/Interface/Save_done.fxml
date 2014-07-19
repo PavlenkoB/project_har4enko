@@ -11,7 +11,7 @@
 <children><Label alignment="CENTER" layoutX="100.0" layoutY="46.0" text="Варіанти архітектур збережено успішно" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="50.0">
 <font>
 <Font size="24.0" />
-</font></Label><Button fx:id="Save_all_done" layoutX="507.0" layoutY="104.0" mnemonicParsing="false" onAction="#Save_done_all" prefHeight="25.0" prefWidth="93.0" text="ГОТОВО" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="100.0" />
+</font></Label><Button fx:id="Save_all_done" layoutX="507.0" layoutY="104.0" mnemonicParsing="false" onAction="#Save_done_all" prefHeight="25.0" prefWidth="93.0" text="OK" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="100.0" />
 </children>
     </AnchorPane>
   </children>

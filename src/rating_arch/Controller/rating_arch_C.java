@@ -67,8 +67,8 @@ public class rating_arch_C implements Initializable {
     ArrayList<javafx.scene.control.TextField> textField_marks = new ArrayList<>();
 
 
-    DerbyDBManager derby_DB = new DerbyDBManager("DB/paterns_DB");
-    DerbyDBManager mark_db = new DerbyDBManager("DB/Marks");
+    DerbyDBManager derby_DB;// = new DerbyDBManager("DB/paterns_DB");
+    DerbyDBManager mark_db;// = new DerbyDBManager("DB/Marks");
 
     //Windows close dialog
     public void close(ActionEvent actionEvent) throws IOException {
@@ -113,6 +113,10 @@ public class rating_arch_C implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        ObservableList<String> crit = FXCollections.observableArrayList();
+        crit.clear();
+        crit.addAll("Надійність","Ефективність","Швидкодія");
+        mark_crit.setItems(crit);
     }
 
     public void Start_rating() {
@@ -564,8 +568,8 @@ public class rating_arch_C implements Initializable {
             JFileChooser db_dir = new JFileChooser(new File(System.getProperty("user.dir")));
             db_dir.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             db_dir.setAcceptAllFileFilterUsed(false);
-            db_dir.setDialogTitle("Выберете каталог с базой");
-            db_dir.showDialog(null, "Выбрать...");
+            db_dir.setDialogTitle("Виберіть папку з БД архітектур");
+            db_dir.showDialog(null, "Обрати");
             // существет ли база(создана ли)
 
             derby_DB = new DerbyDBManager(db_dir.getSelectedFile().getAbsolutePath());
@@ -603,7 +607,7 @@ public class rating_arch_C implements Initializable {
         Object[] options = {"Вибір завдання",
                 "Вихід"};
         int n = JOptionPane.showOptionDialog(null,
-                "Збереження оціно проведено успішно.",
+                "Збереження оцінок проведено успішно.",
                 "Повернутися до вибору завдання?",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE,

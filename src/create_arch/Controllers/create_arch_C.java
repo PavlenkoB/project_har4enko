@@ -72,6 +72,8 @@ public class create_arch_C implements Initializable {
     ArrayList<Module> modules_done = new ArrayList<>();
     ArrayList<Layer> layers_done = new ArrayList<>();
     ArrayList<Architecture> architectures_done = new ArrayList<>();
+    Stage create_arch_win;
+
 
     DerbyDBManager derby_DB;// = new DerbyDBManager("DB/paterns_DB");
     Task task = new Task();
@@ -120,8 +122,8 @@ public class create_arch_C implements Initializable {
             JFileChooser db_dir = new JFileChooser(new File(System.getProperty("user.dir")));
             db_dir.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             db_dir.setAcceptAllFileFilterUsed(false);
-            db_dir.setDialogTitle("Выберете каталог с базой");
-            db_dir.showDialog(null, "Выбрать...");
+            db_dir.setDialogTitle("Виберіть папку з БД архітектур");
+            db_dir.showDialog(null, "Обрати");
             // существет ли база(создана ли)
 
             derby_DB = new DerbyDBManager(db_dir.getSelectedFile().getAbsolutePath());
@@ -290,7 +292,7 @@ public class create_arch_C implements Initializable {
         gridPane_mod_Title.setValignment(tmp_lable, VPos.CENTER);
         gridPane_mod_Title.add(tmp_lable, 0, 0);
 
-        tmp_lable = new Label("Паттерн");
+        tmp_lable = new Label("Патерн");
         tmp_lable.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         tmp_lable.setAlignment(Pos.CENTER);
         tmp_lable.setMinWidth(300);
@@ -558,7 +560,7 @@ public class create_arch_C implements Initializable {
         gridPane_mod_Title.setValignment(tmp_lable, VPos.CENTER);
         gridPane_mod_Title.add(tmp_lable, 0, 0);
 
-        tmp_lable = new Label("Паттерн");
+        tmp_lable = new Label("Патерн");
         tmp_lable.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         tmp_lable.setAlignment(Pos.CENTER);
         tmp_lable.setMinWidth(300);
@@ -599,6 +601,7 @@ public class create_arch_C implements Initializable {
         architectures_done = gen_arch_done.pre_combine(arc_choise, module_done);
         System.out.print("Lol");
         System.out.print(architectures_done.get(0).getId());
+        create_arch_win = (Stage) Task_save.getScene().getWindow();
 
     }
 
@@ -636,7 +639,7 @@ public class create_arch_C implements Initializable {
 
     public void Save_done_all(ActionEvent actionEvent) {
         disconnect_DB(null);
-        Stage sel_mode = (Stage) Task_save.getScene().getWindow();
+        create_arch_win.close();
 
     }
 
