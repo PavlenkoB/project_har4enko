@@ -13,7 +13,6 @@ public class DerbyDBManager {
 
     public DerbyDBManager(String dbName) {
         this.dbName = dbName;
-        if (!dbExists()) {
             try {
                 Class.forName(driver);
                 dbName = dbName.replace('\\', '/');
@@ -30,7 +29,7 @@ public class DerbyDBManager {
                     e1.printStackTrace();
                 }
             }
-        }
+
     }
 
 
