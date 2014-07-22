@@ -190,9 +190,9 @@ public class functions {
     public static javafx.scene.image.Image draw_class_image(String class_text) {
         Image class_image = null;
         if (class_text != null) {
-            BufferedWriter out_data = null;
+            FileWriter out_data = null;
             try {
-                out_data = new BufferedWriter(new FileWriter(new File("class.txt")));
+                out_data = new FileWriter("class.txt");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -202,22 +202,26 @@ public class functions {
                 out_data.flush();
                 out_data.write("@startuml");
 
-                out_data.newLine();
+                out_data.write("\n");
                 out_data.write("skinparam backgroundColor transparent\n" +//Прозрачный фон
                         "skinparam roundCorner 10");                        //Скругленые углы
-                out_data.newLine();
+                out_data.write("\n");
                 for (String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine()) {
                     out_data.write(line);
-                    out_data.newLine();
+                    out_data.write("\n");
                 }
-                out_data.newLine();
+                out_data.write("\n");
                 out_data.write("@enduml");
                 bufferedReader.close();
                 out_data.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            String[] cmd = {"cmd", "/C", "plantuml.jar -charset utf-8 class.txt"};     //запустить отрисовку
+            String[] cmd = new String[0];
+            FileSearch fileSearch = new FileSearch();
+            fileSearch.searchDirectory(new File(System.getProperty("user.dir")), "plantuml.jar");
+            if(fileSearch.getResult().size()>0)
+            cmd = new String[]{"cmd", "/C", fileSearch.getResult().get(0)+" class.txt"};     //запустить отрисовку
             Process p = null;
             try {
                 p = Runtime.getRuntime().exec(cmd);
