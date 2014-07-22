@@ -3,8 +3,11 @@ package editor.services;
 import java.io.*;
 import java.net.URI;
 import java.util.Deque;
+import java.util.Enumeration;
 import java.util.LinkedList;
+import java.util.Vector;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 /**
@@ -39,6 +42,31 @@ public class zip {
         } finally {
             res.close();
         }
+    }
+
+    public static void zip_unpack(String path, String dir_to) throws IOException {
+        ZipFile zip = new ZipFile(path);
+        Enumeration entries = zip.entries();
+        LinkedList<ZipEntry> zfiles = new LinkedList<ZipEntry>();
+        while (entries.hasMoreElements()) {
+            ZipEntry entry = (ZipEntry) entries.nextElement();
+            if (entry.isDirectory()) {
+                new File(dir_to+"/"+entry.getName()).mkdir();
+            } else {
+                zfiles.add(entry);
+            }
+        }
+        for (ZipEntry entry : zfiles) {
+            InputStream in = zip.getInputStream(entry);
+            OutputStream out = new FileOutputStream(dir_to+"/"+entry.getName());
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = in.read(buffer)) >= 0)
+                out.write(buffer, 0, len);
+            in.close();
+            out.close();
+        }
+        zip.close();
     }
 
     //TODO опис функції

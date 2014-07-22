@@ -209,7 +209,6 @@ public class main_C extends JPanel implements Initializable {
         File db_dir = db_dir_FC.showDialog(functions.get_stage_by_element(TA_arch_description));
         if (db_dir != null) {
             derby_DB = new DerbyDBManager(db_dir);
-
             System.out.print("Создаю таблиці)");
             try {
                 File in_dir = new File(getClass().getClassLoader().getResource("editor/sql/create_DB").getFile());
@@ -261,7 +260,6 @@ public class main_C extends JPanel implements Initializable {
     }
 
     public void show_about(ActionEvent actionEvent) {
-
         try {
             Parent Parent = FXMLLoader.load(getClass().getResource("/editor/views/about.fxml"));
             Stage Stage = new Stage();
@@ -275,11 +273,32 @@ public class main_C extends JPanel implements Initializable {
 
 
     public void create_backup(ActionEvent actionEvent) throws IOException {
-        File mydir = new File("DB");
-        File myfile = new File("DB_backup/" + new SimpleDateFormat("dd.MM.yyyy_HH_mm_ss").format(new Date()) + ".zip");
-        zip.zip_dir(mydir, myfile);
-        System.out.println(mydir.toURI().relativize(myfile.toURI()).getPath());
+        if(derby_DB!=null) {
+            if(derby_DB.getDbName()!=null) {
+                File mydir = new File(derby_DB.getDbName());
+                File myfile = new File(((File) mydir).getAbsolutePath() + "\\" + new SimpleDateFormat("dd.MM.yyyy_HH_mm_ss").format(new Date()) + ".zip");
+                zip.zip_dir(mydir, myfile);
+                System.out.println(mydir.toURI().relativize(myfile.toURI()).getPath());
+            }
+        }
     }
+    public void unpack_backup() throws IOException {
+        FileChooser FC_zip = new FileChooser();
+        FC_zip.setInitialDirectory(new File(System.getProperty("user.dir")));
+        FC_zip.setTitle("Виберіть архів...");
+        FC_zip.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Zip", "*.zip")
+        );
+        File zip_file = FC_zip.showOpenDialog(functions.get_stage_by_element(TA_arch_description));
+        DirectoryChooser db_dir_FC = new DirectoryChooser();
+        db_dir_FC.setInitialDirectory(new File(System.getProperty("user.dir")));
+        db_dir_FC.setTitle("Виберіть місце куди розархівувати архів...");
+        File db_dir = db_dir_FC.showDialog(functions.get_stage_by_element(TA_arch_description));
+        if (db_dir != null|| zip_file!=null) {
+            zip.zip_unpack(zip_file.getAbsolutePath().toString(),db_dir.getAbsolutePath().toString());
+        }
+    }
+
 
     public void creat_arch(ActionEvent actionEvent) {
         JDialog Jname = new JDialog();
