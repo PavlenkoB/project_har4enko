@@ -107,8 +107,8 @@ public class main_C extends JPanel implements Initializable {
     }
 
     public void initData() {
-            MM_1_1_connect.setDisable(true);
-            MM_1_3_disconnect.setDisable(false);
+        MM_1_1_connect.setDisable(true);
+        MM_1_3_disconnect.setDisable(false);
     }
 
     @Override
@@ -123,7 +123,7 @@ public class main_C extends JPanel implements Initializable {
             }
         });
         //Скопіювати файл змін
-        if(new File("README.md").exists()) {
+        if (new File("README.md").exists()) {
             if (new File("src/README.md").exists())
                 new File("/README.md").delete();
             try {
@@ -273,15 +273,22 @@ public class main_C extends JPanel implements Initializable {
 
 
     public void create_backup(ActionEvent actionEvent) throws IOException {
-        if(derby_DB!=null) {
-            if(derby_DB.getDbName()!=null) {
-                File mydir = new File(derby_DB.getDbName());
-                File myfile = new File(((File) mydir).getAbsolutePath() + "\\" + new SimpleDateFormat("dd.MM.yyyy_HH_mm_ss").format(new Date()) + ".zip");
-                zip.zip_dir(mydir, myfile);
-                System.out.println(mydir.toURI().relativize(myfile.toURI()).getPath());
+        if (derby_DB != null) {
+            if (derby_DB.getDbName() != null) {
+                DirectoryChooser db_dir_FC = new DirectoryChooser();
+                db_dir_FC.setInitialDirectory(new File(System.getProperty("user.dir")));
+                db_dir_FC.setTitle("Виберіть місце куди зберегти архів архів...");
+                File zip_dir = db_dir_FC.showDialog(functions.get_stage_by_element(TA_arch_description));
+                if (zip_dir != null) {
+                    File mydir = new File(derby_DB.getDbName());
+                    File myfile = new File(zip_dir.getAbsoluteFile()+"\\" +mydir.getName()+"_"+ new SimpleDateFormat("dd.MM.yyyy_HH_mm_ss").format(new Date()) + ".zip");
+                    zip.zip_dir(mydir, myfile);
+                    System.out.println(mydir.toURI().relativize(myfile.toURI()).getPath());
+                }
             }
         }
     }
+
     public void unpack_backup() throws IOException {
         FileChooser FC_zip = new FileChooser();
         FC_zip.setInitialDirectory(new File(System.getProperty("user.dir")));
@@ -294,8 +301,8 @@ public class main_C extends JPanel implements Initializable {
         db_dir_FC.setInitialDirectory(new File(System.getProperty("user.dir")));
         db_dir_FC.setTitle("Виберіть місце куди розархівувати архів...");
         File db_dir = db_dir_FC.showDialog(functions.get_stage_by_element(TA_arch_description));
-        if (db_dir != null|| zip_file!=null) {
-            zip.zip_unpack(zip_file.getAbsolutePath().toString(),db_dir.getAbsolutePath().toString());
+        if (db_dir != null || zip_file != null) {
+            zip.zip_unpack(zip_file.getAbsolutePath().toString(), db_dir.getAbsolutePath().toString());
         }
     }
 
@@ -536,7 +543,6 @@ public class main_C extends JPanel implements Initializable {
     }
 
 
-
     public void add_custom_layer_to_arch(Architecture arch_in) {//Додати шар в архітектуру
         Layer layer = new Layer();
 
@@ -660,7 +666,7 @@ public class main_C extends JPanel implements Initializable {
         }
 
         image_preview_C controller = loader.<image_preview_C>getController();
-        controller.initData(arch_image,arch_old.getName());
+        controller.initData(arch_image, arch_old.getName());
         //stage.setTitle("" + arch_old.getName());
         stage.show();
     }
@@ -717,18 +723,18 @@ public class main_C extends JPanel implements Initializable {
                 new FileChooser.ExtensionFilter("Word 2007", "*.docx")
         );
         //File db_dir = db_dir_FC.showDialog(functions.get_stage_by_element(TA_arch_description));
-            CustomXWPFDocument document;
-            FileOutputStream fos;
-            String id;
-            BufferedImage bi;
-            XWPFDocument docx;
-            XWPFParagraph tmpParagraph;
-            XWPFRun tmpRun;
-            Architecture architecture;
-            File docx_f =                  docx_FC.showSaveDialog(thisstage);//файл док
-            File imgFile = new File("tmp.png");//изображение
-            String imgfile = "tmp.png";
-            File outputfile = new File(imgfile);
+        CustomXWPFDocument document;
+        FileOutputStream fos;
+        String id;
+        BufferedImage bi;
+        XWPFDocument docx;
+        XWPFParagraph tmpParagraph;
+        XWPFRun tmpRun;
+        Architecture architecture;
+        File docx_f = docx_FC.showSaveDialog(thisstage);//файл док
+        File imgFile = new File("tmp.png");//изображение
+        String imgfile = "tmp.png";
+        File outputfile = new File(imgfile);
         try {
             docx = new XWPFDocument();
 
@@ -780,16 +786,16 @@ public class main_C extends JPanel implements Initializable {
                             } else {
                                 bi = ImageConverter.FXImgtoBufferedImage(architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview());
                             }
-                            try{
+                            try {
                                 new FileOutputStream(outputfile).close();
                                 ImageIO.write(bi, "png", outputfile);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                             document = new CustomXWPFDocument(new FileInputStream(docx_f));
                             fos = new FileOutputStream(docx_f);
                             id = document.addPictureData(new FileInputStream(outputfile), Document.PICTURE_TYPE_PNG);
-                            document.createPicture("---------(Патерн)" +architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getName(),id, document.getNextPicNameNumber(Document.PICTURE_TYPE_PNG), ((Double) architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview().getWidth()).intValue(), ((Double) architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview().getHeight()).intValue());
+                            document.createPicture("---------(Патерн)" + architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getName(), id, document.getNextPicNameNumber(Document.PICTURE_TYPE_PNG), ((Double) architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview().getWidth()).intValue(), ((Double) architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview().getHeight()).intValue());
                             document.write(fos);
                             fos.flush();
                             fos.close();
