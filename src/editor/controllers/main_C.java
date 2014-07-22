@@ -122,7 +122,16 @@ public class main_C extends JPanel implements Initializable {
                 }
             }
         });
-
+        //Скопіювати файл змін
+        if(new File("README.md").exists()) {
+            if (new File("src/README.md").exists())
+                new File("/README.md").delete();
+            try {
+                functions.copyFileUsingStream(new File("README.md"), new File("src/README.md"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
 //TODO Del
 
@@ -254,7 +263,7 @@ public class main_C extends JPanel implements Initializable {
     public void show_about(ActionEvent actionEvent) {
 
         try {
-            Parent Parent = FXMLLoader.load(getClass().getResource("/editor/views/help.fxml"));
+            Parent Parent = FXMLLoader.load(getClass().getResource("/editor/views/about.fxml"));
             Stage Stage = new Stage();
             Stage.setTitle("Допомога");
             Stage.setScene(new Scene(Parent));

@@ -251,4 +251,49 @@ public class functions {
 
         return class_image;
     }
+
+    /**
+     * Копіювання файлу використовуючи потоки
+     * @param source з якого файлу копіювати
+     * @param dest куди копіювати
+     * @throws IOException
+     */
+    public static void copyFileUsingStream(File source, File dest) throws IOException {
+        InputStream is = null;
+        OutputStream os = null;
+        try {
+            is = new FileInputStream(source);
+            os = new FileOutputStream(dest);
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = is.read(buffer)) > 0) {
+                os.write(buffer, 0, length);
+            }
+        } finally {
+            is.close();
+            os.close();
+        }
+    }
+
+    public static String read_lines_from_file(File read_it) {
+        String everything=null;
+        try {
+        BufferedReader br = null;
+
+            br = new BufferedReader(new FileReader(read_it));
+
+        StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                line = br.readLine();
+            }
+             everything = sb.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return everything;
+    }
 }
