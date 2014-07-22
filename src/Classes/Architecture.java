@@ -288,12 +288,15 @@ public class Architecture implements Cloneable {
                     for(int l_n=0;l_n<arch_in.getLayers().size();l_n++){
                         for(int m_n=0;m_n<arch_in.getLayers().get(l_n).getModules().size();m_n++){
                             //System.out.printf("\n"+String.valueOf(l_o)+"|"+String.valueOf(m_o)+"|"+String.valueOf(l_n)+"|"+String.valueOf(m_n));
-                            if(arch_old.getLayers().get(l_o).getModules().get(m_o).getId().intValue()==arch_in.getLayers().get(l_n).getModules().get(m_n).getId().intValue())
-                                save=true;
+                            if(arch_in.getLayers().get(l_n).getModules().get(m_n).getId()!=null) {
+                                if (arch_old.getLayers().get(l_o).getModules().get(m_o).getId().intValue() == arch_in.getLayers().get(l_n).getModules().get(m_n).getId().intValue())
+                                    save = true;
+                            }
                         }
                     }
                     if(save==false)
                     {
+                        derby_DB_connection.executeUpdate("UPDATE PATERNS SET MOD_ID=-1 WHERE MOD_ID="+arch_old.getLayers().get(l_o).getModules().get(m_o).getId());
                         System.out.printf("DELETE FROM MODULE WHERE ID="+arch_old.getLayers().get(l_o).getModules().get(m_o).getId());
                         derby_DB_connection.executeUpdate("DELETE FROM MODULE WHERE ID="+arch_old.getLayers().get(l_o).getModules().get(m_o).getId());
                     }

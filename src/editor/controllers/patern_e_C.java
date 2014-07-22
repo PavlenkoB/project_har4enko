@@ -331,7 +331,11 @@ public class patern_e_C implements Initializable {
         //dialog.get
         if (name != null && !name.equals("")) {
             try {
-                derby_DB.executeUpdate("INSERT INTO PATERNS (MOD_ID,NAME,VALUE,DESCRIPTION) VALUES (" + edited_module.getId() + ",'" + name + "','" + " " + "','" + " " + "')");
+                ResultSet rs = derby_DB.executeQuery("SELECT * FROM LAYER WHERE ID ="+edited_module.getLay_id()+" ORDER BY NAME ASC");//отримати шар модулю
+                rs.next();
+                rs=derby_DB.executeQuery("SELECT * FROM ARCHITECTURE WHERE ID ="+rs.getInt("ARCH_ID")+" ORDER BY NAME ASC");//отримати арзітектуру модуля
+                rs.next();
+                derby_DB.executeUpdate("INSERT INTO PATERNS (MOD_ID,ARCH_ID,NAME,VALUE,DESCRIPTION) VALUES (" + edited_module.getId() + ","+rs.getInt("ID")+",'" + name + "','" + " " + "','" + " " + "')");
             } catch (SQLException e) {
                 e.printStackTrace();
             }

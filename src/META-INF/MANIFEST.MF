@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+JavaFX-Version: 2.2
+Class-Path: editor/lib/derby.jar editor/lib/lib_poi/commons-codec-1.5.
+ jar editor/lib/lib_poi/commons-logging-1.1.jar editor/lib/lib_poi/jun
+ it-4.11.jar editor/lib/lib_poi/log4j-1.2.13.jar editor/lib/ooxml-lib/
+ dom4j-1.6.1.jar editor/lib/ooxml-lib/stax-api-1.0.1.jar editor/lib/oo
+ xml-lib/xmlbeans-2.3.0.jar editor/lib/org.osgi.core-5.0.0.jar editor/
+ lib/plantuml.jar editor/lib/poi/poi-3.10-FINAL-20140208.jar editor/li
+ b/poi/poi-excelant-3.10-FINAL-20140208.jar editor/lib/poi/poi-ooxml-3
+ .10-FINAL-20140208.jar editor/lib/poi/poi-ooxml-schemas-3.10-FINAL-20
+ 140208.jar editor/lib/poi/poi-scratchpad-3.10-FINAL-20140208.jar
+Created-By: JavaFX Packager
+Main-Class: Run.Main

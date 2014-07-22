@@ -13,6 +13,10 @@ public class id_Lable extends Label {
         return dbid;
     }
 
+    /**
+     * Встановити значення ID
+     * @param dbid який ID встановити
+     */
     public void setDbid(Integer dbid) {
         this.dbid = dbid;
     }
@@ -22,7 +26,4 @@ public class id_Lable extends Label {
         this.dbid=id;
     }
 
-    public void addEventHandler(ChangeListener<id_Lable> changeListener) {
-        this.dbid=this.dbid;
-    }
 }

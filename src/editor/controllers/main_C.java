@@ -125,7 +125,7 @@ public class main_C extends JPanel implements Initializable {
 
 
 //TODO Del
-
+/*
         try {
             derby_DB = new DerbyDBManager("DB/paterns_DB");
             list_load_DB();
@@ -177,10 +177,8 @@ public class main_C extends JPanel implements Initializable {
                     derby_DB.disconectDB();
                 }
 
-
                 LV_archs_DB.setItems(null);
                 P_arch_struct.getChildren().clear();
-
                 selected_DB.setText("<не обрана>");
                 //TODO доступность кнопок
                 if (derby_DB.getCon().isClosed()) {
@@ -243,7 +241,7 @@ public class main_C extends JPanel implements Initializable {
 
     public void show_help(ActionEvent actionEvent) {// Отобразить помощь
         try {
-            Parent Parent = FXMLLoader.load(getClass().getResource("../views/help.fxml"));
+            Parent Parent = FXMLLoader.load(getClass().getResource("/editor/views/help.fxml"));
             Stage Stage = new Stage();
             Stage.setTitle("Допомога");
             Stage.setScene(new Scene(Parent));
@@ -255,7 +253,15 @@ public class main_C extends JPanel implements Initializable {
 
     public void show_about(ActionEvent actionEvent) {
 
-
+        try {
+            Parent Parent = FXMLLoader.load(getClass().getResource("/editor/views/help.fxml"));
+            Stage Stage = new Stage();
+            Stage.setTitle("Допомога");
+            Stage.setScene(new Scene(Parent));
+            Stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -501,35 +507,7 @@ public class main_C extends JPanel implements Initializable {
         //P_arch_struct.setPrefHeight(pos_y);
     }
 
-    public void edit_mod_patterns(int layer, int module) {//Редагувати патрни шару
-        try {
-            arch_old = arch_tmp.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        arch_work.arch_save_to_DB(arch_old, derby_DB);
 
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/paterns_editor.fxml"));
-
-        Stage stage = new Stage(StageStyle.DECORATED);
-        try {
-            stage.setScene(new Scene((Pane) loader.load()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        patern_e_C controller = loader.<patern_e_C>getController();
-        controller.initData(arch_old.getLayers().get(layer).getModules().get(module), derby_DB);
-        stage.setTitle("Редагування патернів \"" + arch_old.getLayers().get(layer).getModules().get(module).getName() + "\" архітектури \"" + arch_old.getName() + "\"");
-        stage.show();
-        Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();
-        // do what you have to do
-        stage_c.close();
-
-        //return stage;
-
-    }
 
     public void add_custom_layer_to_arch(Architecture arch_in) {//Додати шар в архітектуру
         Layer layer = new Layer();
@@ -578,6 +556,15 @@ public class main_C extends JPanel implements Initializable {
         draw_arch_struct();
     }
 
+    public void edit_lay(Integer lay_nom) {
+        String name = (String) JOptionPane.showInputDialog(null, "Введіть назву", "Введення", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getName());
+        if (name != null && !name.equals("")) {
+            arch_tmp.getLayers().get(lay_nom).setName(name);
+            arch_tmp.getLayers().get(lay_nom).setDescription((String) JOptionPane.showInputDialog(null, "Введіть опис", "Введення", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getDescription()));
+        }
+        draw_arch_struct();
+    }
+
     public void edit_mod(Integer lay_nom, Integer mod_nom) {
         String name = (String) JOptionPane.showInputDialog(null, "Введіть назву", "Введення", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).getName());
         if (name != null && !name.equals("")) {
@@ -587,13 +574,35 @@ public class main_C extends JPanel implements Initializable {
         draw_arch_struct();
     }
 
-    public void edit_lay(Integer lay_nom) {
-        String name = (String) JOptionPane.showInputDialog(null, "Введіть назву", "Введення", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getName());
-        if (name != null && !name.equals("")) {
-            arch_tmp.getLayers().get(lay_nom).setName(name);
-            arch_tmp.getLayers().get(lay_nom).setDescription((String) JOptionPane.showInputDialog(null, "Введіть опис", "Введення", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getDescription()));
+
+    public void edit_mod_patterns(int layer, int module) {//Редагувати патрни шару
+        try {
+            arch_old = arch_tmp.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
         }
-        draw_arch_struct();
+        arch_work.arch_save_to_DB(arch_old, derby_DB);
+
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/paterns_editor.fxml"));
+
+        Stage stage = new Stage(StageStyle.DECORATED);
+        try {
+            stage.setScene(new Scene((Pane) loader.load()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        patern_e_C controller = loader.<patern_e_C>getController();
+        controller.initData(arch_old.getLayers().get(layer).getModules().get(module), derby_DB);
+        stage.setTitle("Редагування патернів \"" + arch_old.getLayers().get(layer).getModules().get(module).getName() + "\" архітектури \"" + arch_old.getName() + "\"");
+        stage.show();
+        Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();
+        // do what you have to do
+        stage_c.close();
+
+        //return stage;
+
     }
 
 
