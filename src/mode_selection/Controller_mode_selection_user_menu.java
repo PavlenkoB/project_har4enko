@@ -1,5 +1,6 @@
 package mode_selection;
 
+import Classes.log_in;
 import editor.models.Main;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -11,15 +12,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import rating_arch.Controller.rating_arch_C;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
@@ -29,10 +32,16 @@ import java.util.ResourceBundle;
 
 public class Controller_mode_selection_user_menu implements Initializable {
     public AnchorPane sel_next;
-    public ChoiceBox User_choise;
+    public Menu adm_menu;
+    public Menu arch_menu;
+    public Menu exp_menu;
+    public ChoiceBox user_choise;
+    public PasswordField pass_write;
     Main editor = new Main();
     rating_arch_C rating = new rating_arch_C();
     public Button cancelButton;
+
+    ArrayList<log_in> log_ins = new ArrayList<>();
 
 
     public void close(ActionEvent actionEvent) throws IOException {
@@ -52,8 +61,47 @@ public class Controller_mode_selection_user_menu implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         ObservableList<String> user = FXCollections.observableArrayList();
         user.clear();
-        user.addAll("Адміністратор","Архітектор","Експерт");
-        User_choise.setItems(user);
+        user.addAll(new String("Адміністратор"),new String("Архітектор"),new String("Експерт"));
+        user_choise.setItems(user);
+
+        BufferedReader logining_read = null;
+        ArrayList <String> buff_log = new ArrayList<>();
+
+        try {
+            logining_read = new BufferedReader(new FileReader("DB/ssap"));
+        String line;
+            while ((line = logining_read.readLine()) != null) {
+                buff_log.add(line);
+                log_ins.add(new log_in());
+            }
+            logining_read.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        for (int i=0; i<buff_log.size(); i++){
+            int string_length = 0;
+            String log="";
+            String pass="";
+            boolean contr = false;
+
+            while (string_length<(buff_log.get(i).length())){
+                if ((buff_log.get(i).charAt(string_length)=='/')){
+                    contr=true;
+                }
+                if (!contr){
+                    log+=buff_log.get(i).charAt(string_length);
+                }
+                if ((contr)&!(buff_log.get(i).charAt(string_length)=='/')){
+                    pass+=buff_log.get(i).charAt(string_length);
+                }
+                string_length++;
+            }
+
+            log_ins.get(i).setLogin(log);
+            log_ins.get(i).setPassword(pass);
+        }
 
     }
 
@@ -81,5 +129,36 @@ public class Controller_mode_selection_user_menu implements Initializable {
     public void edit_arch(ActionEvent actionEvent) {
         Stage sel_mode = (Stage) sel_next.getScene().getWindow();
         new win_choiser().win_choiser(1,sel_mode);
+    }
+
+    public void logining(ActionEvent actionEvent) {
+        String password=null;
+        if(user_choise.getSelectionModel().getSelectedItem().equals("Адміністратор")){
+            for (int i=0; i<log_ins.size();i++){
+                if (log_ins.get(i).getLogin().equals("adm") & pass_write.getText().equals(log_ins.get(i).getPassword())){
+                    adm_menu.setDisable(false);
+                    arch_menu.setDisable(true);
+                    exp_menu.setDisable(true);
+                }
+            }
+        };
+        if(user_choise.getSelectionModel().getSelectedItem().equals("Архітектор")){
+            for (int i=0; i<log_ins.size();i++){
+                if (log_ins.get(i).getLogin().equals("arch") & pass_write.getText().equals(log_ins.get(i).getPassword())){
+                    adm_menu.setDisable(true);
+                    arch_menu.setDisable(false);
+                    exp_menu.setDisable(true);
+                }
+            }
+        };
+        if(user_choise.getSelectionModel().getSelectedItem().equals("Експерт")){
+            for (int i=0; i<log_ins.size();i++){
+                if (log_ins.get(i).getLogin().equals("exp") & pass_write.getText().equals(log_ins.get(i).getPassword())){
+                    adm_menu.setDisable(true);
+                    arch_menu.setDisable(true);
+                    exp_menu.setDisable(false);
+                }
+            }
+        };
     }
 }
