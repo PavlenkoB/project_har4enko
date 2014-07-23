@@ -1,5 +1,6 @@
 package editor.controllers;
 
+import Classes.Pattern;
 import editor.classes.DerbyDBManager;
 import editor.classes.id_Lable;
 import javafx.beans.value.ChangeListener;
@@ -40,7 +41,7 @@ public class patterns_manager_C implements Initializable {
     public ListView from_list;
     public ListView to_list;
     public BorderPane root;
-    DerbyDBManager DB_connection;
+    public DerbyDBManager DB_connection;
     private String from_last_query, to_last_query;
 
     void initData(final DerbyDBManager derbyDBManager) {
@@ -299,6 +300,27 @@ public class patterns_manager_C implements Initializable {
      * звідки-куди
      */
     public void from_move_to() {
+        if (from_list.getSelectionModel().getSelectedItem() != null) {
+            if (CB_to_arch.getSelectionModel().getSelectedItem() != null) {
+                Pattern from = Pattern.pattern_load_from_DB(((id_Lable) from_list.getSelectionModel().getSelectedItem()).getDbid(), DB_connection);
+                Pattern new_p = new Pattern();
+                new_p.setName(from.getName());
+                if (CB_to_mod.getSelectionModel().getSelectedItem() != null) {
+                    new_p.setMod_id(((id_Lable) CB_to_mod.getSelectionModel().getSelectedItem()).getDbid());
+                } else {
+                    new_p.setMod_id(-1);
+                }
+                new_p.setUml_text(from.getUml_text());
+                new_p.setDescription(from.getDescription());
+                new_p.setPreview(from.getPreview());
+                new_p.setArch_id(((id_Lable) CB_to_mod.getSelectionModel().getSelectedItem()).getDbid());
+                new_p.setType("");
+
+                Pattern.pattern_save_to_DB(new_p,DB_connection);
+            }
+        }
+
+        to_list_load(to_last_query);
     }
 
     /**
