@@ -1,6 +1,9 @@
 package Classes;
 
 
+import editor.classes.DerbyDBManager;
+
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 /**
@@ -105,5 +108,20 @@ public class Layer implements Cloneable {
 
     public void setModules(ArrayList<Module> modules) {
         this.modules = modules;
+    }
+
+    public static Layer load_layer_from_DB(Integer layer_id,DerbyDBManager dbManager){
+        Layer layer=new Layer();
+        try {
+            ResultSet rs_arch = dbManager.executeQuery("SELECT * FROM LAYER WHERE ID=" + layer_id);
+            rs_arch.next();
+            layer.setId(rs_arch.getInt("ID"));
+            layer.setArch_id(rs_arch.getInt("ARCH_ID"));
+            layer.setName(rs_arch.getString("NAME"));
+            layer.setDescription(rs_arch.getString("DESCRIPTION"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return layer;
     }
 }

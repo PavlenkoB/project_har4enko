@@ -3,6 +3,7 @@ package editor.controllers;/*
  * and open the template in the editor.
  */
 
+import Classes.Layer;
 import Classes.Module;
 import Classes.Pattern;
 import editor.classes.DerbyDBManager;
@@ -182,6 +183,8 @@ public class patern_e_C implements Initializable {
         edited_pattern.setUml_text(class_text.getText());
         edited_pattern.setDescription(TA_patern_description.getText());
         edited_pattern.setPreview(draw_uml.draw_class(class_text.getText()));
+        edited_pattern.setType("");
+        edited_pattern.setArch_id(Layer.load_layer_from_DB(edited_module.getLay_id(),derby_DB).getArch_id());
         if (pattern_work.pattern_save_to_DB(edited_pattern, derby_DB).getStatus() == true) {
             JOptionPane.showMessageDialog(null, "Патерн збережено.", "Інформація", JOptionPane.INFORMATION_MESSAGE);
         } else {
