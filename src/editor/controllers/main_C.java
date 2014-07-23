@@ -77,6 +77,7 @@ public class main_C extends JPanel implements Initializable {
     Architecture arch_tmp, arch_old = new Architecture();
     @FXML
     private Image arch_image;
+    private String secretkey="";
 
     public void initData(Module module, DerbyDBManager derby_con) {
         derby_DB = derby_con;
@@ -135,7 +136,7 @@ public class main_C extends JPanel implements Initializable {
 
 //TODO Del
 
-        /*try {
+        try {
             derby_DB = new DerbyDBManager("DB/paterns_DB");
             list_load_DB();
         } catch (Exception e) {
@@ -271,8 +272,12 @@ public class main_C extends JPanel implements Initializable {
         }
     }
 
-
-    public void create_backup(ActionEvent actionEvent) throws IOException {
+    /**
+     * Створити резервну копію базі до якої зараз підключений користувач
+     * @param actionEvent
+     * @throws IOException
+     */
+    public void create_backup(ActionEvent actionEvent) throws Throwable {
         if (derby_DB != null) {
             if (derby_DB.getDbName() != null) {
                 DirectoryChooser db_dir_FC = new DirectoryChooser();
@@ -283,26 +288,44 @@ public class main_C extends JPanel implements Initializable {
                     File mydir = new File(derby_DB.getDbName());
                     File myfile = new File(zip_dir.getAbsoluteFile()+"\\" +mydir.getName()+"_"+ new SimpleDateFormat("dd.MM.yyyy_HH_mm_ss").format(new Date()) + ".zip");
                     zip.zip_dir(mydir, myfile);
+                    //TODO ввід пароля
+                    security.encrypt_file(secretkey, new FileInputStream(myfile), new FileOutputStream(new File(myfile.getAbsoluteFile() + ".enc")));
+                    myfile.delete();
                     System.out.println(mydir.toURI().relativize(myfile.toURI()).getPath());
                 }
             }
         }
     }
 
-    public void unpack_backup() throws IOException {
+    /**
+     * РОзархівувати базу з архіву
+     * @throws IOException
+     */
+    public void unpack_backup() throws Throwable {
         FileChooser FC_zip = new FileChooser();
         FC_zip.setInitialDirectory(new File(System.getProperty("user.dir")));
         FC_zip.setTitle("Виберіть архів...");
         FC_zip.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Zip", "*.zip")
+                new FileChooser.ExtensionFilter("Zip", "*.zip"),
+        new FileChooser.ExtensionFilter("Зашифрований архів", "*.zip.enc")
         );
+        //TODO Ввід пароля
+
         File zip_file = FC_zip.showOpenDialog(functions.get_stage_by_element(TA_arch_description));
+        File decrypted=null;
+        if(FileUtils.getExtension(zip_file.getName().toString()).equals("enc")){
+            File original=zip_file;
+            decrypted=new File(zip_file.getName()+".zip");
+            security.decrypt_file(secretkey,new FileInputStream(original),new FileOutputStream(decrypted));
+            zip_file=decrypted;
+        }
         DirectoryChooser db_dir_FC = new DirectoryChooser();
         db_dir_FC.setInitialDirectory(new File(System.getProperty("user.dir")));
         db_dir_FC.setTitle("Виберіть місце куди розархівувати архів...");
         File db_dir = db_dir_FC.showDialog(functions.get_stage_by_element(TA_arch_description));
         if (db_dir != null || zip_file != null) {
             zip.zip_unpack(zip_file.getAbsolutePath().toString(), db_dir.getAbsolutePath().toString());
+            decrypted.delete();
         }
     }
 
