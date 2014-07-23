@@ -248,16 +248,15 @@ public class main_C extends JPanel implements Initializable {
 
     }
 
-    public void show_help(ActionEvent actionEvent) {// Отобразить помощь
+    public  void show_help(ActionEvent actionEvent) {// Отобразить помощь
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/help.fxml")        );
+        Stage stage = new Stage(StageStyle.DECORATED);
         try {
-            Parent Parent = FXMLLoader.load(getClass().getResource("/editor/views/help.fxml"));
-            Stage Stage = new Stage();
-            Stage.setTitle("Допомога");
-            Stage.setScene(new Scene(Parent));
-            Stage.show();
+            stage.setScene(new Scene((Pane) loader.load()));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        stage.show();
     }
 
     public void show_about(ActionEvent actionEvent) {
@@ -842,5 +841,16 @@ public class main_C extends JPanel implements Initializable {
         outputfile.delete();
         System.out.printf("Import end");
         root.setDisable(false);
+    }
+
+    public void log_in(){
+        String name = (String) JOptionPane.showInputDialog(null, "Введіть логін", "Введення", JOptionPane.QUESTION_MESSAGE, null, null, null);
+        String pass = (String) JOptionPane.showInputDialog(null, "Введіть пароль", "Введення", JOptionPane.QUESTION_MESSAGE, null, null, null);
+        if (name != null && !name.equals("") && pass != null && !pass.equals("")) {
+            System.out.printf("Login|"+name+" pass|"+pass);
+        }else {
+            log_in();
+        }
+        draw_arch_struct();
     }
 }

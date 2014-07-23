@@ -7,6 +7,7 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.List;
@@ -22,6 +23,10 @@ public class about_C implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //TODO завантажити текс з файлу і відобразити в текстовому полі
-        change_list.setText(functions.read_lines_from_file(new File(String.valueOf(getClass().getResource("README.md")))));
+        try {
+            change_list.setText(functions.read_lines_from_file(getClass().getResource("/README.md").toURI()));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 }

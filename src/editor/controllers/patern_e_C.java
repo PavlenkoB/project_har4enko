@@ -260,23 +260,26 @@ public class patern_e_C implements Initializable {
 
 
     public void show_help(ActionEvent actionEvent) {// Отобразить помощь
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/help.fxml")
-        );
-
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/help.fxml")        );
         Stage stage = new Stage(StageStyle.DECORATED);
         try {
             stage.setScene(new Scene((Pane) loader.load()));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        help_C controller = loader.<help_C>getController();
-        //controller.initData(edited_module, derby_DB);
-
         stage.show();
     }
 
     public void show_about(ActionEvent actionEvent) {
+        try {
+            Parent Parent = FXMLLoader.load(getClass().getResource("/editor/views/about.fxml"));
+            Stage Stage = new Stage();
+            Stage.setTitle("Допомога");
+            Stage.setScene(new Scene(Parent));
+            Stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void close_mw(ActionEvent actionEvent) {

@@ -30,8 +30,9 @@
                         </Menu>
                         <Menu mnemonicParsing="false" text="Допомога">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="Як користуватися" />
+                                <MenuItem mnemonicParsing="false" onAction="#show_help" text="Як користуватися" />
                                 <MenuItem mnemonicParsing="false" onAction="#show_about" text="Довідка" />
+                        <MenuItem mnemonicParsing="false" onAction="#log_in" text="Log in" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Вихід" />

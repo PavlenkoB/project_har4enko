@@ -4,13 +4,18 @@ import Classes.Architecture;
 import Classes.Task;
 import editor.classes.DerbyDBManager;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URI;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -291,6 +296,33 @@ public class functions {
                 line = br.readLine();
             }
              everything = sb.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return everything;
+    }
+
+    /**
+     * Зчитати весь текст з файлу що всередені самої програми
+     * @param URI шлях отриманий за допомогою getClass().getResource(url).toURI()
+     * @return Текст з файлу
+     */
+    public static String read_lines_from_file(URI URI) {
+        String everything=null;
+        try {
+            BufferedReader br = null;
+
+            br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(URI))));
+
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                line = br.readLine();
+            }
+            everything = sb.toString();
         } catch (Exception e) {
             e.printStackTrace();
         }
