@@ -5,8 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" fx:controller="editor.controllers.patterns_manager_C" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="editor.controllers.patterns_manager_C">
    <top>
       <BorderPane BorderPane.alignment="CENTER">
          <top>
@@ -130,16 +129,16 @@
                <children>
                   <HBox alignment="CENTER" prefWidth="75.0" GridPane.rowIndex="1">
                      <children>
-                        <Button mnemonicParsing="false" text="&lt;-" />
+                        <Button fx:id="to_move_from" mnemonicParsing="false" onAction="#to_move_from" text="&lt;-" />
                         <Label text="Перемістити" />
-                        <Button mnemonicParsing="false" text="-&gt;" />
+                        <Button fx:id="from_move_to" mnemonicParsing="false" onAction="#from_move_to" text="-&gt;" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefWidth="75.0" GridPane.rowIndex="2">
                      <children>
-                        <Button mnemonicParsing="false" text="&lt;-" />
+                        <Button fx:id="to_copy_from" mnemonicParsing="false" onAction="#to_copy_from" text="&lt;-" />
                         <Label text="Копіювати" />
-                        <Button mnemonicParsing="false" text="-&gt;" />
+                        <Button fx:id="from_copy_to" mnemonicParsing="false" onAction="#from_copy_to" text="-&gt;" />
                      </children>
                   </HBox>
                </children>

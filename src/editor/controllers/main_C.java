@@ -114,6 +114,7 @@ public class main_C extends JPanel implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //TODO log_in();
         //при двойном клике грузить архитекутуру
         LV_archs_DB.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
@@ -849,7 +850,7 @@ public class main_C extends JPanel implements Initializable {
         if (name != null && !name.equals("") && pass != null && !pass.equals("")) {
             System.out.printf("Login|"+name+" pass|"+pass);
         }else {
-            log_in();
+            System.exit(0);
         }
         draw_arch_struct();
     }
