@@ -118,7 +118,7 @@ public class Pattern implements Cloneable {
     public static result_info pattern_save_to_DB(Pattern pattern_in, DerbyDBManager derby_DB_connection) {//Зберегти архітектуру в БД
         result_info result = new result_info();
         if (pattern_in.getId() == null) {
-            String query = "INSERT INTO PATERNS (MOD_ID,NAME,VALUE,DESCRIPTION,ARCH_ID,TYPE) VALUES (" + pattern_in.getMod_id() + ",'" + pattern_in.getName() + "','" + pattern_in.getUml_text() + "','" + pattern_in.getDescription() +"','"+pattern_in.getArch_id()+"','"+pattern_in.getType() +"')";
+            String query = "INSERT INTO PATERNS (MOD_ID,NAME,VALUE,DESCRIPTION,ARCH_ID,TYPE) VALUES (" + pattern_in.getMod_id() + ",'" + pattern_in.getName() + "','" + pattern_in.getUml_text() + "','" + pattern_in.getDescription() +"',"+pattern_in.getArch_id()+",'"+pattern_in.getType() +"')";
             ResultSet rs_tmp;
             try {
                 derby_DB_connection.executeUpdate(query);
