@@ -315,8 +315,8 @@ public class patterns_manager_C implements Initializable {
                 new_p.setPreview(from.getPreview());
                 new_p.setArch_id(((id_Lable) CB_to_mod.getSelectionModel().getSelectedItem()).getDbid());
                 new_p.setType("");
-                Pattern.pattern_save_to_DB(new_p,DB_connection);
-                Pattern.delete_pattern_from_DB(from.getId(),DB_connection);
+                Pattern.pattern_save_to_DB(new_p, DB_connection);
+                Pattern.delete_pattern_from_DB(from.getId(), DB_connection);
             }
         }
         from_list_load(from_last_query);
@@ -344,7 +344,7 @@ public class patterns_manager_C implements Initializable {
                 new_p.setArch_id(((id_Lable) CB_to_mod.getSelectionModel().getSelectedItem()).getDbid());
                 new_p.setType("");
 
-                Pattern.pattern_save_to_DB(new_p,DB_connection);
+                Pattern.pattern_save_to_DB(new_p, DB_connection);
             }
         }
         from_list_load(from_last_query);
@@ -366,9 +366,49 @@ public class patterns_manager_C implements Initializable {
 
     }
 
-    public void from_list_delete(){
-        Pattern.delete_pattern_from_DB(((id_Lable)from_list.getSelectionModel().getSelectedItem()).getDbid(),DB_connection);
+    public void from_list_delete() {
+        if (from_list.getSelectionModel().getSelectedItem() != null) {
+            Pattern.delete_pattern_from_DB(((id_Lable) from_list.getSelectionModel().getSelectedItem()).getDbid(), DB_connection);
+            from_list_load(from_last_query);
+        }
     }
 
 
+    public void from_list_preview() {
+        if (from_list.getSelectionModel().getSelectedItem() != null) {
+            System.out.printf("");
+        }
+    }
+
+    public void from_list_edit() {
+        if (from_list.getSelectionModel().getSelectedItem() != null) {
+        }
+
+    }
+
+    public void from_list_add() {
+        if (from_list.getSelectionModel().getSelectedItem() != null) {
+        }
+
+    }
+
+    public void to_list_preview() {
+        if (to_list.getSelectionModel().getSelectedItem() != null) {
+
+            System.out.printf("");
+        }
+    }
+
+    public void to_list_edit() {
+        if (to_list.getSelectionModel().getSelectedItem() != null) {
+        }
+    }
+
+
+    public void to_list_delete() {
+        if (to_list.getSelectionModel().getSelectedItem() != null) {
+            Pattern.delete_pattern_from_DB(((id_Lable) to_list.getSelectionModel().getSelectedItem()).getDbid(), DB_connection);
+            to_list_load(to_last_query);
+        }
+    }
 }
