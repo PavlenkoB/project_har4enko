@@ -117,7 +117,7 @@ public class Pattern implements Cloneable {
      */
     public static result_info pattern_save_to_DB(Pattern pattern_in, DerbyDBManager derby_DB_connection) {//Зберегти архітектуру в БД
         result_info result = new result_info();
-        if (pattern_in.getId() == null) {
+        if (pattern_in.getId() == null||pattern_in.getId().toString().equals("")) {
             String query = "INSERT INTO PATERNS (MOD_ID,NAME,VALUE,DESCRIPTION,ARCH_ID,TYPE) VALUES (" + pattern_in.getMod_id() + ",'" + pattern_in.getName() + "','" + pattern_in.getUml_text() + "','" + pattern_in.getDescription() +"',"+pattern_in.getArch_id()+",'"+pattern_in.getType() +"')";
             ResultSet rs_tmp;
             try {
@@ -218,6 +218,14 @@ public class Pattern implements Cloneable {
             p_return.preview = null;
 
         return p_return;
+    }
+
+    public static void delete_pattern_from_DB(Integer pat_id,DerbyDBManager derby_DB_connection){
+        try {
+            derby_DB_connection.executeUpdate("DELETE FROM PATERNS WHERE ID="+pat_id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public Integer getId() {

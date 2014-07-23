@@ -129,14 +129,14 @@
                <children>
                   <HBox alignment="CENTER" prefWidth="75.0" GridPane.rowIndex="1">
                      <children>
-                        <Button fx:id="to_move_from" mnemonicParsing="false" onAction="#to_move_from" text="&lt;-" />
+                        <Button fx:id="to_move_from" disable="true" mnemonicParsing="false" onAction="#to_move_from" text="&lt;-" />
                         <Label text="Перемістити" />
                         <Button fx:id="from_move_to" mnemonicParsing="false" onAction="#from_move_to" text="-&gt;" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefWidth="75.0" GridPane.rowIndex="2">
                      <children>
-                        <Button fx:id="to_copy_from" mnemonicParsing="false" onAction="#to_copy_from" text="&lt;-" />
+                        <Button fx:id="to_copy_from" disable="true" mnemonicParsing="false" onAction="#to_copy_from" text="&lt;-" />
                         <Label text="Копіювати" />
                         <Button fx:id="from_copy_to" mnemonicParsing="false" onAction="#from_copy_to" text="-&gt;" />
                      </children>

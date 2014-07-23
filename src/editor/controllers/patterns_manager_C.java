@@ -315,11 +315,11 @@ public class patterns_manager_C implements Initializable {
                 new_p.setPreview(from.getPreview());
                 new_p.setArch_id(((id_Lable) CB_to_mod.getSelectionModel().getSelectedItem()).getDbid());
                 new_p.setType("");
-
                 Pattern.pattern_save_to_DB(new_p,DB_connection);
+                Pattern.delete_pattern_from_DB(from.getId(),DB_connection);
             }
         }
-
+        from_list_load(from_last_query);
         to_list_load(to_last_query);
     }
 
@@ -328,7 +328,27 @@ public class patterns_manager_C implements Initializable {
      * звідки-куди
      */
     public void from_copy_to() {
+        if (from_list.getSelectionModel().getSelectedItem() != null) {
+            if (CB_to_arch.getSelectionModel().getSelectedItem() != null) {
+                Pattern from = Pattern.pattern_load_from_DB(((id_Lable) from_list.getSelectionModel().getSelectedItem()).getDbid(), DB_connection);
+                Pattern new_p = new Pattern();
+                new_p.setName(from.getName());
+                if (CB_to_mod.getSelectionModel().getSelectedItem() != null) {
+                    new_p.setMod_id(((id_Lable) CB_to_mod.getSelectionModel().getSelectedItem()).getDbid());
+                } else {
+                    new_p.setMod_id(-1);
+                }
+                new_p.setUml_text(from.getUml_text());
+                new_p.setDescription(from.getDescription());
+                new_p.setPreview(from.getPreview());
+                new_p.setArch_id(((id_Lable) CB_to_mod.getSelectionModel().getSelectedItem()).getDbid());
+                new_p.setType("");
 
+                Pattern.pattern_save_to_DB(new_p,DB_connection);
+            }
+        }
+        from_list_load(from_last_query);
+        to_list_load(to_last_query);
     }
 
     /**
@@ -344,6 +364,10 @@ public class patterns_manager_C implements Initializable {
      */
     public void to_copy_from() {
 
+    }
+
+    public void from_list_delete(){
+        Pattern.delete_pattern_from_DB(((id_Lable)from_list.getSelectionModel().getSelectedItem()).getDbid(),DB_connection);
     }
 
 
