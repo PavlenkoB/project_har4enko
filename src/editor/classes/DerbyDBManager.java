@@ -100,7 +100,8 @@ public class DerbyDBManager {
         stmt.close();
     }
 
-    /**
+    /*
+
      * @param sql_file файл який необхідно виконати
      * @return result_info.comment = коментар
      * @author godex_000

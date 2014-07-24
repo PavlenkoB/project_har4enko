@@ -226,7 +226,7 @@ public class functions {
             FileSearch fileSearch = new FileSearch();
             fileSearch.searchDirectory(new File(System.getProperty("user.dir")), "plantuml.jar");
             if(fileSearch.getResult().size()>0)
-            cmd = new String[]{"cmd", "/C", fileSearch.getResult().get(0)+" class.txt"};     //запустить отрисовку
+            cmd = new String[]{"cmd", "/C", fileSearch.getResult().get(0)+" -charset utf-8 class.txt"};     //запустить отрисовку
             Process p = null;
             try {
                 p = Runtime.getRuntime().exec(cmd);

@@ -87,6 +87,10 @@ public class main_C extends JPanel implements Initializable {
         }
         thisstage = (Stage) root.getScene().getWindow();
         thisstage.getIcons().add(new Image("/editor/res/img/uml_icon.png"));
+        thisstage.setTitle("Управління репозиторіем патернів");
+
+        thisstage.setMinWidth(900);//Минимальная шырина
+        thisstage.setMinHeight(700);//Минимальная высота окна
         thisstage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
                 Object[] options = {"Так",

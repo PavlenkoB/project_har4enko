@@ -210,7 +210,10 @@ public class Pattern implements Cloneable {
         else
             p_return.arch_id = null;
 
-        p_return.type = new String(this.type);
+        if (this.type != null)
+            p_return.type = new String(this.type);
+        else
+            p_return.type = new String();
         if (this.preview != null)
             //TODO картинку тоже клонировать
             p_return.preview = this.preview;//new javafx.scene.image.Image(this.preview);

@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="630.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="create_arch.Controllers.create_arch_C">
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="630.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="create_arch.Controllers.create_arch_C">
   <children>
     <AnchorPane fx:id="Arch_choise_2" prefHeight="174.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
       <children>
@@ -15,7 +15,7 @@
         <Button id="Arch_create_next_2" mnemonicParsing="false" onAction="#arch_create_next_2" prefWidth="-1.0" text="Обрати" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0" />
       </children>
     </AnchorPane>
-    <AnchorPane fx:id="Arch_choise_1" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="630.0" visible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+    <AnchorPane fx:id="Arch_choise_1" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="630.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
       <children>
         <Label text="Назва архітектури" textAlignment="CENTER" AnchorPane.leftAnchor="55.0" AnchorPane.topAnchor="45.0">
           <font>
@@ -44,7 +44,7 @@
         </ScrollPane>
       </children>
     </AnchorPane>
-    <AnchorPane fx:id="Arch_choise_3" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+    <AnchorPane fx:id="Arch_choise_3" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
       <children>
         <ScrollPane AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
           <content>
@@ -52,7 +52,7 @@
           </content>
         </ScrollPane>
         <Button id="Arch_create_next_2" mnemonicParsing="false" onAction="#Save_arch" prefWidth="-1.0" text="Зберігти" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0" />
-        <Button id="Cancel" mnemonicParsing="false" onAction="#arch_create_next_1" text="Відміна" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="180.0" />
+        <Button id="Cancel" mnemonicParsing="false" onAction="#arch_create_next_4" text="Відміна" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="180.0" /><Button layoutX="48.1875" layoutY="335.0" mnemonicParsing="false" text="Візуалізація" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="65.0" />
       </children>
     </AnchorPane>
     <AnchorPane fx:id="Task_save" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">

@@ -17,20 +17,20 @@
     </Menu>
     <Menu fx:id="adm_menu" disable="true" mnemonicParsing="false" text="Адміністратор">
       <items>
-        <MenuItem mnemonicParsing="false" onAction="#edit_arch" text="Редактор патернів та архітектур" /><MenuItem mnemonicParsing="false" onAction="#create_new_arch" text="Конструктор нових варіантів архітектур" />
+        <MenuItem mnemonicParsing="false" onAction="#edit_arch" text="Управління репозитарієм патернів" /><MenuItem mnemonicParsing="false" onAction="#create_new_arch" text="Створення альтернативних архітектур" />
       </items>
     </Menu>
     <Menu fx:id="arch_menu" disable="true" mnemonicParsing="false" text="Архітектор">
       <items>
-        <MenuItem mnemonicParsing="false" onAction="#create_new_arch" text="Конструктор нових варіантів архітектур" /><MenuItem mnemonicParsing="false" onAction="#rating_arch" text="Оцінювання існуючих архітектур" />
+        <MenuItem mnemonicParsing="false" onAction="#create_new_arch" text="Створення альтернативних архітектур" /><MenuItem mnemonicParsing="false" onAction="#rating_arch" text="Оцінювання архітектур" />
       </items>
     </Menu><Menu fx:id="exp_menu" disable="true" mnemonicParsing="false" text="Експерт">
   <items>
-    <MenuItem mnemonicParsing="false" onAction="#rating_arch" text="Оцінювання існуючих архітектур" />
+    <MenuItem mnemonicParsing="false" onAction="#rating_arch" text="Оцінювання архітектур" />
   </items>
 </Menu><Menu mnemonicParsing="false" text="Допомога">
   <items>
-    <MenuItem mnemonicParsing="false" text="Справка" />
+    <MenuItem mnemonicParsing="false" text="Довідка" />
   </items>
 </Menu>
   </menus>

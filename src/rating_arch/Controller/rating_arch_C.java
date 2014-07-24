@@ -69,6 +69,8 @@ public class rating_arch_C implements Initializable {
 
     DerbyDBManager derby_DB;// = new DerbyDBManager("DB/paterns_DB");
     DerbyDBManager mark_db;// = new DerbyDBManager("DB/Marks");
+    String pattern_db_str;
+    String mark_db_str;
 
     //Windows close dialog
     public void close(ActionEvent actionEvent) throws IOException {
@@ -97,16 +99,10 @@ public class rating_arch_C implements Initializable {
     }
     //Windows close dialog
 
-    public void disconnect_DB(ActionEvent actionEvent) {
-        if (derby_DB != null) {
-            derby_DB.disconectDB();
-            derby_DB = null;
-        }
-        ObservableList<String> items = FXCollections.observableArrayList();
-    }
-
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
+        Rating_arch_2.setVisible(false);
+        Rating_arch_3.setVisible(false);
         try {
             Rating_arch_1.setVisible(true);
             Start_rating();
@@ -120,6 +116,8 @@ public class rating_arch_C implements Initializable {
     }
 
     public void Start_rating() {
+        //disconnect_DB(mark_db);
+        derby_DB = new DerbyDBManager(pattern_db_str);
         Rating_arch_1.setVisible(true);
         Rating_arch_2.setVisible(false);
         Rating_arch_3.setVisible(false);
@@ -564,7 +562,7 @@ public class rating_arch_C implements Initializable {
     // Під'єднання до БД
     public void connect_DB(ActionEvent actionEvent) {
         try {
-            disconnect_DB(null);
+            disconnect_DB(derby_DB);
             JFileChooser db_dir = new JFileChooser(new File(System.getProperty("user.dir")));
             db_dir.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             db_dir.setAcceptAllFileFilterUsed(false);
@@ -572,7 +570,8 @@ public class rating_arch_C implements Initializable {
             db_dir.showDialog(null, "Обрати");
             // существет ли база(создана ли)
 
-            derby_DB = new DerbyDBManager(db_dir.getSelectedFile().getAbsolutePath());
+            pattern_db_str = db_dir.getSelectedFile().getAbsolutePath().toString();
+            derby_DB = new DerbyDBManager(pattern_db_str);
             Start_rating();
         } catch (Exception e) {
             e.printStackTrace();
@@ -580,13 +579,26 @@ public class rating_arch_C implements Initializable {
         }
     }
 
+    public void disconnect_DB(DerbyDBManager database) {//отключиться от БД
+        try {
+            if (database.getCon() != null) {
+                if (!database.getCon().isClosed()) {
+                    database.disconectDB();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void Save_marks(ActionEvent actionEvent) {
 
-       /* try {
+        try {
+           // disconnect_DB(derby_DB);
             creat_mark_DB();
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
 
 
         try {
@@ -598,7 +610,7 @@ public class rating_arch_C implements Initializable {
 
         for (int i = 0; i < marks.size(); i++) {
             try {
-                marks_save_to_DB(marks.get(i), architecture_done_choise.get(marks.get(i).getNum_arch_0()).getId(),architecture_done_choise.get(marks.get(i).getNum_arch_1()).getId(),session_id,mark_db);
+                marks_save_to_DB(marks.get(i), architecture_done_choise.get(marks.get(i).getNum_arch_0()).getId_done(),architecture_done_choise.get(marks.get(i).getNum_arch_1()).getId_done(),session_id,mark_db);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -619,9 +631,16 @@ public class rating_arch_C implements Initializable {
         } else if (n == 1) {
             Exit(new ActionEvent());
         } else {
+            Stage win = new Stage();
+            win = (Stage) Rating_arch_1.getScene().getWindow();
+            win.close();
         }
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     public void creat_mark_DB() throws IOException { //Создать БД
         File db_dir = new File("DB/Marks");
 
@@ -632,7 +651,7 @@ public class rating_arch_C implements Initializable {
         }
 
         if (db_dir != null) {
-            derby_DB = new DerbyDBManager(db_dir);
+            mark_db = new DerbyDBManager(db_dir);
 
             System.out.print("Создаю таблиці)");
             try {

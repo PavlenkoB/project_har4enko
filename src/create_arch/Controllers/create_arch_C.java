@@ -72,7 +72,7 @@ public class create_arch_C implements Initializable {
     ArrayList<Module> modules_done = new ArrayList<>();
     ArrayList<Layer> layers_done = new ArrayList<>();
     ArrayList<Architecture> architectures_done = new ArrayList<>();
-    Stage create_arch_win;
+
 
 
     DerbyDBManager derby_DB;// = new DerbyDBManager("DB/paterns_DB");
@@ -601,7 +601,6 @@ public class create_arch_C implements Initializable {
         architectures_done = gen_arch_done.pre_combine(arc_choise, module_done);
         System.out.print("Lol");
         System.out.print(architectures_done.get(0).getId());
-        create_arch_win = (Stage) Task_save.getScene().getWindow();
 
     }
 
@@ -639,8 +638,16 @@ public class create_arch_C implements Initializable {
 
     public void Save_done_all(ActionEvent actionEvent) {
         disconnect_DB(null);
+        Stage create_arch_win = new Stage();
+        create_arch_win = (Stage) Task_save.getScene().getWindow();
         create_arch_win.close();
 
     }
 
+    public void arch_create_next_4(ActionEvent actionEvent) {
+        Arch_choise_1.setVisible(false);
+        Arch_choise_2.setVisible(true);
+        Arch_choise_3.setVisible(false);
+        Task_save.setVisible(false);
+    }
 }
