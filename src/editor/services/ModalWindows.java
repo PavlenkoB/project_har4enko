@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -16,7 +17,7 @@ import javafx.stage.Stage;
  */
 public class ModalWindows {
     public static Integer yes_no(String title, String text, String yes_text, String no_text) {
-        StackPane window_content = new StackPane();
+        AnchorPane window_content = new AnchorPane();
         window_content.setPrefWidth(Region.USE_COMPUTED_SIZE);
         window_content.setPrefHeight(Region.USE_COMPUTED_SIZE);
         Stage stage = new Stage();
