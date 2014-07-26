@@ -162,7 +162,6 @@ public class DerbyDBManager {
             String shutdownURL = url + dbName +";shutdown=true";
             DriverManager.getConnection(shutdownURL);
         } catch (SQLException e) {
-            System.out.println("Не удалось закрыть подключение к БД");
             e.printStackTrace();
         }
     }

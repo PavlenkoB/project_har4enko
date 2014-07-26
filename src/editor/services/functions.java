@@ -2,13 +2,11 @@ package editor.services;
 
 import Classes.Architecture;
 import Classes.Task;
+import com.sun.org.apache.bcel.internal.util.ClassPath;
 import editor.classes.DerbyDBManager;
+import editor.controllers.main_C;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -16,9 +14,11 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 /**
  * Created by godex_000 on 22.05.2014.
@@ -26,6 +26,7 @@ import java.util.ArrayList;
 public class functions {
     /**
      * Отримання індифікатору зі спец строки
+     *
      * @param in_string - Вхідна строка з якої нербхідно отримати ID
      * @return
      */
@@ -37,12 +38,13 @@ public class functions {
             out_string = out_string + Character.toString(in_string.charAt(line_pos));
             line_pos++;
         }
-        out_int=Integer.parseInt(out_string);
+        out_int = Integer.parseInt(out_string);
         return out_int;
     }
 
     /**
      * Отримання імені зі спец строки
+     *
      * @param in_string - Вхідна строка з якої необхідно отримати Імя
      * @return
      */
@@ -62,7 +64,8 @@ public class functions {
 
     /**
      * Збереження задачі в базу
-     * @param task - Обєкст класу задача
+     *
+     * @param task                - Обєкст класу задача
      * @param derby_DB_connection - Підключення до БД
      * @return
      */
@@ -100,8 +103,9 @@ public class functions {
 
     /**
      * Збереження готової архітектури в базу
-     * @param task_id - номер задачі
-     * @param arch_in - Архітектура для збереження
+     *
+     * @param task_id             - номер задачі
+     * @param arch_in             - Архітектура для збереження
      * @param derby_DB_connection - Підключення до БД
      * @return - чи вдалося зберегти
      * @throws SQLException
@@ -131,6 +135,7 @@ public class functions {
 
     /**
      * Отримати контролер вікна
+     *
      * @param element - елемент віна
      * @return
      */
@@ -140,6 +145,7 @@ public class functions {
 
     /**
      * Прибирання а базі
+     *
      * @param derby_DB - підключення до бази
      */
     public static void clread_DB(DerbyDBManager derby_DB) {
@@ -223,10 +229,16 @@ public class functions {
                 e.printStackTrace();
             }
             String[] cmd = new String[0];
-            FileSearch fileSearch = new FileSearch();
-            fileSearch.searchDirectory(new File(System.getProperty("user.dir")), "plantuml.jar");
-            if(fileSearch.getResult().size()>0)
-            cmd = new String[]{"cmd", "/C", fileSearch.getResult().get(0)+" -charset utf-8 class.txt"};     //запустить отрисовку
+            if(!new File("config.properties").exists()) {
+                try {
+                    FileUtils.copyFileUsingStream(new File(main_C.class.getClassLoader().getResource("editor/lib/plantuml.jar").toURI()),new File("plantuml.jar"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+            }
+            cmd = new String[]{"cmd", "/C", "plantuml.jar -charset utf-8 class.txt"};     //запустить отрисовку
             Process p = null;
             try {
                 p = Runtime.getRuntime().exec(cmd);
@@ -257,37 +269,15 @@ public class functions {
         return class_image;
     }
 
-    /**
-     * Копіювання файлу використовуючи потоки
-     * @param source з якого файлу копіювати
-     * @param dest куди копіювати
-     * @throws IOException
-     */
-    public static void copyFileUsingStream(File source, File dest) throws IOException {
-        InputStream is = null;
-        OutputStream os = null;
-        try {
-            is = new FileInputStream(source);
-            os = new FileOutputStream(dest);
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = is.read(buffer)) > 0) {
-                os.write(buffer, 0, length);
-            }
-        } finally {
-            is.close();
-            os.close();
-        }
-    }
 
     public static String read_lines_from_file(File read_it) {
-        String everything=null;
+        String everything = null;
         try {
-        BufferedReader br = null;
+            BufferedReader br = null;
 
             br = new BufferedReader(new FileReader(read_it));
 
-        StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             String line = br.readLine();
 
             while (line != null) {
@@ -295,7 +285,7 @@ public class functions {
                 sb.append(System.lineSeparator());
                 line = br.readLine();
             }
-             everything = sb.toString();
+            everything = sb.toString();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -304,11 +294,12 @@ public class functions {
 
     /**
      * Зчитати весь текст з файлу що всередені самої програми
+     *
      * @param URI шлях отриманий за допомогою getClass().getResource(url).toURI()
      * @return Текст з файлу
      */
     public static String read_lines_from_file(URI URI) {
-        String everything=null;
+        String everything = null;
         try {
             BufferedReader br = null;
 

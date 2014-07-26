@@ -111,16 +111,8 @@
             <Label text="Опис патерну" GridPane.rowIndex="3" />
             <HBox GridPane.rowIndex="2">
                <children>
-                  <Button mnemonicParsing="false" onAction="#Action_draw_class" text="Візуалізувати патерн">
-                     <graphic>
-                        <ImageView fitHeight="30.0" fitWidth="200.0" layoutX="308.5" layoutY="294.5" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="/editor/res/img/Corel Draw 11.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#patern_view_prev" text="Попередній перегляд" />
+                  <Button mnemonicParsing="false" onAction="#Action_draw_class" text="Візуалізувати патерн" />
+                  <Button mnemonicParsing="false" onAction="#patern_view_prev" text="Попередній перегляд з БД" />
                </children>
             </HBox>
             <TextArea fx:id="class_text" prefHeight="287.0" prefWidth="263.0" GridPane.rowIndex="1" />

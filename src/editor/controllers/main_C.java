@@ -7,10 +7,7 @@ import Classes.Architecture;
 import Classes.Layer;
 import Classes.Module;
 import Classes.Pattern;
-import editor.classes.CustomXWPFDocument;
-import editor.classes.DerbyDBManager;
-import editor.classes.id_Lable;
-import editor.classes.result_info;
+import editor.classes.*;
 import editor.services.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,6 +24,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.*;
+import localization.locale;
 import org.apache.poi.xwpf.usermodel.Document;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
@@ -44,6 +42,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 
@@ -71,13 +70,17 @@ public class main_C extends JPanel implements Initializable {
     public MenuItem MM_1_1_connect;
     public MenuItem MM_1_2_create_DB;
     public MenuItem MM_1_3_disconnect;
-    public Parent root;
+    public Parent root;                                     //головный контейнер выкна
     Stage thisstage;
-    DerbyDBManager derby_DB;
-    Architecture arch_tmp, arch_old = new Architecture();
+    DerbyDBManager derby_DB;    //клас роботі з базою
+    Architecture arch_tmp, arch_old = new Architecture();//Архітектури
     @FXML
     private Image arch_image;
-    private String secretkey="";
+
+    private String secretkey="";//Секретній ключ для шифровки дешифровки
+    public final configuration program_config=new configuration();//завантажити конфігурацію
+    public final ResourceBundle resourceBundle=ResourceBundle.getBundle("localization.editor", new Locale(program_config.language));//завантаження локалызації
+
 
     public void initData(Module module, DerbyDBManager derby_con) {
         derby_DB = derby_con;
@@ -87,17 +90,16 @@ public class main_C extends JPanel implements Initializable {
         }
         thisstage = (Stage) root.getScene().getWindow();
         thisstage.getIcons().add(new Image("/editor/res/img/uml_icon.png"));
-        thisstage.setTitle("Управління репозиторіем патернів");
-
+        thisstage.setTitle(resourceBundle.getString("управління_репозиторієм_патернів_редактор_архітектур"));
         thisstage.setMinWidth(900);//Минимальная шырина
         thisstage.setMinHeight(700);//Минимальная высота окна
         thisstage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
-                Object[] options = {"Так",
-                        "Ні"};
+                Object[] options = {resourceBundle.getString("загальні.так"),
+                        resourceBundle.getString("загальні.ні")};
                 int n = JOptionPane.showOptionDialog(null,
-                        "Ви впевнені що бажаете вийти незбережені зміни буде втрачено?",
-                        "Увага",
+                        resourceBundle.getString("загальні.ви_впевнені_що_бажаете_вийти_незбережені_зміни_буде_втрачено"),
+                        resourceBundle.getString("загальні.увага"),
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE,
                         null,     //do not use a custom Icon
@@ -112,12 +114,15 @@ public class main_C extends JPanel implements Initializable {
     }
 
     public void initData() {
+
         MM_1_1_connect.setDisable(true);
         MM_1_3_disconnect.setDisable(false);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        //arch.class
         //TODO log_in();
         //при двойном клике грузить архитекутуру
         LV_archs_DB.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
@@ -133,7 +138,7 @@ public class main_C extends JPanel implements Initializable {
             if (new File("src/README.md").exists())
                 new File("/README.md").delete();
             try {
-                functions.copyFileUsingStream(new File("README.md"), new File("src/README.md"));
+                FileUtils.copyFileUsingStream(new File("README.md"), new File("src/README.md"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -161,7 +166,7 @@ public class main_C extends JPanel implements Initializable {
             // существет ли база(создана ли)
             DirectoryChooser db_dir_FC = new DirectoryChooser();
             db_dir_FC.setInitialDirectory(new File(System.getProperty("user.dir")));
-            db_dir_FC.setTitle("Вкажіть шлях до папки з БД");
+            db_dir_FC.setTitle(resourceBundle.getString("вкажіть_шлях_до_папки_з_бд"));
             File db_dir = db_dir_FC.showDialog(functions.get_stage_by_element(TA_arch_description));
             if (db_dir != null) {
                 derby_DB = new DerbyDBManager(db_dir.getAbsolutePath());
@@ -211,7 +216,7 @@ public class main_C extends JPanel implements Initializable {
         // существет ли база(создана ли)
         DirectoryChooser db_dir_FC = new DirectoryChooser();
         db_dir_FC.setInitialDirectory(new File(System.getProperty("user.dir")));
-        db_dir_FC.setTitle("Вкажіть шлях до папки для нової БД");
+        db_dir_FC.setTitle(resourceBundle.getString("вкажіть_шлях_до_папки_для_новоі_бд"));
         File db_dir = db_dir_FC.showDialog(functions.get_stage_by_element(TA_arch_description));
         if (db_dir != null) {
             derby_DB = new DerbyDBManager(db_dir);
@@ -248,9 +253,7 @@ public class main_C extends JPanel implements Initializable {
 
 
     public void close_mw(ActionEvent actionEvent) {
-
-        System.exit(1);
-
+        thisstage.close();
     }
 
     public  void show_help(ActionEvent actionEvent) {// Отобразить помощь
@@ -382,7 +385,7 @@ public class main_C extends JPanel implements Initializable {
         Object[] options = {"Так",
                 "Ні"};
         int n = JOptionPane.showOptionDialog(null,
-                "Ви впевнені що бажаете видалити?",
+                "Ви впевнені, що бажаете видалити?",
                 "Увага",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
@@ -573,9 +576,9 @@ public class main_C extends JPanel implements Initializable {
     public void add_custom_layer_to_arch(Architecture arch_in) {//Додати шар в архітектуру
         Layer layer = new Layer();
 
-        String name = (String) JOptionPane.showInputDialog("Введіть назву");
+        String name = (String) JOptionPane.showInputDialog(resourceBundle.getString("загальні.введіть_назву"));
         if (name != null && !name.equals("")) {
-            String description = (String) JOptionPane.showInputDialog("Введіть опис");
+            String description = (String) JOptionPane.showInputDialog(resourceBundle.getString("загальні.введіть_опис"));
             layer.setName(name);
             layer.setDescription(description);
             arch_in.getLayers().add(layer);
@@ -586,9 +589,9 @@ public class main_C extends JPanel implements Initializable {
 
     public void add_custom_mod_to_layer(Architecture arch_in, Integer lay_nom) {//додати модуль в шар
         Module module = new Module();
-        String name = (String) JOptionPane.showInputDialog("Введіть назву");
+        String name = (String) JOptionPane.showInputDialog(resourceBundle.getString("загальні.введіть_назву"));
         if (name != null && !name.equals("")) {//перевірка на пустий Введення
-            String description = (String) JOptionPane.showInputDialog("Введіть опис");
+            String description = (String) JOptionPane.showInputDialog(resourceBundle.getString("загальні.введіть_опис"));
             module.setName(name);
             module.setDescription(description);
             arch_in.getLayers().get(lay_nom).getModules().add(module);
@@ -599,7 +602,7 @@ public class main_C extends JPanel implements Initializable {
 
     public void del_mod(Integer lay_nom, Integer mod_nom) {
         Object stringArray[] = {"Так", "Ні"};
-        int response = JOptionPane.showOptionDialog(null, "Ви впевнені що хочете видалити модуль?", "Питання",
+        int response = JOptionPane.showOptionDialog(null, "Ви впевнені, що хочете видалити модуль?", "Питання",
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, stringArray, stringArray[0]);
         if (response == JOptionPane.YES_OPTION) {
             arch_tmp.getLayers().get(lay_nom.intValue()).getModules().remove(mod_nom.intValue());
@@ -608,8 +611,8 @@ public class main_C extends JPanel implements Initializable {
     }
 
     public void del_lay(Integer lay_nom) {
-        Object stringArray[] = {"Так", "Ні"};
-        int response = JOptionPane.showOptionDialog(null, "Ви впевнені що хочете видалити шар?", "Питання",
+        Object stringArray[] = {resourceBundle.getString("загальні.так"), resourceBundle.getString("загальні.ні")};
+        int response = JOptionPane.showOptionDialog(null, "Ви впевнені, що хочете видалити шар?", "Питання",
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, stringArray, stringArray[0]);
         if (response == JOptionPane.YES_OPTION) {
             arch_tmp.getLayers().remove(lay_nom.intValue());
@@ -618,19 +621,19 @@ public class main_C extends JPanel implements Initializable {
     }
 
     public void edit_lay(Integer lay_nom) {
-        String name = (String) JOptionPane.showInputDialog(null, "Введіть назву", "Введення", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getName());
+        String name = (String) JOptionPane.showInputDialog(null, resourceBundle.getString("загальні.введіть_назву"), resourceBundle.getString("загальні.введення"), JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getName());
         if (name != null && !name.equals("")) {
             arch_tmp.getLayers().get(lay_nom).setName(name);
-            arch_tmp.getLayers().get(lay_nom).setDescription((String) JOptionPane.showInputDialog(null, "Введіть опис", "Введення", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getDescription()));
+            arch_tmp.getLayers().get(lay_nom).setDescription((String) JOptionPane.showInputDialog(null, resourceBundle.getString("загальні.введіть_опис"), resourceBundle.getString("загальні.введення"), JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getDescription()));
         }
         draw_arch_struct();
     }
 
     public void edit_mod(Integer lay_nom, Integer mod_nom) {
-        String name = (String) JOptionPane.showInputDialog(null, "Введіть назву", "Введення", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).getName());
+        String name = (String) JOptionPane.showInputDialog(null, resourceBundle.getString("загальні.введіть_назву"), resourceBundle.getString("загальні.введення"), JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).getName());
         if (name != null && !name.equals("")) {
             arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).setName(name);
-            arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).setDescription((String) JOptionPane.showInputDialog(null, "Введіть опис", "Введення", JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).getDescription()));
+            arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).setDescription((String) JOptionPane.showInputDialog(null, resourceBundle.getString("загальні.введіть_опис"), resourceBundle.getString("загальні.введення"), JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).getDescription()));
         }
         draw_arch_struct();
     }
@@ -656,7 +659,7 @@ public class main_C extends JPanel implements Initializable {
 
         patern_e_C controller = loader.<patern_e_C>getController();
         controller.initData(arch_old.getLayers().get(layer).getModules().get(module), derby_DB);
-        stage.setTitle("Редагування патернів \"" + arch_old.getLayers().get(layer).getModules().get(module).getName() + "\" архітектури \"" + arch_old.getName() + "\"");
+        stage.setTitle("Редагування патернів \"" + arch_old.getLayers().get(layer).getModules().get(module).getName() + "\" \""+arch_old.getLayers().get(layer).getName()+"\" \"" + arch_old.getName() + "\"");
         stage.show();
         Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();
         // do what you have to do

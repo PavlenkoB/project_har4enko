@@ -7,6 +7,7 @@ import Classes.Layer;
 import Classes.Module;
 import Classes.Pattern;
 import editor.classes.DerbyDBManager;
+import editor.classes.configuration;
 import editor.classes.id_Lable;
 import editor.services.draw_uml;
 import editor.services.pattern_work;
@@ -37,6 +38,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
@@ -75,6 +77,8 @@ public class patern_e_C implements Initializable {
 
     Module edited_module;
     DerbyDBManager derby_DB;
+    public final configuration program_config=new configuration();//завантажити конфігурацію
+    public final ResourceBundle resourceBundle=ResourceBundle.getBundle("localization.editor", new Locale(program_config.language));//завантаження локалызації
 
     void initData(Module module, DerbyDBManager derby_con) {
         derby_DB = derby_con;
@@ -83,15 +87,17 @@ public class patern_e_C implements Initializable {
         list_load_DB(null);
         Stage thisstage = (Stage) root.getScene().getWindow();
         thisstage.getIcons().add(new Image("/editor/res/img/uml_icon.png"));
-
+        //thisstage.setTitle("Управління репозиторіем патернів: редактор архітектур");
+        //thisstage.setMinWidth(900);//Минимальная шырина
+        //thisstage.setMinHeight(700);//Минимальная высота окна
 
         thisstage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
-                Object[] options = {"Так",
-                        "Ні"};
+                Object[] options = {resourceBundle.getString("загальні.так"),
+                        resourceBundle.getString("загальні.ні")};
                 int n = JOptionPane.showOptionDialog(null,
-                        "Ви впевнені що бажаете вийти незбережені зміни буде втрачено?",
-                        "Увага",
+                        "Ви впевнені, що бажаете вийти? Незбережені зміни буде втрачено.",
+                        resourceBundle.getString("загальні.увага"),
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE,
                         null,     //do not use a custom Icon
@@ -186,20 +192,20 @@ public class patern_e_C implements Initializable {
         edited_pattern.setType("");
         edited_pattern.setArch_id(Layer.load_layer_from_DB(edited_module.getLay_id(),derby_DB).getArch_id());
         if (pattern_work.pattern_save_to_DB(edited_pattern, derby_DB).getStatus() == true) {
-            JOptionPane.showMessageDialog(null, "Патерн збережено.", "Інформація", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, resourceBundle.getString("патерн.збережено"), resourceBundle.getString("загальні.інформація"), JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Помилка збереження зверніться до Адміністратора чи програміста.", "Попередження", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Помилка збереження зверніться до Адміністратора чи програміста.", resourceBundle.getString("загальні.попередження"), JOptionPane.WARNING_MESSAGE);
         }
         list_load_DB(null);
         LV_paterns_DB.setDisable(false);
     }
 
     public void delete_patern_DB(ActionEvent actionEvent) {//удалить з базы по ID
-        Object[] options = {"Так",
-                "Ні"};
+        Object[] options = {resourceBundle.getString("загальні.так"),
+                resourceBundle.getString("загальні.ні")};
         int n = JOptionPane.showOptionDialog(null,
-                "Ви впевнені що бажаете видалити?",
-                "Увага",
+                resourceBundle.getString("загальні.ви_впевнені_що_бажаете_видалити"),
+                resourceBundle.getString("загальні.увага"),
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,     //do not use a custom Icon
@@ -277,7 +283,7 @@ public class patern_e_C implements Initializable {
         try {
             Parent Parent = FXMLLoader.load(getClass().getResource("/editor/views/about.fxml"));
             Stage Stage = new Stage();
-            Stage.setTitle("Допомога");
+            Stage.setTitle(resourceBundle.getString("загальні.допомога"));
             Stage.setScene(new Scene(Parent));
             Stage.show();
         } catch (IOException e) {
@@ -286,11 +292,11 @@ public class patern_e_C implements Initializable {
     }
 
     public void close_mw(ActionEvent actionEvent) {
-        Object[] options = {"Так",
-                "Ні"};
+        Object[] options = {resourceBundle.getString("загальні.так"),
+                resourceBundle.getString("загальні.ні")};
         int n = JOptionPane.showOptionDialog(null,
-                "Ви впевнені що бажаете вийти не збарежені зміни буде втрачено?",
-                "Увага",
+                resourceBundle.getString("загальні.ви_впевнені_що_бажаете_вийти_незбережені_зміни_буде_втрачено"),
+                resourceBundle.getString("загальні.увага"),
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE,
                 null,     //do not use a custom Icon
@@ -332,7 +338,7 @@ public class patern_e_C implements Initializable {
     public void create_pattern(ActionEvent actionEvent) {
         JDialog Jname=new JDialog();
         Jname.setAlwaysOnTop(true);
-        String name = (String) JOptionPane.showInputDialog(null, "Введіть назву", "Введення", JOptionPane.QUESTION_MESSAGE, null, null, "");
+        String name = (String) JOptionPane.showInputDialog(null, resourceBundle.getString("загальні.введіть_назву"), resourceBundle.getString("загальні.введення"), JOptionPane.QUESTION_MESSAGE, null, null, "");
 
         //dialog.get
         if (name != null && !name.equals("")) {

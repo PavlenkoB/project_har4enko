@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -22,20 +23,20 @@
                         <Menu mnemonicParsing="false" text="Сервіс">
                             <items>
                                 <MenuItem mnemonicParsing="false" onAction="#create_backup" text="Створити резервну копію БД" />
-                        <MenuItem mnemonicParsing="false" onAction="#unpack_backup" text="Розархівувати резервну копію" />
+                        <MenuItem mnemonicParsing="false" onAction="#unpack_backup" text="Розархівувати резервну копію БД" />
                                 <MenuItem mnemonicParsing="false" onAction="#clear_db" text="Оптимізація БД" />
                         <MenuItem mnemonicParsing="false" onAction="#open_patrern_manager" text="Менеджер патернів" />
-                        <MenuItem mnemonicParsing="false" onAction="#import_all_to_docx" text="Імпорт в Word 2007" />
+                        <MenuItem mnemonicParsing="false" onAction="#import_all_to_docx" text="Експорт в Word 2007" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Допомога">
                             <items>
                                 <MenuItem mnemonicParsing="false" onAction="#show_help" text="Як користуватися" />
                                 <MenuItem mnemonicParsing="false" onAction="#show_about" text="Довідка" />
-                        <MenuItem mnemonicParsing="false" onAction="#log_in" text="Log in" />
+                        <MenuItem mnemonicParsing="false" onAction="#log_in" text="Log in" visible="false" />
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" text="Вихід" />
+                        <Menu mnemonicParsing="false" onAction="#close_mw" text="Вихід" />
                     </menus>
                 </MenuBar>
             </top>
@@ -43,7 +44,10 @@
             <HBox BorderPane.alignment="CENTER">
                <children>
                   <Label text="І'мя БД:" />
-                      <Label fx:id="selected_DB" text="DB_NAME" />
+                      <Label fx:id="selected_DB" text="DB_NAME">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
                </children>
             </HBox>
          </left>
@@ -111,7 +115,10 @@
                         <TextField fx:id="TF_arch_name_DB" maxWidth="-Infinity" prefHeight="25.0" prefWidth="303.0">
                      <FlowPane.margin>
                         <Insets />
-                     </FlowPane.margin></TextField>
+                     </FlowPane.margin>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></TextField>
                     </children>
                 </FlowPane>
             </top>
@@ -128,7 +135,7 @@
                       <Button mnemonicParsing="false" onAction="#arch_uml_gen" text="Візуалізувати" BorderPane.alignment="CENTER" />
                </top>
                <bottom>
-                  <Button mnemonicParsing="false" onAction="#arch_view_prev" text="Попередній перегляд" BorderPane.alignment="CENTER" />
+                  <Button mnemonicParsing="false" onAction="#arch_view_prev" text="Попередній перегляд з БД" BorderPane.alignment="CENTER" />
                </bottom>
             </BorderPane>
          </bottom>
