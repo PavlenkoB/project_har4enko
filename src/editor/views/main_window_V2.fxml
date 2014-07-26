@@ -160,14 +160,25 @@
             <rowConstraints>
                 <RowConstraints maxHeight="-Infinity" valignment="CENTER" vgrow="SOMETIMES" />
                 <RowConstraints vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
                 <RowConstraints vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
                 <Label text="Зв'язки" />
                 <TextArea fx:id="TA_arch_relations" prefHeight="146.0" prefWidth="324.0" GridPane.rowIndex="1" />
-                <Label text="Опис архітектури" GridPane.rowIndex="2" />
-                <TextArea fx:id="TA_arch_description" prefHeight="168.0" prefWidth="278.0" GridPane.rowIndex="3" />
+            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="2">
+              <tabs>
+                <Tab text="Опис архітектури">
+                     <content>
+                            <TextArea fx:id="TA_arch_description" prefHeight="168.0" prefWidth="278.0" />
+                     </content>
+                </Tab>
+                <Tab text="Опис усеї архітектури">
+                     <content>
+                        <TextArea fx:id="TA_full_arch_description" editable="false" prefHeight="200.0" prefWidth="200.0" />
+                     </content>
+                </Tab>
+              </tabs>
+            </TabPane>
             </children>
         </GridPane>
     </right>

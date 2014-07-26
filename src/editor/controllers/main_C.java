@@ -611,12 +611,13 @@ public class main_C extends JPanel implements Initializable {
     }
 
     public void del_lay(Integer lay_nom) {
-        Object stringArray[] = {resourceBundle.getString("загальні.так"), resourceBundle.getString("загальні.ні")};
+        ModalWindows.yes_no("Title","text","yes","no");
+        /*Object stringArray[] = {resourceBundle.getString("загальні.так"), resourceBundle.getString("загальні.ні")};
         int response = JOptionPane.showOptionDialog(null, "Ви впевнені, що хочете видалити шар?", "Питання",
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, stringArray, stringArray[0]);
         if (response == JOptionPane.YES_OPTION) {
             arch_tmp.getLayers().remove(lay_nom.intValue());
-        }
+        }*/
         draw_arch_struct();
     }
 
