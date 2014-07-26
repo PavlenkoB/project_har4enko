@@ -247,7 +247,6 @@ public class main_C extends JPanel implements Initializable {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            //TODO создание
         }
     }
 
@@ -372,7 +371,6 @@ public class main_C extends JPanel implements Initializable {
         TA_arch_description.setText(arch_tmp.getDescription());
         draw_arch_struct();
         arch_image = arch_tmp.getPreview();
-        //TODO перепроверить вывод что бы было удобно
         IV_arch_imageview.setFitHeight(arch_image.getRequestedHeight());
         IV_arch_imageview.setFitWidth(arch_image.getRequestedWidth());
         SP_P_IV.setPrefHeight(arch_image.getHeight());
@@ -428,14 +426,6 @@ public class main_C extends JPanel implements Initializable {
         if (derby_DB != null) {
             TF_arch_name_DB.setText(((id_Lable) LV_archs_DB.getSelectionModel().getSelectedItems().get(0)).getText());
         }
-        //load_this_arch_DB(null);
-//        arch_image = arch_tmp.getPreview();
-        //TODO перепроверить вывод что бы было удобно
-/*        IV_arch_imageview.setFitHeight(arch_image.getRequestedHeight());
-        IV_arch_imageview.setFitWidth(arch_image.getRequestedWidth());
-        SP_P_IV.setPrefHeight(arch_image.getHeight());
-        //SP_P_IV.setPrefWidth(arch_image.getWidth());
-        IV_arch_imageview.setImage(arch_image);*/
     }
 
     public void draw_arch_struct() {//відобразити структуру архітектури
