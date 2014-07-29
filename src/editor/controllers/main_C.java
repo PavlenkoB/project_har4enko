@@ -71,6 +71,7 @@ public class main_C extends JPanel implements Initializable {
     public MenuItem MM_1_2_create_DB;
     public MenuItem MM_1_3_disconnect;
     public Parent root;                                     //головный контейнер выкна
+    public TextArea TA_full_arch_description;           //повний опис архітектури
     Stage thisstage;
     DerbyDBManager derby_DB;    //клас роботі з базою
     Architecture arch_tmp, arch_old = new Architecture();//Архітектури
@@ -433,13 +434,13 @@ public class main_C extends JPanel implements Initializable {
         Integer pos_x = 0, pos_y = 0, s_x1 = 30, s_y1 = 30, s_x2 = 80, s_y2 = 30;
         Button tmp_btn;
         Label tmp_label;
+        String full_arch_description=new String(arch_tmp.getDescription());
         //pos_x += s_x1;
         //pos_y += s_y1;
         for (int s_lay = 0; s_lay < arch_tmp.getLayers().size(); s_lay++) {
             //Редагування
             tmp_btn = new Button("Редагувати");
             tmp_btn.getStyleClass().add("lay_edit");
-
             tmp_btn.setLayoutX(pos_x);
             tmp_btn.setLayoutY(pos_y);
             final int finalS_lay4 = s_lay;
@@ -464,6 +465,7 @@ public class main_C extends JPanel implements Initializable {
             });
             P_arch_struct.getChildren().add(tmp_btn);
             // Імя шару
+            full_arch_description+="\n"+arch_tmp.getLayers().get(s_lay).getDescription();
             tmp_label = new Label("Шар " + arch_tmp.getLayers().get(s_lay).getName());
             tmp_label.setLayoutX(pos_x + s_x2 + s_x2);
             tmp_label.setLayoutY(pos_y);
@@ -524,6 +526,7 @@ public class main_C extends JPanel implements Initializable {
                 });
                 P_arch_struct.getChildren().add(tmp_btn);
                 /*Імя модулю*/
+                full_arch_description+="\n"+arch_tmp.getLayers().get(s_lay).getModules().get(s_mod).getDescription();
                 tmp_label = new Label("Модуль " + arch_tmp.getLayers().get(s_lay).getModules().get(s_mod).getName());
                 pos_x += s_x2;
                 tmp_label.setLayoutX(pos_x);
@@ -559,8 +562,11 @@ public class main_C extends JPanel implements Initializable {
             }
         });
         P_arch_struct.getChildren().add(tmp_btn);
+        TA_full_arch_description.setText(full_arch_description);
+
         //P_arch_struct.setPrefHeight(pos_y);
     }
+
 
 
     public void add_custom_layer_to_arch(Architecture arch_in) {//Додати шар в архітектуру
