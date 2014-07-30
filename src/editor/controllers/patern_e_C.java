@@ -96,7 +96,7 @@ public class patern_e_C implements Initializable {
                 Object[] options = {resourceBundle.getString("загальні.так"),
                         resourceBundle.getString("загальні.ні")};
                 int n = JOptionPane.showOptionDialog(null,
-                        "Ви впевнені, що бажаете вийти? Незбережені зміни буде втрачено.",
+                        resourceBundle.getString("загальні.ви_впевнені_що_бажаете_вийти_незбережені_зміни_буде_втрачено"),
                         resourceBundle.getString("загальні.увага"),
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE,

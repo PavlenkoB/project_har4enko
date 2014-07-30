@@ -56,7 +56,7 @@ public class patterns_manager_C implements Initializable {
             //derby_DB
             rs = DB_connection.executeQuery("SELECT * FROM ARCHITECTURE ORDER BY NAME ASC");
             ObservableList<id_Lable> items = FXCollections.observableArrayList();
-            items.add(new id_Lable(-1, "Глобальні паттерни"));
+            items.add(new id_Lable(-1, "Глобальні"+" "+ resourceBundle.getString("загальні.патерни")));
             while (rs.next()) {
                 id_Lable tmp_lable = new id_Lable(rs.getInt("ID"), rs.getString("NAME"));
                 items.add(tmp_lable);
