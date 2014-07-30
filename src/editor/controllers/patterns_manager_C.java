@@ -2,6 +2,7 @@ package editor.controllers;
 
 import Classes.Pattern;
 import editor.classes.DerbyDBManager;
+import editor.classes.configuration;
 import editor.classes.id_Lable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
@@ -44,6 +46,9 @@ public class patterns_manager_C implements Initializable {
     public DerbyDBManager DB_connection;
     private String from_last_query, to_last_query;
 
+    public final configuration program_config=new configuration();//завантажити конфігурацію
+    public final ResourceBundle resourceBundle=ResourceBundle.getBundle("localization.editor", new Locale(program_config.language));//завантаження локалызації
+
     void initData(final DerbyDBManager derbyDBManager) {
         DB_connection = derbyDBManager;
         ResultSet rs = null;
@@ -51,7 +56,7 @@ public class patterns_manager_C implements Initializable {
             //derby_DB
             rs = DB_connection.executeQuery("SELECT * FROM ARCHITECTURE ORDER BY NAME ASC");
             ObservableList<id_Lable> items = FXCollections.observableArrayList();
-            items.add(new id_Lable(-1, "Глобальні паттерни"));
+            items.add(new id_Lable(-1, "Глобальні"+" "+ resourceBundle.getString("загальні.патерни")));
             while (rs.next()) {
                 id_Lable tmp_lable = new id_Lable(rs.getInt("ID"), rs.getString("NAME"));
                 items.add(tmp_lable);
@@ -82,13 +87,16 @@ public class patterns_manager_C implements Initializable {
 
         Stage thisstage = (Stage) root.getScene().getWindow();
         thisstage.getIcons().add(new Image("/editor/res/img/uml_icon.png"));
+        //thisstage.setTitle("Управління репозиторіем патернів: редактор архітектур");
+        thisstage.setMinWidth(900);//Минимальная шырина
+        thisstage.setMinHeight(700);//Минимальная высота окна
         thisstage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
-                Object[] options = {"Так",
-                        "Ні"};
+                Object[] options = {resourceBundle.getString("загальні.так"),
+                        resourceBundle.getString("загальні.ні")};
                 int n = JOptionPane.showOptionDialog(null,
-                        "Ви впевнені що бажаете вийти незбережені зміни буде втрачено?",
-                        "Увага",
+                        resourceBundle.getString("загальні.ви_впевнені_що_бажаете_вийти_незбережені_зміни_буде_втрачено"),
+                        resourceBundle.getString("загальні.увага"),
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE,
                         null,     //do not use a custom Icon
@@ -183,7 +191,7 @@ public class patterns_manager_C implements Initializable {
 
                 rs = DB_connection.executeQuery("SELECT * FROM LAYER WHERE ARCH_ID=" + ((id_Lable) CB_from_arch.getSelectionModel().getSelectedItem()).getDbid().intValue() + " ORDER BY NAME ASC");
                 ObservableList<id_Lable> items = FXCollections.observableArrayList();
-                items.add(new id_Lable(-1, "Непривязані паттерни"));
+                items.add(new id_Lable(-1, resourceBundle.getString("непривязані_паттерни")));
                 while (rs.next()) {
                     id_Lable tmp_lable = new id_Lable(rs.getInt("ID"), rs.getString("NAME"));
                     items.add(tmp_lable);

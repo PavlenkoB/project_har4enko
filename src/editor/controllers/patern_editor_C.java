@@ -38,7 +38,7 @@ public class patern_editor_C implements Initializable {
                 Object[] options = {"Так",
                         "Ні"};
                 int n = JOptionPane.showOptionDialog(null,
-                        "Ви впевнені що бажаете вийти незбережені зміни буде втрачено?",
+                        "Ви впевнені, що бажаете вийти незбережені зміни буде втрачено?",
                         "Увага",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE,

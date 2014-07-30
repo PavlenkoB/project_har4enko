@@ -22,7 +22,6 @@ public class about_C implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //TODO завантажити текс з файлу і відобразити в текстовому полі
         try {
             change_list.setText(functions.read_lines_from_file(getClass().getResource("/README.md").toURI()));
         } catch (URISyntaxException e) {

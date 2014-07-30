@@ -1,11 +1,11 @@
 ----------------------------------------------------------------
-Fri Jul 18 15:25:00 EEST 2014:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0147-496e-bf6b-0000040f1508 
-on database directory C:\Users\Alex\IdeaProjects\Harchenko\DB\paterns_DB with class loader sun.misc.Launcher$AppClassLoader@1b6d3586 
-Loaded from file:/C:/Users/Alex/IdeaProjects/Harchenko/derby.jar
+Tue Jul 29 16:58:54 EEST 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0147-826a-a899-0000082f4f70 
+on database directory D:\workspace\project_har4enko\DB\paterns_DB with class loader sun.misc.Launcher$AppClassLoader@58644d46 
+Loaded from file:/D:/workspace/project_har4enko/src/editor/lib/derby.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_05-b13
-user.dir=C:\Users\Alex\IdeaProjects\Harchenko
+java.runtime.version=1.8.0-b132
+user.dir=D:\workspace\project_har4enko
 os.name=Windows 8.1
 os.arch=amd64
 os.version=6.3

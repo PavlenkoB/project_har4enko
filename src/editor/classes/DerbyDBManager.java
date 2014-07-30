@@ -22,9 +22,7 @@ public class DerbyDBManager {
                 e.printStackTrace();
             } catch (SQLException e) {
                 try {
-                    //TODO проверить створення БД
                     con = DriverManager.getConnection(url + dbName + ";create=true");
-                    //con = null;
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
@@ -44,9 +42,7 @@ public class DerbyDBManager {
         }
 
         try {
-            //TODO проверить створення БД
             con = DriverManager.getConnection(url + dbName + ";create=true");
-
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
@@ -162,7 +158,6 @@ public class DerbyDBManager {
             String shutdownURL = url + dbName +";shutdown=true";
             DriverManager.getConnection(shutdownURL);
         } catch (SQLException e) {
-            System.out.println("Не удалось закрыть подключение к БД");
             e.printStackTrace();
         }
     }
