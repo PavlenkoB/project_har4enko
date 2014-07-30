@@ -22,10 +22,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import javax.swing.*;
 import java.io.File;
@@ -590,6 +592,9 @@ public class create_arch_C implements Initializable {
         back_grid_vis.getChildren().clear();
         back_grid_vis.getChildren().add(gridpane_lay);
         back_grid_vis.getChildren().add(archery);
+
+        architectures_done.clear();
+        architectures_done = gen_arch_done.pre_combine(arc_choise, module_done);
     }
 
     public void Save_arch(ActionEvent actionEvent) {
@@ -598,15 +603,14 @@ public class create_arch_C implements Initializable {
         Arch_choise_3.setVisible(false);
         Task_save.setVisible(true);
 
-        architectures_done = gen_arch_done.pre_combine(arc_choise, module_done);
-        System.out.print("Lol");
-        System.out.print(architectures_done.get(0).getId());
+        //architectures_done = gen_arch_done.pre_combine(arc_choise, module_done);
+        //System.out.print("Lol");
+        //System.out.print(architectures_done.get(0).getId());
 
     }
 
     public void Save_architecture_done(ActionEvent actionEvent) {
-        architectures_done.clear();
-        architectures_done = gen_arch_done.pre_combine(arc_choise, module_done);
+
         task.setName(task_name.getText());
         task.setDescription(task_description.getText());
         task.setArchitectures(architectures_done);
@@ -649,5 +653,22 @@ public class create_arch_C implements Initializable {
         Arch_choise_2.setVisible(true);
         Arch_choise_3.setVisible(false);
         Task_save.setVisible(false);
+    }
+
+    public void preview_to(ActionEvent actionEvent) {
+        Stage preview_view = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/create_arch/Interface/preview.fxml"));
+
+        Stage stage = new Stage(StageStyle.DECORATED);
+        try {
+            stage.setScene(new Scene((Pane) loader.load()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        preview_create_arch_C controller = loader.<preview_create_arch_C>getController();;
+        controller.initData(architectures_done);
+        stage.setTitle("Візуалазація створених архітектур");
+        stage.show();
     }
 }

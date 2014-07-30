@@ -52,7 +52,7 @@
           </content>
         </ScrollPane>
         <Button id="Arch_create_next_2" mnemonicParsing="false" onAction="#Save_arch" prefWidth="-1.0" text="Зберігти" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0" />
-        <Button id="Cancel" mnemonicParsing="false" onAction="#arch_create_next_4" text="Відміна" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="180.0" /><Button layoutX="48.1875" layoutY="335.0" mnemonicParsing="false" text="Візуалізація" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="65.0" />
+        <Button id="Cancel" mnemonicParsing="false" onAction="#arch_create_next_4" text="Відміна" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="180.0" /><Button layoutX="48.1875" layoutY="335.0" mnemonicParsing="false" onAction="#preview_to" text="Візуалізація" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="65.0" />
       </children>
     </AnchorPane>
     <AnchorPane fx:id="Task_save" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
@@ -106,7 +106,7 @@
       <menus>
         <Menu mnemonicParsing="false" text="Файл">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#connect_DB" text="Під'єднання до ДБ" />
+            <MenuItem mnemonicParsing="false" onAction="#connect_DB" text="Під'єднання до БД" />
             <MenuItem mnemonicParsing="false" onAction="#close" text="Вихід" />
           </items>
         </Menu>

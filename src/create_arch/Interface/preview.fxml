@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="create_arch.Controllers.preview_create_arch_C">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+<menus><Menu mnemonicParsing="false" text="Файл">
+  <items>
+    <MenuItem mnemonicParsing="false" onAction="#Exit" text="Вихід" />
+  </items>
+</Menu>
+</menus></MenuBar><AnchorPane fx:id="descript" prefHeight="30.0" />
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="271.0" VBox.vgrow="ALWAYS">
+<children><TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+  <tabs>
+    <Tab text="Текстове зображення">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+<children><ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+  <content>
+    <AnchorPane fx:id="preview_text" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+  </content>
+</ScrollPane>
+</children></AnchorPane>
+      </content>
+    </Tab>
+    <Tab text="Графічне зображення">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+<children><ScrollPane layoutY="6.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+<content><ImageView fx:id="preview_im" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+</content>
+</ScrollPane>
+</children></AnchorPane>
+      </content>
+    </Tab>
+  </tabs>
+</TabPane>
+</children></AnchorPane><AnchorPane prefHeight="75.0">
+<children><Button fx:id="next" layoutX="540.1875" layoutY="25.0" mnemonicParsing="false" onAction="#next_act" prefHeight="25.0" prefWidth="100.0" text="Наступна" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="25.0" /><Button fx:id="back" disable="true" layoutX="377.0" layoutY="25.0" mnemonicParsing="false" onAction="#back_act" prefHeight="25.0" prefWidth="100.0" text="Попередня" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="175.0" AnchorPane.topAnchor="25.0" /><TextField fx:id="go_to_value" layoutX="40.0" layoutY="25.0" prefHeight="25.0" prefWidth="100.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="25.0" /><Button fx:id="go_to" layoutX="160.0" layoutY="25.0" mnemonicParsing="false" onAction="#go_to_act" prefHeight="25.0" prefWidth="100.0" text="Перейти" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="175.0" AnchorPane.topAnchor="25.0" />
+</children></AnchorPane>
+  </children>
+</VBox>
