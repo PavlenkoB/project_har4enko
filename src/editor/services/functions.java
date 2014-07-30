@@ -229,7 +229,7 @@ public class functions {
                 e.printStackTrace();
             }
             String[] cmd = new String[0];
-            if(!new File("config.properties").exists()) {
+            if(!new File("plantuml.jar").exists()) {
                 try {
                     FileUtils.copyFileUsingStream(new File(main_C.class.getClassLoader().getResource("editor/lib/plantuml.jar").toURI()),new File("plantuml.jar"));
                 } catch (IOException e) {
