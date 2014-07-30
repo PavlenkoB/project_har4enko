@@ -10,10 +10,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import rating_arch.Controller.rating_arch_C;
 
@@ -37,6 +39,7 @@ public class Controller_mode_selection_user_menu implements Initializable {
     public Menu exp_menu;
     public ChoiceBox user_choise;
     public PasswordField pass_write;
+    public AnchorPane log_massage;
     Main editor = new Main();
     rating_arch_C rating = new rating_arch_C();
     public Button cancelButton;
@@ -139,6 +142,27 @@ public class Controller_mode_selection_user_menu implements Initializable {
                     adm_menu.setDisable(false);
                     arch_menu.setDisable(true);
                     exp_menu.setDisable(true);
+
+                    log_massage.getChildren().clear();
+                    Label log_mass = new Label("Вхід виконано - Адміністратором");
+                    log_mass.setAlignment(Pos.CENTER);
+                    log_mass.setFont(Font.font(15));
+                    log_massage.setRightAnchor(log_mass,25.0);
+                    log_massage.setLeftAnchor(log_mass, 25.0);
+                    log_massage.setTopAnchor(log_mass, 5.0);
+                    log_massage.setBottomAnchor(log_mass,5.0);
+                    log_massage.getChildren().add(log_mass);
+                }
+                else {
+                    log_massage.getChildren().clear();
+                    Label log_mass = new Label("Пароль введений невірно");
+                    log_mass.setAlignment(Pos.CENTER);
+                    log_mass.setFont(Font.font(15));
+                    log_massage.setRightAnchor(log_mass,25.0);
+                    log_massage.setLeftAnchor(log_mass, 25.0);
+                    log_massage.setTopAnchor(log_mass, 5.0);
+                    log_massage.setBottomAnchor(log_mass,5.0);
+                    log_massage.getChildren().add(log_mass);
                 }
             }
         };
@@ -148,6 +172,27 @@ public class Controller_mode_selection_user_menu implements Initializable {
                     adm_menu.setDisable(true);
                     arch_menu.setDisable(false);
                     exp_menu.setDisable(true);
+
+                    log_massage.getChildren().clear();
+                    Label log_mass = new Label("Вхід виконано - Архітектором");
+                    log_mass.setAlignment(Pos.CENTER);
+                    log_mass.setFont(Font.font(15));
+                    log_massage.setRightAnchor(log_mass,25.0);
+                    log_massage.setLeftAnchor(log_mass, 25.0);
+                    log_massage.setTopAnchor(log_mass, 5.0);
+                    log_massage.setBottomAnchor(log_mass,5.0);
+                    log_massage.getChildren().add(log_mass);
+                }
+                else {
+                    log_massage.getChildren().clear();
+                    Label log_mass = new Label("Пароль введений невірно");
+                    log_mass.setAlignment(Pos.CENTER);
+                    log_mass.setFont(Font.font(15));
+                    log_massage.setRightAnchor(log_mass,25.0);
+                    log_massage.setLeftAnchor(log_mass, 25.0);
+                    log_massage.setTopAnchor(log_mass, 5.0);
+                    log_massage.setBottomAnchor(log_mass,5.0);
+                    log_massage.getChildren().add(log_mass);
                 }
             }
         };
@@ -157,6 +202,27 @@ public class Controller_mode_selection_user_menu implements Initializable {
                     adm_menu.setDisable(true);
                     arch_menu.setDisable(true);
                     exp_menu.setDisable(false);
+
+                    log_massage.getChildren().clear();
+                    Label log_mass = new Label("Вхід виконано - Експертом");
+                    log_mass.setAlignment(Pos.CENTER);
+                    log_mass.setFont(Font.font(15));
+                    log_massage.setRightAnchor(log_mass,25.0);
+                    log_massage.setLeftAnchor(log_mass, 25.0);
+                    log_massage.setTopAnchor(log_mass, 5.0);
+                    log_massage.setBottomAnchor(log_mass,5.0);
+                    log_massage.getChildren().add(log_mass);
+                }
+                else {
+                    log_massage.getChildren().clear();
+                    Label log_mass = new Label("Пароль введений невірно");
+                    log_mass.setAlignment(Pos.CENTER);
+                    log_mass.setFont(Font.font(15));
+                    log_massage.setRightAnchor(log_mass,25.0);
+                    log_massage.setLeftAnchor(log_mass, 25.0);
+                    log_massage.setTopAnchor(log_mass, 5.0);
+                    log_massage.setBottomAnchor(log_mass,5.0);
+                    log_massage.getChildren().add(log_mass);
                 }
             }
         };

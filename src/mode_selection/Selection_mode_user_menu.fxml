@@ -6,9 +6,7 @@
 <?import javafx.scene.text.*?>
 
 <VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mode_selection.Controller_mode_selection_user_menu">
-    <children>
-        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
-            <children><MenuBar layoutX="20.0" layoutY="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <children><MenuBar layoutX="20.0" layoutY="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
   <menus>
     <Menu mnemonicParsing="false" text="Файл">
       <items>
@@ -45,8 +43,6 @@
 <font>
 <Font name="Times New Roman" size="24.0" />
 </font></Label><PasswordField fx:id="pass_write" layoutX="320.0" layoutY="176.0" prefHeight="25.0" prefWidth="169.0" AnchorPane.leftAnchor="320.0" AnchorPane.topAnchor="176.0" /><Button layoutX="399.0" layoutY="225.0" mnemonicParsing="false" onAction="#logining" prefHeight="25.0" prefWidth="90.0" text="Вхід" AnchorPane.leftAnchor="399.0" AnchorPane.topAnchor="225.0" />
-</children></AnchorPane>
-            </children>
-        </AnchorPane>
+</children></AnchorPane><AnchorPane fx:id="log_massage" prefHeight="40.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" />
     </children>
 </VBox>

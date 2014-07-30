@@ -59,6 +59,7 @@ public class preview_create_arch_C implements Initializable {
         preview_image = arch_image_gen_with_patterns(architecture);
 
         double zoom = 0.8;
+        preview_im.setImage(null);
         preview_im.setFitHeight(preview_image.getRequestedHeight() * zoom);
         preview_im.setFitWidth(preview_image.getRequestedWidth() * zoom);
 
@@ -136,28 +137,29 @@ public class preview_create_arch_C implements Initializable {
     public void next_act(ActionEvent actionEvent) {
         sel_arch++;
         draw_arch_im_text(architectures.get(sel_arch),architectures.size(), sel_arch);
-        border_contr(sel_arch,architectures.size());
+        border_contr(architectures.size(),sel_arch);
     }
 
     public void go_to_act(ActionEvent actionEvent) {
-        Integer buff = Integer.parseInt(go_to_value.getSelectedText().toString());
+        String goto_str = go_to_value.getText().toString();
+        Integer buff = Integer.parseInt(goto_str);
         int goto_value = (int) buff;
-        sel_arch = goto_value;
+        sel_arch = goto_value-1;
         draw_arch_im_text(architectures.get(sel_arch),architectures.size(), sel_arch);
-        border_contr(sel_arch,architectures.size());
+        border_contr(architectures.size(),sel_arch);
     }
 
     public void back_act(ActionEvent actionEvent) {
         sel_arch--;
         draw_arch_im_text(architectures.get(sel_arch),architectures.size(), sel_arch);
-        border_contr(sel_arch,architectures.size());
+        border_contr(architectures.size(),sel_arch);
     }
 
     public void border_contr(int num_all, int num_selected){
         if (num_selected==0){
             back.setDisable(true);
         }
-        else if (num_selected==num_all){
+        else if ((num_selected+1)==num_all){
             next.setDisable(true);
         }
         else {
@@ -172,6 +174,6 @@ public class preview_create_arch_C implements Initializable {
         }
         draw_arch_im_text(architectures.get(0), architectures.size(), 0);
         sel_arch = 0;
-        border_contr(sel_arch,architectures.size());
+        border_contr(architectures.size(),sel_arch);
     }
 }
