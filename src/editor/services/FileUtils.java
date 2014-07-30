@@ -37,9 +37,11 @@ public class FileUtils {
             while ((length = is.read(buffer)) > 0) {
                 os.write(buffer, 0, length);
             }
+            System.out.printf("File copy completed"+destination.getAbsolutePath().toString()+"\n");
         } finally {
             is.close();
             os.close();
         }
+
     }
 }
