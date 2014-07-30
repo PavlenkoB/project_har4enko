@@ -30,7 +30,7 @@
     <MenuBar id="new_arch_menu" prefHeight="25.0" prefWidth="629.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <menus>
         <Menu mnemonicParsing="false" text="Файл">
-          <items><MenuItem mnemonicParsing="false" onAction="#connect_DB" text="Під'єднання до ДБ" /><Menu mnemonicParsing="false" text="Режим роботи">
+          <items><MenuItem mnemonicParsing="false" onAction="#connect_DB" text="Під'єднання до БД" /><Menu mnemonicParsing="false" text="Режим роботи">
   <items>
     <MenuItem mnemonicParsing="false" text="Адміністратор" /><MenuItem mnemonicParsing="false" text="Архітектор" /><MenuItem disable="true" mnemonicParsing="false" text="Експерт" />
   </items>
@@ -71,13 +71,13 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
 <children><SplitPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-<items><AnchorPane fx:id="ankor_im_1" prefHeight="200.0" prefWidth="200.0">
-<children><ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0" GridPane.columnIndex="1">
+<items><AnchorPane fx:id="ankor_im_1" prefHeight="123.0" prefWidth="286.0">
+<children><AnchorPane fx:id="title_arch1" prefHeight="25.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" /><ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0" GridPane.columnIndex="1">
 <content><ImageView fx:id="arch_1_im" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
 </content>
 </ScrollPane>
 </children></AnchorPane><AnchorPane fx:id="ankor_im_2" prefHeight="200.0" prefWidth="200.0">
-<children><ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+<children><AnchorPane fx:id="title_arch2" prefHeight="25.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" /><ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
 <content><ImageView fx:id="arch_2_im" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
 </content>
 </ScrollPane>

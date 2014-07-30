@@ -64,6 +64,8 @@ public class rating_arch_C implements Initializable {
     public AnchorPane ankor_im_2;
     public AnchorPane Rating_arch_3;
     public ImageView IV_test;
+    public AnchorPane title_arch2;
+    public AnchorPane title_arch1;
     ArrayList<javafx.scene.control.TextField> textField_marks = new ArrayList<>();
 
 
@@ -294,8 +296,10 @@ public class rating_arch_C implements Initializable {
         label_ar_2.setLayoutX(0);
         label_ar_2.setFont(Font.font(15));
 
-        ankor_im_1.getChildren().add(label_ar_1);
-        ankor_im_2.getChildren().add(label_ar_2);
+        title_arch1.getChildren().clear();
+        title_arch2.getChildren().clear();
+        title_arch1.getChildren().add(label_ar_1);
+        title_arch2.getChildren().add(label_ar_2);
 
 
         int vsize = 0,

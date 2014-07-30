@@ -668,7 +668,7 @@ public class create_arch_C implements Initializable {
 
         preview_create_arch_C controller = loader.<preview_create_arch_C>getController();;
         controller.initData(architectures_done);
-        stage.setTitle("Візуалазація створених архітектур");
+        stage.setTitle("Візуалізація створених архітектур");
         stage.show();
     }
 }

@@ -231,4 +231,8 @@ public class Controller_mode_selection_user_menu implements Initializable {
             }
         };
     }
+
+    public void onEnter(ActionEvent actionEvent) {
+        logining(null);
+    }
 }
