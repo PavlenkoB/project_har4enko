@@ -773,7 +773,6 @@ public class main_C extends JPanel implements Initializable {
                 tmpRun = tmpParagraph.createRun();
                 architecture = arch_work.arch_load_from_DB(((id_Lable) LV_archs_DB.getItems().get(arch_nom)).getDbid(), derby_DB);
                 tmpRun.setText("("+ resourceBundle.getString("загальні.Архітектура") +")" + architecture.getName());
-                tmpRun.addBreak();
                 docx.write(new FileOutputStream(docx_f));
 
                 bi = ImageConverter.FXImgtoBufferedImage(architecture.getPreview());
@@ -783,7 +782,16 @@ public class main_C extends JPanel implements Initializable {
                 document = new CustomXWPFDocument(new FileInputStream(docx_f));
                 fos = new FileOutputStream(docx_f);
                 id = document.addPictureData(new FileInputStream(outputfile), Document.PICTURE_TYPE_PNG);
-                document.createPicture(id, document.getNextPicNameNumber(Document.PICTURE_TYPE_PNG), ((Double) architecture.getPreview().getWidth()).intValue(), ((Double) architecture.getPreview().getHeight()).intValue());
+                Integer width=((Double) architecture.getPreview().getWidth()).intValue();//ширина картинки що потрібно вставити
+                Integer height=((Double) architecture.getPreview().getHeight()).intValue();//висота картинки що потрібно вставити
+                Integer max_height=830;//максимальна висота
+                if(height>max_height){
+                    width=width*max_height/height;
+                    height=height*max_height/height;
+                }else {
+                }
+
+                document.createPicture(id, document.getNextPicNameNumber(Document.PICTURE_TYPE_PNG), width, height);//((Double) architecture.getPreview().getHeight()).intValue());
                 document.write(fos);
                 fos.flush();
                 fos.close();
@@ -822,6 +830,16 @@ public class main_C extends JPanel implements Initializable {
                             document = new CustomXWPFDocument(new FileInputStream(docx_f));
                             fos = new FileOutputStream(docx_f);
                             id = document.addPictureData(new FileInputStream(outputfile), Document.PICTURE_TYPE_PNG);
+
+                             width=((Double) architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview().getWidth()).intValue();//ширина картинки що потрібно вставити
+                             height=((Double) architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview().getHeight()).intValue();//висота картинки що потрібно вставити
+
+                            if(height>max_height){
+                                width=width*max_height/height;
+                                height=height*max_height/height;
+                            }else {
+                            }
+
                             document.createPicture("---------("+ resourceBundle.getString("загальні.Патерн") +")" + architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getName(), id, document.getNextPicNameNumber(Document.PICTURE_TYPE_PNG), ((Double) architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview().getWidth()).intValue(), ((Double) architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview().getHeight()).intValue());
                             document.write(fos);
                             fos.flush();
