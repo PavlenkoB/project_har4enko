@@ -136,6 +136,7 @@ public class Controller_mode_selection_user_menu implements Initializable {
 
     public void logining(ActionEvent actionEvent) {
         String password=null;
+        boolean log = false;
         if(user_choise.getSelectionModel().getSelectedItem().equals("Адміністратор")){
             for (int i=0; i<log_ins.size();i++){
                 if (log_ins.get(i).getLogin().equals("adm") & pass_write.getText().equals(log_ins.get(i).getPassword())){
@@ -152,8 +153,9 @@ public class Controller_mode_selection_user_menu implements Initializable {
                     log_massage.setTopAnchor(log_mass, 5.0);
                     log_massage.setBottomAnchor(log_mass,5.0);
                     log_massage.getChildren().add(log_mass);
+                    log = true;
                 }
-                else {
+                else if (!log){
                     log_massage.getChildren().clear();
                     Label log_mass = new Label("Пароль введений невірно");
                     log_mass.setAlignment(Pos.CENTER);
@@ -182,8 +184,9 @@ public class Controller_mode_selection_user_menu implements Initializable {
                     log_massage.setTopAnchor(log_mass, 5.0);
                     log_massage.setBottomAnchor(log_mass,5.0);
                     log_massage.getChildren().add(log_mass);
+                    log = true;
                 }
-                else {
+                else if (!log){
                     log_massage.getChildren().clear();
                     Label log_mass = new Label("Пароль введений невірно");
                     log_mass.setAlignment(Pos.CENTER);
@@ -212,8 +215,9 @@ public class Controller_mode_selection_user_menu implements Initializable {
                     log_massage.setTopAnchor(log_mass, 5.0);
                     log_massage.setBottomAnchor(log_mass,5.0);
                     log_massage.getChildren().add(log_mass);
+                    log = true;
                 }
-                else {
+                else if (!log){
                     log_massage.getChildren().clear();
                     Label log_mass = new Label("Пароль введений невірно");
                     log_mass.setAlignment(Pos.CENTER);
