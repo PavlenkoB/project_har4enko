@@ -390,8 +390,23 @@ public class patterns_manager_C implements Initializable {
 
     public void from_list_edit() {
         if (from_list.getSelectionModel().getSelectedItem() != null) {
-        }
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/patern_editor.fxml"));
 
+            Stage stage = new Stage(StageStyle.DECORATED);
+            try {
+                stage.setScene(new Scene((Pane) loader.load()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            patern_editor_C controller = loader.<patern_editor_C>getController();
+            controller.initData(Pattern.pattern_load_from_DB(((id_Lable) from_list.getSelectionModel().getSelectedItem()).getDbid(),DB_connection),DB_connection);
+            stage.setTitle("Редагування патерну");
+            stage.show();
+            //Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();
+            // do what you have to do
+            //stage_c.close();
+        }
     }
 
     public void from_list_add() {
@@ -409,6 +424,22 @@ public class patterns_manager_C implements Initializable {
 
     public void to_list_edit() {
         if (to_list.getSelectionModel().getSelectedItem() != null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/patern_editor.fxml"));
+
+            Stage stage = new Stage(StageStyle.DECORATED);
+            try {
+                stage.setScene(new Scene((Pane) loader.load()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            patern_editor_C controller = loader.<patern_editor_C>getController();
+            controller.initData(Pattern.pattern_load_from_DB(((id_Lable) to_list.getSelectionModel().getSelectedItem()).getDbid(),DB_connection),DB_connection);
+            stage.setTitle("Редагування патерну");
+            stage.show();
+            //Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();
+            // do what you have to do
+            //stage_c.close();
         }
     }
 
