@@ -622,7 +622,23 @@ public class create_arch_C implements Initializable {
                     boolean res_arch = new functions().arch_done_save_to_DB(task.getId(), architectures_done.get(i), derby_DB);
                 }
 
-                try {
+                Object[] options = {"ОК"};
+                int n = JOptionPane.showOptionDialog(null,
+                        "Збереження архітектур успішне",
+                        "Збереження",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE,
+                        null,     //do not use a custom Icon
+                        options,  //the titles of buttons
+                        options[0]); //default button title
+                if (n == 0) {
+                    disconnect_DB(null);
+                    Stage create_arch_win = new Stage();
+                    create_arch_win = (Stage) task_name.getScene().getWindow();
+                    create_arch_win.close();
+                }
+
+                /*try {
                     Stage stage = new Stage();
                     Parent root;
                     root = FXMLLoader.load(getClass().getResource("/create_arch/Interface/Save_done.fxml"));
@@ -632,7 +648,7 @@ public class create_arch_C implements Initializable {
                     stage.show();
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
+                }*/
 
             } catch (SQLException e) {
                 e.printStackTrace();

@@ -186,7 +186,7 @@
                                 <TextArea fx:id="TA_arch_description" prefHeight="168.0" prefWidth="278.0"/>
                             </content>
                         </Tab>
-                        <Tab text="Опис усеї архітектури">
+                        <Tab text="Опис усієї архітектури">
                             <content>
                                 <TextArea fx:id="TA_full_arch_description" editable="false" prefHeight="200.0"
                                           prefWidth="200.0"/>

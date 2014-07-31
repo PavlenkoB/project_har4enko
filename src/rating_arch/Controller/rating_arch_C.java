@@ -66,6 +66,8 @@ public class rating_arch_C implements Initializable {
     public ImageView IV_test;
     public AnchorPane title_arch2;
     public AnchorPane title_arch1;
+    public Button save_marks_but;
+    public AnchorPane root;
     ArrayList<javafx.scene.control.TextField> textField_marks = new ArrayList<>();
 
 
@@ -633,11 +635,18 @@ public class rating_arch_C implements Initializable {
         if (n == 0) {
             Start_rating();
         } else if (n == 1) {
-            Exit(new ActionEvent());
-        } else {
             Stage win = new Stage();
-            win = (Stage) Rating_arch_1.getScene().getWindow();
+            win = (Stage) root.getScene().getWindow();
+            disconnect_DB(mark_db);
+            disconnect_DB(derby_DB);
             win.close();
+        } else {
+            /*Stage win = new Stage();
+            win = (Stage) root.getScene().getWindow();
+            disconnect_DB(mark_db);
+            disconnect_DB(derby_DB);
+            win.close();*/
+
         }
     }
 
