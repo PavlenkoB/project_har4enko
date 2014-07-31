@@ -466,7 +466,7 @@ public class main_C extends JPanel implements Initializable {
             P_arch_struct.getChildren().add(tmp_btn);
             // Імя шару
             full_arch_description+="\n"+arch_tmp.getLayers().get(s_lay).getDescription();
-            tmp_label = new Label(resourceBundle.getString("загальні.Шар") + arch_tmp.getLayers().get(s_lay).getName());
+            tmp_label = new Label(resourceBundle.getString("загальні.Шар") +" "+ arch_tmp.getLayers().get(s_lay).getName());
             tmp_label.setLayoutX(pos_x + s_x2 + s_x2);
             tmp_label.setLayoutY(pos_y);
             P_arch_struct.getChildren().add(tmp_label);
@@ -527,7 +527,7 @@ public class main_C extends JPanel implements Initializable {
                 P_arch_struct.getChildren().add(tmp_btn);
                 /*Імя модулю*/
                 full_arch_description+="\n"+arch_tmp.getLayers().get(s_lay).getModules().get(s_mod).getDescription();
-                tmp_label = new Label(resourceBundle.getString("загальні.Модуль") + arch_tmp.getLayers().get(s_lay).getModules().get(s_mod).getName());
+                tmp_label = new Label(resourceBundle.getString("загальні.Модуль") +" "+ arch_tmp.getLayers().get(s_lay).getModules().get(s_mod).getName());
                 pos_x += s_x2;
                 tmp_label.setLayoutX(pos_x);
                 tmp_label.setLayoutY(pos_y);
@@ -621,7 +621,7 @@ public class main_C extends JPanel implements Initializable {
         String name = (String) JOptionPane.showInputDialog(null, resourceBundle.getString("загальні.введіть_назву"), resourceBundle.getString("загальні.введення"), JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getName());
         if (name != null && !name.equals("")) {
             arch_tmp.getLayers().get(lay_nom).setName(name);
-            arch_tmp.getLayers().get(lay_nom).setDescription((String) JOptionPane.showInputDialog(null, resourceBundle.getString("загальні.введіть_опис"), resourceBundle.getString("загальні.введення"), JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getDescription()));
+            arch_tmp.getLayers().get(lay_nom).setDescription((String) JOptionPane.showInputDialog(null, resourceBundle.getString("загальні.введіть_опис"), resourceBundle.getString("загальні.введення")+" "+resourceBundle.getString("загальні.шар"), JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getDescription()));
         }
         draw_arch_struct();
     }
@@ -630,7 +630,7 @@ public class main_C extends JPanel implements Initializable {
         String name = (String) JOptionPane.showInputDialog(null, resourceBundle.getString("загальні.введіть_назву"), resourceBundle.getString("загальні.введення"), JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).getName());
         if (name != null && !name.equals("")) {
             arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).setName(name);
-            arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).setDescription((String) JOptionPane.showInputDialog(null, resourceBundle.getString("загальні.введіть_опис"), resourceBundle.getString("загальні.введення"), JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).getDescription()));
+            arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).setDescription((String) JOptionPane.showInputDialog(null, resourceBundle.getString("загальні.введіть_опис"), resourceBundle.getString("загальні.введення")+" "+resourceBundle.getString("загальні.модуль"), JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).getDescription()));
         }
         draw_arch_struct();
     }
