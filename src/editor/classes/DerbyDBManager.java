@@ -91,9 +91,11 @@ public class DerbyDBManager {
 
     // запрос на обновление базы данных  (INSERT, UPDATE, CREATE TABLE и т.п.)
     public void executeUpdate(String sql) throws SQLException {
-        Statement stmt = con.createStatement();
-        int count = stmt.executeUpdate(sql);
-        stmt.close();
+        //Statement stmt = con.createStatement();
+        PreparedStatement preparedStatement =con.prepareStatement(sql);
+        int count = preparedStatement.executeUpdate();
+        //stmt.close();
+        preparedStatement.close();
     }
 
     /*
@@ -148,8 +150,8 @@ public class DerbyDBManager {
 
     // запрос на выборку данных из базы
     public ResultSet executeQuery(String sql) throws SQLException {
-        Statement stmt = con.createStatement();
-        ResultSet result = stmt.executeQuery(sql);
+        PreparedStatement preparedStatement= con.prepareStatement(sql);
+        ResultSet result = preparedStatement.executeQuery(sql);
         return result;
     }
 
