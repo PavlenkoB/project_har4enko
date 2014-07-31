@@ -164,15 +164,15 @@
             </rowConstraints>
             <children>
                 <Label text="Зв'язки" />
-                <TextArea fx:id="TA_arch_relations" prefHeight="146.0" prefWidth="324.0" GridPane.rowIndex="1" />
-                <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="2">
+                <TextArea fx:id="TA_arch_relations" GridPane.rowIndex="1" />
+                <TabPane minWidth="330.0" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="2">
                     <tabs>
                         <Tab text="Опис архітектури">
-                            <content>
+                     <content>
                                 <TextArea fx:id="TA_arch_description" prefHeight="168.0" prefWidth="278.0" wrapText="true" />
-                            </content>
+                     </content>
                         </Tab>
-                        <Tab text="Опис усієї архітектури">
+                        <Tab text="Розширений опис архітектури">
                             <content>
                                 <TextArea fx:id="TA_full_arch_description" editable="false" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
                             </content>
