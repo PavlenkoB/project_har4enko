@@ -1,58 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            stylesheets="/editor/css/main_style.css" xmlns="http://javafx.com/javafx/8"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="editor.controllers.main_C">
+
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="/editor/css/main_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="editor.controllers.main_C">
     <top>
         <BorderPane BorderPane.alignment="CENTER">
             <top>
-                <MenuBar maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="228.0"
-                         AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                <MenuBar maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="228.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                     <menus>
                         <Menu mnemonicParsing="false" text="База даних">
                             <items>
-                                <MenuItem fx:id="MM_1_1_connect" mnemonicParsing="false" onAction="#connect_DB"
-                                          text="Під'єднання до БД"/>
-                                <MenuItem fx:id="MM_1_3_disconnect" disable="true" mnemonicParsing="false"
-                                          onAction="#disconnect_DB" text="Від'єднатися від БД"/>
-                                <MenuItem fx:id="MM_1_2_create_DB" mnemonicParsing="false" onAction="#creat_DB"
-                                          text="Створити нову БД "/>
+                                <MenuItem fx:id="MM_1_1_connect" mnemonicParsing="false" onAction="#connect_DB" text="Під'єднання до БД" />
+                                <MenuItem fx:id="MM_1_3_disconnect" disable="true" mnemonicParsing="false" onAction="#disconnect_DB" text="Від'єднатися від БД" />
+                                <MenuItem fx:id="MM_1_2_create_DB" mnemonicParsing="false" onAction="#creat_DB" text="Створити нову БД " />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Сервіс">
                             <items>
-                                <MenuItem mnemonicParsing="false" onAction="#create_backup"
-                                          text="Створити резервну копію БД"/>
-                                <MenuItem mnemonicParsing="false" onAction="#unpack_backup"
-                                          text="Розархівувати резервну копію БД"/>
-                                <MenuItem mnemonicParsing="false" onAction="#clear_db" text="Оптимізація БД"/>
-                                <MenuItem mnemonicParsing="false" onAction="#open_patrern_manager"
-                                          text="Менеджер патернів"/>
-                                <MenuItem mnemonicParsing="false" onAction="#import_all_to_docx"
-                                          text="Експорт в Word 2007"/>
+                                <MenuItem mnemonicParsing="false" onAction="#create_backup" text="Створити резервну копію БД" />
+                                <MenuItem mnemonicParsing="false" onAction="#unpack_backup" text="Розархівувати резервну копію БД" />
+                                <MenuItem mnemonicParsing="false" onAction="#clear_db" text="Оптимізація БД" />
+                                <MenuItem mnemonicParsing="false" onAction="#open_patrern_manager" text="Менеджер патернів" />
+                                <MenuItem mnemonicParsing="false" onAction="#import_all_to_docx" text="Експорт в Word 2007" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Допомога">
                             <items>
-                                <MenuItem mnemonicParsing="false" onAction="#show_help" text="Як користуватися"/>
-                                <MenuItem mnemonicParsing="false" onAction="#show_about" text="Довідка"/>
-                                <MenuItem mnemonicParsing="false" onAction="#log_in" text="Log in" visible="false"/>
+                                <MenuItem mnemonicParsing="false" onAction="#show_help" text="Як користуватися" />
+                                <MenuItem mnemonicParsing="false" onAction="#show_about" text="Довідка" />
+                                <MenuItem mnemonicParsing="false" onAction="#log_in" text="Log in" visible="false" />
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" onAction="#close_mw" text="Вихід"/>
+                        <Menu mnemonicParsing="false" onAction="#close_mw" text="Вихід" />
                     </menus>
                 </MenuBar>
             </top>
             <left>
                 <HBox BorderPane.alignment="CENTER">
                     <children>
-                        <Label text="І'мя БД:"/>
-                        <Label fx:id="selected_DB" text="DB_NAME" style="-fx-font-weight: bold"></Label>
+                        <Label text="І'мя БД:" />
+                        <Label fx:id="selected_DB" style="-fx-font-weight: bold" text="DB_NAME" />
                     </children>
                 </HBox>
             </left>
@@ -61,57 +55,51 @@
     <left>
         <BorderPane BorderPane.alignment="CENTER">
             <top>
-                <Label prefHeight="25.0" text="Архітектури в БД" BorderPane.alignment="CENTER"/>
+                <Label prefHeight="25.0" text="Архітектури в БД" BorderPane.alignment="CENTER" />
             </top>
             <center>
-                <ListView fx:id="LV_archs_DB" BorderPane.alignment="CENTER"/>
+                <ListView fx:id="LV_archs_DB" BorderPane.alignment="CENTER" />
             </center>
             <bottom>
                 <GridPane BorderPane.alignment="CENTER">
                     <columnConstraints>
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Button mnemonicParsing="false" onAction="#save_this_arch_to_DB" prefWidth="120.0"
-                                text="Зберегти" GridPane.rowIndex="1">
+                        <Button mnemonicParsing="false" onAction="#save_this_arch_to_DB" prefWidth="120.0" text="Зберегти" GridPane.rowIndex="1">
                             <graphic>
-                                <ImageView fitHeight="30.0" fitWidth="35.0" layoutX="154.0" layoutY="242.0"
-                                           pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="30.0" fitWidth="35.0" layoutX="154.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="/editor/res/img/Save-icon.png"/>
+                                        <Image url="/editor/res/img/Save-icon.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#load_this_arch_DB" text="Завантажити"
-                                GridPane.rowIndex="2">
+                        <Button mnemonicParsing="false" onAction="#load_this_arch_DB" text="Завантажити" GridPane.rowIndex="2">
                             <graphic>
-                                <ImageView fitHeight="30.0" fitWidth="200.0" layoutX="278.0" layoutY="306.5"
-                                           pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="30.0" fitWidth="200.0" layoutX="278.0" layoutY="306.5" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="/editor/res/img/open-file.png"/>
+                                        <Image url="/editor/res/img/open-file.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#delete_arch_DB" prefWidth="120.0" text="Видалити"
-                                GridPane.rowIndex="3">
+                        <Button mnemonicParsing="false" onAction="#delete_arch_DB" prefWidth="120.0" text="Видалити" GridPane.rowIndex="3">
                             <graphic>
-                                <ImageView fitHeight="30.0" fitWidth="27.0" layoutX="148.0" layoutY="279.5"
-                                           pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="30.0" fitWidth="27.0" layoutX="148.0" layoutY="279.5" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="/editor/res/img/delete.png"/>
+                                        <Image url="/editor/res/img/delete.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#creat_arch" text="Створити нову архітектуру"/>
+                        <Button mnemonicParsing="false" onAction="#creat_arch" text="Створити нову архітектуру" />
                     </children>
                 </GridPane>
             </bottom>
@@ -122,13 +110,13 @@
             <top>
                 <FlowPane BorderPane.alignment="CENTER">
                     <children>
-                        <Label text="І'мя архітектури"/>
+                        <Label text="І'мя архітектури" />
                         <TextField fx:id="TF_arch_name_DB" maxWidth="-Infinity" prefHeight="25.0" prefWidth="303.0">
                             <FlowPane.margin>
-                                <Insets/>
+                                <Insets />
                             </FlowPane.margin>
                             <font>
-                                <Font name="System Bold" size="12.0"/>
+                                <Font name="System Bold" size="12.0" />
                             </font>
                         </TextField>
                     </children>
@@ -137,19 +125,17 @@
             <center>
                 <ScrollPane prefWidth="388.0" BorderPane.alignment="CENTER">
                     <content>
-                        <Pane fx:id="P_arch_struct"/>
+                        <Pane fx:id="P_arch_struct" />
                     </content>
                 </ScrollPane>
             </center>
             <bottom>
                 <BorderPane BorderPane.alignment="CENTER">
                     <top>
-                        <Button mnemonicParsing="false" onAction="#arch_uml_gen" text="Візуалізувати"
-                                BorderPane.alignment="CENTER"/>
+                        <Button mnemonicParsing="false" onAction="#arch_uml_gen" text="Візуалізувати" BorderPane.alignment="CENTER" />
                     </top>
                     <bottom>
-                        <Button mnemonicParsing="false" onAction="#arch_view_prev" text="Попередній перегляд з БД"
-                                BorderPane.alignment="CENTER"/>
+                        <Button mnemonicParsing="false" onAction="#arch_view_prev" text="Попередній перегляд з БД" BorderPane.alignment="CENTER" />
                     </bottom>
                 </BorderPane>
             </bottom>
@@ -160,7 +146,7 @@
             <content>
                 <Pane fx:id="P_IV" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                     <children>
-                        <ImageView fx:id="IV_arch_imageview" pickOnBounds="true" preserveRatio="true"/>
+                        <ImageView fx:id="IV_arch_imageview" pickOnBounds="true" preserveRatio="true" />
                     </children>
                 </Pane>
             </content>
@@ -169,27 +155,26 @@
     <right>
         <GridPane prefHeight="531.0" prefWidth="298.0" BorderPane.alignment="CENTER">
             <columnConstraints>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES"/>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints maxHeight="-Infinity" valignment="CENTER" vgrow="SOMETIMES"/>
-                <RowConstraints vgrow="SOMETIMES"/>
-                <RowConstraints vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="-Infinity" valignment="CENTER" vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Label text="Зв'язки"/>
-                <TextArea fx:id="TA_arch_relations" prefHeight="146.0" prefWidth="324.0" GridPane.rowIndex="1"/>
+                <Label text="Зв'язки" />
+                <TextArea fx:id="TA_arch_relations" prefHeight="146.0" prefWidth="324.0" GridPane.rowIndex="1" />
                 <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="2">
                     <tabs>
                         <Tab text="Опис архітектури">
                             <content>
-                                <TextArea fx:id="TA_arch_description" prefHeight="168.0" prefWidth="278.0"/>
+                                <TextArea fx:id="TA_arch_description" prefHeight="168.0" prefWidth="278.0" wrapText="true" />
                             </content>
                         </Tab>
                         <Tab text="Опис усієї архітектури">
                             <content>
-                                <TextArea fx:id="TA_full_arch_description" editable="false" prefHeight="200.0"
-                                          prefWidth="200.0"/>
+                                <TextArea fx:id="TA_full_arch_description" editable="false" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
                             </content>
                         </Tab>
                     </tabs>
