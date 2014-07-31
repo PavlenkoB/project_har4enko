@@ -118,10 +118,17 @@ public class Pattern implements Cloneable {
     public static result_info pattern_save_to_DB(Pattern pattern_in, DerbyDBManager derby_DB_connection) {//Зберегти архітектуру в БД
         result_info result = new result_info();
         if (pattern_in.getId() == null||pattern_in.getId().toString().equals("")) {
-            String query = "INSERT INTO PATERNS (MOD_ID,NAME,VALUE,DESCRIPTION,ARCH_ID,TYPE) VALUES (" + pattern_in.getMod_id() + ",'" + pattern_in.getName() + "','" + pattern_in.getUml_text() + "','" + pattern_in.getDescription() +"',"+pattern_in.getArch_id()+",'"+pattern_in.getType() +"')";
             ResultSet rs_tmp;
             try {
-                derby_DB_connection.executeUpdate(query);
+                PreparedStatement preparedStatement=derby_DB_connection.getCon().prepareStatement("INSERT INTO PATERNS (MOD_ID,NAME,VALUE,DESCRIPTION,ARCH_ID,TYPE) VALUES (?,?,?,?,?,?)");
+                preparedStatement.setInt(1, pattern_in.getMod_id());
+                preparedStatement.setString(2,pattern_in.getName());
+                preparedStatement.setString(3,pattern_in.getUml_text());
+                preparedStatement.setString(4,pattern_in.getDescription());
+                preparedStatement.setInt(5,pattern_in.getArch_id());
+                preparedStatement.setString(6,pattern_in.getType());
+                preparedStatement.executeUpdate();
+
                 rs_tmp = derby_DB_connection.executeQuery("SELECT MAX(ID) FROM ARCHITECTURE");
                 rs_tmp.next();
                 pattern_in.setId(rs_tmp.getInt(1));
@@ -136,11 +143,16 @@ public class Pattern implements Cloneable {
                 e.printStackTrace();
             }
         } else {
-            String query = "UPDATE PATERNS " +//TODO ДО какого модуля
-                    "SET MOD_ID=" + pattern_in.getMod_id() + ",NAME='" + pattern_in.getName() + "',VALUE='" + pattern_in.getUml_text() + "',DESCRIPTION='" + pattern_in.getDescription() + "',ARCH_ID="+pattern_in.getArch_id()+",TYPE='"+pattern_in.getType()+"' WHERE ID=" + pattern_in.getId();
-
             try {
-                derby_DB_connection.executeUpdate(query);
+            PreparedStatement preparedStatement=derby_DB_connection.getCon().prepareStatement("UPDATE PATERNS SET MOD_ID=?,NAME=?,VALUE=?,DESCRIPTION=?,ARCH_ID=?,TYPE=? WHERE ID=?");
+                preparedStatement.setInt(1, pattern_in.getMod_id());
+                preparedStatement.setString(2,pattern_in.getName());
+                preparedStatement.setString(3,pattern_in.getUml_text());
+                preparedStatement.setString(4,pattern_in.getDescription());
+                preparedStatement.setInt(5,pattern_in.getArch_id());
+                preparedStatement.setString(6,pattern_in.getType());
+                preparedStatement.setInt(7,pattern_in.getId());
+                preparedStatement.executeUpdate();
                 try {
                     save_pattern_img_update(pattern_in, derby_DB_connection);
                     result.setStatus(true);

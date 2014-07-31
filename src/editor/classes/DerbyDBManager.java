@@ -1,5 +1,9 @@
 package editor.classes;
 
+import org.apache.derby.impl.jdbc.EmbedPreparedStatement42;
+import org.apache.derby.impl.sql.GenericPreparedStatement;
+import org.apache.derby.impl.sql.GenericStatement;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -92,8 +96,8 @@ public class DerbyDBManager {
     // запрос на обновление базы данных  (INSERT, UPDATE, CREATE TABLE и т.п.)
     public void executeUpdate(String sql) throws SQLException {
         //Statement stmt = con.createStatement();
-        PreparedStatement preparedStatement =con.prepareStatement(sql);
-        int count = preparedStatement.executeUpdate();
+        PreparedStatement preparedStatement =con.prepareStatement(sql.toString());
+        preparedStatement.executeUpdate();
         //stmt.close();
         preparedStatement.close();
     }
@@ -151,7 +155,7 @@ public class DerbyDBManager {
     // запрос на выборку данных из базы
     public ResultSet executeQuery(String sql) throws SQLException {
         PreparedStatement preparedStatement= con.prepareStatement(sql);
-        ResultSet result = preparedStatement.executeQuery(sql);
+        ResultSet result = preparedStatement.executeQuery();
         return result;
     }
 
