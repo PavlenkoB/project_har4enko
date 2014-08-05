@@ -24,10 +24,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.*;
-import org.apache.poi.xwpf.usermodel.Document;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.poi.xwpf.usermodel.XWPFParagraph;
-import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
+import org.apache.poi.xwpf.usermodel.*;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTP;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTR;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTText;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -756,6 +757,27 @@ public class main_C extends JPanel implements Initializable {
         File outputfile = new File(imgfile);
         try {
             docx = new XWPFDocument();
+            /*XWPFHeaderFooterPolicy policy = docx.getHeaderFooterPolicy();
+            if (policy == null) {
+                // Need to create some new headers
+                // The easy way, gives a single empty paragraph
+                XWPFHeader headerD = policy.createHeader(policy.DEFAULT);
+                headerD.getParagraphs().get(0). createRun().setText("Hello Header World!");
+
+                // Or the full control way
+                CTP ctP1 = CTP.Factory.newInstance();
+                CTR ctR1 = ctP1.addNewR();
+                CTText t = ctR1.addNewT();
+                t.setStringValue("Paragraph in header");
+
+                XWPFParagraph p1 = new XWPFParagraph(ctP1, docx);
+                XWPFParagraph[] pars = new XWPFParagraph[1];
+                pars[0] = p1;
+
+                policy.createHeader(policy.FIRST, pars);
+            } else {
+                // Already has a header, change it
+            }*/
 
             docx.write(new FileOutputStream(docx_f));
             for (int arch_nom = 0; arch_nom < LV_archs_DB.getItems().size(); arch_nom++) {
