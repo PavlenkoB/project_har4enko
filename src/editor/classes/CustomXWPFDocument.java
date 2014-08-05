@@ -91,6 +91,7 @@ public class CustomXWPFDocument extends XWPFDocument {
         XWPFRun tmpRun;
         tmpRun=createParagraph().createRun();
         tmpRun.setText(text_befor);
+        tmpRun.addBreak();
 
         CTInline inline = tmpRun.getCTR().addNewDrawing().addNewInline();
 
