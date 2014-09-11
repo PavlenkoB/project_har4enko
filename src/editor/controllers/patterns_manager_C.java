@@ -310,15 +310,15 @@ public class patterns_manager_C implements Initializable {
     public void from_move_to() {
         if (from_list.getSelectionModel().getSelectedItem() != null) {
             if (CB_to_arch.getSelectionModel().getSelectedItem() != null) {
-                Pattern from = Pattern.pattern_load_from_DB(((id_Lable) from_list.getSelectionModel().getSelectedItem()).getDbid(), DB_connection);
+                Pattern from = Pattern.patternLoadFromDB(((id_Lable) from_list.getSelectionModel().getSelectedItem()).getDbid(), DB_connection);
                 Pattern new_p = new Pattern();
                 new_p.setName(from.getName());
                 if (CB_to_mod.getSelectionModel().getSelectedItem() != null) {
-                    new_p.setMod_id(((id_Lable) CB_to_mod.getSelectionModel().getSelectedItem()).getDbid());
+                    new_p.setModId(((id_Lable) CB_to_mod.getSelectionModel().getSelectedItem()).getDbid());
                 } else {
-                    new_p.setMod_id(-1);
+                    new_p.setModId(-1);
                 }
-                new_p.setUml_text(from.getUml_text());
+                new_p.setUmlText(from.getUmlText());
                 new_p.setDescription(from.getDescription());
                 new_p.setPreview(from.getPreview());
                 new_p.setArch_id(((id_Lable) CB_to_mod.getSelectionModel().getSelectedItem()).getDbid());
@@ -338,15 +338,15 @@ public class patterns_manager_C implements Initializable {
     public void from_copy_to() {
         if (from_list.getSelectionModel().getSelectedItem() != null) {
             if (CB_to_arch.getSelectionModel().getSelectedItem() != null) {
-                Pattern from = Pattern.pattern_load_from_DB(((id_Lable) from_list.getSelectionModel().getSelectedItem()).getDbid(), DB_connection);
+                Pattern from = Pattern.patternLoadFromDB(((id_Lable) from_list.getSelectionModel().getSelectedItem()).getDbid(), DB_connection);
                 Pattern new_p = new Pattern();
                 new_p.setName(from.getName());
                 if (CB_to_mod.getSelectionModel().getSelectedItem() != null) {
-                    new_p.setMod_id(((id_Lable) CB_to_mod.getSelectionModel().getSelectedItem()).getDbid());
+                    new_p.setModId(((id_Lable) CB_to_mod.getSelectionModel().getSelectedItem()).getDbid());
                 } else {
-                    new_p.setMod_id(-1);
+                    new_p.setModId(-1);
                 }
-                new_p.setUml_text(from.getUml_text());
+                new_p.setUmlText(from.getUmlText());
                 new_p.setDescription(from.getDescription());
                 new_p.setPreview(from.getPreview());
                 new_p.setArch_id(((id_Lable) CB_to_mod.getSelectionModel().getSelectedItem()).getDbid());
@@ -400,7 +400,7 @@ public class patterns_manager_C implements Initializable {
             }
 
             patern_editor_C controller = loader.<patern_editor_C>getController();
-            controller.initData(Pattern.pattern_load_from_DB(((id_Lable) from_list.getSelectionModel().getSelectedItem()).getDbid(),DB_connection),DB_connection);
+            controller.initData(Pattern.patternLoadFromDB(((id_Lable) from_list.getSelectionModel().getSelectedItem()).getDbid(), DB_connection),DB_connection);
             stage.setTitle("Редагування патерну");
             stage.show();
             //Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();
@@ -434,7 +434,7 @@ public class patterns_manager_C implements Initializable {
             }
 
             patern_editor_C controller = loader.<patern_editor_C>getController();
-            controller.initData(Pattern.pattern_load_from_DB(((id_Lable) to_list.getSelectionModel().getSelectedItem()).getDbid(),DB_connection),DB_connection);
+            controller.initData(Pattern.patternLoadFromDB(((id_Lable) to_list.getSelectionModel().getSelectedItem()).getDbid(), DB_connection),DB_connection);
             stage.setTitle("Редагування патерну");
             stage.show();
             //Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();

@@ -3,13 +3,6 @@ package editor.services;
 import Classes.Pattern;
 import editor.classes.DerbyDBManager;
 import editor.classes.result_info;
-import javafx.scene.image.Image;
-
-import javax.swing.*;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.sql.*;
 
 /**
  * Created by godex_000 on 15.06.2014.
@@ -17,7 +10,7 @@ import java.sql.*;
 public class pattern_work {
     //TODO опис функції
     public static Pattern pattern_load_from_DB(Integer pattern_id, DerbyDBManager derby_DB_connection) {
-        return Pattern.pattern_load_from_DB(pattern_id,derby_DB_connection);
+        return Pattern.patternLoadFromDB(pattern_id, derby_DB_connection);
     }
 
     /**

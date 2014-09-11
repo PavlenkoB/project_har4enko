@@ -1,9 +1,7 @@
 package editor.controllers;
 
-import Classes.Module;
 import Classes.Pattern;
 import editor.classes.DerbyDBManager;
-import editor.services.arch_work;
 import editor.services.draw_uml;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -82,7 +79,7 @@ public class patern_editor_C implements Initializable {
         /**/
         TA_pattern_description.setText(tmp_pattern.getDescription());
         TA_pattern_name.setText(tmp_pattern.getName());
-        TA_pattern_uml.setText(tmp_pattern.getUml_text());
+        TA_pattern_uml.setText(tmp_pattern.getUmlText());
             }
 
     public void initialize(URL url, ResourceBundle rb) {
@@ -121,7 +118,7 @@ public class patern_editor_C implements Initializable {
     public void save(ActionEvent actionEvent) {
         tmp_pattern.setName(TA_pattern_name.getText());
         tmp_pattern.setDescription(TA_pattern_description.getText());
-        tmp_pattern.setUml_text(TA_pattern_uml.getText());
+        tmp_pattern.setUmlText(TA_pattern_uml.getText());
         tmp_pattern.setPreview(draw_uml.draw_class(TA_pattern_uml.getText()));
         Pattern.pattern_save_to_DB(tmp_pattern,derby_DB);
     }

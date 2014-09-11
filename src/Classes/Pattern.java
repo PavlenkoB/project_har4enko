@@ -15,45 +15,45 @@ import java.sql.*;
  * Created by Alex Shcherbak on 24.04.2014.
  */
 public class Pattern implements Cloneable {
+    public static final String SOME_CONST = "";
     private Integer id;
-    private Integer mod_id;
+    private Integer modId;
     private String name;
     private String description;
-    private String uml_text;
+    private String umlText;
     private String type;
+
     private Integer arch_id;
-
-
     private javafx.scene.image.Image preview;
 
     public Pattern() {
         this.id = null;
-        this.mod_id = null;
+        this.modId = null;
         this.name = null;
         this.description = null;
-        this.uml_text = null;
+        this.umlText = null;
     }
 
-    public Pattern(Integer id, Integer mod_id, String name, String description, String uml_text) {
+    public Pattern(Integer id, Integer modId, String name, String description, String umlText) {
         this.id = id;
-        this.mod_id = mod_id;
+        this.modId = modId;
         this.name = name;
         this.description = description;
-        this.uml_text = uml_text;
+        this.umlText = umlText;
     }
 
-    public Pattern(Integer id, Integer mod_id, String name, String description, String uml_text, String type, Integer arch_id, Image preview) {
+    public Pattern(Integer id, Integer modId, String name, String description, String umlText, String type, Integer arch_id, Image preview) {
         this.id = id;
-        this.mod_id = mod_id;
+        this.modId = modId;
         this.name = name;
         this.description = description;
-        this.uml_text = uml_text;
+        this.umlText = umlText;
         this.type = type;
         this.arch_id = arch_id;
         this.preview = preview;
     }
 
-    public static Pattern pattern_load_from_DB(Integer pattern_id, DerbyDBManager derby_DB_connection) {
+    public static Pattern patternLoadFromDB(Integer pattern_id, DerbyDBManager derby_DB_connection) {
         Pattern pattern_out = new Pattern();
         String query = "SELECT * FROM PATERNS WHERE ID=" + pattern_id.toString();
         ResultSet q_result;
@@ -61,9 +61,9 @@ public class Pattern implements Cloneable {
             q_result = derby_DB_connection.executeQuery(query);
             q_result.next();
             pattern_out.setId(pattern_id);
-            pattern_out.setMod_id(q_result.getInt("MOD_ID"));
+            pattern_out.setModId(q_result.getInt("MOD_ID"));
             pattern_out.setName(q_result.getString("NAME"));
-            pattern_out.setUml_text(q_result.getString("VALUE"));
+            pattern_out.setUmlText(q_result.getString("VALUE"));
             pattern_out.setDescription(q_result.getString("DESCRIPTION"));
             pattern_out.setArch_id(q_result.getInt("ARCH_ID"));
             pattern_out.setType("TYPE");
@@ -117,16 +117,16 @@ public class Pattern implements Cloneable {
      */
     public static result_info pattern_save_to_DB(Pattern pattern_in, DerbyDBManager derby_DB_connection) {//Зберегти архітектуру в БД
         result_info result = new result_info();
-        if (pattern_in.getId() == null||pattern_in.getId().toString().equals("")) {
+        if (pattern_in.getId() == null || pattern_in.getId().toString().equals("")) {
             ResultSet rs_tmp;
             try {
-                PreparedStatement preparedStatement=derby_DB_connection.getCon().prepareStatement("INSERT INTO PATERNS (MOD_ID,NAME,VALUE,DESCRIPTION,ARCH_ID,TYPE) VALUES (?,?,?,?,?,?)");
-                preparedStatement.setInt(1, pattern_in.getMod_id());
-                preparedStatement.setString(2,pattern_in.getName());
-                preparedStatement.setString(3,pattern_in.getUml_text());
-                preparedStatement.setString(4,pattern_in.getDescription());
-                preparedStatement.setInt(5,pattern_in.getArch_id());
-                preparedStatement.setString(6,pattern_in.getType());
+                PreparedStatement preparedStatement = derby_DB_connection.getCon().prepareStatement("INSERT INTO PATERNS (MOD_ID,NAME,VALUE,DESCRIPTION,ARCH_ID,TYPE) VALUES (?,?,?,?,?,?)");
+                preparedStatement.setInt(1, pattern_in.getModId());
+                preparedStatement.setString(2, pattern_in.getName());
+                preparedStatement.setString(3, pattern_in.getUmlText());
+                preparedStatement.setString(4, pattern_in.getDescription());
+                preparedStatement.setInt(5, pattern_in.getArch_id());
+                preparedStatement.setString(6, pattern_in.getType());
                 preparedStatement.executeUpdate();
 
                 rs_tmp = derby_DB_connection.executeQuery("SELECT MAX(ID) FROM ARCHITECTURE");
@@ -144,14 +144,14 @@ public class Pattern implements Cloneable {
             }
         } else {
             try {
-            PreparedStatement preparedStatement=derby_DB_connection.getCon().prepareStatement("UPDATE PATERNS SET MOD_ID=?,NAME=?,VALUE=?,DESCRIPTION=?,ARCH_ID=?,TYPE=? WHERE ID=?");
-                preparedStatement.setInt(1, pattern_in.getMod_id());
-                preparedStatement.setString(2,pattern_in.getName());
-                preparedStatement.setString(3,pattern_in.getUml_text());
-                preparedStatement.setString(4,pattern_in.getDescription());
-                preparedStatement.setInt(5,pattern_in.getArch_id());
-                preparedStatement.setString(6,pattern_in.getType());
-                preparedStatement.setInt(7,pattern_in.getId());
+                PreparedStatement preparedStatement = derby_DB_connection.getCon().prepareStatement("UPDATE PATERNS SET MOD_ID=?,NAME=?,VALUE=?,DESCRIPTION=?,ARCH_ID=?,TYPE=? WHERE ID=?");
+                preparedStatement.setInt(1, pattern_in.getModId());
+                preparedStatement.setString(2, pattern_in.getName());
+                preparedStatement.setString(3, pattern_in.getUmlText());
+                preparedStatement.setString(4, pattern_in.getDescription());
+                preparedStatement.setInt(5, pattern_in.getArch_id());
+                preparedStatement.setString(6, pattern_in.getType());
+                preparedStatement.setInt(7, pattern_in.getId());
                 preparedStatement.executeUpdate();
                 try {
                     save_pattern_img_update(pattern_in, derby_DB_connection);
@@ -196,6 +196,14 @@ public class Pattern implements Cloneable {
         return class_text;
     }
 
+    public static void delete_pattern_from_DB(Integer pat_id, DerbyDBManager derby_DB_connection) {
+        try {
+            derby_DB_connection.executeUpdate("DELETE FROM PATERNS WHERE ID=" + pat_id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public javafx.scene.image.Image getPreview() {
         return preview;
     }
@@ -207,13 +215,13 @@ public class Pattern implements Cloneable {
     public Pattern clone() throws CloneNotSupportedException {
         Pattern p_return = (Pattern) super.clone();
         if (this.id != null)
-            p_return.id = new Integer(this.id);
+            p_return.id = (int) this.id;
         else
             p_return.id = null;
-        if (this.mod_id != null)
-            p_return.mod_id = new Integer(this.mod_id);
+        if (this.modId != null)
+            p_return.modId = new Integer(this.modId);
         else
-            p_return.mod_id = null;
+            p_return.modId = null;
         p_return.name = new String(this.name);
         p_return.description = new String(this.description);
 
@@ -235,14 +243,6 @@ public class Pattern implements Cloneable {
         return p_return;
     }
 
-    public static void delete_pattern_from_DB(Integer pat_id,DerbyDBManager derby_DB_connection){
-        try {
-            derby_DB_connection.executeUpdate("DELETE FROM PATERNS WHERE ID="+pat_id);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     public Integer getId() {
         return id;
     }
@@ -251,12 +251,12 @@ public class Pattern implements Cloneable {
         this.id = id;
     }
 
-    public Integer getMod_id() {
-        return mod_id;
+    public Integer getModId() {
+        return modId;
     }
 
-    public void setMod_id(Integer mod_id) {
-        this.mod_id = mod_id;
+    public void setModId(Integer modId) {
+        this.modId = modId;
     }
 
     public String getName() {
@@ -275,12 +275,12 @@ public class Pattern implements Cloneable {
         this.description = description;
     }
 
-    public String getUml_text() {
-        return uml_text;
+    public String getUmlText() {
+        return umlText;
     }
 
-    public void setUml_text(String uml_text) {
-        this.uml_text = uml_text;
+    public void setUmlText(String umlText) {
+        this.umlText = umlText;
     }
 
     public String getType() {

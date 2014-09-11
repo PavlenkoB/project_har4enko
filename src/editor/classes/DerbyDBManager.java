@@ -96,7 +96,10 @@ public class DerbyDBManager {
     // запрос на обновление базы данных  (INSERT, UPDATE, CREATE TABLE и т.п.)
     public void executeUpdate(String sql) throws SQLException {
         //Statement stmt = con.createStatement();
-        PreparedStatement preparedStatement =con.prepareStatement(sql.toString());
+        PreparedStatement preparedStatement =con.prepareStatement(sql);
+//        preparedStatement.setMaxRows(20);
+//        preparedStatement.
+
         preparedStatement.executeUpdate();
         //stmt.close();
         preparedStatement.close();

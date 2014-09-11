@@ -21,61 +21,12 @@ import java.util.ArrayList;
 public class Architecture implements Cloneable {
     private Integer id;
     private String name;
-    private ArrayList<Layer> layers= new ArrayList<Layer>();
+    private ArrayList<Layer> layers = new ArrayList<Layer>();
     private String description;
     private Integer id_done;
     private Integer task_id;
     private String usecase;
-
-    public javafx.scene.image.Image getPreview() {
-        return preview;
-    }
-
-    public void setPreview(javafx.scene.image.Image preview) {
-        this.preview = preview;
-    }
-
     private javafx.scene.image.Image preview;
-
-    /**
-     * Клонувати архітектуру
-     * @return Клон Архитектури
-     * @throws CloneNotSupportedException
-     */
-    public Architecture clone() throws CloneNotSupportedException {
-        Architecture a_return = (Architecture)super.clone();
-        if (this.id != null)
-            a_return.id = new Integer(this.id);
-        else
-            a_return.id = null;
-        a_return.name=new String(this.name);
-
-        ArrayList<Layer> layers = new ArrayList<Layer>(this.layers.size());
-        for(Layer item: this.layers) layers.add(item.clone());
-        a_return.layers= layers;
-
-        a_return.description=new String(this.description);
-        if (this.id_done != null)
-            a_return.id_done = new Integer(this.id_done);
-        else
-            a_return.id_done = null;
-        if (this.task_id != null)
-            a_return.task_id = new Integer(this.task_id);
-        else
-            a_return.task_id = null;
-        if (this.usecase != null)
-            a_return.usecase = new String(this.usecase);
-        else
-            a_return.usecase = null;
-        if (this.preview != null)
-            //TODO картинку тоже клонировать
-            a_return.preview =  this.preview;
-        else
-            a_return.preview = null;
-
-        return a_return;
-    }
-
 
     public Architecture() {
         this.id = 0;
@@ -102,6 +53,7 @@ public class Architecture implements Cloneable {
         this.description = description;
     }
 
+
     public Architecture(Integer id, String name, ArrayList<Layer> layers, String description, Integer id_done, Integer task_id) {
         this.id = id;
         this.name = name;
@@ -111,7 +63,6 @@ public class Architecture implements Cloneable {
         this.task_id = task_id;
     }
 
-
     public Architecture(Integer id, String name, ArrayList<Layer> layers, String description, String usecase) {
         this.id = id;
         this.name = name;
@@ -119,63 +70,6 @@ public class Architecture implements Cloneable {
         this.description = description;
         this.usecase = usecase;
     }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public ArrayList<Layer> getLayers() {
-        return layers;
-    }
-
-    public void setLayers(ArrayList<Layer> layers) {
-        this.layers = layers;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Integer getId_done() {
-        return id_done;
-    }
-
-    public void setId_done(Integer id_done) {
-        this.id_done = id_done;
-    }
-
-    public Integer getTask_id() {
-        return task_id;
-    }
-
-    public void setTask_id(Integer task_id) {
-        this.task_id = task_id;
-    }
-
-    public String getUsecase() {
-        return usecase;
-    }
-
-    public void setUsecase(String usecase) {
-        this.usecase = usecase;
-    }
-
 
     //TODO опис функції
     public static Architecture arch_load_from_DB(Integer arch_id, DerbyDBManager derby_DB_connection) {
@@ -233,7 +127,7 @@ public class Architecture implements Cloneable {
                     rs_pat = derby_DB_connection.executeQuery("SELECT * FROM PATERNS WHERE MOD_ID=" + rs_mod.getInt("ID"));
                     ObservableList<String> items = FXCollections.observableArrayList();
                     while (rs_pat.next()) {//Все патерны что подходят модулю в кнопку
-                        arch_out.getLayers().get(s_lay).getModules().get(s_mod).getAvilable_patterns().add(Pattern.pattern_load_from_DB(rs_pat.getInt("ID"),derby_DB_connection));
+                        arch_out.getLayers().get(s_lay).getModules().get(s_mod).getAvilable_patterns().add(Pattern.patternLoadFromDB(rs_pat.getInt("ID"), derby_DB_connection));
                         items.add(rs_pat.getString("ID") + "|" + rs_pat.getString("NAME"));
                     }
                     s_mod++;
@@ -258,47 +152,45 @@ public class Architecture implements Cloneable {
         result_info result = new result_info();
         try {
             //получить оригинал
-            Architecture arch_old=arch_load_from_DB(arch_in.getId(),derby_DB_connection);
-            ArrayList<Module> modules_old=new ArrayList<>();
-            ArrayList<Module> modules_new=new ArrayList<>();
-            ArrayList<Layer> layers_old=new ArrayList<>();
-            ArrayList<Layer> layers_new=new ArrayList<>();
+            Architecture arch_old = arch_load_from_DB(arch_in.getId(), derby_DB_connection);
+            ArrayList<Module> modules_old = new ArrayList<>();
+            ArrayList<Module> modules_new = new ArrayList<>();
+            ArrayList<Layer> layers_old = new ArrayList<>();
+            ArrayList<Layer> layers_new = new ArrayList<>();
 
             //arch_in=arch_load_from_DB(arch_old.getId(),derby_DB_connection);//загрузить архитекутур уже с новыми слоями и модулями
             //Удалить не существующие слои
-            for(int i=0;i<arch_old.getLayers().size();i++){//Перебор слойов в старой
-                boolean save=false;
-                for(int s=0;s<arch_in.getLayers().size();s++){
+            for (int i = 0; i < arch_old.getLayers().size(); i++) {//Перебор слойов в старой
+                boolean save = false;
+                for (int s = 0; s < arch_in.getLayers().size(); s++) {
                     //сравниваем если в новой такой слой
-                    if(arch_in.getLayers().get(s).getId().intValue()==arch_old.getLayers().get(i).getId().intValue()){
-                        save=true; //если остался то нужно сохранить
+                    if (arch_in.getLayers().get(s).getId().intValue() == arch_old.getLayers().get(i).getId().intValue()) {
+                        save = true; //если остался то нужно сохранить
                     }
                 }
-                if(save==false)
-                {
+                if (save == false) {
                     System.out.printf("DELETE FROM LAYER WHERE ID=" + arch_old.getLayers().get(i).getId());
                     derby_DB_connection.executeUpdate("DELETE FROM LAYER WHERE ID=" + arch_old.getLayers().get(i).getId());
                 }
             }
             //Удалить не существующие модули
-            for(int l_o=0;l_o<arch_old.getLayers().size();l_o++){
-                for(int m_o=0;m_o<arch_old.getLayers().get(l_o).getModules().size();m_o++){
-                    boolean save=false;
+            for (int l_o = 0; l_o < arch_old.getLayers().size(); l_o++) {
+                for (int m_o = 0; m_o < arch_old.getLayers().get(l_o).getModules().size(); m_o++) {
+                    boolean save = false;
 
-                    for(int l_n=0;l_n<arch_in.getLayers().size();l_n++){
-                        for(int m_n=0;m_n<arch_in.getLayers().get(l_n).getModules().size();m_n++){
+                    for (int l_n = 0; l_n < arch_in.getLayers().size(); l_n++) {
+                        for (int m_n = 0; m_n < arch_in.getLayers().get(l_n).getModules().size(); m_n++) {
                             //System.out.printf("\n"+String.valueOf(l_o)+"|"+String.valueOf(m_o)+"|"+String.valueOf(l_n)+"|"+String.valueOf(m_n));
-                            if(arch_in.getLayers().get(l_n).getModules().get(m_n).getId()!=null) {
+                            if (arch_in.getLayers().get(l_n).getModules().get(m_n).getId() != null) {
                                 if (arch_old.getLayers().get(l_o).getModules().get(m_o).getId().intValue() == arch_in.getLayers().get(l_n).getModules().get(m_n).getId().intValue())
                                     save = true;
                             }
                         }
                     }
-                    if(save==false)
-                    {
-                        derby_DB_connection.executeUpdate("UPDATE PATERNS SET MOD_ID=-1 WHERE MOD_ID="+arch_old.getLayers().get(l_o).getModules().get(m_o).getId());
-                        System.out.printf("DELETE FROM MODULE WHERE ID="+arch_old.getLayers().get(l_o).getModules().get(m_o).getId());
-                        derby_DB_connection.executeUpdate("DELETE FROM MODULE WHERE ID="+arch_old.getLayers().get(l_o).getModules().get(m_o).getId());
+                    if (save == false) {
+                        derby_DB_connection.executeUpdate("UPDATE PATERNS SET MOD_ID=-1 WHERE MOD_ID=" + arch_old.getLayers().get(l_o).getModules().get(m_o).getId());
+                        System.out.printf("DELETE FROM MODULE WHERE ID=" + arch_old.getLayers().get(l_o).getModules().get(m_o).getId());
+                        derby_DB_connection.executeUpdate("DELETE FROM MODULE WHERE ID=" + arch_old.getLayers().get(l_o).getModules().get(m_o).getId());
                     }
                 }
 
@@ -310,10 +202,10 @@ public class Architecture implements Cloneable {
             if (arch_in.getUsecase() == null) arch_in.setUsecase("");
             if (arch_in.getId() == null || arch_in.getId() == 0) {//Добавить в базу
                 //Нові патерни модулі і сама архітектура
-                PreparedStatement preparedStatement=derby_DB_connection.getCon().prepareStatement("INSERT INTO ARCHITECTURE (NAME,USECASE,DESCRIPTION) VALUES (?,?,?)");
-                preparedStatement.setString(1,arch_in.getName());
-                preparedStatement.setString(2,arch_in.getUsecase());
-                preparedStatement.setString(3,arch_in.getDescription());
+                PreparedStatement preparedStatement = derby_DB_connection.getCon().prepareStatement("INSERT INTO ARCHITECTURE (NAME,USECASE,DESCRIPTION) VALUES (?,?,?)");
+                preparedStatement.setString(1, arch_in.getName());
+                preparedStatement.setString(2, arch_in.getUsecase());
+                preparedStatement.setString(3, arch_in.getDescription());
                 preparedStatement.executeUpdate();
 
                 rs_tmp = derby_DB_connection.executeQuery("SELECT MAX(ID) FROM ARCHITECTURE");
@@ -432,6 +324,7 @@ public class Architecture implements Cloneable {
         }
         return result;
     }
+
     //TODO опис функції
     private static void save_arch_img_update(Architecture architecture, DerbyDBManager derbyDBManager) throws Exception {
         Connection con;
@@ -455,6 +348,7 @@ public class Architecture implements Cloneable {
 
     /**
      * Генерувати текст архітектури щоб потім його перетворити в картинку
+     *
      * @param architecture - Архітектура
      * @return
      */
@@ -469,7 +363,7 @@ public class Architecture implements Cloneable {
             for (int s_mod = 0; s_mod < architecture.getLayers().get(s_lay).getModules().size(); s_mod++) {
                 class_text += "package \"" + architecture.getLayers().get(s_lay).getModules().get(s_mod).getName() + "\"{\n";
                 if (architecture.getLayers().get(s_lay).getModules().get(s_mod).getSelected_pattern() != null)
-                    class_text += architecture.getLayers().get(s_lay).getModules().get(s_mod).getSelected_pattern().getUml_text() + "\n";
+                    class_text += architecture.getLayers().get(s_lay).getModules().get(s_mod).getSelected_pattern().getUmlText() + "\n";
                 class_text += "}\n";
             }
             class_text += "}\n";
@@ -487,8 +381,6 @@ public class Architecture implements Cloneable {
     public static javafx.scene.image.Image arch_image_gen_with_patterns(Architecture architecture) {
         return draw_uml.draw_class(arch_uml_text_gen(architecture));
     }
-
-
 
     /**
      * Генерирует можливі варіанти архітектур
@@ -510,7 +402,7 @@ public class Architecture implements Cloneable {
                 e.printStackTrace();
             }
         }
-        return_Architectures=gen_arch_done_combine(return_Architectures, origin_arch, modules_arr, modd_arr_sellected);
+        return_Architectures = gen_arch_done_combine(return_Architectures, origin_arch, modules_arr, modd_arr_sellected);
         return return_Architectures;
     }
 
@@ -548,16 +440,107 @@ public class Architecture implements Cloneable {
         return_Architectures.add(tmp_arch);//сохраняем архитекутуры вариант
         modd_arr_sell.set(modd_arr_sell.size() - 1, modd_arr_sell.get(modd_arr_sell.size() - 1) + 1);//к последнему добавить +1
         for (int ta = modd_arr_sell.size() - 1; ta >= 0; ta--) {//провиряем не вышол кто за границы доступных патернов
-            if (modd_arr_sell.get(ta) > modules_arr.get(ta).getAvilable_patterns().size()-1&& ta==0) {//если все патерны попробованы
+            if (modd_arr_sell.get(ta) > modules_arr.get(ta).getAvilable_patterns().size() - 1 && ta == 0) {//если все патерны попробованы
                 return return_Architectures;
             }
-            if (modd_arr_sell.get(ta) > modules_arr.get(ta).getAvilable_patterns().size()-1) {
+            if (modd_arr_sell.get(ta) > modules_arr.get(ta).getAvilable_patterns().size() - 1) {
                 modd_arr_sell.set(ta, 0);
-                modd_arr_sell.set(ta - 1, modd_arr_sell.get(ta - 1)+1);
+                modd_arr_sell.set(ta - 1, modd_arr_sell.get(ta - 1) + 1);
             }
         }
         gen_arch_done_combine(return_Architectures, origin_arch, modules_arr, modd_arr_sell);
         return return_Architectures;
+    }
+
+    public javafx.scene.image.Image getPreview() {
+        return preview;
+    }
+
+    public void setPreview(javafx.scene.image.Image preview) {
+        this.preview = preview;
+    }
+
+    /**
+     * Клонувати архітектуру
+     *
+     * @return Клон Архитектури
+     * @throws CloneNotSupportedException
+     */
+    public Architecture clone() throws CloneNotSupportedException {
+        Architecture a_return = new Architecture();//(Architecture) super.clone();
+
+        a_return.id = this.id;
+        a_return.name = this.name;
+        ArrayList<Layer> layers = new ArrayList<>(this.layers.size());
+        for (Layer item : this.layers) {
+            layers.add(item.clone());
+        }
+        a_return.layers = layers;
+        a_return.description = this.description;
+        a_return.id_done = this.id_done;
+        a_return.task_id = this.task_id;
+        a_return.usecase = this.usecase;
+        //TODO картинку тоже клонировать
+        a_return.preview = this.preview;
+
+
+        return a_return;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public ArrayList<Layer> getLayers() {
+        return layers;
+    }
+
+    public void setLayers(ArrayList<Layer> layers) {
+        this.layers = layers;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getId_done() {
+        return id_done;
+    }
+
+    public void setId_done(Integer id_done) {
+        this.id_done = id_done;
+    }
+
+    public Integer getTask_id() {
+        return task_id;
+    }
+
+    public void setTask_id(Integer task_id) {
+        this.task_id = task_id;
+    }
+
+    public String getUsecase() {
+        return usecase;
+    }
+
+    public void setUsecase(String usecase) {
+        this.usecase = usecase;
     }
         /*}
     }*/

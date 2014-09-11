@@ -24,11 +24,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.*;
-import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
 import org.apache.poi.xwpf.usermodel.*;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTP;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTR;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTText;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -828,7 +824,7 @@ public class main_C extends JPanel implements Initializable {
                             docx.write(new FileOutputStream(docx_f));
                             if (architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview() == null) {//если превю не существует создать
                                 architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).setPreview(
-                                        functions.draw_class_image(architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getUml_text()));//создать превю
+                                        functions.draw_class_image(architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getUmlText()));//создать превю
                                 Pattern.pattern_save_to_DB(architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern), derby_DB);//сохарнить в базу патерн с превюшкой
                                 bi = ImageConverter.FXImgtoBufferedImage(architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview());
 

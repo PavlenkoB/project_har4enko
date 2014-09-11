@@ -174,16 +174,16 @@ public class patern_e_C implements Initializable {
         //Читае Идентиф. Параметра
         edited_pattern = pattern_work.pattern_load_from_DB(((id_Lable)LV_paterns_DB.getSelectionModel().getSelectedItems().get(0)).getDbid(), derby_DB);
         TA_patern_description.setText(edited_pattern.getDescription());
-        class_text.setText(edited_pattern.getUml_text());
+        class_text.setText(edited_pattern.getUmlText());
         TF_patern_name_DB.setText(edited_pattern.getName());
         class_image = edited_pattern.getPreview();
     }
 
     // сохранение превю
     public void save_this_patern_DB(ActionEvent actionEvent) {//добавить патерн в базу
-        edited_pattern.setMod_id(edited_module.getId());
+        edited_pattern.setModId(edited_module.getId());
         edited_pattern.setName(TF_patern_name_DB.getText());
-        edited_pattern.setUml_text(class_text.getText());
+        edited_pattern.setUmlText(class_text.getText());
         edited_pattern.setDescription(TA_patern_description.getText());
         edited_pattern.setPreview(draw_uml.draw_class(class_text.getText()));
         edited_pattern.setType("");
