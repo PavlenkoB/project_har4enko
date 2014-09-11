@@ -364,6 +364,12 @@ public class Architecture implements Cloneable {
                 class_text += "package \"" + architecture.getLayers().get(s_lay).getModules().get(s_mod).getName() + "\"{\n";
                 if (architecture.getLayers().get(s_lay).getModules().get(s_mod).getSelected_pattern() != null)
                     class_text += architecture.getLayers().get(s_lay).getModules().get(s_mod).getSelected_pattern().getUmlText() + "\n";
+                class_text += "package \""+  architecture.getLayers().get(s_lay).getModules().get(s_mod).getName() + "\"{\n";
+                if (architecture.getLayers().get(s_lay).getModules().get(s_mod).getSelected_pattern() != null) {
+                    String temp = new String(architecture.getLayers().get(s_lay).getModules().get(s_mod).getSelected_pattern().getUmlText() + "\n");
+                    temp=temp.replace("path.",architecture.getLayers().get(s_lay).getModules().get(s_mod).getName()+".");
+                    class_text += temp;
+                }
                 class_text += "}\n";
             }
             class_text += "}\n";
