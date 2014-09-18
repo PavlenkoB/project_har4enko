@@ -103,7 +103,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
                         options,  //the titles of buttons
                         options[0]); //default button title
                         /**/
-                if (n == 1) {//да
+                if (n == JOptionPane.YES_OPTION) {//да
                 } else {//нет
                     we.consume();
                 }/**/
@@ -271,7 +271,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
     }
 
     /**
-     * Створити резервну копію базі до якої зараз підключений користувач
+     * Створити резервну копію бази до якої зараз підключений користувач
      *
      * @param actionEvent
      * @throws IOException
@@ -291,6 +291,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
                     security.encrypt_file(secretkey, new FileInputStream(myfile), new FileOutputStream(new File(myfile.getAbsoluteFile() + ".enc")));
                     myfile.delete();
                     System.out.println(mydir.toURI().relativize(myfile.toURI()).getPath());
+                    Modals.showInfoAM(resourceBundle.getString("загальні.інформація"),mydir.toURI().relativize(myfile.toURI()).getPath());
                 }
             }
         }
@@ -603,13 +604,12 @@ public class main_C extends JPanel implements Initializable, Configuration {
     }
 
     public void del_lay(Integer lay_nom) {
-        ModalWindows.yes_no("Title", "text", "yes", "no");
-        /*Object stringArray[] = {resourceBundle.getString("загальні.так"), resourceBundle.getString("загальні.ні")};
+        Object stringArray[] = {resourceBundle.getString("загальні.так"), resourceBundle.getString("загальні.ні")};
         int response = JOptionPane.showOptionDialog(null, "Ви впевнені, що хочете видалити шар?", "Питання",
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, stringArray, stringArray[0]);
         if (response == JOptionPane.YES_OPTION) {
             arch_tmp.getLayers().remove(lay_nom.intValue());
-        }*/
+        }
         draw_arch_struct();
     }
 
