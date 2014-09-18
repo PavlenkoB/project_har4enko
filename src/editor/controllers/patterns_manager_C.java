@@ -1,8 +1,8 @@
 package editor.controllers;
 
 import Classes.Pattern;
+import editor.interfaces.Configuration;
 import editor.classes.DerbyDBManager;
-import editor.classes.configuration;
 import editor.classes.id_Lable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -27,13 +27,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
  * Created by godex_000 on 04.07.2014.
  */
-public class patterns_manager_C implements Initializable {
+public class patterns_manager_C implements Initializable,Configuration {
     public ComboBox CB_from_arch;
     public ComboBox CB_from_lay;
     public ComboBox CB_from_mod;
@@ -45,9 +44,6 @@ public class patterns_manager_C implements Initializable {
     public BorderPane root;
     public DerbyDBManager DB_connection;
     private String from_last_query, to_last_query;
-
-    public final configuration program_config=new configuration();//завантажити конфігурацію
-    public final ResourceBundle resourceBundle=ResourceBundle.getBundle("localization.editor", new Locale(program_config.language));//завантаження локалызації
 
     void initData(final DerbyDBManager derbyDBManager) {
         DB_connection = derbyDBManager;

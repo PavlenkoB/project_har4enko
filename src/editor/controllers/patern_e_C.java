@@ -6,8 +6,8 @@ package editor.controllers;/*
 import Classes.Layer;
 import Classes.Module;
 import Classes.Pattern;
+import editor.interfaces.Configuration;
 import editor.classes.DerbyDBManager;
-import editor.classes.configuration;
 import editor.classes.id_Lable;
 import editor.services.draw_uml;
 import editor.services.pattern_work;
@@ -38,13 +38,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
  * @author godex_000
  */
-public class patern_e_C implements Initializable {
+public class patern_e_C implements Initializable,Configuration {
     @FXML
     public ListView LV_paterns_DB;
     @FXML
@@ -77,8 +76,6 @@ public class patern_e_C implements Initializable {
 
     Module edited_module;
     DerbyDBManager derby_DB;
-    public final configuration program_config=new configuration();//завантажити конфігурацію
-    public final ResourceBundle resourceBundle=ResourceBundle.getBundle("localization.editor", new Locale(program_config.language));//завантаження локалызації
 
     void initData(Module module, DerbyDBManager derby_con) {
         derby_DB = derby_con;

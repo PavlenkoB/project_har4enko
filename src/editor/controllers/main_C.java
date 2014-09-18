@@ -8,6 +8,7 @@ import Classes.Layer;
 import Classes.Module;
 import Classes.Pattern;
 import editor.classes.*;
+import editor.interfaces.Configuration;
 import editor.services.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,6 +25,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.*;
+import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
 import org.apache.poi.xwpf.usermodel.*;
 
 import javax.imageio.ImageIO;
@@ -38,16 +40,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 
 /**
  * @author godex_000
  */
-public class main_C extends JPanel implements Initializable {
-    public final configuration program_config = new configuration();//завантажити конфігурацію
-    public final ResourceBundle resourceBundle = ResourceBundle.getBundle("localization.editor", new Locale(program_config.language));//завантаження локалызації
+public class main_C extends JPanel implements Initializable,Configuration {
     @FXML
     public Label selected_DB;
     public Button B_connect;
@@ -699,12 +698,11 @@ public class main_C extends JPanel implements Initializable {
         arch_tmp.setDescription(TA_arch_description.getText());
         result_info result = arch_work.arch_save_to_DB(arch_tmp, derby_DB);
         if (result.getStatus() == true) {
-            JOptionPane.showMessageDialog(null, "Архітектура успішно збережена.", resourceBundle.getString("загальні.інформація"), JOptionPane.INFORMATION_MESSAGE);
+            Modals.showInfoAM(resourceBundle.getString("загальні.інформація"), "Архітектура успішно збережена.");
+            //JOptionPane.showMessageDialog(null, "Архітектура успішно збережена.", resourceBundle.getString("загальні.інформація"), JOptionPane.INFORMATION_MESSAGE);
         } else {
-            //TODO ВТорое окно
-            //Label message = new Label("Cay's message");
-            //functions.get_stage_by_element(TA_arch_description).setScene(new Scene(message));
-            JOptionPane.showMessageDialog(null, "Архітектура не збереження зверныться до Адмыныстратора чи програміста.\n" + result.getComment(), resourceBundle.getString("загальні.попередження"), JOptionPane.WARNING_MESSAGE);
+            Modals.showInfoAM(resourceBundle.getString("загальні.попередження"), "Архітектура не збереження зверныться до Адмыныстратора чи програміста.\n" + result.getComment());
+            //JOptionPane.showMessageDialog(null, "Архітектура не збереження зверныться до Адмыныстратора чи програміста.\n" + result.getComment(), resourceBundle.getString("загальні.попередження"), JOptionPane.WARNING_MESSAGE);
         }
         list_load_DB();
     }
@@ -753,27 +751,15 @@ public class main_C extends JPanel implements Initializable {
         File outputfile = new File(imgfile);
         try {
             docx = new XWPFDocument();
-            /*XWPFHeaderFooterPolicy policy = docx.getHeaderFooterPolicy();
+            XWPFHeaderFooterPolicy policy = docx.getHeaderFooterPolicy();
             if (policy == null) {
-                // Need to create some new headers
-                // The easy way, gives a single empty paragraph
-                XWPFHeader headerD = policy.createHeader(policy.DEFAULT);
-                headerD.getParagraphs().get(0). createRun().setText("Hello Header World!");
 
-                // Or the full control way
-                CTP ctP1 = CTP.Factory.newInstance();
-                CTR ctR1 = ctP1.addNewR();
-                CTText t = ctR1.addNewT();
-                t.setStringValue("Paragraph in header");
-
-                XWPFParagraph p1 = new XWPFParagraph(ctP1, docx);
-                XWPFParagraph[] pars = new XWPFParagraph[1];
-                pars[0] = p1;
-
-                policy.createHeader(policy.FIRST, pars);
             } else {
                 // Already has a header, change it
-            }*/
+            }/**/
+
+
+
 
             docx.write(new FileOutputStream(docx_f));
             for (int arch_nom = 0; arch_nom < LV_archs_DB.getItems().size(); arch_nom++) {

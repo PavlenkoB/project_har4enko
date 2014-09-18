@@ -1,12 +1,20 @@
 package Classes;
 
 import editor.classes.DerbyDBManager;
+import editor.classes.Modals;
 import editor.classes.result_info;
 import editor.services.ImageConverter;
 import editor.services.draw_uml;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.VBoxBuilder;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -177,7 +185,6 @@ public class Architecture implements Cloneable {
             for (int l_o = 0; l_o < arch_old.getLayers().size(); l_o++) {
                 for (int m_o = 0; m_o < arch_old.getLayers().get(l_o).getModules().size(); m_o++) {
                     boolean save = false;
-
                     for (int l_n = 0; l_n < arch_in.getLayers().size(); l_n++) {
                         for (int m_n = 0; m_n < arch_in.getLayers().get(l_n).getModules().size(); m_n++) {
                             //System.out.printf("\n"+String.valueOf(l_o)+"|"+String.valueOf(m_o)+"|"+String.valueOf(l_n)+"|"+String.valueOf(m_n));
@@ -229,6 +236,7 @@ public class Architecture implements Cloneable {
                     arch_in.getLayers().get(s_lay).setId(rs_tmp.getInt(1));
                     for (int s_mod = 0; s_mod < arch_in.getLayers().get(s_lay).getModules().size(); s_mod++) {
                         derby_DB_connection.executeUpdate("INSERT INTO MODULE (LAY_ID,NAME,DESCRIPTION) VALUES (" + arch_in.getLayers().get(s_lay).getId() + ",'" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "','" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getDescription() + "')");
+
                         //TODO
                     /*PreparedStatement preparedStatement=derby_DB_connection.getCon().prepareStatement("INSERT INTO ARCHITECTURE (NAME,USECASE,DESCRIPTION) VALUES (?,?,?)");
                     preparedStatement.setString(1,arch_in.getName());
@@ -238,6 +246,9 @@ public class Architecture implements Cloneable {
                         rs_tmp = derby_DB_connection.executeQuery("SELECT MAX(ID) FROM MODULE");
                         rs_tmp.next();
                         arch_in.getLayers().get(s_lay).getModules().get(s_mod).setId(rs_tmp.getInt(1));
+                        if (derby_DB_connection.executeQuery("SELECT * FROM PATERNS WHERE MOD_ID=" + rs_tmp.getInt(1)).next()==false) {
+                            System.out.println("Module '" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "' don`t have patterns");
+                        }
                     }
                 }
             } else {
@@ -304,6 +315,11 @@ public class Architecture implements Cloneable {
                             } else {
                                 // якщо модуль редагований
                                 derby_DB_connection.executeUpdate("UPDATE MODULE " + "SET NAME='" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "',DESCRIPTION='" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getDescription() + "' WHERE ID=" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getId());
+                                //rs_tmp=derby_DB_connection.executeQuery("SELECT * FROM PATERNS WHERE MOD_ID=" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getId());
+                                if (derby_DB_connection.executeQuery("SELECT * FROM PATERNS WHERE MOD_ID=" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getId()).next()==false) {
+                                    System.out.println("Module '" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "' don`t have patterns");
+                                    Modals.showInfoAM("Увага","Module '" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "' don`t have patterns");
+                                }
                                 //TODO
                     /*PreparedStatement preparedStatement=derby_DB_connection.getCon().prepareStatement("INSERT INTO ARCHITECTURE (NAME,USECASE,DESCRIPTION) VALUES (?,?,?)");
                     preparedStatement.setString(1,arch_in.getName());
@@ -316,7 +332,7 @@ public class Architecture implements Cloneable {
                 }
             }
             result.setStatus(true);
-            System.out.printf("Arch save successful");
+            System.out.println("Arch save successful");
 
         } catch (SQLException e) {
             result.setComment(e);

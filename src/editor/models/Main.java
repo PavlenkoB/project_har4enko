@@ -1,21 +1,19 @@
 package editor.models;
 
-import editor.classes.configuration;
+import editor.interfaces.Configuration;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import javax.swing.*;
 import java.util.Locale;
-import java.util.PrimitiveIterator;
 import java.util.ResourceBundle;
 
-public class Main extends Application {
+public class Main extends Application implements Configuration {
 
     public static void main(String[] args) {
         launch(args);
@@ -23,8 +21,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        final configuration program_config=new configuration();//завантажити конфігурацію
-        final ResourceBundle resourceBundle= ResourceBundle.getBundle("localization.editor");
         FXMLLoader mainFXML=new FXMLLoader();
         mainFXML.setResources(ResourceBundle.getBundle("localization.editor",new Locale(program_config.language)));
         //mainFXML.load()
