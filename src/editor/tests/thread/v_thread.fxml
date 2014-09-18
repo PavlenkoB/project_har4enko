@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="godex.rep_editor.test.thread.c_thread">
+   <children>
+      <ProgressBar fx:id="progressBar" layoutX="116.0" layoutY="128.0" prefWidth="200.0" progress="0.0" />
+      <Button layoutX="116.0" layoutY="169.0" mnemonicParsing="false" onAction="#set_25" text="25" />
+      <Button layoutX="168.0" layoutY="169.0" mnemonicParsing="false" onAction="#set_50" text="50" />
+      <Button layoutX="164.0" layoutY="217.0" mnemonicParsing="false" onAction="#progress_start" text="start" />
+      <Button layoutX="244.0" layoutY="253.0" mnemonicParsing="false" onAction="#progress_stop" text="stop" />
+      <Button layoutX="50.0" layoutY="125.0" mnemonicParsing="false" onAction="#set_0" text="0" />
+      <Label fx:id="L_Progress" layoutX="322.0" layoutY="129.0" text="Label" />
+      <Button layoutX="164.0" layoutY="253.0" mnemonicParsing="false" onAction="#progress_start_tread" text="start_tread" />
+   </children>
+</AnchorPane>

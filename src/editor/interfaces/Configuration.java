@@ -22,9 +22,7 @@ public interface Configuration {
             try {
                 File config = new File("config.properties");
                 if (!config.exists()) {
-
                     FileUtils.copyFileUsingStream(new File(getClass().getClassLoader().getResource("default_config.properties").toURI()), config);
-
                 }
                 FileInputStream fis;
                 Properties property = new Properties();
