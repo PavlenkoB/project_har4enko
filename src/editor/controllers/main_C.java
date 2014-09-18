@@ -26,7 +26,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.*;
 import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
-import org.apache.poi.xwpf.usermodel.*;
+import org.apache.poi.xwpf.usermodel.Document;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -46,7 +49,7 @@ import java.util.ResourceBundle;
 /**
  * @author godex_000
  */
-public class main_C extends JPanel implements Initializable,Configuration {
+public class main_C extends JPanel implements Initializable, Configuration {
     @FXML
     public Label selected_DB;
     public Button B_connect;
@@ -88,6 +91,7 @@ public class main_C extends JPanel implements Initializable,Configuration {
         thisstage.setMinHeight(700);//Минимальная высота окна
         thisstage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
+                //boolean n=Modals.showOptionDialogYN("загальні.увага", "загальні.ви_впевнені_що_бажаете_вийти_незбережені_зміни_буде_втрачено");
                 Object[] options = {resourceBundle.getString("загальні.так"),
                         resourceBundle.getString("загальні.ні")};
                 int n = JOptionPane.showOptionDialog(null,
@@ -98,10 +102,12 @@ public class main_C extends JPanel implements Initializable,Configuration {
                         null,     //do not use a custom Icon
                         options,  //the titles of buttons
                         options[0]); //default button title
-                if (n == 0) {//да
+                        /**/
+                if (n == 1) {//да
                 } else {//нет
                     we.consume();
-                }
+                }/**/
+                //we.consume();
             }
         });
     }
@@ -586,12 +592,14 @@ public class main_C extends JPanel implements Initializable,Configuration {
 
     public void del_mod(Integer lay_nom, Integer mod_nom) {
         Object stringArray[] = {resourceBundle.getString("загальні.так"), resourceBundle.getString("загальні.ні")};
-        int response = JOptionPane.showOptionDialog(null, "Ви впевнені, що хочете видалити модуль?", resourceBundle.getString("загальні.Питання"),
-                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, stringArray, stringArray[0]);
-        if (response == JOptionPane.YES_OPTION) {
+        Modals.Response response = Modals.showOptionDialogYN("ttile", "text");
+        /*JOptionPane.showOptionDialog(null, "Ви впевнені, що хочете видалити модуль?", resourceBundle.getString("загальні.Питання"),
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, stringArray, stringArray[0]);*/
+        if (response == Modals.Response.YES/*JOptionPane.YES_OPTION*/) {
             arch_tmp.getLayers().get(lay_nom.intValue()).getModules().remove(mod_nom.intValue());
+            draw_arch_struct();
         }
-        draw_arch_struct();
+        System.out.printf("ss");
     }
 
     public void del_lay(Integer lay_nom) {
@@ -757,8 +765,6 @@ public class main_C extends JPanel implements Initializable,Configuration {
             } else {
                 // Already has a header, change it
             }/**/
-
-
 
 
             docx.write(new FileOutputStream(docx_f));

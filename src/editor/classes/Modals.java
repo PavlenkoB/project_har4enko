@@ -1,14 +1,21 @@
 package editor.classes;
 
 import editor.interfaces.Configuration;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBuilder;
+import javafx.scene.control.LabelBuilder;
+import javafx.scene.layout.HBoxBuilder;
 import javafx.scene.layout.VBoxBuilder;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import javax.swing.*;
 
 /**
  * Created by
@@ -18,7 +25,10 @@ import javafx.stage.Stage;
  */
 public class Modals implements Configuration {
 
-    public static void showInfoAM(String title,String text){
+    static Response buttonSelected = Response.CANCEL;
+    public enum Response { NO, YES, CANCEL };
+
+    public static void showInfoAM(String title, String text) {
         Stage dialogNONE = new Stage();
         dialogNONE.initModality(Modality.APPLICATION_MODAL);
 
@@ -34,27 +44,52 @@ public class Modals implements Configuration {
         dialogNONE.setScene(sceneNONE);
         dialogNONE.show();
     }
-    public static boolean showOptionDialog(String title,String text){
-        Stage dialogNONE = new Stage();
+
+    public static Response showOptionDialogYN(String title, String text) {
+        final boolean[] result = new boolean[1];
+
+        final Stage dialogNONE = new Stage();
         dialogNONE.initModality(Modality.APPLICATION_MODAL);
 
 
-        Scene sceneNONE = new Scene(VBoxBuilder.create()
-                .children(
-                        new Button(title),
-                        new Button(text),
-                        new Button(resourceBundle.getString("загальні.ні")))
-                .alignment(Pos.CENTER)
-                .padding(new Insets(10))
-                .build());
+        Scene sceneNONE =
+                new Scene(
+                        HBoxBuilder.create().styleClass("modal-dialog").children(
+                                LabelBuilder.create().text("Will you like this page?").build(),
+                                ButtonBuilder.create().text("Yes").defaultButton(true).onAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+// take action and close the dialog.
+                                        //System.out.println("Liked: " + webView.getEngine().getTitle());
+                                        //primaryStage.getScene().getRoot().setEffect(null);
+                                        buttonSelected=Response.YES;
+                                        dialogNONE.close();
+                                    }
+                                }).build(),
+                                ButtonBuilder.create().text("No").cancelButton(true).onAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+// abort action and close the dialog.
+                                        //System.out.println("Disliked: " + webView.getEngine().getTitle());
+                                        //primaryStage.getScene().getRoot().setEffect(null);
+                                        buttonSelected=Response.NO;
+                                        dialogNONE.close();
+
+                                    }
+                                }).build()
+                        ).build()
+                        , Color.TRANSPARENT
+                );
 
         dialogNONE.setTitle(title);
         dialogNONE.setScene(sceneNONE);
         dialogNONE.show();
-        return false;
+        //dialogNONE.getOnCloseRequest
+
+        return buttonSelected;
     }
 
-    public static void infoN(String title,String text){
+    public static void infoN(String title, String text) {
         Stage dialogNONE = new Stage();
         dialogNONE.initModality(Modality.NONE);
 
@@ -70,7 +105,8 @@ public class Modals implements Configuration {
         dialogNONE.setScene(sceneNONE);
         dialogNONE.show();
     }
-    public static void infoWM(String title,String text){
+
+    public static void infoWM(String title, String text) {
         Stage dialogNONE = new Stage();
         dialogNONE.initModality(Modality.WINDOW_MODAL);
 
