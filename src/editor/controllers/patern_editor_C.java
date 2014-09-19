@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
@@ -98,12 +99,17 @@ public class patern_editor_C implements Initializable {
 /**/
     }
 
+    /**
+     * Показуе превю
+     * @param actionEvent
+     */
     public void preview(ActionEvent actionEvent) {
         pattern_image = draw_uml.draw_class(TA_pattern_uml.getText());
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/image_preview.fxml"));
 
         Stage stage = new Stage(StageStyle.DECORATED);
         try {
+            stage.initModality(Modality.WINDOW_MODAL);
             stage.setScene(new Scene((Pane) loader.load()));
         } catch (IOException e) {
             e.printStackTrace();

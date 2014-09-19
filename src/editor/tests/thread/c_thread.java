@@ -97,7 +97,7 @@ public class c_thread implements Initializable {
     static SomeRun mThing;    //mThing - объект класса, реализующего интерфейс Runnable
     public Label L_Progress;
     Thread myThready;    //Создание потока "myThready"
-    public ProgressBar PB_progress;
+    public ProgressBar progressBar;
 
 
     @Override
@@ -106,15 +106,15 @@ public class c_thread implements Initializable {
     }
 
     public void set_0(ActionEvent actionEvent) {
-        PB_progress.setProgress(0);
+        progressBar.setProgress(0);
     }
 
     public void set_50(ActionEvent actionEvent) {
-        PB_progress.setProgress(0.50);
+        progressBar.setProgress(0.50);
     }
 
     public void set_25(ActionEvent actionEvent) {
-        PB_progress.setProgress(0.25);
+        progressBar.setProgress(0.25);
     }
 
     public void progress_start(ActionEvent actionEvent) {
@@ -130,7 +130,7 @@ public class c_thread implements Initializable {
                         Thread.sleep(100); // спать 1000 милисекунд.
 
                         Platform.setImplicitExit(false);
-                        PB_progress.setProgress(s4 * 0.001);
+                        progressBar.setProgress(s4 * 0.001);
 
 
                         //System.out.println(L_Progress.getText());
@@ -160,7 +160,7 @@ public class c_thread implements Initializable {
 
     public void progress_start_tread(ActionEvent actionEvent) {
         mThing = new SomeRun();
-        mThing.setProgressBar(PB_progress);
+        mThing.setProgressBar(progressBar);
         mThing.setProgressLabel(L_Progress);
         myThready = new Thread(mThing);    //Создание потока "myThready"
         myThready.start();

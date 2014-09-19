@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
@@ -33,46 +34,48 @@ import java.util.ResourceBundle;
  * Created by godex_000 on 04.07.2014.
  */
 public class patterns_manager_C implements Initializable,Configuration {
-    public ComboBox CB_from_arch;
-    public ComboBox CB_from_lay;
-    public ComboBox CB_from_mod;
-    public ComboBox CB_to_arch;
-    public ComboBox CB_to_lay;
-    public ComboBox CB_to_mod;
-    public ListView from_list;
-    public ListView to_list;
+    public ComboBox cbFromArch;
+    public ComboBox cbFromLay;
+    public ComboBox cbFromMod;
+    public ComboBox cbToArch;
+    public ComboBox cbToLay;
+    public ComboBox cbToMod;
+    public ListView lvFromList;
+    public ListView toList;
     public BorderPane root;
-    public DerbyDBManager DB_connection;
-    private String from_last_query, to_last_query;
+    public DerbyDBManager dbConnection;
+    private String fromLastQuery, toLastQuery;
+    private String fromType,toType;
+    private Integer fromModId, toModId, fromArchId, toArchId;
 
-    void initData(final DerbyDBManager derbyDBManager) {
-        DB_connection = derbyDBManager;
+    public void initData(final DerbyDBManager derbyDBManager) {
+        dbConnection = derbyDBManager;
         ResultSet rs = null;
         try {
             //derby_DB
-            rs = DB_connection.executeQuery("SELECT * FROM ARCHITECTURE ORDER BY NAME ASC");
+            rs = dbConnection.executeQuery("SELECT * FROM ARCHITECTURE ORDER BY NAME ASC");
             ObservableList<id_Lable> items = FXCollections.observableArrayList();
-            items.add(new id_Lable(-1, "Глобальні"+" "+ resourceBundle.getString("загальні.патерни")));
+            items.add(new id_Lable(-1, "Базові"+" "+ resourceBundle.getString("загальні.патерни")));
             while (rs.next()) {
                 id_Lable tmp_lable = new id_Lable(rs.getInt("ID"), rs.getString("NAME"));
                 items.add(tmp_lable);
             }
-            CB_from_arch.setItems(items);
+            cbFromArch.setItems(items);
 
-            CB_from_arch.valueProperty().addListener(new ChangeListener<id_Lable>() {
+            cbFromArch.valueProperty().addListener(new ChangeListener<id_Lable>() {
                 @Override
                 public void changed(ObservableValue ov, id_Lable t, id_Lable t1) {
-                    CB_from_mod.setItems(FXCollections.observableArrayList());
-                    from_list.setItems(FXCollections.observableArrayList());
+                    cbFromMod.setItems(FXCollections.observableArrayList());
+                    lvFromList.setItems(FXCollections.observableArrayList());
                     from_lay_load();
                 }
             });
-            CB_to_arch.setItems(items);
-            CB_to_arch.valueProperty().addListener(new ChangeListener<id_Lable>() {
+            cbToArch.setItems(items);
+            cbToArch.valueProperty().addListener(new ChangeListener<id_Lable>() {
                 @Override
                 public void changed(ObservableValue ov, id_Lable t, id_Lable t1) {
-                    CB_to_mod.setItems(FXCollections.observableArrayList());
-                    to_list.setItems(FXCollections.observableArrayList());
+                    cbToMod.setItems(FXCollections.observableArrayList());
+                    toList.setItems(FXCollections.observableArrayList());
                     to_lay_load();
                 }
             });
@@ -129,18 +132,18 @@ public class patterns_manager_C implements Initializable,Configuration {
      *
      * @param Query запит
      */
-    private void from_list_load(String Query) {
+    private void fromListLoad(String Query) {
         try {
             ResultSet rs = null;
-            rs = DB_connection.executeQuery(Query);
-            from_last_query = Query;
+            rs = dbConnection.executeQuery(Query);
+            fromLastQuery = Query;
             ObservableList<id_Lable> items = FXCollections.observableArrayList();
             while (rs.next()) {
                 id_Lable tmp_lable = new id_Lable(rs.getInt("ID"), rs.getString("NAME"));
                 items.add(tmp_lable);
             }
-            from_list.setItems(items);
-            from_list.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            lvFromList.setItems(items);
+            lvFromList.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
 
@@ -159,16 +162,16 @@ public class patterns_manager_C implements Initializable,Configuration {
     private void to_list_load(String Query) {
         try {
             ResultSet rs = null;
-            rs = DB_connection.executeQuery(Query);
-            to_last_query = Query;
+            rs = dbConnection.executeQuery(Query);
+            toLastQuery = Query;
             ObservableList<id_Lable> items = FXCollections.observableArrayList();
             while (rs.next()) {
                 id_Lable tmp_lable = new id_Lable(rs.getInt("ID"), rs.getString("NAME"));
                 items.add(tmp_lable);
             }
-            to_list.setItems(items);
+            toList.setItems(items);
 
-            to_list.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            toList.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
 
@@ -182,27 +185,31 @@ public class patterns_manager_C implements Initializable,Configuration {
     private void from_lay_load() {
         ResultSet rs = null;
         try {
-            if (((id_Lable) CB_from_arch.getSelectionModel().getSelectedItem()).getDbid().intValue() != -1) {
+            if (((id_Lable) cbFromArch.getSelectionModel().getSelectedItem()).getDbid().intValue() != -1) {
                 //якщо вибрав архітектуру
-
-                rs = DB_connection.executeQuery("SELECT * FROM LAYER WHERE ARCH_ID=" + ((id_Lable) CB_from_arch.getSelectionModel().getSelectedItem()).getDbid().intValue() + " ORDER BY NAME ASC");
+                rs = dbConnection.executeQuery("SELECT * FROM LAYER WHERE ARCH_ID=" + ((id_Lable) cbFromArch.getSelectionModel().getSelectedItem()).getDbid().intValue() + " ORDER BY NAME ASC");
+                fromArchId=((id_Lable) cbFromArch.getSelectionModel().getSelectedItem()).getDbid().intValue();
                 ObservableList<id_Lable> items = FXCollections.observableArrayList();
                 items.add(new id_Lable(-1, resourceBundle.getString("непривязані_паттерни")));
+                fromModId=-1;
                 while (rs.next()) {
                     id_Lable tmp_lable = new id_Lable(rs.getInt("ID"), rs.getString("NAME"));
                     items.add(tmp_lable);
                 }
-                CB_from_lay.setItems(items);
-                CB_from_lay.valueProperty().addListener(new ChangeListener<id_Lable>() {
+                cbFromLay.setItems(items);
+                cbFromLay.valueProperty().addListener(new ChangeListener<id_Lable>() {
                     @Override
                     public void changed(ObservableValue ov, id_Lable t, id_Lable t1) {
-                        from_list.setItems(FXCollections.observableArrayList());
+                        lvFromList.setItems(FXCollections.observableArrayList());
                         from_mod_load();
                     }
                 });
             } else {
+                fromModId=-1;
+                fromArchId=0;
                 //якщо глобальні патерни
-                from_list_load("SELECT * FROM PATERNS WHERE TYPE='GLOBAL' ORDER BY NAME ASC");
+                fromListLoad("SELECT * FROM PATERNS WHERE TYPE='GLOBAL' ORDER BY NAME ASC");
+                fromType = "GLOBAL";
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -213,16 +220,17 @@ public class patterns_manager_C implements Initializable,Configuration {
         ResultSet rs = null;
         try {
 
-            if (((id_Lable) CB_from_lay.getSelectionModel().getSelectedItem()).getDbid().intValue() != -1) {
+            if (((id_Lable) cbFromLay.getSelectionModel().getSelectedItem()).getDbid().intValue() != -1) {
                 //derby_DB
-                rs = DB_connection.executeQuery("SELECT * FROM MODULE WHERE LAY_ID=" + ((id_Lable) CB_from_lay.getSelectionModel().getSelectedItem()).getDbid().intValue() + " ORDER BY NAME ASC");
+                rs = dbConnection.executeQuery("SELECT * FROM MODULE WHERE LAY_ID=" + ((id_Lable) cbFromLay.getSelectionModel().getSelectedItem()).getDbid().intValue() + " ORDER BY NAME ASC");
+
                 ObservableList<id_Lable> items = FXCollections.observableArrayList();
                 while (rs.next()) {
                     id_Lable tmp_lable = new id_Lable(rs.getInt("ID"), rs.getString("NAME"));
                     items.add(tmp_lable);
                 }
-                CB_from_mod.setItems(items);
-                CB_from_mod.valueProperty().addListener(new ChangeListener<id_Lable>() {
+                cbFromMod.setItems(items);
+                cbFromMod.valueProperty().addListener(new ChangeListener<id_Lable>() {
                     @Override
                     public void changed(ObservableValue ov, id_Lable t, id_Lable t1) {
                         from_pat_load();
@@ -231,8 +239,9 @@ public class patterns_manager_C implements Initializable,Configuration {
             } else {
                 //непривязані патерни
 
-                CB_from_mod.setItems(FXCollections.observableArrayList());
-                from_list_load("SELECT * FROM PATERNS WHERE MOD_ID=-1 AND ARCH_ID=" + ((id_Lable) CB_from_arch.getSelectionModel().getSelectedItem()).getDbid().intValue() + " ORDER BY NAME ASC");
+
+                cbFromMod.setItems(FXCollections.observableArrayList());
+                fromListLoad("SELECT * FROM PATERNS WHERE MOD_ID=-1 AND ARCH_ID=" + ((id_Lable) cbFromArch.getSelectionModel().getSelectedItem()).getDbid().intValue() + " ORDER BY NAME ASC");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -241,7 +250,8 @@ public class patterns_manager_C implements Initializable,Configuration {
 
     private void from_pat_load() {
         //derby_DB
-        from_list_load("SELECT * FROM PATERNS WHERE MOD_ID=" + ((id_Lable) CB_from_mod.getSelectionModel().getSelectedItem()).getDbid().intValue() + " ORDER BY NAME ASC");
+        fromListLoad("SELECT * FROM PATERNS WHERE MOD_ID=" + ((id_Lable) cbFromMod.getSelectionModel().getSelectedItem()).getDbid().intValue() + " ORDER BY NAME ASC");
+        fromModId=((id_Lable) cbFromMod.getSelectionModel().getSelectedItem()).getDbid().intValue();
     }
 
     @Override
@@ -253,17 +263,18 @@ public class patterns_manager_C implements Initializable,Configuration {
         ResultSet rs = null;
         try {
             //derby_DB
-            rs = DB_connection.executeQuery("SELECT * FROM LAYER WHERE ARCH_ID=" + ((id_Lable) CB_to_arch.getSelectionModel().getSelectedItem()).getDbid().intValue() + " ORDER BY NAME ASC");
+            rs = dbConnection.executeQuery("SELECT * FROM LAYER WHERE ARCH_ID=" + ((id_Lable) cbToArch.getSelectionModel().getSelectedItem()).getDbid().intValue() + " ORDER BY NAME ASC");
+            toArchId=((id_Lable) cbToArch.getSelectionModel().getSelectedItem()).getDbid().intValue();
             ObservableList<id_Lable> items = FXCollections.observableArrayList();
             while (rs.next()) {
                 id_Lable tmp_lable = new id_Lable(rs.getInt("ID"), rs.getString("NAME"));
                 items.add(tmp_lable);
             }
-            CB_to_lay.setItems(items);
-            CB_to_lay.valueProperty().addListener(new ChangeListener<id_Lable>() {
+            cbToLay.setItems(items);
+            cbToLay.valueProperty().addListener(new ChangeListener<id_Lable>() {
                 @Override
                 public void changed(ObservableValue ov, id_Lable t, id_Lable t1) {
-                    to_list.setItems(FXCollections.observableArrayList());
+                    toList.setItems(FXCollections.observableArrayList());
                     to_mod_load();
                 }
             });
@@ -276,14 +287,14 @@ public class patterns_manager_C implements Initializable,Configuration {
         ResultSet rs = null;
         try {
             //derby_DB
-            rs = DB_connection.executeQuery("SELECT * FROM MODULE WHERE LAY_ID=" + ((id_Lable) CB_to_lay.getSelectionModel().getSelectedItem()).getDbid().intValue() + " ORDER BY NAME ASC");
+            rs = dbConnection.executeQuery("SELECT * FROM MODULE WHERE LAY_ID=" + ((id_Lable) cbToLay.getSelectionModel().getSelectedItem()).getDbid().intValue() + " ORDER BY NAME ASC");
             ObservableList<id_Lable> items = FXCollections.observableArrayList();
             while (rs.next()) {
                 id_Lable tmp_lable = new id_Lable(rs.getInt("ID"), rs.getString("NAME"));
                 items.add(tmp_lable);
             }
-            CB_to_mod.setItems(items);
-            CB_to_mod.valueProperty().addListener(new ChangeListener<id_Lable>() {
+            cbToMod.setItems(items);
+            cbToMod.valueProperty().addListener(new ChangeListener<id_Lable>() {
                 @Override
                 public void changed(ObservableValue ov, id_Lable t, id_Lable t1) {
                     to_pat_load();
@@ -296,7 +307,8 @@ public class patterns_manager_C implements Initializable,Configuration {
 
     private void to_pat_load() {
         //derby_DB
-        to_list_load("SELECT * FROM PATERNS WHERE MOD_ID=" + ((id_Lable) CB_to_mod.getSelectionModel().getSelectedItem()).getDbid().intValue() + " ORDER BY NAME ASC");
+        to_list_load("SELECT * FROM PATERNS WHERE MOD_ID=" + ((id_Lable) cbToMod.getSelectionModel().getSelectedItem()).getDbid().intValue() + " ORDER BY NAME ASC");
+        toModId=((id_Lable) cbToMod.getSelectionModel().getSelectedItem()).getDbid().intValue();
     }
 
     /**
@@ -304,27 +316,27 @@ public class patterns_manager_C implements Initializable,Configuration {
      * звідки-куди
      */
     public void from_move_to() {
-        if (from_list.getSelectionModel().getSelectedItem() != null) {
-            if (CB_to_arch.getSelectionModel().getSelectedItem() != null) {
-                Pattern from = Pattern.patternLoadFromDB(((id_Lable) from_list.getSelectionModel().getSelectedItem()).getDbid(), DB_connection);
+        if (lvFromList.getSelectionModel().getSelectedItem() != null) {
+            if (cbToArch.getSelectionModel().getSelectedItem() != null) {
+                Pattern from = Pattern.patternLoadFromDB(((id_Lable) lvFromList.getSelectionModel().getSelectedItem()).getDbid(), dbConnection);
                 Pattern new_p = new Pattern();
                 new_p.setName(from.getName());
-                if (CB_to_mod.getSelectionModel().getSelectedItem() != null) {
-                    new_p.setModId(((id_Lable) CB_to_mod.getSelectionModel().getSelectedItem()).getDbid());
+                if (cbToMod.getSelectionModel().getSelectedItem() != null) {
+                    new_p.setModId(((id_Lable) cbToMod.getSelectionModel().getSelectedItem()).getDbid());
                 } else {
                     new_p.setModId(-1);
                 }
                 new_p.setUmlText(from.getUmlText());
                 new_p.setDescription(from.getDescription());
                 new_p.setPreview(from.getPreview());
-                new_p.setArch_id(((id_Lable) CB_to_mod.getSelectionModel().getSelectedItem()).getDbid());
+                new_p.setArch_id(((id_Lable) cbToMod.getSelectionModel().getSelectedItem()).getDbid());
                 new_p.setType("");
-                Pattern.pattern_save_to_DB(new_p, DB_connection);
-                Pattern.delete_pattern_from_DB(from.getId(), DB_connection);
+                Pattern.pattern_save_to_DB(new_p, dbConnection);
+                Pattern.delete_pattern_from_DB(from.getId(), dbConnection);
             }
         }
-        from_list_load(from_last_query);
-        to_list_load(to_last_query);
+        fromListLoad(fromLastQuery);
+        to_list_load(toLastQuery);
     }
 
     /**
@@ -332,27 +344,27 @@ public class patterns_manager_C implements Initializable,Configuration {
      * звідки-куди
      */
     public void from_copy_to() {
-        if (from_list.getSelectionModel().getSelectedItem() != null) {
-            if (CB_to_arch.getSelectionModel().getSelectedItem() != null) {
-                Pattern from = Pattern.patternLoadFromDB(((id_Lable) from_list.getSelectionModel().getSelectedItem()).getDbid(), DB_connection);
+        if (lvFromList.getSelectionModel().getSelectedItem() != null) {
+            if (cbToArch.getSelectionModel().getSelectedItem() != null) {
+                Pattern from = Pattern.patternLoadFromDB(((id_Lable) lvFromList.getSelectionModel().getSelectedItem()).getDbid(), dbConnection);
                 Pattern new_p = new Pattern();
                 new_p.setName(from.getName());
-                if (CB_to_mod.getSelectionModel().getSelectedItem() != null) {
-                    new_p.setModId(((id_Lable) CB_to_mod.getSelectionModel().getSelectedItem()).getDbid());
+                if (cbToMod.getSelectionModel().getSelectedItem() != null) {
+                    new_p.setModId(((id_Lable) cbToMod.getSelectionModel().getSelectedItem()).getDbid());
                 } else {
                     new_p.setModId(-1);
                 }
                 new_p.setUmlText(from.getUmlText());
                 new_p.setDescription(from.getDescription());
                 new_p.setPreview(from.getPreview());
-                new_p.setArch_id(((id_Lable) CB_to_mod.getSelectionModel().getSelectedItem()).getDbid());
+                new_p.setArch_id(((id_Lable) cbToMod.getSelectionModel().getSelectedItem()).getDbid());
                 new_p.setType("");
 
-                Pattern.pattern_save_to_DB(new_p, DB_connection);
+                Pattern.pattern_save_to_DB(new_p, dbConnection);
             }
         }
-        from_list_load(from_last_query);
-        to_list_load(to_last_query);
+        fromListLoad(fromLastQuery);
+        to_list_load(toLastQuery);
     }
 
     /**
@@ -371,32 +383,33 @@ public class patterns_manager_C implements Initializable,Configuration {
     }
 
     public void from_list_delete() {
-        if (from_list.getSelectionModel().getSelectedItem() != null) {
-            Pattern.delete_pattern_from_DB(((id_Lable) from_list.getSelectionModel().getSelectedItem()).getDbid(), DB_connection);
-            from_list_load(from_last_query);
+        if (lvFromList.getSelectionModel().getSelectedItem() != null) {
+            Pattern.delete_pattern_from_DB(((id_Lable) lvFromList.getSelectionModel().getSelectedItem()).getDbid(), dbConnection);
+            fromListLoad(fromLastQuery);
         }
     }
 
 
     public void from_list_preview() {
-        if (from_list.getSelectionModel().getSelectedItem() != null) {
+        if (lvFromList.getSelectionModel().getSelectedItem() != null) {
             System.out.printf("");
         }
     }
 
     public void from_list_edit() {
-        if (from_list.getSelectionModel().getSelectedItem() != null) {
+        if (lvFromList.getSelectionModel().getSelectedItem() != null) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/patern_editor.fxml"));
 
             Stage stage = new Stage(StageStyle.DECORATED);
             try {
+                stage.initModality(Modality.WINDOW_MODAL);
                 stage.setScene(new Scene((Pane) loader.load()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
             patern_editor_C controller = loader.<patern_editor_C>getController();
-            controller.initData(Pattern.patternLoadFromDB(((id_Lable) from_list.getSelectionModel().getSelectedItem()).getDbid(), DB_connection),DB_connection);
+            controller.initData(Pattern.patternLoadFromDB(((id_Lable) lvFromList.getSelectionModel().getSelectedItem()).getDbid(), dbConnection), dbConnection);
             stage.setTitle("Редагування патерну");
             stage.show();
             //Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();
@@ -406,44 +419,59 @@ public class patterns_manager_C implements Initializable,Configuration {
     }
 
     public void from_list_add() {
-        if (from_list.getSelectionModel().getSelectedItem() != null) {
-        }
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/patern_editor.fxml"));
 
+                Stage stage = new Stage(StageStyle.DECORATED);
+
+                try {
+                    stage.initModality(Modality.WINDOW_MODAL);
+                    stage.setScene(new Scene((Pane) loader.load()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                patern_editor_C controller = loader.<patern_editor_C>getController();
+
+//        Pattern(Integer id, Integer modId, String name, String description, String umlText, String type, Integer arch_id, Image preview) {
+                controller.initData(new Pattern(null,fromModId,"","","", fromType, fromArchId,null), dbConnection);
+                stage.setTitle("Редагування патерну");
+                stage.show();
+                //Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();
+                // do what you have to do
+                //stage_c.close();
     }
 
     public void to_list_preview() {
-        if (to_list.getSelectionModel().getSelectedItem() != null) {
+        if (toList.getSelectionModel().getSelectedItem() != null) {
 
             System.out.printf("");
         }
     }
 
     public void to_list_edit() {
-        if (to_list.getSelectionModel().getSelectedItem() != null) {
+        if (toList.getSelectionModel().getSelectedItem() != null) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/patern_editor.fxml"));
 
             Stage stage = new Stage(StageStyle.DECORATED);
             try {
+                stage.initModality(Modality.WINDOW_MODAL);
                 stage.setScene(new Scene((Pane) loader.load()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
             patern_editor_C controller = loader.<patern_editor_C>getController();
-            controller.initData(Pattern.patternLoadFromDB(((id_Lable) to_list.getSelectionModel().getSelectedItem()).getDbid(), DB_connection),DB_connection);
+            controller.initData(Pattern.patternLoadFromDB(((id_Lable) toList.getSelectionModel().getSelectedItem()).getDbid(), dbConnection), dbConnection);
             stage.setTitle("Редагування патерну");
             stage.show();
-            //Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();
-            // do what you have to do
-            //stage_c.close();
         }
     }
 
 
     public void to_list_delete() {
-        if (to_list.getSelectionModel().getSelectedItem() != null) {
-            Pattern.delete_pattern_from_DB(((id_Lable) to_list.getSelectionModel().getSelectedItem()).getDbid(), DB_connection);
-            to_list_load(to_last_query);
+        if (toList.getSelectionModel().getSelectedItem() != null) {
+            Pattern.delete_pattern_from_DB(((id_Lable) toList.getSelectionModel().getSelectedItem()).getDbid(), dbConnection);
+            to_list_load(toLastQuery);
         }
     }
 }
