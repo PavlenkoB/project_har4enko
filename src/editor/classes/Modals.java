@@ -25,7 +25,7 @@ import javax.swing.*;
  */
 public class Modals implements Configuration {
 
-    static Response buttonSelected = Response.CANCEL;
+//    static Response buttonSelected = Response.CANCEL;
     public enum Response { NO, YES, CANCEL };
 
     public static void showInfoAM(String title, String text) {
@@ -45,9 +45,8 @@ public class Modals implements Configuration {
         dialogNONE.show();
     }
 
-    public static Response showOptionDialogYN(String title, String text) {
-        final boolean[] result = new boolean[1];
-
+    public static void showOptionDialogYN(String title, String text, final Thread functionToDo) {
+        //Response buttonSelected;
         final Stage dialogNONE = new Stage();
         dialogNONE.initModality(Modality.APPLICATION_MODAL);
 
@@ -55,24 +54,25 @@ public class Modals implements Configuration {
         Scene sceneNONE =
                 new Scene(
                         HBoxBuilder.create().styleClass("modal-dialog").children(
-                                LabelBuilder.create().text("Will you like this page?").build(),
-                                ButtonBuilder.create().text("Yes").defaultButton(true).onAction(new EventHandler<ActionEvent>() {
+                                LabelBuilder.create().text(text).build(),
+
+                                ButtonBuilder.create().text(resourceBundle.getString("загальні.так")).defaultButton(true).onAction(new EventHandler<ActionEvent>() {
                                     @Override
                                     public void handle(ActionEvent actionEvent) {
 // take action and close the dialog.
                                         //System.out.println("Liked: " + webView.getEngine().getTitle());
                                         //primaryStage.getScene().getRoot().setEffect(null);
-                                        buttonSelected=Response.YES;
+                                       functionToDo.run();
                                         dialogNONE.close();
                                     }
                                 }).build(),
-                                ButtonBuilder.create().text("No").cancelButton(true).onAction(new EventHandler<ActionEvent>() {
+                                ButtonBuilder.create().text(resourceBundle.getString("загальні.ні")).cancelButton(true).onAction(new EventHandler<ActionEvent>() {
                                     @Override
                                     public void handle(ActionEvent actionEvent) {
 // abort action and close the dialog.
                                         //System.out.println("Disliked: " + webView.getEngine().getTitle());
                                         //primaryStage.getScene().getRoot().setEffect(null);
-                                        buttonSelected=Response.NO;
+                                        //buttonSelected=Response.NO;
                                         dialogNONE.close();
 
                                     }
@@ -86,7 +86,7 @@ public class Modals implements Configuration {
         dialogNONE.show();
         //dialogNONE.getOnCloseRequest
 
-        return buttonSelected;
+        //return buttonSelected;
     }
 
     public static void infoN(String title, String text) {

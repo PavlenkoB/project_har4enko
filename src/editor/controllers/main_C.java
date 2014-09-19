@@ -291,7 +291,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
                     security.encrypt_file(secretkey, new FileInputStream(myfile), new FileOutputStream(new File(myfile.getAbsoluteFile() + ".enc")));
                     myfile.delete();
                     System.out.println(mydir.toURI().relativize(myfile.toURI()).getPath());
-                    Modals.showInfoAM(resourceBundle.getString("загальні.інформація"),mydir.toURI().relativize(myfile.toURI()).getPath());
+                    Modals.showInfoAM(resourceBundle.getString("загальні.інформація"), mydir.toURI().relativize(myfile.toURI()).getPath());
                 }
             }
         }
@@ -591,16 +591,16 @@ public class main_C extends JPanel implements Initializable, Configuration {
         draw_arch_struct();
     }
 
-    public void del_mod(Integer lay_nom, Integer mod_nom) {
-        Object stringArray[] = {resourceBundle.getString("загальні.так"), resourceBundle.getString("загальні.ні")};
-        Modals.Response response = Modals.showOptionDialogYN("ttile", "text");
-        /*JOptionPane.showOptionDialog(null, "Ви впевнені, що хочете видалити модуль?", resourceBundle.getString("загальні.Питання"),
-                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, stringArray, stringArray[0]);*/
-        if (response == Modals.Response.YES/*JOptionPane.YES_OPTION*/) {
-            arch_tmp.getLayers().get(lay_nom.intValue()).getModules().remove(mod_nom.intValue());
-            draw_arch_struct();
-        }
-        System.out.printf("ss");
+    public void del_mod(final Integer lay_nom, final Integer mod_nom) {
+        Thread threaddo = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                arch_tmp.getLayers().get(lay_nom.intValue()).getModules().remove(mod_nom.intValue());
+                draw_arch_struct();
+                System.out.printf("drav end");
+            }
+        });
+        Modals.showOptionDialogYN(resourceBundle.getString("загальні.попередження"), resourceBundle.getString("загальні.ви_впевнені_що_бажаете_видалити"), threaddo);
     }
 
     public void del_lay(Integer lay_nom) {
@@ -632,33 +632,40 @@ public class main_C extends JPanel implements Initializable, Configuration {
     }
 
 
-    public void edit_mod_patterns(int layer, int module) {//Редагувати патрни шару
+    public void edit_mod_patterns(final int layer, final int module) {//Редагувати патрни шару
         try {
             arch_old = arch_tmp.clone();
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
-        arch_work.arch_save_to_DB(arch_old, derby_DB);
+
+        Modals.showOptionDialogYN(resourceBundle.getString("загальні.увага"), "Зберегти зміни в архітектурі", new Thread(new Runnable() {
+            @Override
+            public void run() {
+                arch_work.arch_save_to_DB(arch_old, derby_DB);
 
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/paterns_editor.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/paterns_editor.fxml"));
 
-        Stage stage = new Stage(StageStyle.DECORATED);
-        try {
-            stage.setScene(new Scene((Pane) loader.load()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                Stage stage = new Stage(StageStyle.DECORATED);
+                try {
+                    stage.setScene(new Scene((Pane) loader.load()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-        patern_e_C controller = loader.<patern_e_C>getController();
-        controller.initData(arch_old.getLayers().get(layer).getModules().get(module), derby_DB);
-        stage.setTitle("Редагування патернів \"" + arch_old.getLayers().get(layer).getModules().get(module).getName() + "\" \"" + arch_old.getLayers().get(layer).getName() + "\" \"" + arch_old.getName() + "\"");
-        stage.show();
-        Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();
-        // do what you have to do
-        stage_c.close();
+                patern_e_C controller = loader.<patern_e_C>getController();
+                controller.initData(arch_old.getLayers().get(layer).getModules().get(module), derby_DB);
+                stage.setTitle("Редагування патернів \"" + arch_old.getLayers().get(layer).getModules().get(module).getName() + "\" \"" + arch_old.getLayers().get(layer).getName() + "\" \"" + arch_old.getName() + "\"");
+                stage.show();
+                Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();
+                // do what you have to do
+                stage_c.close();
 
-        //return stage;
+                //return stage;
+            }
+        }));
+
 
     }
 
