@@ -200,70 +200,26 @@ public class functions {
     public static javafx.scene.image.Image draw_class_image(String class_text) {
         Image class_image = null;
         if (class_text != null) {
-            FileWriter out_data = null;
-            try {
-                out_data = new FileWriter("class.txt");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            StringReader stringReader = new StringReader(class_text);
-            BufferedReader bufferedReader = new BufferedReader(stringReader);
-            try {
-                out_data.flush();
-                out_data.write("@startuml");
+            String sourse = "@startuml\n" +
+                    "skinparam backgroundColor transparent\n" + //Прозрачный фон
+                    "skinparam roundCorner 10\n";                 //Скругленые углы
 
-                out_data.write("\n");
-                out_data.write("skinparam backgroundColor transparent\n" +//Прозрачный фон
-                        "skinparam roundCorner 10");                        //Скругленые углы
-                out_data.write("\n");
-                for (String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine()) {
-                    out_data.write(line);
-                    out_data.write("\n");
-                }
-                out_data.write("\n");
-                out_data.write("@enduml");
-                bufferedReader.close();
-                out_data.close();
+            sourse += class_text + "\n" + "@enduml";
+            SourceStringReader reader = new SourceStringReader(sourse);
+            try {
+                String desc = reader.generateImage(new File("class.png"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            String[] cmd = new String[0];
-            if (!new File("plantuml.jar").exists()) {
-                try {
-                    FileUtils.copyFileUsingStream(new File(main_C.class.getClassLoader().getResource("editor/lib/plantuml.jar").toURI()), new File("plantuml.jar"));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
-                }
-            }
-            cmd = new String[]{"cmd", "/C", "plantuml.jar -charset utf-8 class.txt"};     //запустить отрисовку
-            Process p = null;
-            try {
-                p = Runtime.getRuntime().exec(cmd);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Waiting for batch file ...");
-            try {
-                p.waitFor();                                                            //Ждать пока отрисует
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Batch file done.");
             BufferedImage bufferedImage;
             try {
                 bufferedImage = ImageIO.read(new File("class.png"));
                 class_image = SwingFXUtils.toFXImage(bufferedImage, null);
-
-
+                //new File("class.png").delete();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-        } else {
-            System.out.print("class_text_null");
         }
 
         return class_image;

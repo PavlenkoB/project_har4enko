@@ -591,26 +591,23 @@ public class main_C extends JPanel implements Initializable, Configuration {
         draw_arch_struct();
     }
 
-    public void del_mod(final Integer lay_nom, final Integer mod_nom) {
-        Thread threaddo = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                arch_tmp.getLayers().get(lay_nom.intValue()).getModules().remove(mod_nom.intValue());
-                draw_arch_struct();
-                System.out.printf("drav end");
-            }
-        });
-        Modals.showOptionDialogYN(resourceBundle.getString("загальні.попередження"), resourceBundle.getString("загальні.ви_впевнені_що_бажаете_видалити"), threaddo);
+    public void del_mod(Integer lay_nom, Integer mod_nom) {
+        Modals.Response t = Modals.showYNDialog("sd", "s", "y", "n");
+        System.out.printf(t.toString());
+        if (t == Modals.Response.YES) {
+            arch_tmp.getLayers().get(lay_nom.intValue()).getModules().remove(mod_nom.intValue());
+            draw_arch_struct();
+        }
     }
 
     public void del_lay(Integer lay_nom) {
-        Object stringArray[] = {resourceBundle.getString("загальні.так"), resourceBundle.getString("загальні.ні")};
-        int response = JOptionPane.showOptionDialog(null, "Ви впевнені, що хочете видалити шар?", "Питання",
-                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, stringArray, stringArray[0]);
-        if (response == JOptionPane.YES_OPTION) {
-            arch_tmp.getLayers().remove(lay_nom.intValue());
+        Modals.Response t = Modals.showYNDialog("sd", "s", "y", "n");
+        System.out.printf(t.toString());
+        if (t == Modals.Response.YES) {
+            arch_tmp.getLayers().remove(lay_nom);
+            draw_arch_struct();
         }
-        draw_arch_struct();
+
     }
 
     public void edit_lay(Integer lay_nom) {
@@ -639,32 +636,32 @@ public class main_C extends JPanel implements Initializable, Configuration {
             e.printStackTrace();
         }
 
-        Modals.showOptionDialogYN(resourceBundle.getString("загальні.увага"), "Зберегти зміни в архітектурі", new Thread(new Runnable() {
-            @Override
-            public void run() {
-                arch_work.arch_save_to_DB(arch_old, derby_DB);
 
+        if (Modals.showYNDialog(resourceBundle.getString("загальні.увага"), "Зберегти зміни в архітектурі") == Modals.Response.YES) {
+            arch_work.arch_save_to_DB(arch_old, derby_DB);
+        }
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/paterns_editor.fxml"));
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/paterns_editor.fxml"));
-
-                Stage stage = new Stage(StageStyle.DECORATED);
-                try {
-                    stage.setScene(new Scene((Pane) loader.load()));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                patern_e_C controller = loader.<patern_e_C>getController();
-                controller.initData(arch_old.getLayers().get(layer).getModules().get(module), derby_DB);
-                stage.setTitle("Редагування патернів \"" + arch_old.getLayers().get(layer).getModules().get(module).getName() + "\" \"" + arch_old.getLayers().get(layer).getName() + "\" \"" + arch_old.getName() + "\"");
-                stage.show();
-                Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();
-                // do what you have to do
-                stage_c.close();
-
-                //return stage;
+            Stage stage = new Stage(StageStyle.DECORATED);
+            try {
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setScene(new Scene((Pane) loader.load()));
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }));
+
+            paterns_editor_C controller = loader.<paterns_editor_C>getController();
+            controller.initData(arch_old.getLayers().get(layer).getModules().get(module), derby_DB);
+            stage.setTitle("Редагування патернів \"" + arch_old.getLayers().get(layer).getModules().get(module).getName() + "\" \"" + arch_old.getLayers().get(layer).getName() + "\" \"" + arch_old.getName() + "\"");
+            stage.showAndWait();
+            draw_arch_struct();
+
+            //Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();
+            // do what you have to do
+            //stage_c.close();
+
+            //return stage;
+
 
 
     }

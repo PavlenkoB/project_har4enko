@@ -54,24 +54,6 @@ public class patern_editor_C implements Initializable {
                         options,  //the titles of buttons
                         options[0]); //default button title
                 if (n == 0) {
-
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/pattern_manager.fxml")
-                    );
-
-                    Stage stage = new Stage(StageStyle.DECORATED);
-                    try {
-                        stage.setScene(new Scene((Pane) loader.load()));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    patterns_manager_C controller = loader.<patterns_manager_C>getController();
-                    controller.initData(derby_DB);
-
-                    stage.show();
-                    Stage stage_this = (Stage) root.getScene().getWindow();
-                    // do what you have to do
-                    stage_this.close();
                 } else {
                     we.consume();
                 }

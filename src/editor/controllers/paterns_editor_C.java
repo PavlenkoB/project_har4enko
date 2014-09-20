@@ -43,7 +43,7 @@ import java.util.ResourceBundle;
 /**
  * @author godex_000
  */
-public class patern_e_C implements Initializable,Configuration {
+public class paterns_editor_C implements Initializable,Configuration {
     @FXML
     public ListView LV_paterns_DB;
     @FXML
@@ -101,24 +101,6 @@ public class patern_e_C implements Initializable,Configuration {
                         options,  //the titles of buttons
                         options[0]); //default button title
                 if (n == 0) {
-
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/main_window_V2.fxml")
-                    );
-
-                    Stage stage = new Stage(StageStyle.DECORATED);
-                    try {
-                        stage.setScene(new Scene((Pane) loader.load()));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    main_C controller = loader.<main_C>getController();
-                    controller.initData(edited_module, derby_DB);
-
-                    stage.show();
-                    Stage stage_this = (Stage) MB_main_menu.getScene().getWindow();
-                    // do what you have to do
-                    stage_this.close();
                 } else {
                     we.consume();
                 }
