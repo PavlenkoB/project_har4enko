@@ -2,6 +2,8 @@ package editor.controllers;
 
 import Classes.Pattern;
 import editor.classes.DerbyDBManager;
+import editor.classes.Modals;
+import editor.interfaces.Configuration;
 import editor.services.draw_uml;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -26,7 +28,7 @@ import java.util.ResourceBundle;
 /**
  * Created by godex_000 on 23.07.2014.
  */
-public class patern_editor_C implements Initializable {
+public class patern_editor_C implements Initializable, Configuration {
     public TextField TA_pattern_name;
     public TextArea TA_pattern_description;
     public TextArea TA_pattern_uml;
@@ -36,24 +38,14 @@ public class patern_editor_C implements Initializable {
     public GridPane root;
 
     void initData(Pattern pattern, DerbyDBManager derby_con) {
-        tmp_pattern=pattern;
+        tmp_pattern = pattern;
 
         derby_DB = derby_con;
         Stage thisstage = (Stage) root.getScene().getWindow();
         thisstage.getIcons().add(new Image("/editor/res/img/uml_icon.png"));
         thisstage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
-                Object[] options = {"Так",
-                        "Ні"};
-                int n = JOptionPane.showOptionDialog(null,
-                        "Ви впевнені, що бажаете вийти незбережені зміни буде втрачено?",
-                        "Увага",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.WARNING_MESSAGE,
-                        null,     //do not use a custom Icon
-                        options,  //the titles of buttons
-                        options[0]); //default button title
-                if (n == 0) {
+                if (Modals.Response.YES == Modals.showYNDialog(resourceBundle.getString("загальні.увага"), resourceBundle.getString("загальні.ви_впевнені_що_бажаете_вийти_незбережені_зміни_буде_втрачено"))) {
                 } else {
                     we.consume();
                 }
@@ -63,7 +55,7 @@ public class patern_editor_C implements Initializable {
         TA_pattern_description.setText(tmp_pattern.getDescription());
         TA_pattern_name.setText(tmp_pattern.getName());
         TA_pattern_uml.setText(tmp_pattern.getUmlText());
-            }
+    }
 
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -83,6 +75,7 @@ public class patern_editor_C implements Initializable {
 
     /**
      * Показуе превю
+     *
      * @param actionEvent
      */
     public void preview(ActionEvent actionEvent) {
@@ -108,7 +101,7 @@ public class patern_editor_C implements Initializable {
         tmp_pattern.setDescription(TA_pattern_description.getText());
         tmp_pattern.setUmlText(TA_pattern_uml.getText());
         tmp_pattern.setPreview(draw_uml.draw_class(TA_pattern_uml.getText()));
-        Pattern.pattern_save_to_DB(tmp_pattern,derby_DB);
+        Pattern.pattern_save_to_DB(tmp_pattern, derby_DB);
     }
 
     public void cancel(ActionEvent actionEvent) {
