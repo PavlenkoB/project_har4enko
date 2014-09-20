@@ -25,10 +25,10 @@ class SomeRun           //Нечто, реализующее интерфейс 
     cUmlToImg cUmlToImg;
     private Integer id;
     private String umlText;
-    private volatile  boolean mFinish=false;
-    public void finish()
-    {
-        mFinish=true;
+    private volatile boolean mFinish = false;
+
+    public void finish() {
+        mFinish = true;
     }
 
     public SomeRun(cUmlToImg cUmlToImg) {
@@ -41,13 +41,13 @@ class SomeRun           //Нечто, реализующее интерфейс 
 
     @Override
     public void run() {
-        if(mFinish)
+        if (mFinish)
             return;
         if (cUmlToImg.getCount() <= 0) {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    cUmlToImg.lProgress.setText((System.currentTimeMillis() - cUmlToImg.timeout)/1000+" seconds");
+                    cUmlToImg.lProgress.setText((System.currentTimeMillis() - cUmlToImg.timeout) / 1000 + " seconds");
                     cUmlToImg.progressBar.setProgress(1);
                 }
             });
@@ -57,11 +57,11 @@ class SomeRun           //Нечто, реализующее интерфейс 
         synchronized (cUmlToImg.lock) {
             cUmlToImg.decreaseCount();
             pos = cUmlToImg.count;
-        this.umlText = cUmlToImg.architectureArrayList.get(pos).getUsecase();
+            this.umlText = cUmlToImg.architectureArrayList.get(pos).getUsecase();
         }
         cUmlToImg.architectureArrayList.get(pos).setPreview(functions.drawClassImageThread(this.umlText, id));
 
-        cUmlToImg.progressBar.setProgress(((pos-cUmlToImg.architectureArrayList.size())*-1.0)/cUmlToImg.architectureArrayList.size());
+        cUmlToImg.progressBar.setProgress(((pos - cUmlToImg.architectureArrayList.size()) * -1.0) / cUmlToImg.architectureArrayList.size());
         System.out.println("Thread " + id + " end" + pos);
         SomeRun someRun = this;
         Thread thread = new Thread(someRun);
@@ -122,7 +122,7 @@ public class cUmlToImg implements Initializable {
     }
 
     public void bStopConvert(ActionEvent actionEvent) {
-        for (int s = 0;s<threads.size();s++){
+        for (int s = 0; s < threads.size(); s++) {
             threads.get(s).finish();
         }
     }
@@ -134,7 +134,9 @@ public class cUmlToImg implements Initializable {
     public synchronized void decreaseCount() {
         this.count--;
     }
-    ArrayList<SomeRun> threads= new ArrayList<>();
+
+    ArrayList<SomeRun> threads = new ArrayList<>();
+
     public void bStartConvert(ActionEvent actionEvent) {
         count = new Integer(architectureArrayList.size());
         timeout = System.currentTimeMillis();

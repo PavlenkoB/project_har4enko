@@ -20,7 +20,7 @@ public class Main_arch_e extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("../views/arch_editor_0.fxml"));
         primaryStage.setTitle("Harchenko");
         primaryStage.getIcons().add(new Image("/editor/res/img/uml_icon.png"));
-        Scene scene=new Scene(root);
+        Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.setMinWidth(230);//Минимальная шырина
         primaryStage.setMinHeight(390);//Минимальная высота окна

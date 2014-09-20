@@ -2,7 +2,6 @@ package editor.services;
 
 import Classes.Architecture;
 import Classes.Module;
-import Classes.Pattern;
 
 import java.util.ArrayList;
 

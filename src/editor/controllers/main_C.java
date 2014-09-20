@@ -139,6 +139,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
                 }
             }
         });
+
         //Скопіювати файл змін
         if (new File("README.md").exists()) {
             if (new File("src/README.md").exists())
@@ -151,7 +152,6 @@ public class main_C extends JPanel implements Initializable, Configuration {
         }
 
 //TODO Del
-
         try {
             derby_DB = new DerbyDBManager("DB/paterns_DB");
             list_load_DB();
@@ -163,7 +163,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
         if (derby_DB != null) {
             MM_1_1_connect.setDisable(true);
             MM_1_3_disconnect.setDisable(false);
-        }/**/
+        }
     }
 
     public void connect_DB(ActionEvent actionEvent) {

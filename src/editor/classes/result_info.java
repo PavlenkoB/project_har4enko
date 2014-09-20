@@ -35,7 +35,7 @@ public class result_info {
     public void setComment(Exception e) {
         StackTraceElement[] stack = e.getStackTrace();
         for (int s = 0; s < e.getStackTrace().length; s++) {
-            if (!stack[s].toString().equals("Unknown Source")||!stack[s].toString().equals("com.sun"))
+            if (!stack[s].toString().equals("Unknown Source") || !stack[s].toString().equals("com.sun"))
                 this.comment += stack[s].toString() + "\n";
         }
     }

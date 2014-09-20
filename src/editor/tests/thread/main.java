@@ -27,14 +27,15 @@ public class main extends Application {
         primaryStage.setResizable(false);/**/
         //System.out.printf(String.valueOf(fibonachi(0,1,7,0)));
     }
-    public double fibonachi(double a, double b, double n, double sum){
-        if(n<=0){
+
+    public double fibonachi(double a, double b, double n, double sum) {
+        if (n <= 0) {
             return sum;
         }
-        return fibonachi(b,a+b,n-1,sum+b);
+        return fibonachi(b, a + b, n - 1, sum + b);
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         launch();
     }
 }

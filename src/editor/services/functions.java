@@ -3,7 +3,6 @@ package editor.services;
 import Classes.Architecture;
 import Classes.Task;
 import editor.classes.DerbyDBManager;
-import editor.controllers.main_C;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -14,7 +13,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -225,7 +223,7 @@ public class functions {
         return class_image;
     }
 
-    public static javafx.scene.image.Image drawClassImageThread(String class_text,Integer id) {
+    public static javafx.scene.image.Image drawClassImageThread(String class_text, Integer id) {
         Image class_image = null;
         if (class_text != null) {
             String sourse = "@startuml\n" +
@@ -235,16 +233,16 @@ public class functions {
             sourse += class_text + "\n" + "@enduml";
             SourceStringReader reader = new SourceStringReader(sourse);
             try {
-                String desc= reader.generateImage(new File("class"+id+".png"));
+                String desc = reader.generateImage(new File("class" + id + ".png"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
             BufferedImage bufferedImage;
             try {
-                bufferedImage = ImageIO.read(new File("class"+id+".png"));
+                bufferedImage = ImageIO.read(new File("class" + id + ".png"));
                 class_image = SwingFXUtils.toFXImage(bufferedImage, null);
-                new File("class"+id+".png").delete();
+                new File("class" + id + ".png").delete();
             } catch (IOException e) {
                 e.printStackTrace();
             }

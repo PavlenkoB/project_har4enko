@@ -8,6 +8,7 @@ import java.io.*;
 public class FileUtils {
     /**
      * Отримати формат файлу (*.оце)
+     *
      * @param fileName імя файлу
      * @return формат
      */
@@ -22,7 +23,8 @@ public class FileUtils {
 
     /**
      * Копіювання файлу використовуючи потоки
-     * @param source з якого файлу копіювати
+     *
+     * @param source      з якого файлу копіювати
      * @param destination куди копіювати
      * @throws java.io.IOException
      */
@@ -37,7 +39,7 @@ public class FileUtils {
             while ((length = is.read(buffer)) > 0) {
                 os.write(buffer, 0, length);
             }
-            System.out.printf("File copy completed"+destination.getAbsolutePath().toString()+"\n");
+            System.out.printf("File copy completed" + destination.getAbsolutePath().toString() + "\n");
         } finally {
             is.close();
             os.close();

@@ -21,8 +21,8 @@ public class Main extends Application implements Configuration {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader mainFXML=new FXMLLoader();
-        mainFXML.setResources(ResourceBundle.getBundle("localization.editor",new Locale(program_config.language)));
+        FXMLLoader mainFXML = new FXMLLoader();
+        mainFXML.setResources(ResourceBundle.getBundle("localization.editor", new Locale(programConfig.language)));
         //mainFXML.load()
         Parent root = mainFXML.load(getClass().getResource("/editor/views/main_window_V2.fxml"));
 

@@ -54,7 +54,6 @@ class SomeRun           //Нечто, реализующее интерфейс 
                 //Platform.setImplicitExit(false);
 
 
-
                 //System.out.println(L_Progress.getText());
                 //L_Progress.setText(String.valueOf(s4));
                 final int finalS = s4;
@@ -119,13 +118,12 @@ public class c_thread implements Initializable {
 
     public void progress_start(ActionEvent actionEvent) {
 //Создание потока
-        Thread myThready = new Thread(new Runnable()
-        {
+        Thread myThready = new Thread(new Runnable() {
             public void run() //Этот метод будет выполняться в побочном потоке
             {
                 int s4 = 0;
                 final int wide = 1000;
-                while (s4 < wide){
+                while (s4 < wide) {
                     try {
                         Thread.sleep(100); // спать 1000 милисекунд.
 
@@ -150,7 +148,7 @@ public class c_thread implements Initializable {
                 System.out.printf("Thread end");
             }
         });
-        myThready.start();	//Запуск потока
+        myThready.start();    //Запуск потока
 
     }
 

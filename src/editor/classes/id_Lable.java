@@ -1,6 +1,5 @@
 package editor.classes;
 
-import javafx.beans.value.ChangeListener;
 import javafx.scene.control.Label;
 
 /**
@@ -15,15 +14,16 @@ public class id_Lable extends Label {
 
     /**
      * Встановити значення ID
+     *
      * @param dbid який ID встановити
      */
     public void setDbid(Integer dbid) {
         this.dbid = dbid;
     }
 
-    public id_Lable (Integer id,String text) {
+    public id_Lable(Integer id, String text) {
         super(text);
-        this.dbid=id;
+        this.dbid = id;
     }
 
 }

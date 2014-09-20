@@ -28,7 +28,7 @@ public class main extends Application {
         //System.out.printf(String.valueOf(fibonachi(0,1,7,0)));
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         launch();
     }
 }

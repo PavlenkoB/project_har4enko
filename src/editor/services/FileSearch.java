@@ -4,6 +4,7 @@ package editor.services;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * Created by godex_000 on 22.07.2014.
  */
@@ -32,11 +33,11 @@ public class FileSearch {
         fileSearch.searchDirectory(new File("/Users/mkyong/websites"), "post.php");
 
         int count = fileSearch.getResult().size();
-        if(count ==0){
+        if (count == 0) {
             System.out.println("\nNo result found!");
-        }else{
+        } else {
             System.out.println("\nFound " + count + " result!\n");
-            for (String matched : fileSearch.getResult()){
+            for (String matched : fileSearch.getResult()) {
                 System.out.println("Found : " + matched);
             }
         }

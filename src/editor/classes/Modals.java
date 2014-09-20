@@ -61,13 +61,15 @@ public class Modals implements Configuration {
                     public void handle(ActionEvent actionEvent) {
                         dialogNONE.close();
                     }
-                }).build()).build(), Color.TRANSPARENT
+                }).build()
+        ).build(), Color.TRANSPARENT
         );
         dialogNONE.setTitle(title);
         dialogNONE.setScene(sceneNONE);
         dialogNONE.showAndWait();
         return buttonSelected[0];
     }
+
     public static Response showYNDialog(String title, String text, String yes, String no) {
         final Response[] buttonSelected = new Response[1];
         final Stage dialogNONE = new Stage();
@@ -86,7 +88,8 @@ public class Modals implements Configuration {
                     public void handle(ActionEvent actionEvent) {
                         dialogNONE.close();
                     }
-                }).build()).build(), Color.TRANSPARENT
+                }).build()
+        ).build(), Color.TRANSPARENT
         );
         dialogNONE.setTitle(title);
         dialogNONE.setScene(sceneNONE);

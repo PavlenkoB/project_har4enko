@@ -1,12 +1,5 @@
 package editor.services;
 
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.image.Image;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.*;
-
 /**
  * Created by godex_000 on 20.05.2014.
  */

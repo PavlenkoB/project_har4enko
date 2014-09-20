@@ -89,7 +89,7 @@ public class CustomXWPFDocument extends XWPFDocument {
         height *= EMU;
         //String blipId = getAllPictures().get(id).getPackageRelationship().getId();
         XWPFRun tmpRun;
-        tmpRun=createParagraph().createRun();
+        tmpRun = createParagraph().createRun();
         tmpRun.setText(text_befor);
         tmpRun.addBreak();
 

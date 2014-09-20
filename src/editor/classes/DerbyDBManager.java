@@ -1,9 +1,5 @@
 package editor.classes;
 
-import org.apache.derby.impl.jdbc.EmbedPreparedStatement42;
-import org.apache.derby.impl.sql.GenericPreparedStatement;
-import org.apache.derby.impl.sql.GenericStatement;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -17,20 +13,20 @@ public class DerbyDBManager {
 
     public DerbyDBManager(String dbName) {
         this.dbName = dbName;
+        try {
+            Class.forName(driver);
+            dbName = dbName.replace('\\', '/');
+            // Подключение к БД или её создание
+            con = DriverManager.getConnection(url + dbName);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
             try {
-                Class.forName(driver);
-                dbName = dbName.replace('\\', '/');
-                // Подключение к БД или её создание
-                con = DriverManager.getConnection(url + dbName);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (SQLException e) {
-                try {
-                    con = DriverManager.getConnection(url + dbName + ";create=true");
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
-                }
+                con = DriverManager.getConnection(url + dbName + ";create=true");
+            } catch (SQLException e1) {
+                e1.printStackTrace();
             }
+        }
 
     }
 
@@ -96,7 +92,7 @@ public class DerbyDBManager {
     // запрос на обновление базы данных  (INSERT, UPDATE, CREATE TABLE и т.п.)
     public void executeUpdate(String sql) throws SQLException {
         //Statement stmt = con.createStatement();
-        PreparedStatement preparedStatement =con.prepareStatement(sql);
+        PreparedStatement preparedStatement = con.prepareStatement(sql);
 //        preparedStatement.setMaxRows(20);
 //        preparedStatement.
 
@@ -157,14 +153,14 @@ public class DerbyDBManager {
 
     // запрос на выборку данных из базы
     public ResultSet executeQuery(String sql) throws SQLException {
-        PreparedStatement preparedStatement= con.prepareStatement(sql);
+        PreparedStatement preparedStatement = con.prepareStatement(sql);
         ResultSet result = preparedStatement.executeQuery();
         return result;
     }
 
     public void disconectDB() {//отключиться от БД
         try {
-            String shutdownURL = url + dbName +";shutdown=true";
+            String shutdownURL = url + dbName + ";shutdown=true";
             DriverManager.getConnection(shutdownURL);
         } catch (SQLException e) {
             e.printStackTrace();

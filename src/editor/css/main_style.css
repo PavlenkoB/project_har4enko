@@ -2,23 +2,28 @@
     -fx-font: 14px "Serif";
 
 }
-.button:hover{
+
+.button:hover {
     -fx-background-color: #d4ffcf;
 }
 
 .text {
     -fx-font: 14px "Serif";
 }
+
 .lay_del, .mod_del {
     -fx-background-color: #ff9150;
 
 }
-.lay_edit, .mod_edit{
+
+.lay_edit, .mod_edit {
     -fx-background-color: #ffda6c;
 }
-.lay_add, .mod_add{
+
+.lay_add, .mod_add {
     -fx-background-color: #00de4d;
 }
-.pat_edit{
+
+.pat_edit {
 }
 

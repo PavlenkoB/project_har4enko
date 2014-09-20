@@ -1,10 +1,10 @@
 package editor.controllers;
 
 import Classes.Pattern;
-import editor.classes.Modals;
-import editor.interfaces.Configuration;
 import editor.classes.DerbyDBManager;
+import editor.classes.Modals;
 import editor.classes.id_Lable;
+import editor.interfaces.Configuration;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -33,7 +33,7 @@ import java.util.ResourceBundle;
 /**
  * Created by godex_000 on 04.07.2014.
  */
-public class patterns_manager_C implements Initializable,Configuration {
+public class patterns_manager_C implements Initializable, Configuration {
     public ComboBox cbFromArch;
     public ComboBox cbFromLay;
     public ComboBox cbFromMod;
@@ -45,7 +45,7 @@ public class patterns_manager_C implements Initializable,Configuration {
     public BorderPane root;
     public DerbyDBManager dbConnection;
     private String fromLastQuery, toLastQuery;
-    private String fromType,toType;
+    private String fromType, toType;
     private Integer fromModId, toModId, fromArchId, toArchId;
 
     public void initData(final DerbyDBManager derbyDBManager) {
@@ -55,7 +55,7 @@ public class patterns_manager_C implements Initializable,Configuration {
             //derby_DB
             rs = dbConnection.executeQuery("SELECT * FROM ARCHITECTURE ORDER BY NAME ASC");
             ObservableList<id_Lable> items = FXCollections.observableArrayList();
-            items.add(new id_Lable(-1, "Базові"+" "+ RB.getString("загальні.патерни")));
+            items.add(new id_Lable(-1, "Базові" + " " + RB.getString("загальні.патерни")));
             while (rs.next()) {
                 id_Lable tmp_lable = new id_Lable(rs.getInt("ID"), rs.getString("NAME"));
                 items.add(tmp_lable);
@@ -160,10 +160,10 @@ public class patterns_manager_C implements Initializable,Configuration {
             if (((id_Lable) cbFromArch.getSelectionModel().getSelectedItem()).getDbid().intValue() != -1) {
                 //якщо вибрав архітектуру
                 rs = dbConnection.executeQuery("SELECT * FROM LAYER WHERE ARCH_ID=" + ((id_Lable) cbFromArch.getSelectionModel().getSelectedItem()).getDbid().intValue() + " ORDER BY NAME ASC");
-                fromArchId=((id_Lable) cbFromArch.getSelectionModel().getSelectedItem()).getDbid().intValue();
+                fromArchId = ((id_Lable) cbFromArch.getSelectionModel().getSelectedItem()).getDbid().intValue();
                 ObservableList<id_Lable> items = FXCollections.observableArrayList();
                 items.add(new id_Lable(-1, RB.getString("непривязані_паттерни")));
-                fromModId=-1;
+                fromModId = -1;
                 while (rs.next()) {
                     id_Lable tmp_lable = new id_Lable(rs.getInt("ID"), rs.getString("NAME"));
                     items.add(tmp_lable);
@@ -177,8 +177,8 @@ public class patterns_manager_C implements Initializable,Configuration {
                     }
                 });
             } else {
-                fromModId=-1;
-                fromArchId=0;
+                fromModId = -1;
+                fromArchId = 0;
                 //якщо глобальні патерни
                 fromListLoad("SELECT * FROM PATERNS WHERE TYPE='GLOBAL' ORDER BY NAME ASC");
                 fromType = "GLOBAL";
@@ -223,7 +223,7 @@ public class patterns_manager_C implements Initializable,Configuration {
     private void from_pat_load() {
         //derby_DB
         fromListLoad("SELECT * FROM PATERNS WHERE MOD_ID=" + ((id_Lable) cbFromMod.getSelectionModel().getSelectedItem()).getDbid().intValue() + " ORDER BY NAME ASC");
-        fromModId=((id_Lable) cbFromMod.getSelectionModel().getSelectedItem()).getDbid().intValue();
+        fromModId = ((id_Lable) cbFromMod.getSelectionModel().getSelectedItem()).getDbid().intValue();
     }
 
     @Override
@@ -236,7 +236,7 @@ public class patterns_manager_C implements Initializable,Configuration {
         try {
             //derby_DB
             rs = dbConnection.executeQuery("SELECT * FROM LAYER WHERE ARCH_ID=" + ((id_Lable) cbToArch.getSelectionModel().getSelectedItem()).getDbid().intValue() + " ORDER BY NAME ASC");
-            toArchId=((id_Lable) cbToArch.getSelectionModel().getSelectedItem()).getDbid().intValue();
+            toArchId = ((id_Lable) cbToArch.getSelectionModel().getSelectedItem()).getDbid().intValue();
             ObservableList<id_Lable> items = FXCollections.observableArrayList();
             while (rs.next()) {
                 id_Lable tmp_lable = new id_Lable(rs.getInt("ID"), rs.getString("NAME"));
@@ -280,7 +280,7 @@ public class patterns_manager_C implements Initializable,Configuration {
     private void to_pat_load() {
         //derby_DB
         to_list_load("SELECT * FROM PATERNS WHERE MOD_ID=" + ((id_Lable) cbToMod.getSelectionModel().getSelectedItem()).getDbid().intValue() + " ORDER BY NAME ASC");
-        toModId=((id_Lable) cbToMod.getSelectionModel().getSelectedItem()).getDbid().intValue();
+        toModId = ((id_Lable) cbToMod.getSelectionModel().getSelectedItem()).getDbid().intValue();
     }
 
     /**
@@ -356,7 +356,7 @@ public class patterns_manager_C implements Initializable,Configuration {
 
     public void from_list_delete() {
         if (lvFromList.getSelectionModel().getSelectedItem() != null) {
-            if(Modals.Response.YES == Modals.showYNDialog(RB.getString("загальні.увага"), RB.getString("загальні.ви_впевнені_що_бажаете_видалити")+" "+ RB.getString("загальні.патерн"))) {
+            if (Modals.Response.YES == Modals.showYNDialog(RB.getString("загальні.увага"), RB.getString("загальні.ви_впевнені_що_бажаете_видалити") + " " + RB.getString("загальні.патерн"))) {
                 Pattern.delete_pattern_from_DB(((id_Lable) lvFromList.getSelectionModel().getSelectedItem()).getDbid(), dbConnection);
                 fromListLoad(fromLastQuery);
             }
@@ -367,7 +367,7 @@ public class patterns_manager_C implements Initializable,Configuration {
     public void from_list_preview() {
         if (lvFromList.getSelectionModel().getSelectedItem() != null) {
 
-            Pattern pattern=Pattern.patternLoadFromDB(((id_Lable) lvFromList.getSelectionModel().getSelectedItem()).getDbid(), dbConnection);
+            Pattern pattern = Pattern.patternLoadFromDB(((id_Lable) lvFromList.getSelectionModel().getSelectedItem()).getDbid(), dbConnection);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/image_preview.fxml"));
 
             Stage stage = new Stage(StageStyle.DECORATED);
@@ -406,32 +406,32 @@ public class patterns_manager_C implements Initializable,Configuration {
     }
 
     public void from_list_add() {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/patern_editor.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/patern_editor.fxml"));
 
-                Stage stage = new Stage(StageStyle.DECORATED);
+        Stage stage = new Stage(StageStyle.DECORATED);
 
-                try {
-                    stage.initModality(Modality.WINDOW_MODAL);
-                    stage.setScene(new Scene((Pane) loader.load()));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        try {
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.setScene(new Scene((Pane) loader.load()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-                patern_editor_C controller = loader.<patern_editor_C>getController();
+        patern_editor_C controller = loader.<patern_editor_C>getController();
 
 //        Pattern(Integer id, Integer modId, String name, String description, String umlText, String type, Integer arch_id, Image preview) {
-                controller.initData(new Pattern(null,fromModId,"","","", fromType, fromArchId,null), dbConnection);
-                stage.setTitle("Редагування патерну");
-                stage.show();
-                //Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();
-                // do what you have to do
-                //stage_c.close();
+        controller.initData(new Pattern(null, fromModId, "", "", "", fromType, fromArchId, null), dbConnection);
+        stage.setTitle("Редагування патерну");
+        stage.show();
+        //Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();
+        // do what you have to do
+        //stage_c.close();
     }
 
     public void to_list_preview() {
         if (lvToList.getSelectionModel().getSelectedItem() != null) {
 
-            Pattern pattern=Pattern.patternLoadFromDB(((id_Lable) lvToList.getSelectionModel().getSelectedItem()).getDbid(),dbConnection);
+            Pattern pattern = Pattern.patternLoadFromDB(((id_Lable) lvToList.getSelectionModel().getSelectedItem()).getDbid(), dbConnection);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/image_preview.fxml"));
 
             Stage stage = new Stage(StageStyle.DECORATED);
@@ -463,13 +463,14 @@ public class patterns_manager_C implements Initializable,Configuration {
             controller.initData(Pattern.patternLoadFromDB(((id_Lable) lvToList.getSelectionModel().getSelectedItem()).getDbid(), dbConnection), dbConnection);
             stage.setTitle("Редагування патерну");
             stage.show();
+
         }
     }
 
 
     public void to_list_delete() {
         if (lvToList.getSelectionModel().getSelectedItem() != null) {
-            if(Modals.Response.YES == Modals.showYNDialog(RB.getString("загальні.увага"), RB.getString("загальні.ви_впевнені_що_бажаете_видалити")+" "+ RB.getString("загальні.патерн"))) {
+            if (Modals.Response.YES == Modals.showYNDialog(RB.getString("загальні.увага"), RB.getString("загальні.ви_впевнені_що_бажаете_видалити") + " " + RB.getString("загальні.патерн"))) {
                 Pattern.delete_pattern_from_DB(((id_Lable) lvToList.getSelectionModel().getSelectedItem()).getDbid(), dbConnection);
                 to_list_load(toLastQuery);
             }

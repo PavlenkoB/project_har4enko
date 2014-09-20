@@ -3,14 +3,9 @@ package editor.controllers;
 import editor.services.functions;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 
-import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.util.List;
 import java.util.ResourceBundle;
 
 /**
