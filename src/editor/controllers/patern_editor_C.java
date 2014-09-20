@@ -20,7 +20,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -45,7 +44,7 @@ public class patern_editor_C implements Initializable, Configuration {
         thisstage.getIcons().add(new Image("/editor/res/img/uml_icon.png"));
         thisstage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
-                if (Modals.Response.YES == Modals.showYNDialog(resourceBundle.getString("загальні.увага"), resourceBundle.getString("загальні.ви_впевнені_що_бажаете_вийти_незбережені_зміни_буде_втрачено"))) {
+                if (Modals.Response.YES == Modals.showYNDialog(RB.getString("загальні.увага"), RB.getString("загальні.ви_впевнені_що_бажаете_вийти_незбережені_зміни_буде_втрачено"))) {
                 } else {
                     we.consume();
                 }

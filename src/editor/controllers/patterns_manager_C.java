@@ -55,7 +55,7 @@ public class patterns_manager_C implements Initializable,Configuration {
             //derby_DB
             rs = dbConnection.executeQuery("SELECT * FROM ARCHITECTURE ORDER BY NAME ASC");
             ObservableList<id_Lable> items = FXCollections.observableArrayList();
-            items.add(new id_Lable(-1, "Базові"+" "+ resourceBundle.getString("загальні.патерни")));
+            items.add(new id_Lable(-1, "Базові"+" "+ RB.getString("загальні.патерни")));
             while (rs.next()) {
                 id_Lable tmp_lable = new id_Lable(rs.getInt("ID"), rs.getString("NAME"));
                 items.add(tmp_lable);
@@ -91,7 +91,7 @@ public class patterns_manager_C implements Initializable,Configuration {
         thisstage.setMinHeight(700);//Минимальная высота окна
         thisstage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
-                if (Modals.Response.YES == Modals.showYNDialog(resourceBundle.getString("загальні.увага"), resourceBundle.getString("загальні.ви_впевнені_що_бажаете_вийти_незбережені_зміни_буде_втрачено"))) {
+                if (Modals.Response.YES == Modals.showYNDialog(RB.getString("загальні.увага"), RB.getString("загальні.ви_впевнені_що_бажаете_вийти_незбережені_зміни_буде_втрачено"))) {
                 } else {
                     we.consume();
                 }
@@ -162,7 +162,7 @@ public class patterns_manager_C implements Initializable,Configuration {
                 rs = dbConnection.executeQuery("SELECT * FROM LAYER WHERE ARCH_ID=" + ((id_Lable) cbFromArch.getSelectionModel().getSelectedItem()).getDbid().intValue() + " ORDER BY NAME ASC");
                 fromArchId=((id_Lable) cbFromArch.getSelectionModel().getSelectedItem()).getDbid().intValue();
                 ObservableList<id_Lable> items = FXCollections.observableArrayList();
-                items.add(new id_Lable(-1, resourceBundle.getString("непривязані_паттерни")));
+                items.add(new id_Lable(-1, RB.getString("непривязані_паттерни")));
                 fromModId=-1;
                 while (rs.next()) {
                     id_Lable tmp_lable = new id_Lable(rs.getInt("ID"), rs.getString("NAME"));
@@ -356,8 +356,10 @@ public class patterns_manager_C implements Initializable,Configuration {
 
     public void from_list_delete() {
         if (lvFromList.getSelectionModel().getSelectedItem() != null) {
-            Pattern.delete_pattern_from_DB(((id_Lable) lvFromList.getSelectionModel().getSelectedItem()).getDbid(), dbConnection);
-            fromListLoad(fromLastQuery);
+            if(Modals.Response.YES == Modals.showYNDialog(RB.getString("загальні.увага"), RB.getString("загальні.ви_впевнені_що_бажаете_видалити")+" "+ RB.getString("загальні.патерн"))) {
+                Pattern.delete_pattern_from_DB(((id_Lable) lvFromList.getSelectionModel().getSelectedItem()).getDbid(), dbConnection);
+                fromListLoad(fromLastQuery);
+            }
         }
     }
 
@@ -467,8 +469,10 @@ public class patterns_manager_C implements Initializable,Configuration {
 
     public void to_list_delete() {
         if (lvToList.getSelectionModel().getSelectedItem() != null) {
-            Pattern.delete_pattern_from_DB(((id_Lable) lvToList.getSelectionModel().getSelectedItem()).getDbid(), dbConnection);
-            to_list_load(toLastQuery);
+            if(Modals.Response.YES == Modals.showYNDialog(RB.getString("загальні.увага"), RB.getString("загальні.ви_впевнені_що_бажаете_видалити")+" "+ RB.getString("загальні.патерн"))) {
+                Pattern.delete_pattern_from_DB(((id_Lable) lvToList.getSelectionModel().getSelectedItem()).getDbid(), dbConnection);
+                to_list_load(toLastQuery);
+            }
         }
     }
 }

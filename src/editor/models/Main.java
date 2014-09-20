@@ -10,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-import javax.swing.*;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -28,13 +27,13 @@ public class Main extends Application implements Configuration {
         Parent root = mainFXML.load(getClass().getResource("/editor/views/main_window_V2.fxml"));
 
 
-        primaryStage.setTitle(resourceBundle.getString("управління_репозиторієм_патернів_редактор_архітектур"));
+        primaryStage.setTitle(RB.getString("управління_репозиторієм_патернів_редактор_архітектур"));
         primaryStage.setMinWidth(900);//Минимальная шырина
         primaryStage.setMinHeight(700);//Минимальная высота окна
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
-                if (Modals.Response.YES == Modals.showYNDialog(resourceBundle.getString("загальні.увага"),
-                        resourceBundle.getString("загальні.ви_впевнені_що_бажаете_вийти_незбережені_зміни_буде_втрачено"))) {//да
+                if (Modals.Response.YES == Modals.showYNDialog(RB.getString("загальні.увага"),
+                        RB.getString("загальні.ви_впевнені_що_бажаете_вийти_незбережені_зміни_буде_втрачено"))) {//да
                 } else {//нет
                     we.consume();
                 }

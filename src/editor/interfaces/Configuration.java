@@ -14,7 +14,7 @@ import java.util.*;
  */
 public interface Configuration {
     public final static config program_config = new config();//завантажити конфігурацію
-    public final static ResourceBundle resourceBundle = ResourceBundle.getBundle("localization.editor", new Locale(program_config.language));//завантаження локалызації
+    public final static ResourceBundle RB = ResourceBundle.getBundle("localization.editor", new Locale(program_config.language));//завантаження локалызації
 
     class config {
         public String language;

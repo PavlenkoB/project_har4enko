@@ -49,14 +49,14 @@ public class Modals implements Configuration {
         dialogNONE.initModality(Modality.APPLICATION_MODAL);
         Scene sceneNONE = new Scene(HBoxBuilder.create().styleClass("modal-dialog").children(
                 LabelBuilder.create().text(text).build(),
-                ButtonBuilder.create().text(resourceBundle.getString("загальні.так")).defaultButton(true).onAction(new EventHandler<ActionEvent>() {
+                ButtonBuilder.create().text(RB.getString("загальні.так")).defaultButton(true).onAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
                         buttonSelected[0] = Response.YES;
                         dialogNONE.close();
                     }
                 }).build(),
-                ButtonBuilder.create().text(resourceBundle.getString("загальні.ні")).cancelButton(true).onAction(new EventHandler<ActionEvent>() {
+                ButtonBuilder.create().text(RB.getString("загальні.ні")).cancelButton(true).onAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
                         dialogNONE.close();

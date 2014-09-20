@@ -90,7 +90,7 @@ public class paterns_editor_C implements Initializable, Configuration {
 
         thisstage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
-                if (Modals.Response.YES == Modals.showYNDialog(resourceBundle.getString("загальні.увага"), resourceBundle.getString("загальні.ви_впевнені_що_бажаете_вийти_незбережені_зміни_буде_втрачено"))) {
+                if (Modals.Response.YES == Modals.showYNDialog(RB.getString("загальні.увага"), RB.getString("загальні.ви_впевнені_що_бажаете_вийти_незбережені_зміни_буде_втрачено"))) {
                 } else {
                     we.consume();
                 }
@@ -158,20 +158,20 @@ public class paterns_editor_C implements Initializable, Configuration {
         edited_pattern.setType("");
         edited_pattern.setArch_id(Layer.load_layer_from_DB(edited_module.getLay_id(), derby_DB).getArch_id());
         if (pattern_work.pattern_save_to_DB(edited_pattern, derby_DB).getStatus() == true) {
-            JOptionPane.showMessageDialog(null, resourceBundle.getString("патерн.збережено"), resourceBundle.getString("загальні.інформація"), JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, RB.getString("патерн.збережено"), RB.getString("загальні.інформація"), JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Помилка збереження зверніться до Адміністратора чи програміста.", resourceBundle.getString("загальні.попередження"), JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Помилка збереження зверніться до Адміністратора чи програміста.", RB.getString("загальні.попередження"), JOptionPane.WARNING_MESSAGE);
         }
         list_load_DB(null);
         LV_paterns_DB.setDisable(false);
     }
 
     public void delete_patern_DB(ActionEvent actionEvent) {//удалить з базы по ID
-        Object[] options = {resourceBundle.getString("загальні.так"),
-                resourceBundle.getString("загальні.ні")};
+        Object[] options = {RB.getString("загальні.так"),
+                RB.getString("загальні.ні")};
         int n = JOptionPane.showOptionDialog(null,
-                resourceBundle.getString("загальні.ви_впевнені_що_бажаете_видалити"),
-                resourceBundle.getString("загальні.увага"),
+                RB.getString("загальні.ви_впевнені_що_бажаете_видалити"),
+                RB.getString("загальні.увага"),
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,     //do not use a custom Icon
@@ -249,7 +249,7 @@ public class paterns_editor_C implements Initializable, Configuration {
         try {
             Parent Parent = FXMLLoader.load(getClass().getResource("/editor/views/about.fxml"));
             Stage Stage = new Stage();
-            Stage.setTitle(resourceBundle.getString("загальні.допомога"));
+            Stage.setTitle(RB.getString("загальні.допомога"));
             Stage.setScene(new Scene(Parent));
             Stage.show();
         } catch (IOException e) {
@@ -258,11 +258,11 @@ public class paterns_editor_C implements Initializable, Configuration {
     }
 
     public void close_mw(ActionEvent actionEvent) {
-        Object[] options = {resourceBundle.getString("загальні.так"),
-                resourceBundle.getString("загальні.ні")};
+        Object[] options = {RB.getString("загальні.так"),
+                RB.getString("загальні.ні")};
         int n = JOptionPane.showOptionDialog(null,
-                resourceBundle.getString("загальні.ви_впевнені_що_бажаете_вийти_незбережені_зміни_буде_втрачено"),
-                resourceBundle.getString("загальні.увага"),
+                RB.getString("загальні.ви_впевнені_що_бажаете_вийти_незбережені_зміни_буде_втрачено"),
+                RB.getString("загальні.увага"),
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE,
                 null,     //do not use a custom Icon
@@ -304,7 +304,7 @@ public class paterns_editor_C implements Initializable, Configuration {
     public void create_pattern(ActionEvent actionEvent) {
         JDialog Jname = new JDialog();
         Jname.setAlwaysOnTop(true);
-        String name = (String) JOptionPane.showInputDialog(null, resourceBundle.getString("загальні.введіть_назву"), resourceBundle.getString("загальні.введення"), JOptionPane.QUESTION_MESSAGE, null, null, "");
+        String name = (String) JOptionPane.showInputDialog(null, RB.getString("загальні.введіть_назву"), RB.getString("загальні.введення"), JOptionPane.QUESTION_MESSAGE, null, null, "");
 
         //dialog.get
         if (name != null && !name.equals("")) {
