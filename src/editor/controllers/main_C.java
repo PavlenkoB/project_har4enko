@@ -84,6 +84,8 @@ public class main_C extends JPanel implements Initializable, Configuration {
             MM_1_1_connect.setDisable(true);
             MM_1_3_disconnect.setDisable(false);
         }
+
+
         thisstage = (Stage) root.getScene().getWindow();
         thisstage.getIcons().add(new Image("/editor/res/img/uml_icon.png"));
         thisstage.setTitle(resourceBundle.getString("управління_репозиторієм_патернів_редактор_архітектур"));
@@ -91,19 +93,8 @@ public class main_C extends JPanel implements Initializable, Configuration {
         thisstage.setMinHeight(700);//Минимальная высота окна
         thisstage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
-                //boolean n=Modals.showOptionDialogYN("загальні.увага", "загальні.ви_впевнені_що_бажаете_вийти_незбережені_зміни_буде_втрачено");
-                Object[] options = {resourceBundle.getString("загальні.так"),
-                        resourceBundle.getString("загальні.ні")};
-                int n = JOptionPane.showOptionDialog(null,
-                        resourceBundle.getString("загальні.ви_впевнені_що_бажаете_вийти_незбережені_зміни_буде_втрачено"),
-                        resourceBundle.getString("загальні.увага"),
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.WARNING_MESSAGE,
-                        null,     //do not use a custom Icon
-                        options,  //the titles of buttons
-                        options[0]); //default button title
-                        /**/
-                if (n == JOptionPane.YES_OPTION) {//да
+                if (Modals.Response.YES == Modals.showYNDialog(resourceBundle.getString("загальні.увага"),
+                        resourceBundle.getString("загальні.ви_впевнені_що_бажаете_вийти_незбережені_зміни_буде_втрачено"))) {//да
                 } else {//нет
                     we.consume();
                 }/**/
@@ -116,10 +107,26 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
         MM_1_1_connect.setDisable(true);
         MM_1_3_disconnect.setDisable(false);
+        thisstage = (Stage) root.getScene().getWindow();
+        thisstage.getIcons().add(new Image("/editor/res/img/uml_icon.png"));
+        thisstage.setTitle(resourceBundle.getString("управління_репозиторієм_патернів_редактор_архітектур"));
+        thisstage.setMinWidth(900);//Минимальная шырина
+        thisstage.setMinHeight(700);//Минимальная высота окна
+        thisstage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+                if (Modals.Response.YES == Modals.showYNDialog(resourceBundle.getString("загальні.увага"),
+                        resourceBundle.getString("загальні.ви_впевнені_що_бажаете_вийти_незбережені_зміни_буде_втрачено"))) {//да
+                } else {//нет
+                    we.consume();
+                }/**/
+                //we.consume();
+            }
+        });
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
 
         //arch.class
         //TODO log_in();
@@ -251,6 +258,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/help.fxml"));
         Stage stage = new Stage(StageStyle.DECORATED);
         try {
+            stage.initModality(Modality.NONE);
             stage.setScene(new Scene((Pane) loader.load()));
         } catch (IOException e) {
             e.printStackTrace();
@@ -262,6 +270,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
         try {
             Parent Parent = FXMLLoader.load(getClass().getResource("/editor/views/about.fxml"));
             Stage Stage = new Stage();
+            Stage.initModality(Modality.NONE);
             Stage.setTitle(resourceBundle.getString("загальні.допомога"));
             Stage.setScene(new Scene(Parent));
             Stage.show();
@@ -640,30 +649,21 @@ public class main_C extends JPanel implements Initializable, Configuration {
         if (Modals.showYNDialog(resourceBundle.getString("загальні.увага"), "Зберегти зміни в архітектурі") == Modals.Response.YES) {
             arch_work.arch_save_to_DB(arch_old, derby_DB);
         }
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/paterns_editor.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/paterns_editor.fxml"));
 
-            Stage stage = new Stage(StageStyle.DECORATED);
-            try {
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setScene(new Scene((Pane) loader.load()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        Stage stage = new Stage(StageStyle.DECORATED);
+        try {
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene((Pane) loader.load()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-            paterns_editor_C controller = loader.<paterns_editor_C>getController();
-            controller.initData(arch_old.getLayers().get(layer).getModules().get(module), derby_DB);
-            stage.setTitle("Редагування патернів \"" + arch_old.getLayers().get(layer).getModules().get(module).getName() + "\" \"" + arch_old.getLayers().get(layer).getName() + "\" \"" + arch_old.getName() + "\"");
-            stage.showAndWait();
-            draw_arch_struct();
-
-            //Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();
-            // do what you have to do
-            //stage_c.close();
-
-            //return stage;
-
-
-
+        paterns_editor_C controller = loader.<paterns_editor_C>getController();
+        controller.initData(arch_old.getLayers().get(layer).getModules().get(module), derby_DB);
+        stage.setTitle("Редагування патернів \"" + arch_old.getLayers().get(layer).getModules().get(module).getName() + "\" \"" + arch_old.getLayers().get(layer).getName() + "\" \"" + arch_old.getName() + "\"");
+        stage.showAndWait();
+        draw_arch_struct();
     }
 
 
@@ -687,6 +687,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
         Stage stage = new Stage(StageStyle.DECORATED);
         try {
+            stage.initModality(Modality.NONE);
             stage.setScene(new Scene((Pane) loader.load()));
         } catch (IOException e) {
             e.printStackTrace();
@@ -694,7 +695,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
         image_preview_C controller = loader.<image_preview_C>getController();
         controller.initData(arch_image, arch_old.getName());
-        //stage.setTitle("" + arch_old.getName());
+
         stage.show();
     }
 
@@ -724,6 +725,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
         Stage stage = new Stage(StageStyle.DECORATED);
         try {
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(new Scene((Pane) loader.load()));
         } catch (IOException e) {
             e.printStackTrace();
@@ -732,10 +734,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
         patterns_manager_C controller = loader.<patterns_manager_C>getController();
         controller.initData(derby_DB);
         stage.setTitle("Менеджер патернів ");
-        stage.show();
-        Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();
-        // do what you have to do
-        stage_c.close();
+        stage.showAndWait();
     }
 
     public void import_all_to_docx(ActionEvent actionEvent) {

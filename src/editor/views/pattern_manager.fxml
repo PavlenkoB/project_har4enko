@@ -149,19 +149,19 @@
                         <ContextMenu>
                             <items>
                                 <MenuItem mnemonicParsing="false" onAction="#from_list_preview" text="Переглянути превю" />
-                                <MenuItem mnemonicParsing="false" onAction="#from_list_edit" text="Редагувати(Затичка)" />
+                                <MenuItem mnemonicParsing="false" onAction="#from_list_edit" text="Редагувати" />
                                 <MenuItem mnemonicParsing="false" onAction="#from_list_add" text="Додати" />
                                 <MenuItem mnemonicParsing="false" onAction="#from_list_delete" text="Видалити" />
                             </items>
                         </ContextMenu>
                     </contextMenu>
                 </ListView>
-                <ListView fx:id="toList" GridPane.columnIndex="2">
+                <ListView fx:id="lvToList" GridPane.columnIndex="2">
                     <contextMenu>
                         <ContextMenu>
                             <items>
                                 <MenuItem mnemonicParsing="false" onAction="#to_list_preview" text="Переглянути превю(затичка)" />
-                                <MenuItem mnemonicParsing="false" onAction="#to_list_edit" text="Редагувати(Затичка)" />
+                                <MenuItem mnemonicParsing="false" onAction="#to_list_edit" text="Редагувати" />
                                 <MenuItem mnemonicParsing="false" onAction="#to_list_delete" text="Видалити" />
                             </items>
                         </ContextMenu>

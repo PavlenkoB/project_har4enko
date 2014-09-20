@@ -1,6 +1,7 @@
 package editor.controllers;
 
 import Classes.Pattern;
+import editor.classes.Modals;
 import editor.interfaces.Configuration;
 import editor.classes.DerbyDBManager;
 import editor.classes.id_Lable;
@@ -23,7 +24,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -41,7 +41,7 @@ public class patterns_manager_C implements Initializable,Configuration {
     public ComboBox cbToLay;
     public ComboBox cbToMod;
     public ListView lvFromList;
-    public ListView toList;
+    public ListView lvToList;
     public BorderPane root;
     public DerbyDBManager dbConnection;
     private String fromLastQuery, toLastQuery;
@@ -75,7 +75,7 @@ public class patterns_manager_C implements Initializable,Configuration {
                 @Override
                 public void changed(ObservableValue ov, id_Lable t, id_Lable t1) {
                     cbToMod.setItems(FXCollections.observableArrayList());
-                    toList.setItems(FXCollections.observableArrayList());
+                    lvToList.setItems(FXCollections.observableArrayList());
                     to_lay_load();
                 }
             });
@@ -91,35 +91,7 @@ public class patterns_manager_C implements Initializable,Configuration {
         thisstage.setMinHeight(700);//Минимальная высота окна
         thisstage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
-                Object[] options = {resourceBundle.getString("загальні.так"),
-                        resourceBundle.getString("загальні.ні")};
-                int n = JOptionPane.showOptionDialog(null,
-                        resourceBundle.getString("загальні.ви_впевнені_що_бажаете_вийти_незбережені_зміни_буде_втрачено"),
-                        resourceBundle.getString("загальні.увага"),
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.WARNING_MESSAGE,
-                        null,     //do not use a custom Icon
-                        options,  //the titles of buttons
-                        options[0]); //default button title
-                if (n == 0) {
-
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/main_window_V2.fxml")
-                    );
-
-                    Stage stage = new Stage(StageStyle.DECORATED);
-                    try {
-                        stage.setScene(new Scene((Pane) loader.load()));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    main_C controller = loader.<main_C>getController();
-                    controller.initData(null, derbyDBManager);
-
-                    stage.show();
-                    Stage stage_this = (Stage) root.getScene().getWindow();
-                    // do what you have to do
-                    stage_this.close();
+                if (Modals.Response.YES == Modals.showYNDialog(resourceBundle.getString("загальні.увага"), resourceBundle.getString("загальні.ви_впевнені_що_бажаете_вийти_незбережені_зміни_буде_втрачено"))) {
                 } else {
                     we.consume();
                 }
@@ -169,9 +141,9 @@ public class patterns_manager_C implements Initializable,Configuration {
                 id_Lable tmp_lable = new id_Lable(rs.getInt("ID"), rs.getString("NAME"));
                 items.add(tmp_lable);
             }
-            toList.setItems(items);
+            lvToList.setItems(items);
 
-            toList.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            lvToList.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
 
@@ -274,7 +246,7 @@ public class patterns_manager_C implements Initializable,Configuration {
             cbToLay.valueProperty().addListener(new ChangeListener<id_Lable>() {
                 @Override
                 public void changed(ObservableValue ov, id_Lable t, id_Lable t1) {
-                    toList.setItems(FXCollections.observableArrayList());
+                    lvToList.setItems(FXCollections.observableArrayList());
                     to_mod_load();
                 }
             });
@@ -392,7 +364,20 @@ public class patterns_manager_C implements Initializable,Configuration {
 
     public void from_list_preview() {
         if (lvFromList.getSelectionModel().getSelectedItem() != null) {
-            System.out.printf("");
+
+            Pattern pattern=Pattern.patternLoadFromDB(((id_Lable) lvFromList.getSelectionModel().getSelectedItem()).getDbid(), dbConnection);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/image_preview.fxml"));
+
+            Stage stage = new Stage(StageStyle.DECORATED);
+            try {
+                stage.setScene(new Scene((Pane) loader.load()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            image_preview_C controller = loader.<image_preview_C>getController();
+            controller.initData(pattern.getPreview(), pattern.getName());
+            stage.show();
         }
     }
 
@@ -442,14 +427,26 @@ public class patterns_manager_C implements Initializable,Configuration {
     }
 
     public void to_list_preview() {
-        if (toList.getSelectionModel().getSelectedItem() != null) {
+        if (lvToList.getSelectionModel().getSelectedItem() != null) {
 
-            System.out.printf("");
+            Pattern pattern=Pattern.patternLoadFromDB(((id_Lable) lvToList.getSelectionModel().getSelectedItem()).getDbid(),dbConnection);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/image_preview.fxml"));
+
+            Stage stage = new Stage(StageStyle.DECORATED);
+            try {
+                stage.setScene(new Scene((Pane) loader.load()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            image_preview_C controller = loader.<image_preview_C>getController();
+            controller.initData(pattern.getPreview(), pattern.getName());
+            stage.show();
         }
     }
 
     public void to_list_edit() {
-        if (toList.getSelectionModel().getSelectedItem() != null) {
+        if (lvToList.getSelectionModel().getSelectedItem() != null) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/patern_editor.fxml"));
 
             Stage stage = new Stage(StageStyle.DECORATED);
@@ -461,7 +458,7 @@ public class patterns_manager_C implements Initializable,Configuration {
             }
 
             patern_editor_C controller = loader.<patern_editor_C>getController();
-            controller.initData(Pattern.patternLoadFromDB(((id_Lable) toList.getSelectionModel().getSelectedItem()).getDbid(), dbConnection), dbConnection);
+            controller.initData(Pattern.patternLoadFromDB(((id_Lable) lvToList.getSelectionModel().getSelectedItem()).getDbid(), dbConnection), dbConnection);
             stage.setTitle("Редагування патерну");
             stage.show();
         }
@@ -469,8 +466,8 @@ public class patterns_manager_C implements Initializable,Configuration {
 
 
     public void to_list_delete() {
-        if (toList.getSelectionModel().getSelectedItem() != null) {
-            Pattern.delete_pattern_from_DB(((id_Lable) toList.getSelectionModel().getSelectedItem()).getDbid(), dbConnection);
+        if (lvToList.getSelectionModel().getSelectedItem() != null) {
+            Pattern.delete_pattern_from_DB(((id_Lable) lvToList.getSelectionModel().getSelectedItem()).getDbid(), dbConnection);
             to_list_load(toLastQuery);
         }
     }

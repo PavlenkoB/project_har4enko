@@ -1,5 +1,6 @@
 package editor.models;
 
+import editor.classes.Modals;
 import editor.interfaces.Configuration;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -32,17 +33,8 @@ public class Main extends Application implements Configuration {
         primaryStage.setMinHeight(700);//Минимальная высота окна
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
-                Object[] options = {resourceBundle.getString("загальні.так"),
-                        resourceBundle.getString("загальні.ні")};
-                int n = JOptionPane.showOptionDialog(null,
-                        resourceBundle.getString("загальні.ви_впевнені_що_бажаете_вийти_незбережені_зміни_буде_втрачено"),
-                        resourceBundle.getString("загальні.увага"),
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.WARNING_MESSAGE,
-                        null,     //do not use a custom Icon
-                        options,  //the titles of buttons
-                        options[0]); //default button title
-                if (n == 0) {//да
+                if (Modals.Response.YES == Modals.showYNDialog(resourceBundle.getString("загальні.увага"),
+                        resourceBundle.getString("загальні.ви_впевнені_що_бажаете_вийти_незбережені_зміни_буде_втрачено"))) {//да
                 } else {//нет
                     we.consume();
                 }
