@@ -2,13 +2,13 @@ package editor.services;
 
 import Classes.Architecture;
 import Classes.Task;
-import com.sun.org.apache.bcel.internal.util.ClassPath;
 import editor.classes.DerbyDBManager;
 import editor.controllers.main_C;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import net.sourceforge.plantuml.SourceStringReader;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -18,7 +18,6 @@ import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 /**
  * Created by godex_000 on 22.05.2014.
@@ -228,10 +227,11 @@ public class functions {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
             String[] cmd = new String[0];
-            if(!new File("plantuml.jar").exists()) {
+            if (!new File("plantuml.jar").exists()) {
                 try {
-                    FileUtils.copyFileUsingStream(new File(main_C.class.getClassLoader().getResource("editor/lib/plantuml.jar").toURI()),new File("plantuml.jar"));
+                    FileUtils.copyFileUsingStream(new File(main_C.class.getClassLoader().getResource("editor/lib/plantuml.jar").toURI()), new File("plantuml.jar"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (URISyntaxException e) {
@@ -266,6 +266,35 @@ public class functions {
             System.out.print("class_text_null");
         }
 
+        return class_image;
+    }
+
+    public static javafx.scene.image.Image drawClassImageThread(String class_text,Integer id) {
+        Image class_image = null;
+        if (class_text != null) {
+            String sourse = "@startuml\n" +
+                    "skinparam backgroundColor transparent\n" + //Прозрачный фон
+                    "skinparam roundCorner 10\n";                 //Скругленые углы
+
+            sourse += class_text + "\n" + "@enduml";
+            SourceStringReader reader = new SourceStringReader(sourse);
+            try {
+                String desc= reader.generateImage(new File("class"+id+".png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            BufferedImage bufferedImage;
+            try {
+                bufferedImage = ImageIO.read(new File("class"+id+".png"));
+                class_image = SwingFXUtils.toFXImage(bufferedImage, null);
+                new File("class"+id+".png").delete();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.print("class_text_null");
+        }
         return class_image;
     }
 
