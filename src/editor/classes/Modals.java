@@ -168,7 +168,7 @@ public class Modals implements Configuration {
     /**
      * Додати стиль до модального вікна
      * не зміний розмір і прибрати кнопки закриття і зменшення
-     * @param stage
+     * @param stage - окно для которого применить
      */
     private static void donotResizeAndAddStyle(Stage stage) {
         stage.getScene().getStylesheets().add(Modals.class.getResource("/editor/css/style.css").toExternalForm());
