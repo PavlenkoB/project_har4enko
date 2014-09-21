@@ -1,5 +1,8 @@
 .modal-dialog {
     -fx-padding: 10px;
+    -fx-border-color: #808080;
+    -fx-border-style: inherit;
+    -fx-border-radius: 10px;
 }
 .modal-dialog .button{
     -fx-spacing: 10px;
