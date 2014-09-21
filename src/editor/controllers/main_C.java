@@ -620,10 +620,10 @@ public class main_C extends JPanel implements Initializable, Configuration {
     }
 
     public void edit_lay(Integer lay_nom) {
-        String name = (String) JOptionPane.showInputDialog(null, RB.getString("загальні.введіть_назву"), RB.getString("загальні.Шар"), JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getName());
+        String name = Modals.showInputDialog(RB.getString("загальні.Шар"), RB.getString("загальні.введіть_назву"), arch_tmp.getLayers().get(lay_nom).getName());
         if (name != null && !name.equals("")) {
             arch_tmp.getLayers().get(lay_nom).setName(name);
-            arch_tmp.getLayers().get(lay_nom).setDescription((String) JOptionPane.showInputDialog(null, RB.getString("загальні.введіть_опис"), RB.getString("загальні.Шар"), JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getDescription()));
+            arch_tmp.getLayers().get(lay_nom).setDescription(Modals.showInputDialog(RB.getString("загальні.Шар"), RB.getString("загальні.введіть_опис"), arch_tmp.getLayers().get(lay_nom).getDescription()));
         }
         draw_arch_struct();
     }
@@ -634,6 +634,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
             arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).setName(name);
             arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).setDescription((String) JOptionPane.showInputDialog(null, RB.getString("загальні.введіть_опис"), RB.getString("загальні.Модуль"), JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).getDescription()));
         }
+        System.out.printf(name);
         draw_arch_struct();
     }
 

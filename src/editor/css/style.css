@@ -1,7 +1,35 @@
+.modal-dialog {
+    -fx-padding: 10px;
+}
+.modal-dialog .button{
+    -fx-spacing: 10px;
+}
+
 .button {
-    -fx-font: 12px "Serif";
+    -fx-font: 14px "Serif";
+}
+
+.button:hover {
+    -fx-background-color: #d4ffcf;
 }
 
 .text {
-    -fx-font: 16px "Serif";
+    -fx-font: 14px "Serif";
 }
+
+.lay_del, .mod_del {
+    -fx-background-color: #ff9150;
+
+}
+
+.lay_edit, .mod_edit {
+    -fx-background-color: #ffda6c;
+}
+
+.lay_add, .mod_add {
+    -fx-background-color: #00de4d;
+}
+
+.pat_edit {
+}
+

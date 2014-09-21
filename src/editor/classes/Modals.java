@@ -6,8 +6,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.ButtonBuilder;
-import javafx.scene.control.LabelBuilder;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBoxBuilder;
 import javafx.scene.layout.VBoxBuilder;
 import javafx.scene.paint.Color;
@@ -22,6 +21,10 @@ import javafx.stage.Stage;
  * Time: 0:36
  */
 public class Modals implements Configuration {
+    //    static Response buttonSelected = Response.CANCEL;
+    public static enum Response {
+        NO, YES, CANCEL
+    }
 
     public static void showInfoAM(String title, String text) {
         Stage dialogNONE = new Stage();
@@ -37,10 +40,9 @@ public class Modals implements Configuration {
 
         dialogNONE.setTitle(title);
         dialogNONE.setScene(sceneNONE);
+        dialogNONE.getScene().getStylesheets().add(Modals.class.getResource("/editor/css/style.css").toExternalForm());
         dialogNONE.showAndWait();
     }
-
-    ;
 
 
     public static Response showYNDialog(String title, String text) {
@@ -66,8 +68,39 @@ public class Modals implements Configuration {
         );
         dialogNONE.setTitle(title);
         dialogNONE.setScene(sceneNONE);
+        dialogNONE.getScene().getStylesheets().add(Modals.class.getResource("/editor/css/style.css").toExternalForm());
         dialogNONE.showAndWait();
         return buttonSelected[0];
+    }
+    public static String showInputDialog(String title, String text, String val) {
+        final String[] inputVal = new String[1];
+        final TextField[] textField = new TextField[1];
+        final Stage dialogNONE = new Stage();
+        dialogNONE.initModality(Modality.APPLICATION_MODAL);
+        Scene sceneNONE = new Scene(HBoxBuilder.create().styleClass("modal-dialog").children(
+                LabelBuilder.create().text(text).build(),
+                ButtonBuilder.create().text(RB.getString("загальні.ввід")).defaultButton(true).onAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        dialogNONE.close();
+                    }
+                }).build(),
+                ButtonBuilder.create().text(RB.getString("загальні.відміна")).cancelButton(true).onAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        textField[0].setText(null);
+                        dialogNONE.close();
+                    }
+                }).build(),
+                TextFieldBuilder.create().text(val).id("tfInput").build()
+        ).build(), Color.TRANSPARENT
+        );
+        textField[0]=(TextField) sceneNONE.lookup("#tfInput");
+        dialogNONE.setTitle(title);
+        dialogNONE.setScene(sceneNONE);
+        dialogNONE.getScene().getStylesheets().add(Modals.class.getResource("/editor/css/style.css").toExternalForm());
+        dialogNONE.showAndWait();
+        return textField[0].getText();
     }
 
     public static Response showYNDialog(String title, String text, String yes, String no) {
@@ -93,6 +126,7 @@ public class Modals implements Configuration {
         );
         dialogNONE.setTitle(title);
         dialogNONE.setScene(sceneNONE);
+        dialogNONE.getScene().getStylesheets().add(Modals.class.getResource("/editor/css/style.css").toExternalForm());
         dialogNONE.showAndWait();
         return buttonSelected[0];
     }
@@ -111,6 +145,7 @@ public class Modals implements Configuration {
 
         dialogNONE.setTitle(title);
         dialogNONE.setScene(sceneNONE);
+        dialogNONE.getScene().getStylesheets().add(Modals.class.getResource("/editor/css/style.css").toExternalForm());
         dialogNONE.show();
     }
 
@@ -128,11 +163,9 @@ public class Modals implements Configuration {
 
         dialogNONE.setTitle(title);
         dialogNONE.setScene(sceneNONE);
+        dialogNONE.getScene().getStylesheets().add(Modals.class.getResource("/editor/css/style.css").toExternalForm());
         dialogNONE.showAndWait();
     }
 
-    //    static Response buttonSelected = Response.CANCEL;
-    public static enum Response {
-        NO, YES, CANCEL
-    }
+
 }
