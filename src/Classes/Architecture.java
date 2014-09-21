@@ -7,14 +7,7 @@ import editor.services.ImageConverter;
 import editor.services.draw_uml;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.VBoxBuilder;
-import javafx.scene.text.Text;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -172,8 +165,12 @@ public class Architecture implements Cloneable {
                 boolean save = false;
                 for (int s = 0; s < arch_in.getLayers().size(); s++) {
                     //сравниваем если в новой такой слой
-                    if (arch_in.getLayers().get(s).getId().intValue() == arch_old.getLayers().get(i).getId().intValue()) {
-                        save = true; //если остался то нужно сохранить
+                    try {
+                        if (arch_in.getLayers().get(s).getId().equals(arch_old.getLayers().get(i).getId())) {
+                            save = true; //если остался то нужно сохранить
+                        }
+                    } catch (NullPointerException e) {
+
                     }
                 }
                 if (save == false) {
@@ -200,9 +197,7 @@ public class Architecture implements Cloneable {
                         derby_DB_connection.executeUpdate("DELETE FROM MODULE WHERE ID=" + arch_old.getLayers().get(l_o).getModules().get(m_o).getId());
                     }
                 }
-
             }
-
 
             ResultSet rs_tmp;
             if (arch_in.getDescription() == null) arch_in.setDescription("");
@@ -233,6 +228,12 @@ public class Architecture implements Cloneable {
                     preparedStatement.executeUpdate();*/
                     rs_tmp = derby_DB_connection.executeQuery("SELECT MAX(ID) FROM LAYER");
                     rs_tmp.next();
+
+                    if (derby_DB_connection.executeQuery("SELECT * FROM MODULE WHERE LAY_ID=" + rs_tmp.getInt(1)).next() == false) {
+                        System.out.println("Шар '" + arch_in.getLayers().get(s_lay).getName() + "' не містить модулів");
+                        Modals.showInfoAM("Увага", "Шар '" + arch_in.getLayers().get(s_lay).getName() + "' не містить модулів");
+                    }
+
                     arch_in.getLayers().get(s_lay).setId(rs_tmp.getInt(1));
                     for (int s_mod = 0; s_mod < arch_in.getLayers().get(s_lay).getModules().size(); s_mod++) {
                         derby_DB_connection.executeUpdate("INSERT INTO MODULE (LAY_ID,NAME,DESCRIPTION) VALUES (" + arch_in.getLayers().get(s_lay).getId() + ",'" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "','" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getDescription() + "')");
@@ -246,8 +247,9 @@ public class Architecture implements Cloneable {
                         rs_tmp = derby_DB_connection.executeQuery("SELECT MAX(ID) FROM MODULE");
                         rs_tmp.next();
                         arch_in.getLayers().get(s_lay).getModules().get(s_mod).setId(rs_tmp.getInt(1));
-                        if (derby_DB_connection.executeQuery("SELECT * FROM PATERNS WHERE MOD_ID=" + rs_tmp.getInt(1)).next()==false) {
+                        if (derby_DB_connection.executeQuery("SELECT * FROM PATERNS WHERE MOD_ID=" + rs_tmp.getInt(1)).next() == false) {
                             System.out.println("Module '" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "' don`t have patterns");
+                            Modals.showInfoAM("Увага", "Модуль '" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "' не містить патернів");
                         }
                     }
                 }
@@ -293,6 +295,10 @@ public class Architecture implements Cloneable {
                     } else {
                         // якщо змінили дані про шар
                         derby_DB_connection.executeUpdate("UPDATE LAYER " + "SET NAME='" + arch_in.getLayers().get(s_lay).getName() + "',ARCH_ID=" + arch_in.getId() + ",DESCRIPTION='" + arch_in.getLayers().get(s_lay).getDescription() + "' WHERE ID=" + arch_in.getLayers().get(s_lay).getId());
+                        if (derby_DB_connection.executeQuery("SELECT * FROM MODULE WHERE LAY_ID=" + arch_in.getLayers().get(s_lay).getId()).next() == false) {
+                            System.out.println("Шар '" + arch_in.getLayers().get(s_lay).getName() + "' не містить модулів");
+                            Modals.showInfoAM("Увага", "Шар '" + arch_in.getLayers().get(s_lay).getName() + "' не містить модулів");
+                        }
                         //TODO
                     /*PreparedStatement preparedStatement=derby_DB_connection.getCon().prepareStatement("INSERT INTO ARCHITECTURE (NAME,USECASE,DESCRIPTION) VALUES (?,?,?)");
                     preparedStatement.setString(1,arch_in.getName());
@@ -316,9 +322,9 @@ public class Architecture implements Cloneable {
                                 // якщо модуль редагований
                                 derby_DB_connection.executeUpdate("UPDATE MODULE " + "SET NAME='" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "',DESCRIPTION='" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getDescription() + "' WHERE ID=" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getId());
                                 //rs_tmp=derby_DB_connection.executeQuery("SELECT * FROM PATERNS WHERE MOD_ID=" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getId());
-                                if (derby_DB_connection.executeQuery("SELECT * FROM PATERNS WHERE MOD_ID=" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getId()).next()==false) {
+                                if (derby_DB_connection.executeQuery("SELECT * FROM PATERNS WHERE MOD_ID=" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getId()).next() == false) {
                                     System.out.println("Module '" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "' don`t have patterns");
-                                    Modals.showInfoAM("Увага","Module '" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "' don`t have patterns");
+                                    Modals.showInfoAM("Увага", "Модуль '" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "' не містить патернів");
                                 }
                                 //TODO
                     /*PreparedStatement preparedStatement=derby_DB_connection.getCon().prepareStatement("INSERT INTO ARCHITECTURE (NAME,USECASE,DESCRIPTION) VALUES (?,?,?)");
