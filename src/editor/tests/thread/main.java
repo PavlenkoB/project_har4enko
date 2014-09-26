@@ -16,6 +16,10 @@ import javafx.stage.Stage;
 
 public class main extends Application {
 
+    public static void main(String[] args) {
+        launch();
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/editor/tests/thread/v_thread.fxml"));
@@ -33,9 +37,5 @@ public class main extends Application {
             return sum;
         }
         return fibonachi(b, a + b, n - 1, sum + b);
-    }
-
-    public static void main(String[] args) {
-        launch();
     }
 }

@@ -8,6 +8,11 @@ import javafx.scene.control.Label;
 public class id_Lable extends Label {
     Integer dbid;
 
+    public id_Lable(Integer id, String text) {
+        super(text);
+        this.dbid = id;
+    }
+
     public Integer getDbid() {
         return dbid;
     }
@@ -19,11 +24,6 @@ public class id_Lable extends Label {
      */
     public void setDbid(Integer dbid) {
         this.dbid = dbid;
-    }
-
-    public id_Lable(Integer id, String text) {
-        super(text);
-        this.dbid = id;
     }
 
 }

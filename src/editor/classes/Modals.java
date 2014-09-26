@@ -16,7 +16,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 /**
  * Created by
@@ -169,6 +168,7 @@ public class Modals implements Configuration {
     /**
      * Додати стиль до модального вікна
      * не зміний розмір і прибрати кнопки закриття і зменшення
+     *
      * @param stage - окно для которого применить
      */
     private static void donotResizeAndAddStyle(Stage stage) {

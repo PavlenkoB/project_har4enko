@@ -21,10 +21,6 @@ public class FileSearch {
         this.fileNameToSearch = fileNameToSearch;
     }
 
-    public List<String> getResult() {
-        return result;
-    }
-
     public static void main(String[] args) {
 
         FileSearch fileSearch = new FileSearch();
@@ -41,18 +37,6 @@ public class FileSearch {
                 System.out.println("Found : " + matched);
             }
         }
-    }
-
-    public void searchDirectory(File directory, String fileNameToSearch) {
-
-        setFileNameToSearch(fileNameToSearch);
-
-        if (directory.isDirectory()) {
-            search(directory);
-        } else {
-            System.out.println(directory.getAbsoluteFile() + " is not a directory!");
-        }
-
     }
 
     private static void search(File file) {
@@ -76,6 +60,22 @@ public class FileSearch {
             } else {
                 System.out.println(file.getAbsoluteFile() + "Permission Denied");
             }
+        }
+
+    }
+
+    public List<String> getResult() {
+        return result;
+    }
+
+    public void searchDirectory(File directory, String fileNameToSearch) {
+
+        setFileNameToSearch(fileNameToSearch);
+
+        if (directory.isDirectory()) {
+            search(directory);
+        } else {
+            System.out.println(directory.getAbsoluteFile() + " is not a directory!");
         }
 
     }

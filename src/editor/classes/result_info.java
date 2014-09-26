@@ -32,15 +32,15 @@ public class result_info {
         return comment;
     }
 
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     public void setComment(Exception e) {
         StackTraceElement[] stack = e.getStackTrace();
         for (int s = 0; s < e.getStackTrace().length; s++) {
             if (!stack[s].toString().equals("Unknown Source") || !stack[s].toString().equals("com.sun"))
                 this.comment += stack[s].toString() + "\n";
         }
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
     }
 }

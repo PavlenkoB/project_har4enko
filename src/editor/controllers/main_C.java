@@ -601,14 +601,14 @@ public class main_C extends JPanel implements Initializable, Configuration {
     }
 
     public void del_mod(Integer lay_nom, Integer mod_nom) {
-        if (Modals.Response.YES==Modals.showYNDialog(RB.getString("загальні.увага"),RB.getString("загальні.ви_впевнені_що_бажаете_видалити?")+" "+RB.getString("загальні.Модуль"))) {
+        if (Modals.Response.YES == Modals.showYNDialog(RB.getString("загальні.увага"), RB.getString("загальні.ви_впевнені_що_бажаете_видалити?") + " " + RB.getString("загальні.Модуль"))) {
             arch_tmp.getLayers().get(lay_nom.intValue()).getModules().remove(mod_nom.intValue());
             draw_arch_struct();
         }
     }
 
     public void del_lay(Integer lay_nom) {
-        if (Modals.Response.YES==Modals.showYNDialog(RB.getString("загальні.увага"),RB.getString("загальні.ви_впевнені_що_бажаете_видалити?")+" "+RB.getString("загальні.Шар"))) {
+        if (Modals.Response.YES == Modals.showYNDialog(RB.getString("загальні.увага"), RB.getString("загальні.ви_впевнені_що_бажаете_видалити?") + " " + RB.getString("загальні.Шар"))) {
             arch_tmp.getLayers().remove(lay_nom);
             draw_arch_struct();
         }

@@ -27,12 +27,12 @@ class SomeRun           //Нечто, реализующее интерфейс 
     private String umlText;
     private volatile boolean mFinish = false;
 
-    public void finish() {
-        mFinish = true;
-    }
-
     public SomeRun(cUmlToImg cUmlToImg) {
         this.cUmlToImg = cUmlToImg;
+    }
+
+    public void finish() {
+        mFinish = true;
     }
 
     public void setId(Integer id) {
@@ -77,6 +77,7 @@ public class cUmlToImg implements Initializable {
     public Label lProgress;         // текст прогреса
     public TextField tfThreads;     // количество потоков
     public ArrayList<Architecture> architectureArrayList = new ArrayList<>();
+    ArrayList<SomeRun> threads = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -134,8 +135,6 @@ public class cUmlToImg implements Initializable {
     public synchronized void decreaseCount() {
         this.count--;
     }
-
-    ArrayList<SomeRun> threads = new ArrayList<>();
 
     public void bStartConvert(ActionEvent actionEvent) {
         count = new Integer(architectureArrayList.size());

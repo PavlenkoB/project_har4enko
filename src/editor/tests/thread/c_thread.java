@@ -19,6 +19,9 @@ import java.util.ResourceBundle;
 class SomeRun           //Нечто, реализующее интерфейс Runnable
         implements Runnable        //(содержащее метод run())
 {
+    ProgressBar progressBar;
+    Label progressLabel;
+
     public static int randInt(int min, int max) {
 
         // NOTE: Usually this should be a field rather than a method
@@ -31,9 +34,6 @@ class SomeRun           //Нечто, реализующее интерфейс 
 
         return randomNum;
     }
-
-    ProgressBar progressBar;
-    Label progressLabel;
 
     public void setProgressLabel(Label progressLabel) {
         this.progressLabel = progressLabel;
@@ -95,9 +95,8 @@ public class main {
 public class c_thread implements Initializable {
     static SomeRun mThing;    //mThing - объект класса, реализующего интерфейс Runnable
     public Label L_Progress;
-    Thread myThready;    //Создание потока "myThready"
     public ProgressBar progressBar;
-
+    Thread myThready;    //Создание потока "myThready"
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

@@ -16,6 +16,10 @@ import javafx.stage.Stage;
 
 public class main extends Application {
 
+    public static void main(String[] args) {
+        launch();
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/editor/tests/multithreadumltoimg/vUmlToImg.fxml"));
@@ -26,9 +30,5 @@ public class main extends Application {
         primaryStage.show();
         primaryStage.setResizable(false);/**/
         //System.out.printf(String.valueOf(fibonachi(0,1,7,0)));
-    }
-
-    public static void main(String[] args) {
-        launch();
     }
 }
