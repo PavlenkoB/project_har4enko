@@ -59,6 +59,7 @@ public class Modals implements Configuration {
                 ButtonBuilder.create().text(RB.getString("загальні.ні")).cancelButton(true).onAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
+                        buttonSelected[0] = Response.NO;
                         dialogNONE.close();
                     }
                 }).build()
@@ -172,7 +173,7 @@ public class Modals implements Configuration {
      */
     private static void donotResizeAndAddStyle(Stage stage) {
         stage.getScene().getStylesheets().add(Modals.class.getResource("/editor/css/style.css").toExternalForm());
-        stage.initStyle(StageStyle.UNDECORATED);
+        //stage.initStyle(StageStyle.UTILITY);
         stage.setResizable(false);
     }
 
