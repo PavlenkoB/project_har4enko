@@ -123,7 +123,7 @@
             <center>
                 <ScrollPane fx:id="sp_arch_stract" prefWidth="388.0" BorderPane.alignment="CENTER">
                     <content>
-                        <Pane fx:id="P_arch_struct" />
+                        <Pane fx:id="P_arch_struct" styleClass="arch_struct" />
                     </content>
                 </ScrollPane>
             </center>

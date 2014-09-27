@@ -156,6 +156,7 @@ public class Modals implements Configuration {
                         new Text(title),
                         new Text(text))
                 .alignment(Pos.CENTER)
+
                 .padding(new Insets(10))
                 .build());
 
@@ -172,6 +173,7 @@ public class Modals implements Configuration {
      * @param stage - окно для которого применить
      */
     private static void donotResizeAndAddStyle(Stage stage) {
+
         stage.getScene().getStylesheets().add(Modals.class.getResource("/editor/css/style.css").toExternalForm());
         //stage.initStyle(StageStyle.UTILITY);
         stage.setResizable(false);

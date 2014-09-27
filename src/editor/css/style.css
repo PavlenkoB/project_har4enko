@@ -1,3 +1,6 @@
+P_arch_struct .label{
+    -fx-font: 4px "Serif";
+}
 .modal-dialog {
     -fx-padding: 10px;
     /*    -fx-border-color: #808080;
