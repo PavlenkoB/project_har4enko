@@ -252,6 +252,9 @@ public class functions {
         }
         return class_image;
     }
+    public static javafx.scene.image.Image drawClassImageThread(String class_text) {
+        return drawClassImageThread(class_text,new Integer(0));
+    }
 
 
     public static String read_lines_from_file(File read_it) {

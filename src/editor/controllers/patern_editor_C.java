@@ -5,6 +5,7 @@ import editor.classes.DerbyDBManager;
 import editor.classes.Modals;
 import editor.interfaces.Configuration;
 import editor.services.draw_uml;
+import editor.services.functions;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -78,7 +79,7 @@ public class patern_editor_C implements Initializable, Configuration {
      * @param actionEvent
      */
     public void preview(ActionEvent actionEvent) {
-        pattern_image = draw_uml.draw_class(TA_pattern_uml.getText());
+        pattern_image = functions.drawClassImageThread(TA_pattern_uml.getText());
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/image_preview.fxml"));
 
         Stage stage = new Stage(StageStyle.DECORATED);
