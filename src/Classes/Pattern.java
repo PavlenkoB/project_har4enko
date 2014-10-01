@@ -98,7 +98,7 @@ public class Pattern implements Cloneable {
             }
             s.close();
 
-            if (pattern_out.getPreview() == null || pattern_out.getPreview().getHeight() < 20) {
+            if (pattern_out.getPreview() == null) {
                 pattern_out.setPreview(new Image("editor/res/img/preview-not-available.jpg"));
             }
 

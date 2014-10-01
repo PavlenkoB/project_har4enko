@@ -30,13 +30,16 @@ public class image_preview_C implements Initializable {
         Stage thisstage = (Stage) root.getScene().getWindow();
         thisstage.setTitle(title);
         thisstage.getIcons().add(new Image("/editor/res/img/preview-icon.png"));
-        thisstage.setHeight(show_image.getHeight());
-        thisstage.setWidth(show_image.getWidth());
+        IV_IP.setImage(show_image);
         IV_IP.setFitHeight(show_image.getHeight());
         IV_IP.setFitWidth(show_image.getWidth());
-        IV_IP.setImage(show_image);
-        AP_IP.setPrefWidth(show_image.getWidth());
-        AP_IP.setPrefHeight(show_image.getHeight());
+
+        //AP_IP.setPrefWidth(show_image.getWidth());
+        //AP_IP.setPrefHeight(show_image.getHeight());
+        //SP_IP.setPrefHeight(show_image.getHeight());
+        //SP_IP.setPrefWidth(show_image.getWidth());
+        thisstage.setMinHeight(show_image.getHeight()+40);
+        thisstage.setMinWidth(show_image.getWidth()+40);
     }
 
     @Override

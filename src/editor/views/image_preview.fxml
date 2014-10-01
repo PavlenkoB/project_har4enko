@@ -7,11 +7,11 @@
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="root" xmlns="http://javafx.com/javafx/8"
             fx:controller="editor.controllers.image_preview_C">
     <center>
-        <ScrollPane fx:id="SP_IP" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <ScrollPane fx:id="SP_IP" BorderPane.alignment="CENTER">
             <content>
-                <AnchorPane fx:id="AP_IP" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                <AnchorPane fx:id="AP_IP">
                     <children>
-                        <ImageView fx:id="IV_IP" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true"
+                        <ImageView fx:id="IV_IP" pickOnBounds="true"
                                    preserveRatio="true"/>
                     </children>
                 </AnchorPane>

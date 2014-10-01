@@ -229,7 +229,9 @@ public class functions {
         if (class_text != null) {
             String sourse = "@startuml\n" +
                     "skinparam backgroundColor transparent\n" + //Прозрачный фон
-                    "skinparam roundCorner 10\n";                 //Скругленые углы
+                    "skinparam roundCorner 10\n" +
+                    "class hide\n" +
+                    "hide hide\n";                 //Скругленые углы
 
             sourse += class_text + "\n" + "@enduml";
             SourceStringReader reader = new SourceStringReader(sourse);
