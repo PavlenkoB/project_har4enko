@@ -230,6 +230,7 @@ public class functions {
             String sourse = "@startuml\n" +
                     "skinparam backgroundColor transparent\n" + //Прозрачный фон
                     "skinparam roundCorner 10\n" +
+                    "left to right direction\n" +
                     "class hide\n" +
                     "hide hide\n";                 //Скругленые углы
 

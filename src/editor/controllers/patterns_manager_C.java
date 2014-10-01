@@ -398,6 +398,7 @@ public class patterns_manager_C implements Initializable, Configuration {
             patern_editor_C controller = loader.<patern_editor_C>getController();
             controller.initData(Pattern.patternLoadFromDB(((id_Lable) lvFromList.getSelectionModel().getSelectedItem()).getDbid(), dbConnection), dbConnection);
             stage.setTitle("Редагування патерну");
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
             fromListLoad(fromLastQuery);
         }
