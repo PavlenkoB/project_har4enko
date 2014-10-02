@@ -82,7 +82,7 @@ public class cUmlToImg implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        for (int s = 0; s < 100; s++) {
+        for (int s = 0; s < 1000; s++) {
             architectureArrayList.add(new Architecture());
             architectureArrayList.get(s).setUsecase("package \"Сервісний додаток\"{\n" +
                     "package \"Сервісів\"{\n" +
