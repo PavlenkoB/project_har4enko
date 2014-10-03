@@ -76,8 +76,8 @@ public class create_arch_C implements Initializable {
     ArrayList<Architecture> architectures_done = new ArrayList<>();
 
 
-
-    DerbyDBManager derby_DB;// = new DerbyDBManager("DB/paterns_DB");
+    //DerbyDBManager derby_DB;
+    DerbyDBManager derby_DB = new DerbyDBManager("DB/paterns_DB");
     Task task = new Task();
     @FXML
     private Image class_image;
@@ -682,7 +682,8 @@ public class create_arch_C implements Initializable {
             e.printStackTrace();
         }
 
-        preview_create_arch_C controller = loader.<preview_create_arch_C>getController();;
+        preview_create_arch_C controller = loader.<preview_create_arch_C>getController();
+        ;
         controller.initData(architectures_done);
         stage.setTitle("Візуалізація створених архітектур");
         stage.show();

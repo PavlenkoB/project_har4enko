@@ -6,6 +6,7 @@ import Classes.Task;
 import editor.classes.DerbyDBManager;
 import editor.services.arch_work;
 import editor.services.functions;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -17,15 +18,13 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -58,7 +57,8 @@ public class rating_arch_C implements Initializable {
     public ImageView arch_1_im;
     public ImageView arch_2_im;
     public int[] arch_mark_combine = new int[2];
-    public Image arch_1_image, arch_2_image;
+    public Image arch_1_image, arch_2_image, // Поточна візуалізація
+            redo_im_1, redo_im_2; // Візуалізація наступної пари архітектур
     public AnchorPane text_view;
     public AnchorPane ankor_im_1;
     public AnchorPane ankor_im_2;
@@ -68,11 +68,15 @@ public class rating_arch_C implements Initializable {
     public AnchorPane title_arch1;
     public Button save_marks_but;
     public AnchorPane root;
+    public TextField crit;
     ArrayList<javafx.scene.control.TextField> textField_marks = new ArrayList<>();
 
-
-    DerbyDBManager derby_DB;// = new DerbyDBManager("DB/paterns_DB");
-    DerbyDBManager mark_db;// = new DerbyDBManager("DB/Marks");
+    /*
+        DerbyDBManager derby_DB;
+        DerbyDBManager mark_db;
+       */
+    DerbyDBManager derby_DB = new DerbyDBManager("DB/paterns_DB");
+    DerbyDBManager mark_db = new DerbyDBManager("DB/Marks");
     String pattern_db_str;
     String mark_db_str;
 
@@ -115,12 +119,14 @@ public class rating_arch_C implements Initializable {
         }
         ObservableList<String> crit = FXCollections.observableArrayList();
         crit.clear();
-        crit.addAll("Надійність","Ефективність","Швидкодія");
+        crit.addAll("Надійність", "Ефективність", "Швидкодія");
         mark_crit.setItems(crit);
     }
 
     public void Start_rating() {
         //disconnect_DB(mark_db);
+
+
         derby_DB = new DerbyDBManager(pattern_db_str);
         Rating_arch_1.setVisible(true);
         Rating_arch_2.setVisible(false);
@@ -173,6 +179,9 @@ public class rating_arch_C implements Initializable {
     }
 
     public void choice_task(ActionEvent actionEvent) {
+        String markl = mark_crit.getSelectionModel().selectedItemProperty().getValue().toString();
+        crit.clear();
+        crit.setText(markl);
         Rating_arch_1.setVisible(false);
         Rating_arch_2.setVisible(true);
         Rating_arch_3.setVisible(false);
@@ -248,11 +257,10 @@ public class rating_arch_C implements Initializable {
             arch_mark_combine[1] = 0;
         }
 
-        draw_arch_im_text();
-
-        /*arch_1_image = arch_image_gen_with_patterns(architecture_done_choise.get(arch_mark_combine[0]));
+        arch_1_image = arch_image_gen_with_patterns(architecture_done_choise.get(arch_mark_combine[0]));
         arch_2_image = arch_image_gen_with_patterns(architecture_done_choise.get(arch_mark_combine[1]));
-
+        draw_arch_im_text();
+/*
         double zoom = 0.8;
         arch_1_im.setFitHeight(arch_1_image.getRequestedHeight() * zoom);
         arch_1_im.setFitWidth(arch_1_image.getRequestedWidth() * zoom);
@@ -267,15 +275,20 @@ public class rating_arch_C implements Initializable {
 
     public void draw_arch_im_text() {
 
+        //Визов потоку генерації візуалізацій наступної пари архітектур
+        tread_go();
+
         //ankor_im_1.getChildren().clear();
         //ankor_im_2.getChildren().clear();
         //ankor_im_1.getChildren().add(arch_1_im);
         //ankor_im_2.getChildren().add(arch_2_im);
         text_view.getChildren().clear();
 
+
+/*
         arch_1_image = arch_image_gen_with_patterns(architecture_done_choise.get(arch_mark_combine[0]));
         arch_2_image = arch_image_gen_with_patterns(architecture_done_choise.get(arch_mark_combine[1]));
-
+*/
         double zoom = 0.8;
         arch_1_im.setFitHeight(arch_1_image.getRequestedHeight() * zoom);
         arch_1_im.setFitWidth(arch_1_image.getRequestedWidth() * zoom);
@@ -313,7 +326,7 @@ public class rating_arch_C implements Initializable {
             vsize += architecture_done_choise_type.getLayers().get(i).getModules().size();
         }
 
-        vsize+=2; //для описової частини
+        vsize += 2; //для описової частини
 
         GridPane gridPane_arch = new GridPane();
         gridPane_arch.getChildren().clear();
@@ -381,11 +394,16 @@ public class rating_arch_C implements Initializable {
                 label_1.add(new Label());
                 label_1.get(label_1.size() - 1).setText(architecture_done_choise.get(arch_mark_combine[0]).getLayers().get(i).getModules().get(j).getSelected_pattern().getName());
                 label_1.get(label_1.size() - 1).setFont(Font.font(12));
-                gridPane_arch.add(label_1.get(label_1.size() - 1), 2, vpos);
 
                 label_2.add(new Label());
                 label_2.get(label_2.size() - 1).setText(architecture_done_choise.get(arch_mark_combine[1]).getLayers().get(i).getModules().get(j).getSelected_pattern().getName());
                 label_2.get(label_2.size() - 1).setFont(Font.font(12));
+
+                if (!label_1.get(label_1.size()-1).getText().toString().equals(label_2.get(label_2.size() - 1).getText().toString())){
+                    label_1.get(label_1.size()-1).setTextFill(Color.web("#F80000"));
+                    label_2.get(label_2.size()-1).setTextFill(Color.web("#F80000"));
+                }
+                gridPane_arch.add(label_1.get(label_1.size() - 1), 2, vpos);
                 gridPane_arch.add(label_2.get(label_2.size() - 1), 3, vpos);
                 vpos++;
             }
@@ -451,6 +469,9 @@ public class rating_arch_C implements Initializable {
     }
 
     public void setArch_mark_combine_combine_next() {
+        arch_1_image = redo_im_1;
+        arch_2_image = redo_im_2;
+
         if (arch_mark_combine[1] < (architecture_done_choise.size() - 1)) {
             arch_mark_combine[1]++;
         } else if ((arch_mark_combine[1] == (architecture_done_choise.size() - 1)) & (arch_mark_combine[0] < (architecture_done_choise.size() - 2))) {
@@ -554,13 +575,27 @@ public class rating_arch_C implements Initializable {
             gridPane_mark.add(tmp_label, 0, i);
         }
 
-
+        Label diagon = new Label();
+        diagon.setText("1");
         textField_marks.clear();
+
+        for (int i=0; i<architecture_done_choise.size(); i++){
+            marks.add(new Mark(i,i,1));
+        }
+
+/*        for (int i =0; i<architecture_done_choise.size(); i++)
+            gridPane_mark.add(diagon,i+1,i+1);
+*/
         for (int i = 0; i < marks.size(); i++) {
             textField_marks.add(new javafx.scene.control.TextField());
             textField_marks.get(textField_marks.size() - 1).setText(marks.get(i).getMark().toString());
             gridPane_mark.add(textField_marks.get(textField_marks.size() - 1), marks.get(i).getNum_arch_1() + 1, marks.get(i).getNum_arch_0() + 1);
+            if (marks.get(i).getNum_arch_0()==marks.get(i).getNum_arch_1()){
+                textField_marks.get(textField_marks.size() - 1).setText("1");
+            }
         }
+
+
         Rating_arch_3.getChildren().add(gridPane_mark);
 
     }
@@ -600,7 +635,7 @@ public class rating_arch_C implements Initializable {
     public void Save_marks(ActionEvent actionEvent) {
 
         try {
-           // disconnect_DB(derby_DB);
+            // disconnect_DB(derby_DB);
             creat_mark_DB();
         } catch (IOException e) {
             e.printStackTrace();
@@ -608,7 +643,7 @@ public class rating_arch_C implements Initializable {
 
 
         try {
-            session_save_to_db(task_choise.getId(),mark_db);
+            session_save_to_db(task_choise.getId(), mark_db);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -616,7 +651,7 @@ public class rating_arch_C implements Initializable {
 
         for (int i = 0; i < marks.size(); i++) {
             try {
-                marks_save_to_DB(marks.get(i), architecture_done_choise.get(marks.get(i).getNum_arch_0()).getId_done(),architecture_done_choise.get(marks.get(i).getNum_arch_1()).getId_done(),session_id,mark_db);
+                marks_save_to_DB(marks.get(i), architecture_done_choise.get(marks.get(i).getNum_arch_0()).getId_done(), architecture_done_choise.get(marks.get(i).getNum_arch_1()).getId_done(), session_id, mark_db);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -651,7 +686,6 @@ public class rating_arch_C implements Initializable {
     }
 
     /**
-     *
      * @throws IOException
      */
     public void creat_mark_DB() throws IOException { //Создать БД
@@ -717,6 +751,49 @@ public class rating_arch_C implements Initializable {
         System.out.printf("mark save successful");
         return result;
     }
+
+    private void tread_go() {
+        Thread myThread = new Thread(MyThread);
+        myThread.setPriority(5);
+        myThread.setDaemon(true);
+        myThread.start();
+        /*myThread = new Thread(task);
+        myThread.setDaemon(true);
+        myThread.start();*/
+    }
+
+    //Поток генерації наступної  візуалізації архітектур
+    protected Thread MyThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    if (arch_mark_combine[0] != architecture_done_choise.size() - 2)
+                        redo_im_1 = arch_image_gen_with_patterns(architecture_done_choise.get(arch_mark_combine[0] + 1));
+                    System.out.println("redo" + arch_mark_combine[0]);
+                    if (arch_mark_combine[1] != architecture_done_choise.size() - 1)
+                        redo_im_2 = arch_image_gen_with_patterns(architecture_done_choise.get(arch_mark_combine[1] + 1));
+                    System.out.println("redo" + arch_mark_combine[1]);
+                }
+            });
+        }
+    });
+
+    /*private Thread myThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    if (arch_mark_combine[0] != architecture_done_choise.size()-2)
+                        redo_im_1 = arch_image_gen_with_patterns(architecture_done_choise.get(arch_mark_combine[0]+1));
+                    if (arch_mark_combine[1] != architecture_done_choise.size()-1)
+                        redo_im_2 = arch_image_gen_with_patterns(architecture_done_choise.get(arch_mark_combine[1]+1));
+                }
+            });
+        }
+    });*/
 }
 
 

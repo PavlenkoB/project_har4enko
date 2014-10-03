@@ -62,6 +62,12 @@ public class Controller_mode_selection_user_menu implements Initializable {
     }
 
     public void initialize(URL url, ResourceBundle rb) {
+
+        //Debuging seting
+        adm_menu.setDisable(false);
+        arch_menu.setDisable(false);
+        exp_menu.setDisable(false);
+
         ObservableList<String> user = FXCollections.observableArrayList();
         user.clear();
         user.addAll(new String("Адміністратор"),new String("Архітектор"),new String("Експерт"));

@@ -2,6 +2,7 @@ package create_arch.Controllers;
 
 import Classes.Architecture;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -14,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
 import java.net.URL;
@@ -136,8 +138,9 @@ public class preview_create_arch_C implements Initializable {
     public void next_act(ActionEvent actionEvent) {
         sel_arch++;
         pre_im = redo_im;
-        myThread = new Thread();
-        myThread.start();
+        flag_thread = true;
+        //myThread.run();
+        tread_go();
         draw_arch_im_text(architectures.get(sel_arch), pre_im, architectures.size(), sel_arch);
         border_contr(architectures.size(), sel_arch);
     }
@@ -148,8 +151,9 @@ public class preview_create_arch_C implements Initializable {
         int goto_value = (int) buff;
         sel_arch = goto_value - 1;
         pre_im = arch_image_gen_with_patterns(architectures.get(sel_arch));
-        myThread = new Thread();
-        myThread.start();
+        flag_thread = true;
+        //myThread.run();
+        tread_go();
         draw_arch_im_text(architectures.get(sel_arch), pre_im, architectures.size(), sel_arch);
         border_contr(architectures.size(), sel_arch);
     }
@@ -157,8 +161,10 @@ public class preview_create_arch_C implements Initializable {
     public void back_act(ActionEvent actionEvent) {
         sel_arch--;
         pre_im = undo_im;
-        myThread = new Thread();
-        myThread.start();
+        flag_thread = true;
+        /*myThread = new
+        myThread.run();*/
+        tread_go();
         draw_arch_im_text(architectures.get(sel_arch), pre_im, architectures.size(), sel_arch);
         border_contr(architectures.size(), sel_arch);
     }
@@ -181,23 +187,90 @@ public class preview_create_arch_C implements Initializable {
         architectures = architectures_done;
         sel_arch = 0;
         pre_im = arch_image_gen_with_patterns(architectures.get(sel_arch));
-        myThread.start();
+        flag_thread = true;
+        //myThread = new Thread(task);
+        //myThread = new Thread();
+        //myThread.setDaemon(true);
+        tread_go();
         draw_arch_im_text(architectures.get(sel_arch), pre_im, architectures.size(), sel_arch);
         border_contr(architectures.size(), sel_arch);
     }
 
-    private Thread myThread = new Thread(new Runnable() {
+    //Поток генерації наступної та попередньї візуалізації архітектур
+    protected Thread MyThread = new Thread(new Runnable() {
         @Override
         public void run() {
+                    Platform.runLater(new Runnable(){
+                        @Override
+                        public void run() {
+                            if (sel_arch != 0)
+                                undo_im = arch_image_gen_with_patterns(architectures.get(sel_arch - 1));
+                            System.out.println("undo");
+                            if (sel_arch != architectures.size() - 1)
+                                redo_im = arch_image_gen_with_patterns(architectures.get(sel_arch + 1));
+                            System.out.println("redo");
+                        }
+                    });
+        }
+    });
+
+    //private Thread myThread = new Thread();
+    boolean flag_thread;
+
+    private void tread_go() {
+        Thread myThread = new Thread(MyThread);
+        myThread.setPriority(5);
+        myThread.setDaemon(true);
+        myThread.start();
+        /*myThread = new Thread(task);
+        myThread.setDaemon(true);
+        myThread.start();*/
+    }
+
+
+    /*Task<Void> task = new Task<Void>() {
+        @Override
+        protected Void call() throws Exception {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    if (sel_arch != 0)
-                        undo_im = arch_image_gen_with_patterns(architectures.get(sel_arch - 1));
-                    if (sel_arch != architectures.size() - 1)
-                        redo_im = arch_image_gen_with_patterns(architectures.get(sel_arch + 1));
+                    while (true){
+                        if (sel_arch != 0)
+                            undo_im = arch_image_gen_with_patterns(architectures.get(sel_arch - 1));
+                        System.out.println("undo");
+                        if (sel_arch != architectures.size() - 1)
+                            redo_im = arch_image_gen_with_patterns(architectures.get(sel_arch + 1));
+                        System.out.println("redo");
+                        flag_thread = false;
+                        int iter_sleep = 0;
+                        System.out.println(flag_thread);
+                        while (!flag_thread) {
+                            System.out.print("sl" + ++iter_sleep + " ");
+                            try {
+                                myThread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
                 }
             });
+            return null;
         }
-    });
+    };*/
+
+/*
+    public void threadin(){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                if (sel_arch != 0)
+                    undo_im = arch_image_gen_with_patterns(architectures.get(sel_arch - 1));
+                System.out.print("undo");
+                if (sel_arch != architectures.size() - 1)
+                    redo_im = arch_image_gen_with_patterns(architectures.get(sel_arch + 1));
+                System.out.print("redo");
+            }
+        });
+    }*/
 }
