@@ -66,7 +66,7 @@ public class Pattern implements Cloneable {
             pattern_out.setUmlText(q_result.getString("VALUE"));
             pattern_out.setDescription(q_result.getString("DESCRIPTION"));
             pattern_out.setArch_id(q_result.getInt("ARCH_ID"));
-            pattern_out.setType("TYPE");
+            pattern_out.setType(q_result.getString("TYPE"));
 
             /*Зчитати превю*/
 
@@ -98,7 +98,7 @@ public class Pattern implements Cloneable {
             }
             s.close();
 
-            if (pattern_out.getPreview() == null || pattern_out.getPreview().getHeight() < 20) {
+            if (pattern_out.getPreview() == null) {
                 pattern_out.setPreview(new Image("editor/res/img/preview-not-available.jpg"));
             }
 

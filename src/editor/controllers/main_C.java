@@ -81,7 +81,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
     public void initData(Module module, DerbyDBManager derby_con) {
         derby_DB = derby_con;
         if (derby_DB != null) {
-            MM_1_1_connect.setDisable(true);
+            //MM_1_1_connect.setDisable(true);
             MM_1_3_disconnect.setDisable(false);
         }
 
@@ -104,9 +104,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
     }
 
     public void initData() {
-
-        MM_1_1_connect.setDisable(true);
-        MM_1_3_disconnect.setDisable(false);
+        System.out.printf("Init");
         thisstage = (Stage) root.getScene().getWindow();
         thisstage.getIcons().add(new Image("/editor/res/img/uml_icon.png"));
         thisstage.setTitle(RB.getString("управління_репозиторієм_патернів_редактор_архітектур"));
@@ -126,8 +124,6 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
-
         //arch.class
         //TODO log_in();
         //при двойном клике грузить архитекутуру
@@ -152,15 +148,16 @@ public class main_C extends JPanel implements Initializable, Configuration {
         }
 
 //TODO Del
+
         try {
-            derby_DB = new DerbyDBManager("DB/paterns_DB");
+        //    derby_DB = new DerbyDBManager("DB/paterns_DB");
             list_load_DB();
         } catch (Exception e) {
             e.printStackTrace();
             derby_DB = null;
         }
 
-        if (derby_DB != null) {
+        if (derby_DB!= null) {
             MM_1_1_connect.setDisable(true);
             MM_1_3_disconnect.setDisable(false);
         }
@@ -207,7 +204,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
                 P_arch_struct.getChildren().clear();
                 selected_DB.setText("<" + RB.getString("не_обрана") + ">");
                 //TODO доступность кнопок
-                if (derby_DB.getCon().isClosed()) {
+                if (derby_DB.getCon().isClosed()||derby_DB==null) {
                     MM_1_1_connect.setDisable(false);
                     MM_1_3_disconnect.setDisable(true);
                 }

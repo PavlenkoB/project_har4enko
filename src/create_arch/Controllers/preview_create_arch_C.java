@@ -1,6 +1,8 @@
 package create_arch.Controllers;
 
 import Classes.Architecture;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -13,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
 import java.net.URL;
@@ -34,29 +37,27 @@ public class preview_create_arch_C implements Initializable {
     public AnchorPane descript;
     ArrayList<Architecture> architectures = new ArrayList<>();
     int sel_arch;
+    Image undo_im, redo_im, pre_im;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
 
-    public void draw_arch_im_text(Architecture architecture, int num_all, int num_selected) {
+    public void draw_arch_im_text(Architecture architecture, Image preview_image, int num_all, int num_selected) {
         preview_text.getChildren().clear();
         descript.getChildren().clear();
 
         Label lay_desc = new Label();
 
-        lay_desc.setText("Архітектура A" + (num_selected+1) + " з " + num_all + " архітектур");
+        lay_desc.setText("Архітектура A" + (num_selected + 1) + " з " + num_all + " архітектур");
         lay_desc.setAlignment(Pos.CENTER);
         lay_desc.setFont(Font.font(15));
 
-        descript.setRightAnchor(lay_desc,25.0);
+        descript.setRightAnchor(lay_desc, 25.0);
         descript.setLeftAnchor(lay_desc, 25.0);
         descript.setTopAnchor(lay_desc, 5.0);
-        descript.setBottomAnchor(lay_desc,5.0);
+        descript.setBottomAnchor(lay_desc, 5.0);
         descript.getChildren().add(lay_desc);
-
-        Image preview_image;
-        preview_image = arch_image_gen_with_patterns(architecture);
 
         double zoom = 0.8;
         preview_im.setImage(null);
@@ -69,12 +70,12 @@ public class preview_create_arch_C implements Initializable {
                 hsize = 0;
 
         hsize = 3;
-        for (int i = 0; i < architecture.getLayers().size(); i++){
+        for (int i = 0; i < architecture.getLayers().size(); i++) {
             vsize++;
-            vsize +=architecture.getLayers().get(i).getModules().size();
+            vsize += architecture.getLayers().get(i).getModules().size();
         }
 
-        vsize+=2;
+        vsize += 2;
 
         GridPane gridPane_arch = new GridPane();
         gridPane_arch.getChildren().clear();
@@ -136,44 +137,140 @@ public class preview_create_arch_C implements Initializable {
 
     public void next_act(ActionEvent actionEvent) {
         sel_arch++;
-        draw_arch_im_text(architectures.get(sel_arch),architectures.size(), sel_arch);
-        border_contr(architectures.size(),sel_arch);
+        pre_im = redo_im;
+        flag_thread = true;
+        //myThread.run();
+        tread_go();
+        draw_arch_im_text(architectures.get(sel_arch), pre_im, architectures.size(), sel_arch);
+        border_contr(architectures.size(), sel_arch);
     }
 
     public void go_to_act(ActionEvent actionEvent) {
         String goto_str = go_to_value.getText().toString();
         Integer buff = Integer.parseInt(goto_str);
         int goto_value = (int) buff;
-        sel_arch = goto_value-1;
-        draw_arch_im_text(architectures.get(sel_arch),architectures.size(), sel_arch);
-        border_contr(architectures.size(),sel_arch);
+        sel_arch = goto_value - 1;
+        pre_im = arch_image_gen_with_patterns(architectures.get(sel_arch));
+        flag_thread = true;
+        //myThread.run();
+        tread_go();
+        draw_arch_im_text(architectures.get(sel_arch), pre_im, architectures.size(), sel_arch);
+        border_contr(architectures.size(), sel_arch);
     }
 
     public void back_act(ActionEvent actionEvent) {
         sel_arch--;
-        draw_arch_im_text(architectures.get(sel_arch),architectures.size(), sel_arch);
-        border_contr(architectures.size(),sel_arch);
+        pre_im = undo_im;
+        flag_thread = true;
+        /*myThread = new
+        myThread.run();*/
+        tread_go();
+        draw_arch_im_text(architectures.get(sel_arch), pre_im, architectures.size(), sel_arch);
+        border_contr(architectures.size(), sel_arch);
     }
 
-    public void border_contr(int num_all, int num_selected){
-        if (num_selected==0){
+    public void border_contr(int num_all, int num_selected) {
+        if (num_selected == 0) {
             back.setDisable(true);
-        }
-        else if ((num_selected+1)==num_all){
+        } else if ((num_selected + 1) == num_all) {
             next.setDisable(true);
-        }
-        else {
+        } else {
             back.setDisable(false);
             next.setDisable(false);
         }
     }
 
     public void initData(ArrayList<Architecture> architectures_done) {
-        for (int i=0;i<architectures_done.size();i++){
+        /*for (int i=0;i<architectures_done.size();i++){
             architectures.add(architectures_done.get(i));
-        }
-        draw_arch_im_text(architectures.get(0), architectures.size(), 0);
+        }*/
+        architectures = architectures_done;
         sel_arch = 0;
-        border_contr(architectures.size(),sel_arch);
+        pre_im = arch_image_gen_with_patterns(architectures.get(sel_arch));
+        flag_thread = true;
+        //myThread = new Thread(task);
+        //myThread = new Thread();
+        //myThread.setDaemon(true);
+        tread_go();
+        draw_arch_im_text(architectures.get(sel_arch), pre_im, architectures.size(), sel_arch);
+        border_contr(architectures.size(), sel_arch);
     }
+
+    //Поток генерації наступної та попередньї візуалізації архітектур
+    protected Thread MyThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+                    Platform.runLater(new Runnable(){
+                        @Override
+                        public void run() {
+                            if (sel_arch != 0)
+                                undo_im = arch_image_gen_with_patterns(architectures.get(sel_arch - 1));
+                            System.out.println("undo");
+                            if (sel_arch != architectures.size() - 1)
+                                redo_im = arch_image_gen_with_patterns(architectures.get(sel_arch + 1));
+                            System.out.println("redo");
+                        }
+                    });
+        }
+    });
+
+    //private Thread myThread = new Thread();
+    boolean flag_thread;
+
+    private void tread_go() {
+        Thread myThread = new Thread(MyThread);
+        myThread.setPriority(5);
+        myThread.setDaemon(true);
+        myThread.start();
+        /*myThread = new Thread(task);
+        myThread.setDaemon(true);
+        myThread.start();*/
+    }
+
+
+    /*Task<Void> task = new Task<Void>() {
+        @Override
+        protected Void call() throws Exception {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    while (true){
+                        if (sel_arch != 0)
+                            undo_im = arch_image_gen_with_patterns(architectures.get(sel_arch - 1));
+                        System.out.println("undo");
+                        if (sel_arch != architectures.size() - 1)
+                            redo_im = arch_image_gen_with_patterns(architectures.get(sel_arch + 1));
+                        System.out.println("redo");
+                        flag_thread = false;
+                        int iter_sleep = 0;
+                        System.out.println(flag_thread);
+                        while (!flag_thread) {
+                            System.out.print("sl" + ++iter_sleep + " ");
+                            try {
+                                myThread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            });
+            return null;
+        }
+    };*/
+
+/*
+    public void threadin(){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                if (sel_arch != 0)
+                    undo_im = arch_image_gen_with_patterns(architectures.get(sel_arch - 1));
+                System.out.print("undo");
+                if (sel_arch != architectures.size() - 1)
+                    redo_im = arch_image_gen_with_patterns(architectures.get(sel_arch + 1));
+                System.out.print("redo");
+            }
+        });
+    }*/
 }

@@ -22,6 +22,7 @@ import javafx.stage.Stage;
  * User: godex_000
  * Date: 19.09.2014.
  * Time: 0:36
+ * android test
  */
 public class Modals implements Configuration {
     public static void showInfoAM(String title, String text) {

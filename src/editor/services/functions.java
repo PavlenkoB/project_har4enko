@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 /**
  * Created by godex_000 on 22.05.2014.
+ * 21
  */
 public class functions {
     /**
@@ -228,7 +229,10 @@ public class functions {
         if (class_text != null) {
             String sourse = "@startuml\n" +
                     "skinparam backgroundColor transparent\n" + //Прозрачный фон
-                    "skinparam roundCorner 10\n";                 //Скругленые углы
+                    "skinparam roundCorner 10\n" +
+                    "left to right direction\n" +
+                    "class hide\n" +
+                    "hide hide\n";                 //Скругленые углы
 
             sourse += class_text + "\n" + "@enduml";
             SourceStringReader reader = new SourceStringReader(sourse);
@@ -250,6 +254,9 @@ public class functions {
             System.out.print("class_text_null");
         }
         return class_image;
+    }
+    public static javafx.scene.image.Image drawClassImageThread(String class_text) {
+        return drawClassImageThread(class_text,new Integer(0));
     }
 
 

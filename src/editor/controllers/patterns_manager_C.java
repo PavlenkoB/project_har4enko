@@ -398,10 +398,9 @@ public class patterns_manager_C implements Initializable, Configuration {
             patern_editor_C controller = loader.<patern_editor_C>getController();
             controller.initData(Pattern.patternLoadFromDB(((id_Lable) lvFromList.getSelectionModel().getSelectedItem()).getDbid(), dbConnection), dbConnection);
             stage.setTitle("Редагування патерну");
-            stage.show();
-            //Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();
-            // do what you have to do
-            //stage_c.close();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+            fromListLoad(fromLastQuery);
         }
     }
 
@@ -422,10 +421,8 @@ public class patterns_manager_C implements Initializable, Configuration {
 //        Pattern(Integer id, Integer modId, String name, String description, String umlText, String type, Integer arch_id, Image preview) {
         controller.initData(new Pattern(null, fromModId, "", "", "", fromType, fromArchId, null), dbConnection);
         stage.setTitle("Редагування патерну");
-        stage.show();
-        //Stage stage_c = (Stage) TA_arch_description.getScene().getWindow();
-        // do what you have to do
-        //stage_c.close();
+        stage.showAndWait();
+        fromListLoad(fromLastQuery);
     }
 
     public void to_list_preview() {
@@ -462,7 +459,8 @@ public class patterns_manager_C implements Initializable, Configuration {
             patern_editor_C controller = loader.<patern_editor_C>getController();
             controller.initData(Pattern.patternLoadFromDB(((id_Lable) lvToList.getSelectionModel().getSelectedItem()).getDbid(), dbConnection), dbConnection);
             stage.setTitle("Редагування патерну");
-            stage.show();
+            stage.showAndWait();
+            to_list_load(toLastQuery);
 
         }
     }
