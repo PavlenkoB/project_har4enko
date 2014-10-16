@@ -43,6 +43,21 @@ import static editor.services.arch_work.arch_image_gen_with_patterns;
  * Created by Alex Shcherbak on 24.04.2014.
  */
 public class rating_arch_C implements Initializable {
+    /**
+     * task_choise                  -   Задача що оцінюється, має зв'язок з архітектурою
+     * architecture_done_choise     -   Масив архітектур згенерованих архітектором до завдання
+     * architecture_done_choise_type-   Тип архітектури до завдання
+     * marks                        -   Введені оцінки при попарному оцінюванні
+     * mark_crit                    -   Критерій оцінювання
+     * arch_mark_combine            -   комбінація оцінуваних архітектур
+     * arch_1_image, arch_2_image   -   Поточна візуалізація
+     * redo_im_1, redo_im_2         -   Візуалізація наступної пари архітектур
+     * <p/>
+     * Rating_arch_1                -   Вибір завдання та критерію
+     * Rating_arch_2                -   Попарне оцінювання
+     * Rating_arch_3                -   Матриця оцінок
+     */
+
     public AnchorPane Rating_arch_1;
     public ChoiceBox task_list;
     public TextArea task_description;
@@ -57,8 +72,8 @@ public class rating_arch_C implements Initializable {
     public ImageView arch_1_im;
     public ImageView arch_2_im;
     public int[] arch_mark_combine = new int[2];
-    public Image arch_1_image, arch_2_image, // Поточна візуалізація
-            redo_im_1, redo_im_2; // Візуалізація наступної пари архітектур
+    public Image arch_1_image, arch_2_image,
+            redo_im_1, redo_im_2;
     public AnchorPane text_view;
     public AnchorPane ankor_im_1;
     public AnchorPane ankor_im_2;
@@ -69,13 +84,11 @@ public class rating_arch_C implements Initializable {
     public Button save_marks_but;
     public AnchorPane root;
     public TextField crit;
+    public Button Next_twise;
     ArrayList<javafx.scene.control.TextField> textField_marks = new ArrayList<>();
 
-    /*
-        DerbyDBManager derby_DB;
-        DerbyDBManager mark_db;
-       */
-    DerbyDBManager derby_DB = new DerbyDBManager("DB/paterns_DB");
+
+    DerbyDBManager derby_DB;// = new DerbyDBManager("DB/paterns_DB");
     DerbyDBManager mark_db = new DerbyDBManager("DB/Marks");
     String pattern_db_str;
     String mark_db_str;
@@ -125,8 +138,6 @@ public class rating_arch_C implements Initializable {
 
     public void Start_rating() {
         //disconnect_DB(mark_db);
-
-
         derby_DB = new DerbyDBManager(pattern_db_str);
         Rating_arch_1.setVisible(true);
         Rating_arch_2.setVisible(false);
@@ -399,9 +410,9 @@ public class rating_arch_C implements Initializable {
                 label_2.get(label_2.size() - 1).setText(architecture_done_choise.get(arch_mark_combine[1]).getLayers().get(i).getModules().get(j).getSelected_pattern().getName());
                 label_2.get(label_2.size() - 1).setFont(Font.font(12));
 
-                if (!label_1.get(label_1.size()-1).getText().toString().equals(label_2.get(label_2.size() - 1).getText().toString())){
-                    label_1.get(label_1.size()-1).setTextFill(Color.web("#F80000"));
-                    label_2.get(label_2.size()-1).setTextFill(Color.web("#F80000"));
+                if (!label_1.get(label_1.size() - 1).getText().toString().equals(label_2.get(label_2.size() - 1).getText().toString())) {
+                    label_1.get(label_1.size() - 1).setTextFill(Color.web("#F80000"));
+                    label_2.get(label_2.size() - 1).setTextFill(Color.web("#00F800"));
                 }
                 gridPane_arch.add(label_1.get(label_1.size() - 1), 2, vpos);
                 gridPane_arch.add(label_2.get(label_2.size() - 1), 3, vpos);
@@ -550,6 +561,11 @@ public class rating_arch_C implements Initializable {
         Rating_arch_3.setVisible(true);
 
 
+        /**
+         * Вивід матриці оцінок у грід-панелі
+         * textField_marks      - масив текстових полів з оцінками
+         * gridPane_mark        - грід-панель відображення оцінок
+         */
         int hsize = architecture_done_choise.size() + 1;
         int vsize = architecture_done_choise.size() + 1;
 
@@ -561,10 +577,9 @@ public class rating_arch_C implements Initializable {
         gridPane_mark.setBorder(Border.EMPTY);
         //gridPane_mark.setGridLinesVisible(true);
 
+
         Label tmp_label = new Label("Архітектура");
-        //tmp_label.setText("Архітектура");
         gridPane_mark.add(tmp_label, 0, 0);
-        tmp_label = null;
         for (int i = 1; i < (architecture_done_choise.size() + 1); i++) {
             tmp_label = new Label("A" + i);
             gridPane_mark.add(tmp_label, i, 0);
@@ -579,18 +594,19 @@ public class rating_arch_C implements Initializable {
         diagon.setText("1");
         textField_marks.clear();
 
-        for (int i=0; i<architecture_done_choise.size(); i++){
-            marks.add(new Mark(i,i,1));
+        for (int i = 0; i < architecture_done_choise.size(); i++) {
+            marks.add(new Mark(i, i, 1));
         }
 
-/*        for (int i =0; i<architecture_done_choise.size(); i++)
-            gridPane_mark.add(diagon,i+1,i+1);
-*/
         for (int i = 0; i < marks.size(); i++) {
             textField_marks.add(new javafx.scene.control.TextField());
             textField_marks.get(textField_marks.size() - 1).setText(marks.get(i).getMark().toString());
+            textField_marks.get(textField_marks.size() - 1).setMaxWidth(45);
             gridPane_mark.add(textField_marks.get(textField_marks.size() - 1), marks.get(i).getNum_arch_1() + 1, marks.get(i).getNum_arch_0() + 1);
-            if (marks.get(i).getNum_arch_0()==marks.get(i).getNum_arch_1()){
+            /**
+             * Обробка діагоналі оцінок
+             */
+            if (marks.get(i).getNum_arch_0() == marks.get(i).getNum_arch_1()) {
                 textField_marks.get(textField_marks.size() - 1).setText("1");
             }
         }
@@ -600,7 +616,12 @@ public class rating_arch_C implements Initializable {
 
     }
 
-    // Під'єднання до БД
+    /**
+     * Під'єднання до БД
+     * derby_DB         -   підключення добази репозитарію арххітектур
+     *
+     * @param actionEvent
+     */
     public void connect_DB(ActionEvent actionEvent) {
         try {
             disconnect_DB(derby_DB);
@@ -632,7 +653,38 @@ public class rating_arch_C implements Initializable {
         }
     }
 
+    /**
+     * Зчитування оцінок з матриці, організація збереження їх у базу
+     * В структурі масиву текстових полів textField_marks - спочатку йдуть елементи з оцінками різнойменніх
+     * архітектур, остані (architecture_done_choise.size() - 1) елементів є оцнками діагоналі.
+     * arch_row         -   горизонтальна скланова ( стрічка)
+     * arch_col         -   вертикальна складова (колонка)
+     * markArrayList    -   масив переструктурованих (змінених) оцінок, що в подальшому зберігаються в базу
+     *
+     * @param actionEvent
+     */
     public void Save_marks(ActionEvent actionEvent) {
+
+        String buffer = null;
+        ArrayList<Mark> markArrayList = new ArrayList<>();
+        markArrayList.clear();
+        int arch_row = 0, arch_col = 1, buff = 1;
+        for (int i = 0; i < textField_marks.size(); i++) {
+            buffer = textField_marks.get(i).getText().toString();
+            markArrayList.add(new Mark(arch_row, arch_col, Integer.parseInt(buffer)));
+            if (arch_col >= architecture_done_choise.size() - 1) {
+                arch_row++;
+                arch_col = arch_row;
+            }
+            arch_col++;
+            if ((arch_col >= architecture_done_choise.size() - 1) & (arch_row >= architecture_done_choise.size() - 1)) {
+                break;
+            }
+        }
+        for (int i = 0; i < architecture_done_choise.size(); i++) {
+            markArrayList.add(new Mark(i, i, 1));
+        }
+
 
         try {
             // disconnect_DB(derby_DB);
@@ -649,9 +701,9 @@ public class rating_arch_C implements Initializable {
         }
         int session_id = functions.last_id_from_table_DB("SESSION", mark_db);
 
-        for (int i = 0; i < marks.size(); i++) {
+        for (int i = 0; i < markArrayList.size(); i++) {
             try {
-                marks_save_to_DB(marks.get(i), architecture_done_choise.get(marks.get(i).getNum_arch_0()).getId_done(), architecture_done_choise.get(marks.get(i).getNum_arch_1()).getId_done(), session_id, mark_db);
+                marks_save_to_DB(markArrayList.get(i), architecture_done_choise.get(markArrayList.get(i).getNum_arch_0()).getId_done(), architecture_done_choise.get(markArrayList.get(i).getNum_arch_1()).getId_done(), session_id, mark_db);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
