@@ -42,6 +42,7 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -150,14 +151,14 @@ public class main_C extends JPanel implements Initializable, Configuration {
 //TODO Del
 
         try {
-        //    derby_DB = new DerbyDBManager("DB/paterns_DB");
+            derby_DB = new DerbyDBManager("DB/paterns_DB");
             list_load_DB();
         } catch (Exception e) {
             e.printStackTrace();
             derby_DB = null;
         }
 
-        if (derby_DB!= null) {
+        if (derby_DB != null) {
             MM_1_1_connect.setDisable(true);
             MM_1_3_disconnect.setDisable(false);
         }
@@ -204,7 +205,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
                 P_arch_struct.getChildren().clear();
                 selected_DB.setText("<" + RB.getString("не_обрана") + ">");
                 //TODO доступность кнопок
-                if (derby_DB.getCon().isClosed()||derby_DB==null) {
+                if (derby_DB.getCon().isClosed() || derby_DB == null) {
                     MM_1_1_connect.setDisable(false);
                     MM_1_3_disconnect.setDisable(true);
                 }
@@ -340,7 +341,8 @@ public class main_C extends JPanel implements Initializable, Configuration {
     public void creat_arch(ActionEvent actionEvent) {
         JDialog Jname = new JDialog();
         Jname.setAlwaysOnTop(true);
-        String name = (String) JOptionPane.showInputDialog(null, RB.getString("загальні.введіть_назву"), RB.getString("загальні.введення"), JOptionPane.QUESTION_MESSAGE, null, null, "");
+
+        String name = Modals.showInputDialog(RB.getString("загальні.Архітектура"), RB.getString("загальні.введіть_назву"), null);
 
         //dialog.get
         if (name != null && !name.equals("")) {
@@ -573,9 +575,10 @@ public class main_C extends JPanel implements Initializable, Configuration {
     public void add_custom_layer_to_arch(Architecture arch_in) {//Додати шар в архітектуру
         Layer layer = new Layer();
 
-        String name = (String) JOptionPane.showInputDialog(RB.getString("загальні.введіть_назву"));
+        String name = Modals.showInputDialog(RB.getString("загальні.шар"), RB.getString("загальні.введіть_назву"), null);
+
         if (name != null && !name.equals("")) {
-            String description = (String) JOptionPane.showInputDialog(RB.getString("загальні.введіть_опис"));
+            String description = Modals.showInputDialog(RB.getString("загальні.шар"), RB.getString("загальні.введіть_опис"), null);
             layer.setName(name);
             layer.setDescription(description);
             arch_in.getLayers().add(layer);
@@ -586,9 +589,9 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
     public void add_custom_mod_to_layer(Architecture arch_in, Integer lay_nom) {//додати модуль в шар
         Module module = new Module();
-        String name = (String) JOptionPane.showInputDialog(RB.getString("загальні.введіть_назву"));
+        String name = Modals.showInputDialog(RB.getString("загальні.модуль"), RB.getString("загальні.введіть_назву"), null);
         if (name != null && !name.equals("")) {//перевірка на пустий Введення
-            String description = (String) JOptionPane.showInputDialog(RB.getString("загальні.введіть_опис"));
+            String description = Modals.showInputDialog(RB.getString("загальні.модуль"), RB.getString("загальні.введіть_опис"), null);
             module.setName(name);
             module.setDescription(description);
             arch_in.getLayers().get(lay_nom).getModules().add(module);
@@ -606,26 +609,31 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
     public void del_lay(Integer lay_nom) {
         if (Modals.Response.YES == Modals.showYNDialog(RB.getString("загальні.увага"), RB.getString("загальні.ви_впевнені_що_бажаете_видалити?") + " " + RB.getString("загальні.Шар"))) {
-            arch_tmp.getLayers().remove(lay_nom);
+            arch_tmp.getLayers().remove(lay_nom.intValue());
             draw_arch_struct();
         }
-
     }
 
     public void edit_lay(Integer lay_nom) {
         String name = Modals.showInputDialog(RB.getString("загальні.Шар"), RB.getString("загальні.введіть_назву"), arch_tmp.getLayers().get(lay_nom).getName());
         if (name != null && !name.equals("")) {
             arch_tmp.getLayers().get(lay_nom).setName(name);
-            arch_tmp.getLayers().get(lay_nom).setDescription(Modals.showInputDialog(RB.getString("загальні.Шар"), RB.getString("загальні.введіть_опис"), arch_tmp.getLayers().get(lay_nom).getDescription()));
+            arch_tmp.getLayers().get(lay_nom).setDescription(
+                    Modals.showInputDialog(RB.getString("загальні.Шар"), RB.getString("загальні.введіть_опис"), arch_tmp.getLayers().get(lay_nom).getDescription())
+            );
         }
         draw_arch_struct();
     }
 
     public void edit_mod(Integer lay_nom, Integer mod_nom) {
-        String name = (String) JOptionPane.showInputDialog(null, RB.getString("загальні.введіть_назву"), RB.getString("загальні.Модуль"), JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).getName());
+
+        String name = Modals.showInputDialog(RB.getString("загальні.Модуль"), RB.getString("загальні.введіть_назву"), arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).getName());
+
         if (name != null && !name.equals("")) {
             arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).setName(name);
-            arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).setDescription((String) JOptionPane.showInputDialog(null, RB.getString("загальні.введіть_опис"), RB.getString("загальні.Модуль"), JOptionPane.QUESTION_MESSAGE, null, null, arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).getDescription()));
+            arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).setDescription(
+                    Modals.showInputDialog(RB.getString("загальні.Модуль"), RB.getString("загальні.введіть_опис"), arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).getDescription())
+            );
         }
         System.out.printf(name);
         draw_arch_struct();
@@ -706,10 +714,9 @@ public class main_C extends JPanel implements Initializable, Configuration {
         result_info result = arch_work.arch_save_to_DB(arch_tmp, derby_DB);
         if (result.getStatus() == true) {
             Modals.showInfoAM(RB.getString("загальні.інформація"), "Архітектура успішно збережена.");
-            //JOptionPane.showMessageDialog(null, "Архітектура успішно збережена.", RB.getString("загальні.інформація"), JOptionPane.INFORMATION_MESSAGE);
         } else {
             Modals.showInfoAM(RB.getString("загальні.попередження"), "Архітектура не збереження зверныться до Адмыныстратора чи програміста.\n" + result.getComment());
-            //JOptionPane.showMessageDialog(null, "Архітектура не збереження зверныться до Адмыныстратора чи програміста.\n" + result.getComment(), RB.getString("загальні.попередження"), JOptionPane.WARNING_MESSAGE);
+
         }
         list_load_DB();
     }
@@ -731,9 +738,8 @@ public class main_C extends JPanel implements Initializable, Configuration {
         stage.showAndWait();
     }
 
-    public void import_all_to_docx(ActionEvent actionEvent) {
-
-        root.setDisable(true);
+    public void export_all_to_docx(ActionEvent actionEvent) {
+//        root.setDisable(true);
 
         FileChooser docx_FC = new FileChooser();
         docx_FC.setInitialDirectory(new File(System.getProperty("user.dir")));
@@ -741,7 +747,6 @@ public class main_C extends JPanel implements Initializable, Configuration {
         docx_FC.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Word 2007", "*.docx")
         );
-        //File db_dir = db_dir_FC.showDialog(functions.get_stage_by_element(TA_arch_description));
         CustomXWPFDocument document;
         FileOutputStream fos;
         String id;
@@ -765,6 +770,59 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
 
             docx.write(new FileOutputStream(docx_f));
+
+            //импорт глобальных паттернов
+            ArrayList<Pattern> globalPatterns = new ArrayList<>();
+            ResultSet rs = null;
+            try {
+                try {
+                    //derby_DB
+                    rs = derby_DB.executeQuery("SELECT * FROM PATERNS WHERE TYPE='GLOBAL'");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                ObservableList<id_Lable> items = FXCollections.observableArrayList();
+                while (rs.next()) {
+                    globalPatterns.add(Pattern.patternLoadFromDB(rs.getInt("ID"), derby_DB));
+
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            }/**/
+            System.out.print("Glabals paterns load from DB end");
+            for (Pattern pattern : globalPatterns) {
+                docx = new XWPFDocument(new FileInputStream(docx_f));
+                tmpParagraph = docx.createParagraph();
+                tmpRun = tmpParagraph.createRun();
+                tmpRun.setText("(" + RB.getString("загальні.Патерн") + ")" + pattern.getName());
+                docx.write(new FileOutputStream(docx_f));
+
+                bi = ImageConverter.FXImgtoBufferedImage(pattern.getPreview());
+                new FileOutputStream(outputfile).close();
+                ImageIO.write(bi, "png", outputfile);
+
+                document = new CustomXWPFDocument(new FileInputStream(docx_f));
+
+                id = document.addPictureData(new FileInputStream(outputfile), Document.PICTURE_TYPE_PNG);
+                Integer width = ((Double) pattern.getPreview().getWidth()).intValue();//ширина картинки що потрібно вставити
+                Integer height = ((Double) pattern.getPreview().getHeight()).intValue();//висота картинки що потрібно вставити
+                Integer max_height = 830;//максимальна висота
+                if (height > max_height) {
+                    width = width * max_height / height;
+                    height = height * max_height / height;
+                } else {
+                }
+                document.createPicture(id, document.getNextPicNameNumber(Document.PICTURE_TYPE_PNG), width, height);//((Double) architecture.getPreview().getHeight()).intValue());
+                fos = new FileOutputStream(docx_f);
+                document.write(fos);
+                fos.flush();
+                fos.close();
+
+            }
+            System.out.print("patterns import end");
+
+
             for (int arch_nom = 0; arch_nom < LV_archs_DB.getItems().size(); arch_nom++) {
 
                 docx = new XWPFDocument(new FileInputStream(docx_f));
@@ -849,6 +907,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
                 new FileInputStream(outputfile).close();
                 docx.write(new FileOutputStream(docx_f));
             }/**/
+            Modals.showInfoAM(RB.getString("загальні.інформація"), "Експорт завершено");
         } catch (Exception e) {
             try {
                 new FileOutputStream(docx_f).close();
@@ -858,18 +917,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
             e.printStackTrace();
         }
         outputfile.delete();
-        System.out.printf("Import end");
+        System.out.printf("Export end");
         root.setDisable(false);
-    }
-
-    public void log_in() {
-        String name = (String) JOptionPane.showInputDialog(null, "Введіть логін", RB.getString("загальні.введення"), JOptionPane.QUESTION_MESSAGE, null, null, null);
-        String pass = (String) JOptionPane.showInputDialog(null, "Введіть пароль", RB.getString("загальні.введення"), JOptionPane.QUESTION_MESSAGE, null, null, null);
-        if (name != null && !name.equals("") && pass != null && !pass.equals("")) {
-            System.out.printf("Login|" + name + " pass|" + pass);
-        } else {
-            System.exit(0);
-        }
-        draw_arch_struct();
     }
 }
