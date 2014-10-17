@@ -42,6 +42,7 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -150,7 +151,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
 //TODO Del
 
         try {
-        //    derby_DB = new DerbyDBManager("DB/paterns_DB");
+            derby_DB = new DerbyDBManager("DB/paterns_DB");
             list_load_DB();
         } catch (Exception e) {
             e.printStackTrace();
@@ -731,9 +732,8 @@ public class main_C extends JPanel implements Initializable, Configuration {
         stage.showAndWait();
     }
 
-    public void import_all_to_docx(ActionEvent actionEvent) {
-
-        root.setDisable(true);
+    public void export_all_to_docx(ActionEvent actionEvent) {
+//        root.setDisable(true);
 
         FileChooser docx_FC = new FileChooser();
         docx_FC.setInitialDirectory(new File(System.getProperty("user.dir")));
@@ -765,6 +765,59 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
 
             docx.write(new FileOutputStream(docx_f));
+
+            //импорт глобальных паттернов
+            ArrayList<Pattern> globalPatterns=new ArrayList<>();
+            ResultSet rs = null;
+            try {
+                try {
+                    //derby_DB
+                    rs = derby_DB.executeQuery("SELECT * FROM PATERNS WHERE TYPE='GLOBAL'");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                ObservableList<id_Lable> items = FXCollections.observableArrayList();
+                while (rs.next()) {
+                    globalPatterns.add(Pattern.patternLoadFromDB(rs.getInt("ID"),derby_DB));
+
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            }/**/
+System.out.print("Glabals paterns load from DB end");
+            for(Pattern pattern: globalPatterns){
+                docx = new XWPFDocument(new FileInputStream(docx_f));
+                tmpParagraph = docx.createParagraph();
+                tmpRun = tmpParagraph.createRun();
+                tmpRun.setText("(" + RB.getString("загальні.Патерн") + ")" + pattern.getName());
+                docx.write(new FileOutputStream(docx_f));
+
+                bi = ImageConverter.FXImgtoBufferedImage(pattern.getPreview());
+                new FileOutputStream(outputfile).close();
+                ImageIO.write(bi, "png", outputfile);
+
+                document = new CustomXWPFDocument(new FileInputStream(docx_f));
+
+                id = document.addPictureData(new FileInputStream(outputfile), Document.PICTURE_TYPE_PNG);
+                Integer width = ((Double) pattern.getPreview().getWidth()).intValue();//ширина картинки що потрібно вставити
+                Integer height = ((Double) pattern.getPreview().getHeight()).intValue();//висота картинки що потрібно вставити
+                Integer max_height = 830;//максимальна висота
+                if (height > max_height) {
+                    width = width * max_height / height;
+                    height = height * max_height / height;
+                } else {
+                }
+                document.createPicture(id, document.getNextPicNameNumber(Document.PICTURE_TYPE_PNG), width, height);//((Double) architecture.getPreview().getHeight()).intValue());
+                fos = new FileOutputStream(docx_f);
+                document.write(fos);
+                fos.flush();
+                fos.close();
+
+            }
+            System.out.print("patterns import end");
+
+
             for (int arch_nom = 0; arch_nom < LV_archs_DB.getItems().size(); arch_nom++) {
 
                 docx = new XWPFDocument(new FileInputStream(docx_f));
@@ -849,6 +902,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
                 new FileInputStream(outputfile).close();
                 docx.write(new FileOutputStream(docx_f));
             }/**/
+            Modals.showInfoAM(RB.getString("загальні.інформація"),"Імпорт завершено");
         } catch (Exception e) {
             try {
                 new FileOutputStream(docx_f).close();
