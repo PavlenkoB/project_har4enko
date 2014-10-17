@@ -72,6 +72,13 @@ public class Modals implements Configuration {
         return buttonSelected[0];
     }
 
+    /**
+     *
+     * @param title Title of window
+     * @param text text of window
+     * @param val value by default
+     * @return inputed text
+     */
     public static String showInputDialog(String title, String text, String val) {
         final String[] inputVal = new String[1];
         final TextField[] textField = new TextField[1];
