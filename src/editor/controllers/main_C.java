@@ -607,10 +607,10 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
     public void del_lay(Integer lay_nom) {
         if (Modals.Response.YES == Modals.showYNDialog(RB.getString("загальні.увага"), RB.getString("загальні.ви_впевнені_що_бажаете_видалити?") + " " + RB.getString("загальні.Шар"))) {
-            arch_tmp.getLayers().remove(lay_nom);
+
+                arch_tmp.getLayers().remove(lay_nom.intValue());
             draw_arch_struct();
         }
-
     }
 
     public void edit_lay(Integer lay_nom) {
