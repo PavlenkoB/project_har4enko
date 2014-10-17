@@ -741,7 +741,6 @@ public class main_C extends JPanel implements Initializable, Configuration {
         docx_FC.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Word 2007", "*.docx")
         );
-        //File db_dir = db_dir_FC.showDialog(functions.get_stage_by_element(TA_arch_description));
         CustomXWPFDocument document;
         FileOutputStream fos;
         String id;
@@ -902,7 +901,7 @@ System.out.print("Glabals paterns load from DB end");
                 new FileInputStream(outputfile).close();
                 docx.write(new FileOutputStream(docx_f));
             }/**/
-            Modals.showInfoAM(RB.getString("загальні.інформація"),"Імпорт завершено");
+            Modals.showInfoAM(RB.getString("загальні.інформація"),"Експорт завершено");
         } catch (Exception e) {
             try {
                 new FileOutputStream(docx_f).close();
@@ -912,7 +911,7 @@ System.out.print("Glabals paterns load from DB end");
             e.printStackTrace();
         }
         outputfile.delete();
-        System.out.printf("Import end");
+        System.out.printf("Export end");
         root.setDisable(false);
     }
 
