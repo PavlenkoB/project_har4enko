@@ -26,10 +26,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.*;
 import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
-import org.apache.poi.xwpf.usermodel.Document;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.poi.xwpf.usermodel.XWPFParagraph;
-import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.*;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.impl.CTHdrFtrImpl;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -763,7 +761,8 @@ public class main_C extends JPanel implements Initializable, Configuration {
             docx = new XWPFDocument();
             XWPFHeaderFooterPolicy policy = docx.getHeaderFooterPolicy();
             if (policy == null) {
-
+                XWPFFooter footer=policy.getDefaultFooter();
+                //footer.setHeaderFooter(new CTHdrFtrImpl());
             } else {
                 // Already has a header, change it
             }/**/
