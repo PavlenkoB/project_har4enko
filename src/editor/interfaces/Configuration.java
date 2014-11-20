@@ -21,7 +21,7 @@ public interface Configuration {
         public Integer drawThreads;
 
         public config() {
-            System.out.println("Init Configuration");
+            System.out.print("Init Configuration");
             try {
                 File config = new File("config.properties");
                 config.createNewFile();
@@ -48,6 +48,8 @@ public interface Configuration {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            System.out.print("\rConfiguration init end\n");
         }
     }
 

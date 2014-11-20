@@ -13,6 +13,7 @@ public class DerbyDBManager {
 
     public DerbyDBManager(String dbName) {
         this.dbName = dbName;
+        System.out.print("Try connect to '"+dbName+"'");
         try {
             Class.forName(driver);
             dbName = dbName.replace('\\', '/');
@@ -27,7 +28,7 @@ public class DerbyDBManager {
                 e1.printStackTrace();
             }
         }
-
+        System.out.print("\rConnection to '"+dbName+"' established\n");
     }
 
 
