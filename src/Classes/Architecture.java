@@ -231,7 +231,7 @@ public class Architecture implements Cloneable {
 
                     if (derby_DB_connection.executeQuery("SELECT * FROM MODULE WHERE LAY_ID=" + rs_tmp.getInt(1)).next() == false) {
                         System.out.println("Шар '" + arch_in.getLayers().get(s_lay).getName() + "' не містить модулів");
-                        Modals.showInfoAM("Увага", "Шар '" + arch_in.getLayers().get(s_lay).getName() + "' не містить модулів");
+                        Modals.showInfoApplicationModal("Увага", "Шар '" + arch_in.getLayers().get(s_lay).getName() + "' не містить модулів");
                     }
 
                     arch_in.getLayers().get(s_lay).setId(rs_tmp.getInt(1));
@@ -249,7 +249,7 @@ public class Architecture implements Cloneable {
                         arch_in.getLayers().get(s_lay).getModules().get(s_mod).setId(rs_tmp.getInt(1));
                         if (derby_DB_connection.executeQuery("SELECT * FROM PATERNS WHERE MOD_ID=" + rs_tmp.getInt(1)).next() == false) {
                             System.out.println("Module '" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "' don`t have patterns");
-                            Modals.showInfoAM("Увага", "Модуль '" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "' не містить патернів");
+                            Modals.showInfoApplicationModal("Увага", "Модуль '" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "' не містить патернів");
                         }
                     }
                 }
@@ -297,7 +297,7 @@ public class Architecture implements Cloneable {
                         derby_DB_connection.executeUpdate("UPDATE LAYER " + "SET NAME='" + arch_in.getLayers().get(s_lay).getName() + "',ARCH_ID=" + arch_in.getId() + ",DESCRIPTION='" + arch_in.getLayers().get(s_lay).getDescription() + "' WHERE ID=" + arch_in.getLayers().get(s_lay).getId());
                         if (derby_DB_connection.executeQuery("SELECT * FROM MODULE WHERE LAY_ID=" + arch_in.getLayers().get(s_lay).getId()).next() == false) {
                             System.out.println("Шар '" + arch_in.getLayers().get(s_lay).getName() + "' не містить модулів");
-                            Modals.showInfoAM("Увага", "Шар '" + arch_in.getLayers().get(s_lay).getName() + "' не містить модулів");
+                            Modals.showInfoApplicationModal("Увага", "Шар '" + arch_in.getLayers().get(s_lay).getName() + "' не містить модулів");
                         }
                         //TODO
                     /*PreparedStatement preparedStatement=derby_DB_connection.getCon().prepareStatement("INSERT INTO ARCHITECTURE (NAME,USECASE,DESCRIPTION) VALUES (?,?,?)");
@@ -324,7 +324,7 @@ public class Architecture implements Cloneable {
                                 //rs_tmp=derby_DB_connection.executeQuery("SELECT * FROM PATERNS WHERE MOD_ID=" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getId());
                                 if (derby_DB_connection.executeQuery("SELECT * FROM PATERNS WHERE MOD_ID=" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getId()).next() == false) {
                                     System.out.println("Module '" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "' don`t have patterns");
-                                    Modals.showInfoAM("Увага", "Модуль '" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "' не містить патернів");
+                                    Modals.showInfoApplicationModal("Увага", "Модуль '" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "' не містить патернів");
                                 }
                                 //TODO
                     /*PreparedStatement preparedStatement=derby_DB_connection.getCon().prepareStatement("INSERT INTO ARCHITECTURE (NAME,USECASE,DESCRIPTION) VALUES (?,?,?)");

@@ -25,23 +25,7 @@ import javafx.stage.Stage;
  * android test
  */
 public class Modals implements Configuration {
-    public static void showInfoAM(String title, String text) {
-        Stage dialogNONE = new Stage();
-        dialogNONE.initModality(Modality.APPLICATION_MODAL);
 
-        Scene sceneNONE = new Scene(VBoxBuilder.create()
-                .children(
-                        new Text(title),
-                        new Text(text))
-                .alignment(Pos.CENTER)
-                .padding(new Insets(10))
-                .build());
-
-        dialogNONE.setTitle(title);
-        dialogNONE.setScene(sceneNONE);
-        donotResizeAndAddStyle(dialogNONE);
-        dialogNONE.showAndWait();
-    }
 
     public static Response showYNDialog(String title, String text) {
         final Response[] buttonSelected = new Response[1];
@@ -138,6 +122,10 @@ public class Modals implements Configuration {
         return buttonSelected[0];
     }
 
+    /**
+     * @deprecated This class is deprecated and will be removed in the next versions
+     */
+    @Deprecated
     public static void infoN(String title, String text) {
         Stage dialogNONE = new Stage();
         dialogNONE.initModality(Modality.NONE);
@@ -155,7 +143,11 @@ public class Modals implements Configuration {
         dialogNONE.show();
     }
 
-    public static void infoWM(String title, String text) {
+    /**
+     * @deprecated This class is deprecated and will be removed in the next versions
+     */
+    @Deprecated
+    public static void showInfoWindowModal(String title, String text) {
         Stage dialogNONE = new Stage();
         dialogNONE.initModality(Modality.WINDOW_MODAL);
 
@@ -165,6 +157,24 @@ public class Modals implements Configuration {
                         new Text(text))
                 .alignment(Pos.CENTER)
 
+                .padding(new Insets(10))
+                .build());
+
+        dialogNONE.setTitle(title);
+        dialogNONE.setScene(sceneNONE);
+        donotResizeAndAddStyle(dialogNONE);
+        dialogNONE.showAndWait();
+    }
+
+    public static void showInfoApplicationModal(String title, String text) {
+        Stage dialogNONE = new Stage();
+        dialogNONE.initModality(Modality.APPLICATION_MODAL);
+
+        Scene sceneNONE = new Scene(VBoxBuilder.create()
+                .children(
+                        new Text(title),
+                        new Text(text))
+                .alignment(Pos.CENTER)
                 .padding(new Insets(10))
                 .build());
 

@@ -27,7 +27,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.*;
 import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
 import org.apache.poi.xwpf.usermodel.*;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.impl.CTHdrFtrImpl;
+import org.dom4j.DocumentFactory;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -296,7 +296,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
                     security.encrypt_file(secretkey, new FileInputStream(myfile), new FileOutputStream(new File(myfile.getAbsoluteFile() + ".enc")));
                     myfile.delete();
                     System.out.println(mydir.toURI().relativize(myfile.toURI()).getPath());
-                    Modals.showInfoAM(RB.getString("загальні.інформація"), mydir.toURI().relativize(myfile.toURI()).getPath());
+                    Modals.showInfoApplicationModal(RB.getString("загальні.інформація"), mydir.toURI().relativize(myfile.toURI()).getPath());
                 }
             }
         }
@@ -711,9 +711,9 @@ public class main_C extends JPanel implements Initializable, Configuration {
         arch_tmp.setDescription(TA_arch_description.getText());
         result_info result = arch_work.arch_save_to_DB(arch_tmp, derby_DB);
         if (result.getStatus() == true) {
-            Modals.showInfoAM(RB.getString("загальні.інформація"), "Архітектура успішно збережена.");
+            Modals.showInfoApplicationModal(RB.getString("загальні.інформація"), "Архітектура успішно збережена.");
         } else {
-            Modals.showInfoAM(RB.getString("загальні.попередження"), "Архітектура не збереження зверныться до Адмыныстратора чи програміста.\n" + result.getComment());
+            Modals.showInfoApplicationModal(RB.getString("загальні.попередження"), "Архітектура не збереження зверныться до Адмыныстратора чи програміста.\n" + result.getComment());
 
         }
         list_load_DB();
@@ -758,17 +758,19 @@ public class main_C extends JPanel implements Initializable, Configuration {
         String imgfile = "tmp.png";
         File outputfile = new File(imgfile);
         try {
+
             docx = new XWPFDocument();
+            docx.write(new FileOutputStream(docx_f));
+            /*
             XWPFHeaderFooterPolicy policy = docx.getHeaderFooterPolicy();
             if (policy == null) {
                 XWPFFooter footer=policy.getDefaultFooter();
                 //footer.setHeaderFooter(new CTHdrFtrImpl());
             } else {
                 // Already has a header, change it
-            }/**/
-
-
+            }
             docx.write(new FileOutputStream(docx_f));
+            /**/
 
             //импорт глобальных паттернов
             ArrayList<Pattern> globalPatterns = new ArrayList<>();
@@ -783,12 +785,12 @@ public class main_C extends JPanel implements Initializable, Configuration {
                 ObservableList<id_Lable> items = FXCollections.observableArrayList();
                 while (rs.next()) {
                     globalPatterns.add(Pattern.patternLoadFromDB(rs.getInt("ID"), derby_DB));
-
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
 
             }/**/
+
             System.out.print("Glabals paterns load from DB end");
             for (Pattern pattern : globalPatterns) {
                 docx = new XWPFDocument(new FileInputStream(docx_f));
@@ -820,7 +822,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
             }
             System.out.print("patterns import end");
-
+            /**/
 
             for (int arch_nom = 0; arch_nom < LV_archs_DB.getItems().size(); arch_nom++) {
 
@@ -906,7 +908,6 @@ public class main_C extends JPanel implements Initializable, Configuration {
                 new FileInputStream(outputfile).close();
                 docx.write(new FileOutputStream(docx_f));
             }/**/
-            Modals.showInfoAM(RB.getString("загальні.інформація"), "Експорт завершено");
         } catch (Exception e) {
             try {
                 new FileOutputStream(docx_f).close();
@@ -917,6 +918,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
         }
         outputfile.delete();
         System.out.printf("Export end");
+        Modals.showInfoApplicationModal(RB.getString("загальні.інформація"), "Експорт завершено");
         root.setDisable(false);
     }
 }
