@@ -88,7 +88,7 @@ public class rating_arch_C implements Initializable {
     ArrayList<javafx.scene.control.TextField> textField_marks = new ArrayList<>();
 
 
-    DerbyDBManager derby_DB;// = new DerbyDBManager("DB/paterns_DB");
+    DerbyDBManager derby_DB = new DerbyDBManager("DB/paterns_DB");
     DerbyDBManager mark_db = new DerbyDBManager("DB/Marks");
     String pattern_db_str;
     String mark_db_str;
@@ -189,6 +189,10 @@ public class rating_arch_C implements Initializable {
     public void back_to_mode_sel(ActionEvent actionEvent) {
     }
 
+    /**
+     * Вибір завдання та критерію оцінювання
+     * @param actionEvent
+     */
     public void choice_task(ActionEvent actionEvent) {
         String markl = mark_crit.getSelectionModel().selectedItemProperty().getValue().toString();
         crit.clear();
@@ -281,9 +285,12 @@ public class rating_arch_C implements Initializable {
         arch_2_im.setImage(arch_2_image);
         */
 
-        System.out.print("lol");
+        //System.out.print("lol");
     }
 
+    /**
+     * Формування візуалізацій пар архітетур, тектового вигляду та загрузка графічного
+     */
     public void draw_arch_im_text() {
 
         //Визов потоку генерації візуалізацій наступної пари архітектур
@@ -422,6 +429,10 @@ public class rating_arch_C implements Initializable {
 
 
         text_view.getChildren().add(gridPane_arch);
+
+        /**
+         * Відображення текстового вигляду без грід панелі
+         */
 /*
 
         int xpos = 10;
@@ -479,6 +490,11 @@ public class rating_arch_C implements Initializable {
         }*/
     }
 
+    /**
+     * Ітерування пари відображуваних архітектур
+     * Загрузка з потоку зображення наступної і попередньої архітектур
+     * Перевірка на закінчення оцінювання - визов відображення матриці
+     */
     public void setArch_mark_combine_combine_next() {
         arch_1_image = redo_im_1;
         arch_2_image = redo_im_2;
@@ -496,11 +512,20 @@ public class rating_arch_C implements Initializable {
         }
     }
 
+    /**
+     * Наступна пара архітектур з виставленням оцінки "0" - без оцінки
+     * @param actionEvent
+     */
     public void next_twise(ActionEvent actionEvent) {
+        marks.add(new Mark(arch_mark_combine[0], arch_mark_combine[1], 0));
         setArch_mark_combine_combine_next();
         draw_arch_im_text();
     }
 
+    /**
+     * Наступна пара архітектур з виставленням оцінки "1"
+     * @param actionEvent
+     */
     public void mark_1(ActionEvent actionEvent) {
         marks.add(new Mark(arch_mark_combine[0], arch_mark_combine[1], 1));
         setArch_mark_combine_combine_next();
@@ -555,17 +580,16 @@ public class rating_arch_C implements Initializable {
         draw_arch_im_text();
     }
 
+    /**
+     * Вивід матриці оцінок у грід-панелі
+     * textField_marks      - масив текстових полів з оцінками
+     * gridPane_mark        - грід-панель відображення оцінок
+     */
     public void mark_done() {
         Rating_arch_1.setVisible(false);
         Rating_arch_2.setVisible(false);
         Rating_arch_3.setVisible(true);
 
-
-        /**
-         * Вивід матриці оцінок у грід-панелі
-         * textField_marks      - масив текстових полів з оцінками
-         * gridPane_mark        - грід-панель відображення оцінок
-         */
         int hsize = architecture_done_choise.size() + 1;
         int vsize = architecture_done_choise.size() + 1;
 
@@ -619,7 +643,6 @@ public class rating_arch_C implements Initializable {
     /**
      * Під'єднання до БД
      * derby_DB         -   підключення добази репозитарію арххітектур
-     *
      * @param actionEvent
      */
     public void connect_DB(ActionEvent actionEvent) {
@@ -641,6 +664,10 @@ public class rating_arch_C implements Initializable {
         }
     }
 
+    /**
+     * Від'єднання від бази даних
+     * @param database                          -   база до від'єднання
+     */
     public void disconnect_DB(DerbyDBManager database) {//отключиться от БД
         try {
             if (database.getCon() != null) {
@@ -738,6 +765,7 @@ public class rating_arch_C implements Initializable {
     }
 
     /**
+     * Створення бази даних оцінок в директорії "DB/Marks"
      * @throws IOException
      */
     public void creat_mark_DB() throws IOException { //Создать БД
@@ -783,6 +811,13 @@ public class rating_arch_C implements Initializable {
         }
     }
 
+    /**
+     * Збереження сесії оцінювання у базу
+     * @param task_id               -   ідентифікатор оцінуваного завдання
+     * @param mark_db_conn          -   підключення до бази даних оцінок
+     * @return                      -   вдалість операції
+     * @throws SQLException
+     */
     public static boolean session_save_to_db(int task_id, DerbyDBManager mark_db_conn) throws SQLException {
         boolean result = false;
         ResultSet rs_tmp;
@@ -793,6 +828,16 @@ public class rating_arch_C implements Initializable {
         return result;
     }
 
+    /**
+     * Збереженя оцінок у базу даних оцінок
+     * @param mark                          -   записувана оцінка
+     * @param arch_1_id                     -   1 оцінувана архітектура (з пари)
+     * @param arch_2_id                     -   2 оцінувана архітектура (з пари)
+     * @param session_id                    -   ідентифікатор сесії оцінювання
+     * @param mark_db_conn                  -   підключення до бази даних оцінок
+     * @return                              -   вдалість операції
+     * @throws SQLException
+     */
     public static boolean marks_save_to_DB(Mark mark, int arch_1_id, int arch_2_id, int session_id, DerbyDBManager mark_db_conn) throws SQLException {//Зберегти архітектуру в БД
         boolean result = false;
         ResultSet rs_tmp;
@@ -804,6 +849,9 @@ public class rating_arch_C implements Initializable {
         return result;
     }
 
+    /**
+     * Функція (метод) викліку потоку
+     */
     private void tread_go() {
         Thread myThread = new Thread(MyThread);
         myThread.setPriority(5);
@@ -814,7 +862,9 @@ public class rating_arch_C implements Initializable {
         myThread.start();*/
     }
 
-    //Поток генерації наступної  візуалізації архітектур
+    /**
+     * Потік генерації наступної  візуалізації архітектур
+     */
     protected Thread MyThread = new Thread(new Runnable() {
         @Override
         public void run() {
