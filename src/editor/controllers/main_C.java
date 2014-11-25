@@ -25,9 +25,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.*;
+import org.apache.poi.POIXMLProperties;
 import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
 import org.apache.poi.xwpf.usermodel.*;
 import org.dom4j.DocumentFactory;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -761,16 +763,29 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
             docx = new XWPFDocument();
             docx.write(new FileOutputStream(docx_f));
-            /*
+
+
+            docx = new XWPFDocument(new FileInputStream(docx_f));
             XWPFHeaderFooterPolicy policy = docx.getHeaderFooterPolicy();
             if (policy == null) {
-                XWPFFooter footer=policy.getDefaultFooter();
-                //footer.setHeaderFooter(new CTHdrFtrImpl());
+                //docx = new XWPFDocument();
+                CTP ctp = CTP.Factory.newInstance();
+                CTR ctr = ctp.addNewR();
+                CTRPr rpr = ctr.addNewRPr();
+                CTText textt = ctr.addNewT();
+                textt.setStringValue(" Page PAGE \\* MERGEFORMAT");
+                XWPFParagraph codePara = new XWPFParagraph(ctp, docx);
+                XWPFParagraph[] newparagraphs = new XWPFParagraph[1];
+                newparagraphs[0] = codePara;
+                CTSectPr sectPr = docx.getDocument().getBody().addNewSectPr();
+                XWPFHeaderFooterPolicy headerFooterPolicy = new XWPFHeaderFooterPolicy(docx, sectPr);
+                headerFooterPolicy.createFooter(STHdrFtr.DEFAULT, newparagraphs);
             } else {
                 // Already has a header, change it
             }
             docx.write(new FileOutputStream(docx_f));
             /**/
+
 
             //импорт глобальных паттернов
             ArrayList<Pattern> globalPatterns = new ArrayList<>();
@@ -908,6 +923,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
                 new FileInputStream(outputfile).close();
                 docx.write(new FileOutputStream(docx_f));
             }/**/
+
         } catch (Exception e) {
             try {
                 new FileOutputStream(docx_f).close();
