@@ -85,6 +85,7 @@ public class rating_arch_C implements Initializable {
     public AnchorPane root;
     public TextField crit;
     public Button Next_twise;
+    public AnchorPane mark_panel;
     ArrayList<javafx.scene.control.TextField> textField_marks = new ArrayList<>();
 
 
@@ -586,6 +587,7 @@ public class rating_arch_C implements Initializable {
      * gridPane_mark        - грід-панель відображення оцінок
      */
     public void mark_done() {
+        mark_panel.getChildren().clear();
         Rating_arch_1.setVisible(false);
         Rating_arch_2.setVisible(false);
         Rating_arch_3.setVisible(true);
@@ -636,7 +638,7 @@ public class rating_arch_C implements Initializable {
         }
 
 
-        Rating_arch_3.getChildren().add(gridPane_mark);
+        mark_panel.getChildren().add(gridPane_mark);
 
     }
 
