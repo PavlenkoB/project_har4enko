@@ -23,6 +23,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import sun.util.calendar.BaseCalendar;
 
 import javax.swing.*;
 import java.io.File;
@@ -30,7 +31,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 /**
@@ -200,7 +203,20 @@ public class marks_viewer_contoller implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         marks_viewer_anchor_0.setVisible(true);
         mark_view_matrix.setVisible(false);
-    }
+
+        ////////////////////date
+        SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy hh:mm");
+        Date d = new Date();
+        System.out.println(format1.format(d)); //25.02.2013 09:03
+        float df = d.getTime();
+        d = new Date((long)df);
+        System.out.println("float " + format1.format(d)); //25.02.2013 09:03
+        long dl = d.getTime();
+        d = new Date(dl);
+        System.out.println(dl);
+        System.out.println("long " + format1.format(d)); //25.02.2013 09:03
+
+}
 
     private void Choice_session() {
         int task_id;
@@ -242,7 +258,7 @@ public class marks_viewer_contoller implements Initializable {
         ;
     }
 
-    public void choice_session(ActionEvent actionEvent) {
+    public void choice_session(final ActionEvent actionEvent) {
         marks_viewer_anchor_0.setVisible(false);
         mark_view_matrix.setVisible(true);
 
@@ -255,6 +271,31 @@ public class marks_viewer_contoller implements Initializable {
                 architecture_done_choice_type = Architecture.arch_load_from_DB(session_choice.getTask().getArchitectures().get(0).getId(), derby_DB);
             }
         }
+
+        for (int i = 0; i<session_choice.getTask().getArchitectures().size();i++){
+            session_choice.getTask().getArchitectures().get(i).setId(architecture_done_choice_type.getId());
+            session_choice.getTask().getArchitectures().get(i).setDescription(architecture_done_choice_type.getDescription());
+            session_choice.getTask().getArchitectures().get(i).setName(architecture_done_choice_type.getName());
+            for (int j =0; j<session_choice.getTask().getArchitectures().get(i).getLayers().size();j++){
+                for (int h=0; h<architecture_done_choice_type.getLayers().size();h++) {
+                    if (session_choice.getTask().getArchitectures().get(i).getLayers().get(j).getId() == architecture_done_choice_type.getLayers().get(h).getId()) {
+                        session_choice.getTask().getArchitectures().get(i).getLayers().get(j).setName(architecture_done_choice_type.getLayers().get(h).getName());
+                        session_choice.getTask().getArchitectures().get(i).getLayers().get(j).setDescription(architecture_done_choice_type.getLayers().get(h).getDescription());
+                        for (int p =0 ;p<session_choice.getTask().getArchitectures().get(i).getLayers().get(j).getModules().size();p++) {
+                            for (int ly = 0; ly < architecture_done_choice_type.getLayers().size(); ly++) {
+                                for (int l = 0; l < architecture_done_choice_type.getLayers().get(ly).getModules().size(); l++) {
+                                    if (session_choice.getTask().getArchitectures().get(i).getLayers().get(j).getModules().get(p).getId() == architecture_done_choice_type.getLayers().get(ly).getModules().get(l).getId()) {
+                                        session_choice.getTask().getArchitectures().get(i).getLayers().get(j).getModules().get(p).setName(architecture_done_choice_type.getLayers().get(ly).getModules().get(l).getName());
+                                        session_choice.getTask().getArchitectures().get(i).getLayers().get(j).getModules().get(p).setDescription(architecture_done_choice_type.getLayers().get(ly).getModules().get(l).getDescription());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
 
         int hsize = session_choice.getTask().getArchitectures().size() + 1;
         int vsize = session_choice.getTask().getArchitectures().size() + 1;
@@ -306,6 +347,7 @@ public class marks_viewer_contoller implements Initializable {
             gridPane_mark.add(labels_marks.get(labels_marks.size()-1),session_choice.getMarks().get(i).getNum_arch_1(),session_choice.getMarks().get(i).getNum_arch_0());
         }
         for (int i =0; i<archery_open_button_hor.size();i++) {
+            final int finalI = i;
             archery_open_button_hor.get(i).setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
@@ -319,12 +361,12 @@ public class marks_viewer_contoller implements Initializable {
                         e1.printStackTrace();
                     }
 
-                    preview_create_arch_C controller = loader.<preview_create_arch_C>getController();
+                    preview controller = loader.<preview>getController();
                     ;
-                    controller.initData(session_choice.getTask().getArchitectures().get(i));
-                    stage.setTitle("Візуалізація рхітектури " + i);
+                    controller.initData(session_choice.getTask().getArchitectures().get(finalI));
+                    stage.setTitle("Візуалізація рхітектури " + finalI);
                     stage.show();
-                    ;
+                    choice_session(actionEvent);
                 }
             });
         }

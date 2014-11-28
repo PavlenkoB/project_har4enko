@@ -35,6 +35,7 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import static editor.services.arch_work.arch_image_gen_with_patterns;
@@ -823,8 +824,10 @@ public class rating_arch_C implements Initializable {
     public static boolean session_save_to_db(int task_id, DerbyDBManager mark_db_conn) throws SQLException {
         boolean result = false;
         ResultSet rs_tmp;
+        Date d = new Date();
+        float df = d.getTime();
         System.out.printf("INSERT INTO SESSION (TASK_ID) VALUES (" + task_id + ")\n");
-        mark_db_conn.executeUpdate("INSERT INTO SESSION (TASK_ID) VALUES (" + task_id + ")");
+        mark_db_conn.executeUpdate("INSERT INTO SESSION (TASK_ID, DATE_SES, CRITERION_ID) VALUES (" + task_id + "," + df +", 1)");
 
         System.out.printf("session save successful");
         return result;

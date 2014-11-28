@@ -39,6 +39,7 @@ public class Architecture implements Cloneable {
         this.usecase = new String();
     }
 
+
     public Architecture(Integer id, String name, Integer id_done, Integer task_id) {
         this.id = id;
         this.name = name;
