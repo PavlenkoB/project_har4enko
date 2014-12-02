@@ -19,15 +19,26 @@ import java.util.ArrayList;
 /**
  * Created by Alex Shcherbak on 24.04.2014.
  */
+
+/**
+ * <p>
+ * Architecture is class contains application architecture
+ * with layers, modules and theirs patterns
+ * <p/>
+ * <p>
+ * Architecture это класс архитектура приложения
+ * с слоями, модулями и паттернами
+ * </p>
+ */
 public class Architecture implements Cloneable {
-    private Integer id;
-    private String name;
-    private ArrayList<Layer> layers = new ArrayList<Layer>();
-    private String description;
-    private Integer id_done;
-    private Integer task_id;
-    private String usecase;
-    private javafx.scene.image.Image preview;
+    private Integer id;                                          // id in DB
+    private String name;                                         // name of architecture
+    private ArrayList<Layer> layers = new ArrayList<Layer>();   //array fo layers
+    private String description;                                 // architecture description
+    private Integer id_done;                                    //TODO
+    private Integer task_id;                                    //TODO
+    private String usecase;                                     // plantuml text of architecture
+    private javafx.scene.image.Image preview;                   //architecture preview
 
     public Architecture() {
         this.id = 0;
