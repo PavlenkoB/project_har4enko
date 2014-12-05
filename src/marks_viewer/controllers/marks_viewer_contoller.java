@@ -47,6 +47,8 @@ public class marks_viewer_contoller implements Initializable {
     public TextField Criteriy_name;
     public AnchorPane mark_view_matrix;
     public AnchorPane marks_matrix;
+    public TextField dateTextField;
+    public TextField Note_field;
 
     private ArrayList<Task> tasks = new ArrayList<>();
     private ArrayList<Session> sessions = new ArrayList<>();
@@ -170,7 +172,8 @@ public class marks_viewer_contoller implements Initializable {
                     while (rs_mark.next()) {
                         marks.add(new Mark(rs_mark.getInt("ID"), rs_mark.getInt("ARCH_1_ID"), rs_mark.getInt("ARCH_2_ID"), rs_mark.getInt("MARK")));
                     }
-                    sessions.add(new Session(rs_sess.getInt("ID"), rs_sess.getInt("TASK_ID"), marks));
+                    Date date = new Date((long) rs_sess.getFloat("DATE_SES"));
+                    sessions.add(new Session(rs_sess.getInt("ID"), rs_sess.getInt("TASK_ID"), marks, date , rs_sess.getString("NOTE")));
                 }
                 Choice_session();
             }
@@ -248,13 +251,19 @@ public class marks_viewer_contoller implements Initializable {
     private void task_description_view(Number new_value) {
         ResultSet rs_task;
         task_description.clear();
-        task_description.clear();
+        Note_field.clear();
+        dateTextField.clear();
         for (int i = 0; i < sessions.size(); i++) {
             if (sessions.get(i).getId() == functions.get_ID((String) session_list_choisebox.getItems().get(new_value.intValue()))) {
+                Note_field.setText(sessions.get(i).getNote());
+                Note_field.setEditable(false);
                 task_description.setText(sessions.get(i).getTask().getDescription());
                 task_description.setEditable(false);
+                SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy hh:mm");
+                dateTextField.setText(format1.format(sessions.get(i).getDate()));
             }
         }
+
         ;
     }
 
@@ -303,23 +312,31 @@ public class marks_viewer_contoller implements Initializable {
         Label label_task_id_name = new Label();
         label_task_id_name.setText("Завдання : " + session_choice.getTask().getId().toString() + "|" + session_choice.getTask().getName());
         label_task_id_name.setLayoutX(50);
-        label_task_id_name.setLayoutY(20);
+        label_task_id_name.setLayoutY(40);
         label_task_id_name.setFont(Font.font(16));
         marks_matrix.getChildren().add(label_task_id_name);
 
         Label label_session_id = new Label();
         label_session_id.setText("Сесія : " + session_choice.getId());
-        label_session_id.setLayoutX(220);
+        label_session_id.setLayoutX(50);
         label_session_id.setLayoutY(20);
         label_session_id.setFont(Font.font(16));
         marks_matrix.getChildren().add(label_session_id);
 
         Label criteriy = new Label();
         criteriy.setText("Критерій : ");//+ session_choice.getCriteriy().getName());
-        criteriy.setLayoutX(350);
-        criteriy.setLayoutY(20);
+        criteriy.setLayoutX(400);
+        criteriy.setLayoutY(40);
         criteriy.setFont(Font.font(16));
         marks_matrix.getChildren().add(criteriy);
+
+        SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy hh:mm");
+        Label dateLabel = new Label();
+        dateLabel.setText("Дата : " + format1.format(session_choice.getDate()));
+        dateLabel.setLayoutX(150);
+        dateLabel.setLayoutY(20);
+        dateLabel.setFont(Font.font(16));
+        marks_matrix.getChildren().add(dateLabel);
 
         ArrayList<Button> archery_open_button_ver = new ArrayList<>();
         ArrayList<Button> archery_open_button_hor = new ArrayList<>();
@@ -338,8 +355,8 @@ public class marks_viewer_contoller implements Initializable {
         for (int i = 0; i < session_choice.getTask().getArchitectures().size(); i++) {
             archery_open_button_hor.add(new Button("arch: " + (i+1)));
             archery_open_button_ver.add(new Button("arch: " + (i+1)));
-            gridPane_mark.add(archery_open_button_hor.get(archery_open_button_hor.size()-1),0,i+1);
-            gridPane_mark.add(archery_open_button_ver.get(archery_open_button_ver.size()-1),i+1,0);
+            gridPane_mark.add(archery_open_button_hor.get(archery_open_button_hor.size()-1),i+1,0);
+            gridPane_mark.add(archery_open_button_ver.get(archery_open_button_ver.size()-1),0,i+1);
         }
         ArrayList<Label> labels_marks = new ArrayList<>();
         for (int i=0; i<session_choice.getMarks().size();i++){
@@ -364,14 +381,38 @@ public class marks_viewer_contoller implements Initializable {
                     preview controller = loader.<preview>getController();
                     ;
                     controller.initData(session_choice.getTask().getArchitectures().get(finalI));
-                    stage.setTitle("Візуалізація рхітектури " + finalI);
+                    stage.setTitle("Візуалізація архітектури " + (finalI+1));
+                    stage.show();
+                    choice_session(actionEvent);
+                }
+            });
+        }
+        for (int i =0; i<archery_open_button_ver.size();i++) {
+            final int finalI = i;
+            archery_open_button_ver.get(i).setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    Stage preview_view = new Stage();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/marks_viewer/view_fxml/preview.fxml"));
+
+                    Stage stage = new Stage(StageStyle.DECORATED);
+                    try {
+                        stage.setScene(new Scene((Pane) loader.load()));
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+
+                    preview controller = loader.<preview>getController();
+                    ;
+                    controller.initData(session_choice.getTask().getArchitectures().get(finalI));
+                    stage.setTitle("Візуалізація архітектури " + (finalI+1));
                     stage.show();
                     choice_session(actionEvent);
                 }
             });
         }
 
-        gridPane_mark.setLayoutY(40);
+        gridPane_mark.setLayoutY(60);
         gridPane_mark.setLayoutX(20);
         marks_matrix.getChildren().add(gridPane_mark);
 

@@ -16,7 +16,6 @@
                 </Menu>
             </menus>
         </MenuBar>
-        <AnchorPane fx:id="descript" prefHeight="30.0" />
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="271.0" VBox.vgrow="ALWAYS">
             <children>
                 <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

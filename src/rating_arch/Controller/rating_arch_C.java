@@ -87,6 +87,8 @@ public class rating_arch_C implements Initializable {
     public TextField crit;
     public Button Next_twise;
     public AnchorPane mark_panel;
+    public String crit_choise;
+    public TextArea note_field;
     ArrayList<javafx.scene.control.TextField> textField_marks = new ArrayList<>();
 
 
@@ -193,12 +195,13 @@ public class rating_arch_C implements Initializable {
 
     /**
      * Вибір завдання та критерію оцінювання
+     *
      * @param actionEvent
      */
     public void choice_task(ActionEvent actionEvent) {
-        String markl = mark_crit.getSelectionModel().selectedItemProperty().getValue().toString();
+        crit_choise = mark_crit.getSelectionModel().selectedItemProperty().getValue().toString();
         crit.clear();
-        crit.setText(markl);
+        crit.setText(crit_choise);
         Rating_arch_1.setVisible(false);
         Rating_arch_2.setVisible(true);
         Rating_arch_3.setVisible(false);
@@ -516,6 +519,7 @@ public class rating_arch_C implements Initializable {
 
     /**
      * Наступна пара архітектур з виставленням оцінки "0" - без оцінки
+     *
      * @param actionEvent
      */
     public void next_twise(ActionEvent actionEvent) {
@@ -526,6 +530,7 @@ public class rating_arch_C implements Initializable {
 
     /**
      * Наступна пара архітектур з виставленням оцінки "1"
+     *
      * @param actionEvent
      */
     public void mark_1(ActionEvent actionEvent) {
@@ -646,6 +651,7 @@ public class rating_arch_C implements Initializable {
     /**
      * Під'єднання до БД
      * derby_DB         -   підключення добази репозитарію арххітектур
+     *
      * @param actionEvent
      */
     public void connect_DB(ActionEvent actionEvent) {
@@ -669,7 +675,8 @@ public class rating_arch_C implements Initializable {
 
     /**
      * Від'єднання від бази даних
-     * @param database                          -   база до від'єднання
+     *
+     * @param database -   база до від'єднання
      */
     public void disconnect_DB(DerbyDBManager database) {//отключиться от БД
         try {
@@ -723,9 +730,15 @@ public class rating_arch_C implements Initializable {
             e.printStackTrace();
         }
 
-
+        String note_exp = note_field.getText().toString();
+        int criter_id = 0;
         try {
-            session_save_to_db(task_choise.getId(), mark_db);
+            criter_id = crit_id(mark_db, crit_choise);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            session_save_to_db(task_choise.getId(), mark_db, criter_id, note_exp);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -769,6 +782,7 @@ public class rating_arch_C implements Initializable {
 
     /**
      * Створення бази даних оцінок в директорії "DB/Marks"
+     *
      * @throws IOException
      */
     public void creat_mark_DB() throws IOException { //Создать БД
@@ -811,23 +825,59 @@ public class rating_arch_C implements Initializable {
                 e.printStackTrace();
             }
             //TODO создание
+            ResultSet rs;
+            try {
+                rs = mark_db.executeQuery("SELECT * FROM CRITERION WHERE *");
+                boolean contr = false;
+                while (rs.next()) {
+                    if (rs.getString("NAME").equals("Надійність")) {
+                        contr = true;
+                    }
+                }
+                if (!contr) {
+                    mark_db.executeUpdate("INSERT INTO CRITERION (NAME, DESCRIPTION) VALUES ('Надійність','властивість програмного засобу зберігати у часі в установлених межах значення всіх параметрів')");
+                    mark_db.executeUpdate("INSERT INTO CRITERION (NAME, DESCRIPTION) VALUES ('Ефективність','швидкість обробки одиниці інформації, питомі витрати на обробки одиниці інформації')");
+                    mark_db.executeUpdate("INSERT INTO CRITERION (NAME, DESCRIPTION) VALUES ('Швидкодія','середньостатистична кількість операцій (команд) які виконує ЕОМ за одиницю часу.')");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+
+    /**
+     * @param mark_db_conn -   підключення до бази даних оцінок
+     * @param crit_choise  - вибраний критерій
+     * @return
+     * @throws SQLException
+     */
+    public int crit_id(DerbyDBManager mark_db_conn, String crit_choise) throws SQLException {
+        ResultSet rs;
+        int id = 0;
+        rs = mark_db_conn.executeQuery("SELECT * FROM CRITERION WHERE NAME='" + crit_choise + "'");
+        while (rs.next()) {
+            id = rs.getInt("ID");
+        }
+        return id;
     }
 
     /**
      * Збереження сесії оцінювання у базу
-     * @param task_id               -   ідентифікатор оцінуваного завдання
-     * @param mark_db_conn          -   підключення до бази даних оцінок
-     * @return                      -   вдалість операції
+     *
+     * @param task_id      -   ідентифікатор оцінуваного завдання
+     * @param mark_db_conn -   підключення до бази даних оцінок
+     * @return -   вдалість операції
      * @throws SQLException
      */
-    public static boolean session_save_to_db(int task_id, DerbyDBManager mark_db_conn) throws SQLException {
+    public static boolean session_save_to_db(int task_id, DerbyDBManager mark_db_conn, int crit_id, String note_exp) throws SQLException {
         boolean result = false;
+        ResultSet rs;
         ResultSet rs_tmp;
         Date d = new Date();
         float df = d.getTime();
         System.out.printf("INSERT INTO SESSION (TASK_ID) VALUES (" + task_id + ")\n");
-        mark_db_conn.executeUpdate("INSERT INTO SESSION (TASK_ID, DATE_SES, CRITERION_ID) VALUES (" + task_id + "," + df +", 1)");
+        mark_db_conn.executeUpdate("INSERT INTO SESSION (TASK_ID, DATE_SES, CRITERION_ID, NOTE) VALUES (" + task_id + "," + df + ", " + crit_id + ",'" + note_exp + "')");
 
         System.out.printf("session save successful");
         return result;
@@ -835,12 +885,13 @@ public class rating_arch_C implements Initializable {
 
     /**
      * Збереженя оцінок у базу даних оцінок
-     * @param mark                          -   записувана оцінка
-     * @param arch_1_id                     -   1 оцінувана архітектура (з пари)
-     * @param arch_2_id                     -   2 оцінувана архітектура (з пари)
-     * @param session_id                    -   ідентифікатор сесії оцінювання
-     * @param mark_db_conn                  -   підключення до бази даних оцінок
-     * @return                              -   вдалість операції
+     *
+     * @param mark         -   записувана оцінка
+     * @param arch_1_id    -   1 оцінувана архітектура (з пари)
+     * @param arch_2_id    -   2 оцінувана архітектура (з пари)
+     * @param session_id   -   ідентифікатор сесії оцінювання
+     * @param mark_db_conn -   підключення до бази даних оцінок
+     * @return -   вдалість операції
      * @throws SQLException
      */
     public static boolean marks_save_to_DB(Mark mark, int arch_1_id, int arch_2_id, int session_id, DerbyDBManager mark_db_conn) throws SQLException {//Зберегти архітектуру в БД

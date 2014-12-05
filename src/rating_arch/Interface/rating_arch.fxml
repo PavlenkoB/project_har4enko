@@ -157,13 +157,19 @@
         </AnchorPane>
         <AnchorPane fx:id="Rating_arch_3" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
             <children>
-                <Button id="Arch_create_next_2" fx:id="save_marks_but" layoutX="505.0" layoutY="330.0" mnemonicParsing="false" onAction="#Save_marks" prefHeight="25.0" prefWidth="150.0" text="Зберігти оцінки" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0" />
-                <Button id="Cancel" layoutX="496.0" layoutY="288.0" mnemonicParsing="false" onAction="#Start_rating" text="Відмінити оцінювання" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="230.0" />
-            <ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <Button id="Arch_create_next_2" fx:id="save_marks_but" layoutX="505.0" layoutY="330.0" mnemonicParsing="false" onAction="#Save_marks" prefHeight="25.0" prefWidth="150.0" text="Зберігти оцінки" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="40.0" />
+                <Button id="Cancel" layoutX="440.0" layoutY="310.0" mnemonicParsing="false" onAction="#Start_rating" prefWidth="150.0" text="Відмінити оцінювання" AnchorPane.bottomAnchor="45.0" AnchorPane.rightAnchor="40.0" />
+            <ScrollPane prefHeight="287.0" prefWidth="630.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <content>
                 <AnchorPane fx:id="mark_panel" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
               </content>
             </ScrollPane>
+            <TextArea fx:id="note_field" layoutX="123.0" layoutY="306.0" prefHeight="55.0" prefWidth="250.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="150.0" />
+            <Label layoutX="38.0" layoutY="309.0" text="Примітка" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="50.0">
+               <font>
+                  <Font name="Times New Roman" size="20.0" />
+               </font>
+            </Label>
             </children>
         </AnchorPane>
     </children>

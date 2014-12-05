@@ -24,7 +24,7 @@
             </Menu>
          </menus>
       </MenuBar>
-      <AnchorPane fx:id="marks_viewer_anchor_0" layoutX="10.0" layoutY="36.0" prefHeight="174.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+      <AnchorPane fx:id="marks_viewer_anchor_0" layoutX="10.0" layoutY="36.0" prefHeight="174.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
          <children>
             <AnchorPane fx:id="session_choise_anchor" prefHeight="279.0" prefWidth="610.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                <children>
@@ -33,30 +33,42 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <ChoiceBox fx:id="session_list_choisebox" layoutX="15.0" layoutY="108.5" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="150.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="110.0" />
-                  <Label alignment="CENTER" layoutX="16.0" layoutY="72.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="26.0" prefWidth="150.0" text="Сесія - завдання" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="70.0">
+                  <ChoiceBox fx:id="session_list_choisebox" layoutX="15.0" layoutY="99.0" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="150.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="100.0" />
+                  <Label alignment="CENTER" layoutX="16.0" layoutY="72.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="26.0" prefWidth="150.0" text="Сесія - завдання" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="75.0">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <TextArea fx:id="task_description" layoutX="209.0" layoutY="111.0" prefHeight="170.0" prefWidth="346.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="209.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="111.0" />
-                  <Label layoutX="209.0" layoutY="70.0" prefHeight="26.0" prefWidth="249.0" text="Опис завдання" AnchorPane.leftAnchor="209.0" AnchorPane.rightAnchor="112.0" AnchorPane.topAnchor="70.0">
+                  <TextArea fx:id="task_description" layoutX="209.0" layoutY="111.0" prefHeight="65.0" prefWidth="350.0" AnchorPane.leftAnchor="205.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="111.0" />
+                  <Label layoutX="209.0" layoutY="70.0" prefHeight="26.0" prefWidth="249.0" text="Опис завдання" AnchorPane.rightAnchor="115.0" AnchorPane.topAnchor="70.0">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" layoutX="16.0" layoutY="148.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="26.0" prefWidth="150.0" text="Критерій оцінки">
+                  <Label alignment="CENTER" layoutX="15.0" layoutY="135.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="26.0" prefWidth="150.0" text="Критерій оцінки" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="125.0">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="Criteriy_name" layoutX="17.0" layoutY="183.0" />
+                  <TextField fx:id="Criteriy_name" editable="false" layoutX="19.0" layoutY="171.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="150.0" />
+                  <Label alignment="CENTER" layoutX="19.0" layoutY="211.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="26.0" prefWidth="150.0" text="Дата сесії" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="175.0">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="dateTextField" editable="false" layoutX="16.0" layoutY="201.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="200.0" />
+                  <TextField fx:id="Note_field" alignment="TOP_LEFT" layoutX="209.0" layoutY="200.0" prefHeight="65.0" prefWidth="350.0" AnchorPane.leftAnchor="205.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="205.0" />
+                  <Label layoutX="209.0" layoutY="175.0" prefHeight="26.0" prefWidth="249.0" text="Примітки" AnchorPane.rightAnchor="115.0" AnchorPane.topAnchor="175.0">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
             <Button id="choice_session" layoutX="519.0" layoutY="331.0" mnemonicParsing="false" onAction="#choice_session" prefWidth="-1.0" text="Обрати" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="mark_view_matrix" layoutY="25.0" prefHeight="375.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+      <AnchorPane fx:id="mark_view_matrix" layoutY="25.0" prefHeight="375.0" prefWidth="600.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
          <children>
             <ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <content>
