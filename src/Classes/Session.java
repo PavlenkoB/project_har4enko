@@ -44,6 +44,15 @@ public class Session {
         this.note = note;
     }
 
+    public Session(Integer id, Criteriy criteriy, Integer task_id, ArrayList<Mark> marks, Date date, String note) {
+        this.id = id;
+        this.criteriy = criteriy;
+        this.task_id = task_id;
+        this.marks = marks;
+        this.date = date;
+        this.note = note;
+    }
+
     public Session(Integer id, Integer task_id, ArrayList<Mark> marks, Date date) {
         this.id = id;
         this.task_id = task_id;

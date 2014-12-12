@@ -173,7 +173,13 @@ public class marks_viewer_contoller implements Initializable {
                         marks.add(new Mark(rs_mark.getInt("ID"), rs_mark.getInt("ARCH_1_ID"), rs_mark.getInt("ARCH_2_ID"), rs_mark.getInt("MARK")));
                     }
                     Date date = new Date((long) rs_sess.getFloat("DATE_SES"));
-                    sessions.add(new Session(rs_sess.getInt("ID"), rs_sess.getInt("TASK_ID"), marks, date , rs_sess.getString("NOTE")));
+                    Criteriy criter = null;
+                    ResultSet rs_crit = null;
+                    rs_crit = mark_db.executeQuery("SELECT * FROM CRITERION WHERE ID =" + rs_sess.getInt("CRITERION_ID"));
+                    while (rs_crit.next()) {
+                        criter = new Criteriy(rs_crit.getInt("ID"), rs_crit.getString("NAME"), rs_crit.getString("DESCRIPTION"));
+                    }
+                    sessions.add(new Session(rs_sess.getInt("ID"), criter, rs_sess.getInt("TASK_ID"), marks, date, rs_sess.getString("NOTE")));
                 }
                 Choice_session();
             }
@@ -212,14 +218,14 @@ public class marks_viewer_contoller implements Initializable {
         Date d = new Date();
         System.out.println(format1.format(d)); //25.02.2013 09:03
         float df = d.getTime();
-        d = new Date((long)df);
+        d = new Date((long) df);
         System.out.println("float " + format1.format(d)); //25.02.2013 09:03
         long dl = d.getTime();
         d = new Date(dl);
         System.out.println(dl);
         System.out.println("long " + format1.format(d)); //25.02.2013 09:03
 
-}
+    }
 
     private void Choice_session() {
         int task_id;
@@ -253,6 +259,7 @@ public class marks_viewer_contoller implements Initializable {
         task_description.clear();
         Note_field.clear();
         dateTextField.clear();
+        Criteriy_name.clear();
         for (int i = 0; i < sessions.size(); i++) {
             if (sessions.get(i).getId() == functions.get_ID((String) session_list_choisebox.getItems().get(new_value.intValue()))) {
                 Note_field.setText(sessions.get(i).getNote());
@@ -261,6 +268,8 @@ public class marks_viewer_contoller implements Initializable {
                 task_description.setEditable(false);
                 SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy hh:mm");
                 dateTextField.setText(format1.format(sessions.get(i).getDate()));
+                Criteriy_name.setText(sessions.get(i).getCriteriy().getName());
+                Criteriy_name.setEditable(false);
             }
         }
 
@@ -269,6 +278,7 @@ public class marks_viewer_contoller implements Initializable {
 
     public void choice_session(final ActionEvent actionEvent) {
         marks_viewer_anchor_0.setVisible(false);
+        marks_matrix.getChildren().clear();
         mark_view_matrix.setVisible(true);
 
         session_choice.setId(functions.get_ID((String) session_list_choisebox.getSelectionModel().getSelectedItem().toString()));
@@ -281,16 +291,16 @@ public class marks_viewer_contoller implements Initializable {
             }
         }
 
-        for (int i = 0; i<session_choice.getTask().getArchitectures().size();i++){
+        for (int i = 0; i < session_choice.getTask().getArchitectures().size(); i++) {
             session_choice.getTask().getArchitectures().get(i).setId(architecture_done_choice_type.getId());
             session_choice.getTask().getArchitectures().get(i).setDescription(architecture_done_choice_type.getDescription());
             session_choice.getTask().getArchitectures().get(i).setName(architecture_done_choice_type.getName());
-            for (int j =0; j<session_choice.getTask().getArchitectures().get(i).getLayers().size();j++){
-                for (int h=0; h<architecture_done_choice_type.getLayers().size();h++) {
+            for (int j = 0; j < session_choice.getTask().getArchitectures().get(i).getLayers().size(); j++) {
+                for (int h = 0; h < architecture_done_choice_type.getLayers().size(); h++) {
                     if (session_choice.getTask().getArchitectures().get(i).getLayers().get(j).getId() == architecture_done_choice_type.getLayers().get(h).getId()) {
                         session_choice.getTask().getArchitectures().get(i).getLayers().get(j).setName(architecture_done_choice_type.getLayers().get(h).getName());
                         session_choice.getTask().getArchitectures().get(i).getLayers().get(j).setDescription(architecture_done_choice_type.getLayers().get(h).getDescription());
-                        for (int p =0 ;p<session_choice.getTask().getArchitectures().get(i).getLayers().get(j).getModules().size();p++) {
+                        for (int p = 0; p < session_choice.getTask().getArchitectures().get(i).getLayers().get(j).getModules().size(); p++) {
                             for (int ly = 0; ly < architecture_done_choice_type.getLayers().size(); ly++) {
                                 for (int l = 0; l < architecture_done_choice_type.getLayers().get(ly).getModules().size(); l++) {
                                     if (session_choice.getTask().getArchitectures().get(i).getLayers().get(j).getModules().get(p).getId() == architecture_done_choice_type.getLayers().get(ly).getModules().get(l).getId()) {
@@ -324,7 +334,7 @@ public class marks_viewer_contoller implements Initializable {
         marks_matrix.getChildren().add(label_session_id);
 
         Label criteriy = new Label();
-        criteriy.setText("Критерій : ");//+ session_choice.getCriteriy().getName());
+        criteriy.setText("Критерій : " + session_choice.getCriteriy().getName());
         criteriy.setLayoutX(400);
         criteriy.setLayoutY(40);
         criteriy.setFont(Font.font(16));
@@ -350,20 +360,20 @@ public class marks_viewer_contoller implements Initializable {
 
         Label arch_label = new Label();
         arch_label.setText("Архітектура");
-        gridPane_mark.add(arch_label,0,0);
+        gridPane_mark.add(arch_label, 0, 0);
 
         for (int i = 0; i < session_choice.getTask().getArchitectures().size(); i++) {
-            archery_open_button_hor.add(new Button("arch: " + (i+1)));
-            archery_open_button_ver.add(new Button("arch: " + (i+1)));
-            gridPane_mark.add(archery_open_button_hor.get(archery_open_button_hor.size()-1),i+1,0);
-            gridPane_mark.add(archery_open_button_ver.get(archery_open_button_ver.size()-1),0,i+1);
+            archery_open_button_hor.add(new Button("arch: " + (i + 1)));
+            archery_open_button_ver.add(new Button("arch: " + (i + 1)));
+            gridPane_mark.add(archery_open_button_hor.get(archery_open_button_hor.size() - 1), i + 1, 0);
+            gridPane_mark.add(archery_open_button_ver.get(archery_open_button_ver.size() - 1), 0, i + 1);
         }
         ArrayList<Label> labels_marks = new ArrayList<>();
-        for (int i=0; i<session_choice.getMarks().size();i++){
+        for (int i = 0; i < session_choice.getMarks().size(); i++) {
             labels_marks.add(new Label(session_choice.getMarks().get(i).getMark().toString()));
-            gridPane_mark.add(labels_marks.get(labels_marks.size()-1),session_choice.getMarks().get(i).getNum_arch_1(),session_choice.getMarks().get(i).getNum_arch_0());
+            gridPane_mark.add(labels_marks.get(labels_marks.size() - 1), (session_choice.getMarks().get(i).getNum_arch_1() - session_choice.getMarks().get(0).getNum_arch_0() + 1), (session_choice.getMarks().get(i).getNum_arch_0() - session_choice.getMarks().get(0).getNum_arch_0() + 1));
         }
-        for (int i =0; i<archery_open_button_hor.size();i++) {
+        for (int i = 0; i < archery_open_button_hor.size(); i++) {
             final int finalI = i;
             archery_open_button_hor.get(i).setOnAction(new EventHandler<ActionEvent>() {
                 @Override
@@ -381,13 +391,13 @@ public class marks_viewer_contoller implements Initializable {
                     preview controller = loader.<preview>getController();
                     ;
                     controller.initData(session_choice.getTask().getArchitectures().get(finalI));
-                    stage.setTitle("Візуалізація архітектури " + (finalI+1));
+                    stage.setTitle("Візуалізація архітектури " + (finalI + 1));
                     stage.show();
                     choice_session(actionEvent);
                 }
             });
         }
-        for (int i =0; i<archery_open_button_ver.size();i++) {
+        for (int i = 0; i < archery_open_button_ver.size(); i++) {
             final int finalI = i;
             archery_open_button_ver.get(i).setOnAction(new EventHandler<ActionEvent>() {
                 @Override
@@ -405,7 +415,7 @@ public class marks_viewer_contoller implements Initializable {
                     preview controller = loader.<preview>getController();
                     ;
                     controller.initData(session_choice.getTask().getArchitectures().get(finalI));
-                    stage.setTitle("Візуалізація архітектури " + (finalI+1));
+                    stage.setTitle("Візуалізація архітектури " + (finalI + 1));
                     stage.show();
                     choice_session(actionEvent);
                 }
@@ -413,10 +423,15 @@ public class marks_viewer_contoller implements Initializable {
         }
 
         gridPane_mark.setLayoutY(60);
+        //gridPane_mark.setGridLinesVisible(true);
         gridPane_mark.setLayoutX(20);
         marks_matrix.getChildren().add(gridPane_mark);
 
 
+    }
 
+    public void Session_choise(ActionEvent actionEvent) {
+        marks_viewer_anchor_0.setVisible(true);
+        mark_view_matrix.setVisible(false);
     }
 }

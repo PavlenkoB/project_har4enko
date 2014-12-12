@@ -22,7 +22,7 @@ import static editor.services.arch_work.arch_image_gen_with_patterns;
 public class preview {
     public AnchorPane preview_text;
     public ImageView preview_im;
-    public AnchorPane descript;
+    //public AnchorPane descript;
     Image pre_im;
 
 
@@ -40,7 +40,7 @@ public class preview {
 
     public void draw_arch_im_text(Architecture architecture, Image preview_image) {
         preview_text.getChildren().clear();
-        descript.getChildren().clear();
+        //descript.getChildren().clear();
 
 
 
