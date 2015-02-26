@@ -1,7 +1,6 @@
 package marks_viewer.controllers;
 
 import Classes.*;
-import create_arch.Controllers.preview_create_arch_C;
 import editor.classes.DerbyDBManager;
 import editor.services.functions;
 import javafx.beans.value.ChangeListener;
@@ -23,7 +22,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sun.util.calendar.BaseCalendar;
 
 import javax.swing.*;
 import java.io.File;
@@ -379,7 +377,7 @@ public class marks_viewer_contoller implements Initializable {
                 @Override
                 public void handle(ActionEvent e) {
                     Stage preview_view = new Stage();
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/marks_viewer/view_fxml/preview.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/view_fxml/preview.fxml"));
 
                     Stage stage = new Stage(StageStyle.DECORATED);
                     try {
@@ -403,7 +401,7 @@ public class marks_viewer_contoller implements Initializable {
                 @Override
                 public void handle(ActionEvent e) {
                     Stage preview_view = new Stage();
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/marks_viewer/view_fxml/preview.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/view_fxml/preview.fxml"));
 
                     Stage stage = new Stage(StageStyle.DECORATED);
                     try {

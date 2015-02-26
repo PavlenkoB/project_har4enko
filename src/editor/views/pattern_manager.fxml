@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8"
-            fx:controller="editor.controllers.patterns_manager_C">
+            fx:controller="editor.src.controllers.patterns_manager_C">
     <top>
         <BorderPane BorderPane.alignment="CENTER">
             <top>
