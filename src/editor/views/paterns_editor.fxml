@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <GridPane xmlns:fx="http://javafx.com/fxml/1" fx:id="root" minHeight="400.0" minWidth="600.0"
           stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/8"
-          fx:controller="editor.src.controllers.paterns_editor_C">
+          fx:controller="editor.controllers.paterns_editor_C">
     <children>
         <MenuBar fx:id="MB_main_menu" prefHeight="25.0" prefWidth="798.0" GridPane.columnSpan="2">
             <menus>

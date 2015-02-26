@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="root" xmlns="http://javafx.com/javafx/8"
-            fx:controller="editor.src.controllers.image_preview_C">
+            fx:controller="editor.controllers.image_preview_C">
     <center>
         <ScrollPane fx:id="SP_IP" BorderPane.alignment="CENTER">
             <content>
