@@ -1,4 +1,4 @@
-package marks_viewer;
+package src;
 
 /**
  * Created by Alx Shcherbak on 07.11.2014.
@@ -12,13 +12,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import rating_arch.Controller.rating_arch_C;
-
 public class main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/marks_viewer/view_fxml/marks_viewer.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/src/view_fxml/marks_viewer.fxml"));
         primaryStage.setTitle("ПЕРЕГЛЯД ОЦІНОК");
         primaryStage.setScene(new Scene(root, 700, 500));
         primaryStage.setMinHeight(400);
