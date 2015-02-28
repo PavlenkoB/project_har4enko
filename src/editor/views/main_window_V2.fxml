@@ -73,7 +73,7 @@
                             <graphic>
                                 <ImageView fitHeight="30.0" fitWidth="35.0" layoutX="154.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="/editor/res/img/Save-icon.png" />
+                                        <Image url="/img/Save-icon.png"/>
                                     </image>
                                 </ImageView>
                             </graphic>
@@ -82,7 +82,7 @@
                             <graphic>
                                 <ImageView fitHeight="30.0" fitWidth="200.0" layoutX="278.0" layoutY="306.5" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="/editor/res/img/open-file.png" />
+                                        <Image url="/img/open-file.png"/>
                                     </image>
                                 </ImageView>
                             </graphic>
@@ -91,7 +91,7 @@
                             <graphic>
                                 <ImageView fitHeight="30.0" fitWidth="27.0" layoutX="148.0" layoutY="279.5" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="/editor/res/img/delete.png" />
+                                        <Image url="/img/delete.png"/>
                                     </image>
                                 </ImageView>
                             </graphic>

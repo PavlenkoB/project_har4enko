@@ -20,19 +20,24 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.*;
-import org.apache.poi.POIXMLProperties;
 import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
 import org.apache.poi.xwpf.usermodel.*;
-import org.dom4j.DocumentFactory;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -88,7 +93,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
 
         thisstage = (Stage) root.getScene().getWindow();
-        thisstage.getIcons().add(new Image("/editor/res/img/uml_icon.png"));
+        thisstage.getIcons().add(new Image("/img/uml_icon.png"));
         thisstage.setTitle(RB.getString("управління_репозиторієм_патернів_редактор_архітектур"));
         thisstage.setMinWidth(900);//Минимальная шырина
         thisstage.setMinHeight(700);//Минимальная высота окна
@@ -107,7 +112,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
     public void initData() {
         System.out.printf("Init");
         thisstage = (Stage) root.getScene().getWindow();
-        thisstage.getIcons().add(new Image("/editor/res/img/uml_icon.png"));
+        thisstage.getIcons().add(new Image("/img/uml_icon.png"));
         thisstage.setTitle(RB.getString("управління_репозиторієм_патернів_редактор_архітектур"));
         thisstage.setMinWidth(900);//Минимальная шырина
         thisstage.setMinHeight(700);//Минимальная высота окна
@@ -253,15 +258,15 @@ public class main_C extends JPanel implements Initializable, Configuration {
     }
 
     public void show_help(ActionEvent actionEvent) {// Отобразить помощь
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/help.fxml"));
-        Stage stage = new Stage(StageStyle.DECORATED);
-        try {
-            stage.initModality(Modality.NONE);
-            stage.setScene(new Scene((Pane) loader.load()));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (Desktop.isDesktopSupported()) {
+            try {
+                File myFile = new File(getClass().getClassLoader().getResource("PlantUML_Language_Reference_Guide_UK.pdf").getFile());
+                Desktop.getDesktop().open(myFile);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                // no application registered for PDFs
+            }
         }
-        stage.show();
     }
 
     public void show_about(ActionEvent actionEvent) {

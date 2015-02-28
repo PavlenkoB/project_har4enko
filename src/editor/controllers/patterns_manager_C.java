@@ -85,7 +85,7 @@ public class patterns_manager_C implements Initializable, Configuration {
 
 
         Stage thisstage = (Stage) root.getScene().getWindow();
-        thisstage.getIcons().add(new Image("/editor/res/img/uml_icon.png"));
+        thisstage.getIcons().add(new Image("/img/uml_icon.png"));
         //thisstage.setTitle("Управління репозиторіем патернів: редактор архітектур");
         thisstage.setMinWidth(900);//Минимальная шырина
         thisstage.setMinHeight(700);//Минимальная высота окна

@@ -29,7 +29,7 @@ public class image_preview_C implements Initializable {
     void initData(Image show_image, String title) {
         Stage thisstage = (Stage) root.getScene().getWindow();
         thisstage.setTitle(title);
-        thisstage.getIcons().add(new Image("/editor/res/img/preview-icon.png"));
+        thisstage.getIcons().add(new Image("/img/preview-icon.png"));
         IV_IP.setImage(show_image);
         IV_IP.setFitHeight(show_image.getHeight());
         IV_IP.setFitWidth(show_image.getWidth());

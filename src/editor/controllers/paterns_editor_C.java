@@ -78,7 +78,7 @@ public class paterns_editor_C implements Initializable, Configuration {
         selected_DB.setText(derby_DB.getDbName().toString());
         list_load_DB(null);
         Stage thisstage = (Stage) root.getScene().getWindow();
-        thisstage.getIcons().add(new Image("/editor/res/img/uml_icon.png"));
+        thisstage.getIcons().add(new Image("/img/uml_icon.png"));
         //thisstage.setTitle("Управління репозиторіем патернів: редактор архітектур");
         //thisstage.setMinWidth(900);//Минимальная шырина
         //thisstage.setMinHeight(700);//Минимальная высота окна

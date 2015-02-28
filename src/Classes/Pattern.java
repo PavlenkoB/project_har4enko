@@ -99,7 +99,7 @@ public class Pattern implements Cloneable {
             s.close();
 
             if (pattern_out.getPreview() == null) {
-                pattern_out.setPreview(new Image("editor/res/img/preview-not-available.jpg"));
+                pattern_out.setPreview(new Image("img/preview-not-available.jpg"));
             }
 
         } catch (SQLException e) {
