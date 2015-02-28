@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 /**
  * Created by godex on 02.05.2014.
  */
+//TODo delete
 public class help_C implements Initializable {
     public WebView WV_help;
 
@@ -19,7 +20,6 @@ public class help_C implements Initializable {
         WebEngine webEngine = WV_help.getEngine();
         URL urlHello = getClass().getResource("/editor/res/help/PlantUML.htm");
         webEngine.load(urlHello.toExternalForm());
-        //webEngine.load();
         System.out.print("s");
     }
 }

@@ -19,9 +19,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
@@ -32,7 +32,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.*;
 import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
-import org.apache.poi.xwpf.usermodel.*;
+import org.apache.poi.xwpf.usermodel.Document;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.*;
 
 import javax.imageio.ImageIO;
@@ -93,7 +96,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
 
         thisstage = (Stage) root.getScene().getWindow();
-        thisstage.getIcons().add(new Image("/img/uml_icon.png"));
+        thisstage.getIcons().add(new Image("/res/img/uml_icon.png"));
         thisstage.setTitle(RB.getString("управління_репозиторієм_патернів_редактор_архітектур"));
         thisstage.setMinWidth(900);//Минимальная шырина
         thisstage.setMinHeight(700);//Минимальная высота окна
@@ -112,7 +115,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
     public void initData() {
         System.out.printf("Init");
         thisstage = (Stage) root.getScene().getWindow();
-        thisstage.getIcons().add(new Image("/img/uml_icon.png"));
+        thisstage.getIcons().add(new Image("/res/img/uml_icon.png"));
         thisstage.setTitle(RB.getString("управління_репозиторієм_патернів_редактор_архітектур"));
         thisstage.setMinWidth(900);//Минимальная шырина
         thisstage.setMinHeight(700);//Минимальная высота окна
@@ -179,7 +182,6 @@ public class main_C extends JPanel implements Initializable, Configuration {
             File db_dir = db_dir_FC.showDialog(functions.get_stage_by_element(TA_arch_description));
             if (db_dir != null) {
                 derby_DB = new DerbyDBManager(db_dir.getAbsolutePath());
-
                 //derby_DB.setDbName(db_dir.getName());
                 selected_DB.setText(db_dir.getName());
                 //TODO доступность кнопок
@@ -205,7 +207,6 @@ public class main_C extends JPanel implements Initializable, Configuration {
                 if (!derby_DB.getCon().isClosed()) {
                     derby_DB.disconectDB();
                 }
-
                 LV_archs_DB.setItems(null);
                 P_arch_struct.getChildren().clear();
                 selected_DB.setText("<" + RB.getString("не_обрана") + ">");
@@ -260,9 +261,12 @@ public class main_C extends JPanel implements Initializable, Configuration {
     public void show_help(ActionEvent actionEvent) {// Отобразить помощь
         if (Desktop.isDesktopSupported()) {
             try {
-                File myFile = new File(getClass().getClassLoader().getResource("PlantUML_Language_Reference_Guide_UK.pdf").getFile());
+                File myFile = new File("res/PlantUML.pdf");
+                if (!myFile.exists()) {
+                    myFile = new File(getClass().getResource("/res/PlantUML.pdf").getFile());
+                }
                 Desktop.getDesktop().open(myFile);
-            } catch (IOException ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
                 // no application registered for PDFs
             }

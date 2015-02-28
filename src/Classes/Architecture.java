@@ -125,7 +125,7 @@ public class Architecture implements Cloneable {
             s.close();
 
             if (arch_out.getPreview() == null || arch_out.getPreview().getHeight() < 20) {
-                arch_out.setPreview(new Image("img/preview-not-available.jpg"));
+                arch_out.setPreview(new Image("res/img/preview-not-available.jpg"));
             }
 
 

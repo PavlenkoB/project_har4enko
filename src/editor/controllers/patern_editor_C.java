@@ -42,7 +42,7 @@ public class patern_editor_C implements Initializable, Configuration {
 
         derby_DB = derby_con;
         Stage thisstage = (Stage) root.getScene().getWindow();
-        thisstage.getIcons().add(new Image("/img/uml_icon.png"));
+        thisstage.getIcons().add(new Image("/res/img/uml_icon.png"));
         thisstage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
                 if (Modals.Response.YES == Modals.showYNDialog(RB.getString("загальні.увага"), RB.getString("загальні.ви_впевнені_що_бажаете_вийти_незбережені_зміни_буде_втрачено"))) {

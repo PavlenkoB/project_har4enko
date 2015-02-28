@@ -17,7 +17,7 @@ public class Main_patern_e extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("../views/paterns_editor.fxml"));
         primaryStage.setTitle("Harchenko");
-        primaryStage.getIcons().add(new Image("/img/uml_icon.png"));
+        primaryStage.getIcons().add(new Image("/res/img/uml_icon.png"));
         primaryStage.setScene(new Scene(root));
         primaryStage.setMinWidth(230);//Минимальная шырина
         primaryStage.setMinHeight(390);//Минимальная высота окна
