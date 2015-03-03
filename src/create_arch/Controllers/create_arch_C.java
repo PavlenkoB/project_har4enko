@@ -77,7 +77,7 @@ public class create_arch_C implements Initializable {
 
 
     //DerbyDBManager derby_DB;
-    DerbyDBManager derby_DB = new DerbyDBManager("DB/paterns_DB");
+    DerbyDBManager derby_DB;// = new DerbyDBManager("DB/paterns_DB");
     Task task = new Task();
     @FXML
     private Image class_image;

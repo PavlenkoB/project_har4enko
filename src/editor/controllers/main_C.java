@@ -158,13 +158,13 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
 //TODO Del
 
-        try {
+        /*try {
             derby_DB = new DerbyDBManager("DB/paterns_DB");
             list_load_DB();
         } catch (Exception e) {
             e.printStackTrace();
             derby_DB = null;
-        }
+        }*/
 
         if (derby_DB != null) {
             MM_1_1_connect.setDisable(true);
@@ -222,7 +222,9 @@ public class main_C extends JPanel implements Initializable, Configuration {
     }
 
     public void creat_DB(ActionEvent actionEvent) { //Создать БД
-        disconnect_DB(null);
+        if (derby_DB!=null) {
+            disconnect_DB(null);
+        }
         // существет ли база(создана ли)
         DirectoryChooser db_dir_FC = new DirectoryChooser();
         db_dir_FC.setInitialDirectory(new File(System.getProperty("user.dir")));
@@ -232,7 +234,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
             derby_DB = new DerbyDBManager(db_dir);
             System.out.print("Створюю таблиці");
             try {
-                File in_dir = new File(getClass().getClassLoader().getResource("editor/sql/create_DB").getFile());
+                File in_dir = new File(getClass().getClassLoader().getResource("sql/create_DB").getFile());
                 File[] fList;
                 fList = in_dir.listFiles();
                 for (int i = 0; i < fList.length; i++) {

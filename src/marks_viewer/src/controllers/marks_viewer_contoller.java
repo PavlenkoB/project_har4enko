@@ -1,4 +1,4 @@
-package marks_viewer.controllers;
+package src.controllers;
 
 import Classes.*;
 import editor.classes.DerbyDBManager;

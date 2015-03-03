@@ -4,6 +4,7 @@ import Classes.Architecture;
 import Classes.Mark;
 import Classes.Task;
 import editor.classes.DerbyDBManager;
+import editor.classes.Modals;
 import editor.services.arch_work;
 import editor.services.functions;
 import javafx.application.Platform;
@@ -92,8 +93,8 @@ public class rating_arch_C implements Initializable {
     ArrayList<javafx.scene.control.TextField> textField_marks = new ArrayList<>();
 
 
-    DerbyDBManager derby_DB = new DerbyDBManager("DB/paterns_DB");
-    DerbyDBManager mark_db = new DerbyDBManager("DB/Marks");
+    DerbyDBManager derby_DB; // = new DerbyDBManager("DB/paterns_DB");
+    DerbyDBManager mark_db; // = new DerbyDBManager("DB/Marks");
     String pattern_db_str;
     String mark_db_str;
 
@@ -701,82 +702,88 @@ public class rating_arch_C implements Initializable {
      * @param actionEvent
      */
     public void Save_marks(ActionEvent actionEvent) {
-
-        String buffer = null;
-        ArrayList<Mark> markArrayList = new ArrayList<>();
-        markArrayList.clear();
-        int arch_row = 0, arch_col = 1, buff = 1;
-        for (int i = 0; i < textField_marks.size(); i++) {
-            buffer = textField_marks.get(i).getText().toString();
-            markArrayList.add(new Mark(arch_row, arch_col, Integer.parseInt(buffer)));
-            if (arch_col >= architecture_done_choise.size() - 1) {
-                arch_row++;
-                arch_col = arch_row;
+        try {
+            String buffer = null;
+            ArrayList<Mark> markArrayList = new ArrayList<>();
+            markArrayList.clear();
+            int arch_row = 0, arch_col = 1, buff = 1;
+            for (int i = 0; i < textField_marks.size(); i++) {
+                buffer = textField_marks.get(i).getText().toString();
+                markArrayList.add(new Mark(arch_row, arch_col, Integer.parseInt(buffer)));
+                if (arch_col >= architecture_done_choise.size() - 1) {
+                    arch_row++;
+                    arch_col = arch_row;
+                }
+                arch_col++;
+                if ((arch_col >= architecture_done_choise.size() - 1) & (arch_row >= architecture_done_choise.size() - 1)) {
+                    break;
+                }
             }
-            arch_col++;
-            if ((arch_col >= architecture_done_choise.size() - 1) & (arch_row >= architecture_done_choise.size() - 1)) {
-                break;
+            for (int i = 0; i < architecture_done_choise.size(); i++) {
+                markArrayList.add(new Mark(i, i, 1));
             }
-        }
-        for (int i = 0; i < architecture_done_choise.size(); i++) {
-            markArrayList.add(new Mark(i, i, 1));
-        }
 
 
-        try {
-            // disconnect_DB(derby_DB);
-            creat_mark_DB();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        String note_exp = note_field.getText().toString();
-        int criter_id = 0;
-        try {
-            criter_id = crit_id(mark_db, crit_choise);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
-            session_save_to_db(task_choise.getId(), mark_db, criter_id, note_exp);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        int session_id = functions.last_id_from_table_DB("SESSION", mark_db);
-
-        for (int i = 0; i < markArrayList.size(); i++) {
             try {
-                marks_save_to_DB(markArrayList.get(i), architecture_done_choise.get(markArrayList.get(i).getNum_arch_0()).getId_done(), architecture_done_choise.get(markArrayList.get(i).getNum_arch_1()).getId_done(), session_id, mark_db);
+                // disconnect_DB(derby_DB);
+                creat_mark_DB();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            String note_exp = note_field.getText().toString();
+
+            int criter_id = 0;
+            try {
+                criter_id = crit_id(mark_db, crit_choise);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
+            try {
+                session_save_to_db(task_choise.getId(), mark_db, criter_id, note_exp);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            int session_id = functions.last_id_from_table_DB("SESSION", mark_db);
 
-        Object[] options = {"Вибір завдання",
-                "Вихід"};
-        int n = JOptionPane.showOptionDialog(null,
-                "Збереження оцінок проведено успішно.",
-                "Повернутися до вибору завдання?",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.WARNING_MESSAGE,
-                null,     //do not use a custom Icon
-                options,  //the titles of buttons
-                options[0]); //default button title
-        if (n == 0) {
-            Start_rating();
-        } else if (n == 1) {
-            Stage win = new Stage();
-            win = (Stage) root.getScene().getWindow();
-            disconnect_DB(mark_db);
-            disconnect_DB(derby_DB);
-            win.close();
-        } else {
+            for (int i = 0; i < markArrayList.size(); i++) {
+                try {
+                    marks_save_to_DB(markArrayList.get(i), architecture_done_choise.get(markArrayList.get(i).getNum_arch_0()).getId_done(), architecture_done_choise.get(markArrayList.get(i).getNum_arch_1()).getId_done(), session_id, mark_db);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            Object[] options = {"Вибір завдання",
+                    "Вихід"};
+            int n = JOptionPane.showOptionDialog(null,
+                    "Збереження оцінок проведено успішно.",
+                    "Повернутися до вибору завдання?",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE,
+                    null,     //do not use a custom Icon
+                    options,  //the titles of buttons
+                    options[0]); //default button title
+            if (n == 0) {
+                Start_rating();
+            } else if (n == 1) {
+                Stage win = new Stage();
+                win = (Stage) root.getScene().getWindow();
+                disconnect_DB(mark_db);
+                disconnect_DB(derby_DB);
+                win.close();
+            } else {
             /*Stage win = new Stage();
             win = (Stage) root.getScene().getWindow();
             disconnect_DB(mark_db);
             disconnect_DB(derby_DB);
             win.close();*/
 
+            }
+        }catch (Exception e){
+            for (StackTraceElement element :e.getStackTrace()) {
+                Modals.showInfoApplicationModal("error", element.toString());
+            }
         }
     }
 
@@ -791,15 +798,14 @@ public class rating_arch_C implements Initializable {
         //Если требуемого файла не существует.
         if (!db_dir.exists()) {
             //Создаем его.
-            db_dir.createNewFile();
-        }
-
-        if (db_dir != null) {
+            if(!db_dir.mkdirs()){
+                Modals.showInfoApplicationModal("INfo","Crete marks direction");
+            }
             mark_db = new DerbyDBManager(db_dir);
 
             System.out.print("Создаю таблиці)");
             try {
-                File in_dir = new File(getClass().getClassLoader().getResource("editor/sql/create_marks_DB").getFile());
+                File in_dir = new File(getClass().getClassLoader().getResource("sql/create_marks_DB").getFile());
                 //ResourceAsStream("/editor/sql/creat_DB");
 
                 File[] fList;
@@ -809,7 +815,6 @@ public class rating_arch_C implements Initializable {
                 for (int i = 0; i < fList.length; i++) {
                     //Нужны только папки в место isFile() пишим isDirectory()
                     if (fList[i].isFile()) {
-
                         String filename = fList[i].getName();
                         int dotPos = filename.lastIndexOf(".");
                         String ext = filename.substring(dotPos);
@@ -824,17 +829,20 @@ public class rating_arch_C implements Initializable {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+
             //TODO создание
+            /*try {
+                mark_db.executeUpdate("INSERT INTO CRITERION (NAME, DESCRIPTION) VALUES ('Надійність','властивість програмного засобу зберігати у часі в установлених межах значення всіх параметрів')");
+                mark_db.executeUpdate("INSERT INTO CRITERION (NAME, DESCRIPTION) VALUES ('Ефективність','швидкість обробки одиниці інформації, питомі витрати на обробки одиниці інформації')");
+                mark_db.executeUpdate("INSERT INTO CRITERION (NAME, DESCRIPTION) VALUES ('Швидкодія','середньостатистична кількість операцій (команд) які виконує ЕОМ за одиницю часу.')");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }*/
+
             ResultSet rs;
             try {
-                rs = mark_db.executeQuery("SELECT * FROM CRITERION WHERE *");
-                boolean contr = false;
-                while (rs.next()) {
-                    if (rs.getString("NAME").equals("Надійність")) {
-                        contr = true;
-                    }
-                }
-                if (!contr) {
+                rs = mark_db.executeQuery("SELECT * FROM CRITERION");
+                if (!rs.next()) {
                     mark_db.executeUpdate("INSERT INTO CRITERION (NAME, DESCRIPTION) VALUES ('Надійність','властивість програмного засобу зберігати у часі в установлених межах значення всіх параметрів')");
                     mark_db.executeUpdate("INSERT INTO CRITERION (NAME, DESCRIPTION) VALUES ('Ефективність','швидкість обробки одиниці інформації, питомі витрати на обробки одиниці інформації')");
                     mark_db.executeUpdate("INSERT INTO CRITERION (NAME, DESCRIPTION) VALUES ('Швидкодія','середньостатистична кількість операцій (команд) які виконує ЕОМ за одиницю часу.')");

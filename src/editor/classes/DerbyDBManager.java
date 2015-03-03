@@ -6,8 +6,8 @@ import java.io.FileReader;
 import java.sql.*;
 
 public class DerbyDBManager {
-    private static final String driver = "org.apache.derby.jdbc.EmbeddedDriver";
-    private static final String url = "jdbc:derby:";
+    private final String driver = "org.apache.derby.jdbc.EmbeddedDriver";
+    private final String url = "jdbc:derby:";
     private static String dbName = null;
     private static Connection con = null;
 
@@ -53,8 +53,8 @@ public class DerbyDBManager {
         return con;
     }
 
-    public static void setCon(Connection con) {
-        DerbyDBManager.con = con;
+    public void setCon(Connection con) {
+        this.con = con;
     }
 
     private Boolean dbExists() {

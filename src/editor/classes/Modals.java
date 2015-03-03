@@ -166,6 +166,24 @@ public class Modals implements Configuration {
         dialogNONE.showAndWait();
     }
 
+    public static void showException(Exception e) {
+        Stage dialogNONE = new Stage();
+        dialogNONE.initModality(Modality.APPLICATION_MODAL);
+
+        Scene sceneNONE = new Scene(VBoxBuilder.create()
+                .children(
+                        new Text("Exeption"),
+                        new Text(e.getStackTrace().toString()))
+                .alignment(Pos.CENTER)
+                .padding(new Insets(10))
+                .build());
+
+        dialogNONE.setTitle("Exeption");
+        dialogNONE.setScene(sceneNONE);
+        donotResizeAndAddStyle(dialogNONE);
+        dialogNONE.showAndWait();
+    }
+
     public static void showInfoApplicationModal(String title, String text) {
         Stage dialogNONE = new Stage();
         dialogNONE.initModality(Modality.APPLICATION_MODAL);
