@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8"
-            fx:controller="editor.tests.multithreadumltoimg.cUmlToImg">
+            fx:controller="tests.multithreadumltoimg.cUmlToImg">
     <children>
         <ProgressBar fx:id="progressBar" layoutX="116.0" layoutY="128.0" prefWidth="200.0" progress="0.0"/>
         <Button layoutX="236.0" layoutY="228.0" mnemonicParsing="false" onAction="#bStopConvert" text="stop"/>

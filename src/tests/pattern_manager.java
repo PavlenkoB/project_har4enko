@@ -1,4 +1,4 @@
-package editor.tests;
+package tests;
 
 import editor.classes.DerbyDBManager;
 import editor.controllers.patterns_manager_C;

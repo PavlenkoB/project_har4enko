@@ -1,4 +1,4 @@
-package editor.tests.multithreadumltoimg;
+package tests.multithreadumltoimg;
 
 import Classes.Architecture;
 import editor.services.functions;

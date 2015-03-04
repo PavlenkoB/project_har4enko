@@ -3,6 +3,7 @@ package rating_arch.Controller;
 import Classes.Architecture;
 import Classes.Mark;
 import Classes.Task;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import editor.classes.DerbyDBManager;
 import editor.classes.Modals;
 import editor.services.arch_work;
@@ -781,9 +782,7 @@ public class rating_arch_C implements Initializable {
 
             }
         }catch (Exception e){
-            for (StackTraceElement element :e.getStackTrace()) {
-                Modals.showInfoApplicationModal("error", element.toString());
-            }
+            e.printStackTrace();
         }
     }
 
@@ -802,27 +801,35 @@ public class rating_arch_C implements Initializable {
                 Modals.showInfoApplicationModal("INfo","Crete marks direction");
             }
             mark_db = new DerbyDBManager(db_dir);
-
             System.out.print("Создаю таблиці)");
             try {
-                File in_dir = new File(getClass().getClassLoader().getResource("sql/create_marks_DB").getFile());
+                //todo сделать нормально блок с доступом к ресурсам
+                File in_dir;
+                in_dir = new File(this.getClass().getClassLoader().getResource("sql/create_marks_DB").getFile());
+                if (!in_dir.exists()) {
+                    in_dir = new File("sql/create_marks_DB");
+                    if (!in_dir.exists()) {
+                        Modals.showInfoApplicationModal("Err", "cant find resource sql/create_marks_DB");
+                        System.exit(-1);
+                    }
+                }
                 //ResourceAsStream("/editor/sql/creat_DB");
 
                 File[] fList;
 
                 fList = in_dir.listFiles();
 
-                for (int i = 0; i < fList.length; i++) {
+                for (File sql_file : fList) {
+                    System.out.println(sql_file.getName());
                     //Нужны только папки в место isFile() пишим isDirectory()
-                    if (fList[i].isFile()) {
-                        String filename = fList[i].getName();
+                    if (sql_file.isFile()) {
+                        String filename = sql_file.getName();
                         int dotPos = filename.lastIndexOf(".");
                         String ext = filename.substring(dotPos);
                         if (ext.equals(".sql")) {
-                            derby_DB.executeUpdate_from_file(fList[i]);
+                            derby_DB.executeUpdate_from_file(sql_file);
                         }
                     }
-
                 }
 
                 System.out.print("Создал таблиці)");

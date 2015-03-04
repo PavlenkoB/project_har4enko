@@ -1,4 +1,4 @@
-package editor.tests.thread;
+package tests.thread;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +22,7 @@ public class main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/editor/tests/thread/v_thread.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/tests/thread/v_thread.fxml"));
         primaryStage.setTitle("АРХІТЕКТОР ПРОГРАМНИХ СИСТЕМ");
         primaryStage.setScene(new Scene(root, 700, 500));
         primaryStage.setMinHeight(400);

@@ -1,4 +1,4 @@
-package editor.tests.multithreadumltoimg;
+package tests.multithreadumltoimg;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +22,7 @@ public class main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/editor/tests/multithreadumltoimg/vUmlToImg.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/tests/multithreadumltoimg/vUmlToImg.fxml"));
         primaryStage.setTitle("АРХІТЕКТОР ПРОГРАМНИХ СИСТЕМ");
         primaryStage.setScene(new Scene(root, 700, 500));
         primaryStage.setMinHeight(400);

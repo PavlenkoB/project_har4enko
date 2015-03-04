@@ -255,8 +255,9 @@ public class functions {
         }
         return class_image;
     }
+
     public static javafx.scene.image.Image drawClassImageThread(String class_text) {
-        return drawClassImageThread(class_text,new Integer(0));
+        return drawClassImageThread(class_text, new Integer(0));
     }
 
 
@@ -308,5 +309,20 @@ public class functions {
             e.printStackTrace();
         }
         return everything;
+    }
+
+    //todo протестить функцыю
+    public final static void clearConsole() {
+        try {
+            final String os = System.getProperty("os.name");
+
+            if (os.contains("Windows")) {
+                Runtime.getRuntime().exec("cls");
+            } else {
+                Runtime.getRuntime().exec("clear");
+            }
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
     }
 }

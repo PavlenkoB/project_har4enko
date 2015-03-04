@@ -1,4 +1,4 @@
-package editor.tests.thread;
+package tests.thread;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
