@@ -8,8 +8,8 @@ import java.sql.*;
 public class DerbyDBManager {
     private final String driver = "org.apache.derby.jdbc.EmbeddedDriver";
     private final String url = "jdbc:derby:";
-    private static String dbName = null;
-    private static Connection con = null;
+    private String dbName = null;
+    private Connection con = null;
 
     public DerbyDBManager(String dbName) {
         this.dbName = dbName;
@@ -49,8 +49,8 @@ public class DerbyDBManager {
         }
     }
 
-    public static Connection getCon() {
-        return con;
+    public Connection getCon() {
+        return this.con;
     }
 
     public void setCon(Connection con) {

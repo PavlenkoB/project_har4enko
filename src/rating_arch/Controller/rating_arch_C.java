@@ -682,9 +682,11 @@ public class rating_arch_C implements Initializable {
      */
     public void disconnect_DB(DerbyDBManager database) {//отключиться от БД
         try {
-            if (database.getCon() != null) {
-                if (!database.getCon().isClosed()) {
-                    database.disconectDB();
+            if (database != null) {
+                if (database.getCon() != null) {
+                    if (!database.getCon().isClosed()) {
+                        database.disconectDB();
+                    }
                 }
             }
         } catch (SQLException e) {
@@ -781,7 +783,7 @@ public class rating_arch_C implements Initializable {
             win.close();*/
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -797,8 +799,8 @@ public class rating_arch_C implements Initializable {
         //Если требуемого файла не существует.
         if (!db_dir.exists()) {
             //Создаем его.
-            if(!db_dir.mkdirs()){
-                Modals.showInfoApplicationModal("INfo","Crete marks direction");
+            if (!db_dir.mkdirs()) {
+                Modals.showInfoApplicationModal("INfo", "Crete marks direction");
             }
             mark_db = new DerbyDBManager(db_dir);
             System.out.print("Создаю таблиці)");
@@ -857,6 +859,8 @@ public class rating_arch_C implements Initializable {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        } else {
+            mark_db = new DerbyDBManager(db_dir);
         }
     }
 
@@ -870,6 +874,10 @@ public class rating_arch_C implements Initializable {
     public int crit_id(DerbyDBManager mark_db_conn, String crit_choise) throws SQLException {
         ResultSet rs;
         int id = 0;
+        if (mark_db_conn == null) {
+            Modals.showInfoApplicationModal("error", "conection to marks DB not establised");
+            System.exit(-1);
+        }
         rs = mark_db_conn.executeQuery("SELECT * FROM CRITERION WHERE NAME='" + crit_choise + "'");
         while (rs.next()) {
             id = rs.getInt("ID");

@@ -98,7 +98,7 @@ public class Architecture implements Cloneable {
 
             ImageIcon image = null;
             //TODO конект не тот(
-            Connection con = DerbyDBManager.getCon();
+            Connection con = derby_DB_connection.getCon();
             Statement s = con.createStatement();
             ResultSet rs = s.executeQuery("SELECT * FROM ARCHITECTURE WHERE ID=" + arch_id);
             if (rs.next()) {
