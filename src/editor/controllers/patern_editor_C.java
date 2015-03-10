@@ -102,6 +102,7 @@ public class patern_editor_C implements Initializable, Configuration {
         tmp_pattern.setUmlText(TA_pattern_uml.getText());
         tmp_pattern.setPreview(draw_uml.draw_class(TA_pattern_uml.getText()));
         Pattern.pattern_save_to_DB(tmp_pattern, derby_DB);
+        Modals.showInfoApplicationModal("Інформація", "Паттерн збережено");
     }
 
     public void cancel(ActionEvent actionEvent) {

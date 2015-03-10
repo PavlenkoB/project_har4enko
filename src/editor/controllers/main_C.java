@@ -90,7 +90,6 @@ public class main_C extends JPanel implements Initializable, Configuration {
     public void initData(Module module, DerbyDBManager derby_con) {
         derby_DB = derby_con;
         if (derby_DB != null) {
-            //MM_1_1_connect.setDisable(true);
             MM_1_3_disconnect.setDisable(false);
         }
 
@@ -125,8 +124,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
                         RB.getString("загальні.ви_впевнені_що_бажаете_вийти_незбережені_зміни_буде_втрачено"))) {//да
                 } else {//нет
                     we.consume();
-                }/**/
-                //we.consume();
+                }
             }
         });
     }
@@ -158,13 +156,13 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
 //TODO Del
 
-        /*try {
+        try {
             derby_DB = new DerbyDBManager("DB/paterns_DB");
             list_load_DB();
         } catch (Exception e) {
             e.printStackTrace();
             derby_DB = null;
-        }*/
+        }/**/
 
         if (derby_DB != null) {
             MM_1_1_connect.setDisable(true);
