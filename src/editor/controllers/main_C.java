@@ -174,7 +174,9 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
     public void connect_DB(ActionEvent actionEvent) {
         try {
-            disconnect_DB(null);
+            if (derby_DB != null) {
+                disconnect_DB(null);
+            }
             // существет ли база(создана ли)
             DirectoryChooser db_dir_FC = new DirectoryChooser();
             db_dir_FC.setInitialDirectory(new File(System.getProperty("user.dir")));
