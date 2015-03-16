@@ -48,7 +48,7 @@ public class Controller_mode_selection_user_menu implements Initializable {
             Stage stage = new Stage();
             Parent root;
             root = FXMLLoader.load(getClass().getResource("/mode_selection/Close.fxml"));
-            stage.setTitle("Закриття програми");
+            stage.setTitle("Завершити програму");
             stage.setScene(new Scene(root, 600, 130));
             stage.setResizable(false);
             stage.show();
