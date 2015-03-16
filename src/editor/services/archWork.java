@@ -75,15 +75,15 @@ public class archWork {
             }
 
             for (int i = 0; i < architectureArrayList.size(); i++) {
-                int id_done = architectureArrayList.get(i).getId_done();
+                int id_done = architectureArrayList.get(i).getIdDone();
 
 
                 architectureArrayList.set(i, architectureType.clone());
-                architectureArrayList.get(i).setId_done(id_done);
+                architectureArrayList.get(i).setIdDone(id_done);
                 architectureArrayList.get(i).setTask_id(task_id);
 
                 rsLay = null;
-                rsLay = patternDB.executeQuery("SELECT * FROM LAY_DONE WHERE ARCH_DONE_ID=" + architectureArrayList.get(i).getId_done());
+                rsLay = patternDB.executeQuery("SELECT * FROM LAY_DONE WHERE ARCH_DONE_ID=" + architectureArrayList.get(i).getIdDone());
                 while (rsLay.next()) {
                     for (int j = 0; j < architectureArrayList.get(i).getLayers().size(); j++) {
                         if (rsLay.getInt("LAY_ID") == architectureArrayList.get(i).getLayers().get(j).getId()) {

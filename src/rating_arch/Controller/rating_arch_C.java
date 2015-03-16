@@ -237,32 +237,32 @@ public class rating_arch_C implements Initializable {
 /*
         for (int i = 0; i < architecture_done_choise.size(); i++) {
             int task_id = architecture_done_choise.get(i).getTask_id(),
-                    id_done = architecture_done_choise.get(i).getId_done();
+                    id_done = architecture_done_choise.get(i).getIdDone();
 
             try {
                 architecture_done_choise.set(i, architecture_done_choise_type.clone());
             } catch (CloneNotSupportedException e) {
                 e.printStackTrace();
             }
-            architecture_done_choise.get(i).setId_done(id_done);
+            architecture_done_choise.get(i).setIdDone(id_done);
             architecture_done_choise.get(i).setTask_id(task_id);
 
             try {
-                rs = derby_DB.executeQuery("SELECT * FROM LAY_DONE WHERE ARCH_DONE_ID=" + architecture_done_choise.get(i).getId_done());
+                rs = derby_DB.executeQuery("SELECT * FROM LAY_DONE WHERE ARCH_DONE_ID=" + architecture_done_choise.get(i).getIdDone());
                 while (rs.next()) {
                     for (int j = 0; j < architecture_done_choise.get(i).getLayers().size(); j++) {
                         if (rs.getInt("LAY_ID") == architecture_done_choise.get(i).getLayers().get(j).getId()) {
-                            architecture_done_choise.get(i).getLayers().get(j).setId_done(rs.getInt("ID"));
+                            architecture_done_choise.get(i).getLayers().get(j).setIdDone(rs.getInt("ID"));
                         }
                     }
                 }
                 for (int j = 0; j < architecture_done_choise.get(i).getLayers().size(); j++) {
                     rs = null;
-                    rs = derby_DB.executeQuery("SELECT * FROM MODULE_DONE WHERE LAY_DONE_ID=" + architecture_done_choise.get(i).getLayers().get(j).getId_done());
+                    rs = derby_DB.executeQuery("SELECT * FROM MODULE_DONE WHERE LAY_DONE_ID=" + architecture_done_choise.get(i).getLayers().get(j).getIdDone());
                     while (rs.next()) {
                         for (int k = 0; k < architecture_done_choise.get(i).getLayers().get(j).getModules().size(); k++) {
                             if (rs.getInt("MOD_ID") == architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).getId()) {
-                                architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).setId_done(rs.getInt("ID"));
+                                architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).setIdDone(rs.getInt("ID"));
                                 for (int p = 0; p < architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).getAvilable_patterns().size(); p++) {
                                     if (architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).getAvilable_patterns().get(p).getId() == rs.getInt("PATTERN_ID")) {
                                         architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).setSelected_pattern(architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).getAvilable_patterns().get(p));
@@ -676,7 +676,7 @@ public class rating_arch_C implements Initializable {
 
             for (int i = 0; i < markArrayList.size(); i++) {
                 try {
-                    marks_save_to_DB(markArrayList.get(i), architecture_done_choise.get(markArrayList.get(i).getNum_arch_0()).getId_done(), architecture_done_choise.get(markArrayList.get(i).getNum_arch_1()).getId_done(), session_id, mark_db);
+                    marks_save_to_DB(markArrayList.get(i), architecture_done_choise.get(markArrayList.get(i).getNum_arch_0()).getIdDone(), architecture_done_choise.get(markArrayList.get(i).getNum_arch_1()).getIdDone(), session_id, mark_db);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

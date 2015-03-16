@@ -35,7 +35,7 @@ public class Architecture implements Cloneable {
     private String name;                                         // name of architecture
     private ArrayList<Layer> layers = new ArrayList<Layer>();   //array fo layers
     private String description;                                 // architecture description
-    private Integer id_done;                                    //TODO
+    private Integer idDone;                                    //TODO
     private Integer task_id;                                    //TODO
     private String usecase;                                     // plantuml text of architecture
     private javafx.scene.image.Image preview;                   //architecture preview
@@ -45,16 +45,16 @@ public class Architecture implements Cloneable {
         this.name = new String();
         this.layers = null;
         this.description = new String();
-        this.id_done = 0;
+        this.idDone = 0;
         this.task_id = 0;
         this.usecase = new String();
     }
 
 
-    public Architecture(Integer id, String name, Integer id_done, Integer task_id) {
+    public Architecture(Integer id, String name, Integer idDone, Integer task_id) {
         this.id = id;
         this.name = name;
-        this.id_done = id_done;
+        this.idDone = idDone;
         this.task_id = task_id;
         this.layers = null;
         this.description = new String();
@@ -67,12 +67,12 @@ public class Architecture implements Cloneable {
     }
 
 
-    public Architecture(Integer id, String name, ArrayList<Layer> layers, String description, Integer id_done, Integer task_id) {
+    public Architecture(Integer id, String name, ArrayList<Layer> layers, String description, Integer idDone, Integer task_id) {
         this.id = id;
         this.name = name;
         this.layers = layers;
         this.description = description;
-        this.id_done = id_done;
+        this.idDone = idDone;
         this.task_id = task_id;
     }
 
@@ -523,7 +523,7 @@ public class Architecture implements Cloneable {
         }
         a_return.layers = layers;
         a_return.description = this.description;
-        a_return.id_done = this.id_done;
+        a_return.idDone = this.idDone;
         a_return.task_id = this.task_id;
         a_return.usecase = this.usecase;
         //TODO картинку тоже клонировать
@@ -565,12 +565,12 @@ public class Architecture implements Cloneable {
         this.description = description;
     }
 
-    public Integer getId_done() {
-        return id_done;
+    public Integer getIdDone() {
+        return idDone;
     }
 
-    public void setId_done(Integer id_done) {
-        this.id_done = id_done;
+    public void setIdDone(Integer idDone) {
+        this.idDone = idDone;
     }
 
     public Integer getTask_id() {
