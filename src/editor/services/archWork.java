@@ -2,7 +2,7 @@ package editor.services;
 
 import Classes.Architecture;
 import editor.classes.DerbyDBManager;
-import editor.classes.result_info;
+import editor.classes.resultInfo;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,7 +25,7 @@ public class archWork {
      * @param derby_DB_connection Підключення до БД
      * @return чи вдалося зберегти
      */
-    public static result_info arch_save_to_DB(Architecture arch_in, DerbyDBManager derby_DB_connection) {//Зберегти архітектуру в БД
+    public static resultInfo arch_save_to_DB(Architecture arch_in, DerbyDBManager derby_DB_connection) {//Зберегти архітектуру в БД
         return Architecture.arch_save_to_DB(arch_in, derby_DB_connection);
     }
 

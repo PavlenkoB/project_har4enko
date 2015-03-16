@@ -374,7 +374,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
     public void load_this_arch_DB(ActionEvent actionEvent) {//ЗАгрузить архитектуру с базы
         //Читае Идентиф. Параметра
-        arch_tmp = archWork.arch_load_from_DB(((id_Lable) LV_archs_DB.getSelectionModel().getSelectedItems().get(0)).getDbid(), derby_DB);
+        arch_tmp = archWork.arch_load_from_DB(((idLable) LV_archs_DB.getSelectionModel().getSelectedItems().get(0)).getDbid(), derby_DB);
         try {
             arch_old = arch_tmp.clone();//сохраним оригинальный вариант архитектуры
         } catch (CloneNotSupportedException e) {
@@ -405,7 +405,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
                 options,  //the titles of buttons
                 options[0]); //default button title
         if (n == 0) {
-            String query = "DELETE FROM ARCHITECTURE WHERE ID=" + ((id_Lable) LV_archs_DB.getSelectionModel().getSelectedItems().get(0)).getDbid();
+            String query = "DELETE FROM ARCHITECTURE WHERE ID=" + ((idLable) LV_archs_DB.getSelectionModel().getSelectedItems().get(0)).getDbid();
             try {
                 derby_DB.executeUpdate(query);
             } catch (Exception e) {
@@ -424,9 +424,9 @@ public class main_C extends JPanel implements Initializable, Configuration {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            ObservableList<id_Lable> items = FXCollections.observableArrayList();
+            ObservableList<idLable> items = FXCollections.observableArrayList();
             while (rs.next()) {
-                id_Lable tmp_lable = new id_Lable(rs.getInt("ID"), rs.getString("NAME"));
+                idLable tmp_lable = new idLable(rs.getInt("ID"), rs.getString("NAME"));
                 items.add(tmp_lable);
             }
             LV_archs_DB.setItems(items);
@@ -438,7 +438,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
     public void select_to_save_DB() {//скопировать имя патерна для сохранения
         if (derby_DB != null) {
-            TF_arch_name_DB.setText(((id_Lable) LV_archs_DB.getSelectionModel().getSelectedItems().get(0)).getText());
+            TF_arch_name_DB.setText(((idLable) LV_archs_DB.getSelectionModel().getSelectedItems().get(0)).getText());
         }
     }
 
@@ -722,7 +722,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
         arch_tmp.setPreview(arch_image);
         arch_tmp.setUsecase(TA_arch_relations.getText());
         arch_tmp.setDescription(TA_arch_description.getText());
-        result_info result = archWork.arch_save_to_DB(arch_tmp, derby_DB);
+        resultInfo result = archWork.arch_save_to_DB(arch_tmp, derby_DB);
         if (result.getStatus() == true) {
             Modals.showInfoApplicationModal(RB.getString("загальні.інформація"), "Архітектура успішно збережена.");
         } else {
@@ -808,7 +808,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                ObservableList<id_Lable> items = FXCollections.observableArrayList();
+                ObservableList<idLable> items = FXCollections.observableArrayList();
                 while (rs.next()) {
                     globalPatterns.add(Pattern.patternLoadFromDB(rs.getInt("ID"), derby_DB));
                 }
@@ -855,7 +855,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
                 docx = new XWPFDocument(new FileInputStream(docx_f));
                 tmpParagraph = docx.createParagraph();
                 tmpRun = tmpParagraph.createRun();
-                architecture = archWork.arch_load_from_DB(((id_Lable) LV_archs_DB.getItems().get(arch_nom)).getDbid(), derby_DB);
+                architecture = archWork.arch_load_from_DB(((idLable) LV_archs_DB.getItems().get(arch_nom)).getDbid(), derby_DB);
                 tmpRun.setText("(" + RB.getString("загальні.Архітектура") + ")" + architecture.getName());
                 docx.write(new FileOutputStream(docx_f));
 

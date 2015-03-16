@@ -2,12 +2,12 @@ package editor.services;
 
 import Classes.Pattern;
 import editor.classes.DerbyDBManager;
-import editor.classes.result_info;
+import editor.classes.resultInfo;
 
 /**
  * Created by godex_000 on 15.06.2014.
  */
-public class pattern_work {
+public class patternWork {
     //TODO опис функції
     public static Pattern pattern_load_from_DB(Integer pattern_id, DerbyDBManager derby_DB_connection) {
         return Pattern.patternLoadFromDB(pattern_id, derby_DB_connection);
@@ -20,7 +20,7 @@ public class pattern_work {
      * @param derby_DB_connection Підключення до БД
      * @return чи вдалося зберегти
      */
-    public static result_info pattern_save_to_DB(Pattern pattern_in, DerbyDBManager derby_DB_connection) {//Зберегти архітектуру в БД
+    public static resultInfo pattern_save_to_DB(Pattern pattern_in, DerbyDBManager derby_DB_connection) {//Зберегти архітектуру в БД
         return Pattern.pattern_save_to_DB(pattern_in, derby_DB_connection);
     }
 

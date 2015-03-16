@@ -5,10 +5,10 @@ import javafx.scene.control.Label;
 /**
  * Created by godex_000 on 03.07.2014.
  */
-public class id_Lable extends Label {
+public class idLable extends Label {
     Integer dbid;
 
-    public id_Lable(Integer id, String text) {
+    public idLable(Integer id, String text) {
         super(text);
         this.dbid = id;
     }

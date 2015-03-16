@@ -2,7 +2,7 @@ package Classes;
 
 import editor.classes.DerbyDBManager;
 import editor.classes.Modals;
-import editor.classes.result_info;
+import editor.classes.resultInfo;
 import editor.services.ImageConverter;
 import editor.services.drawUml;
 import javafx.collections.FXCollections;
@@ -167,8 +167,8 @@ public class Architecture implements Cloneable {
      * @param derby_DB_connection Підключення до БД
      * @return чи вдалося зберегти
      */
-    public static result_info arch_save_to_DB(Architecture arch_in, DerbyDBManager derby_DB_connection) {
-        result_info result = new result_info();
+    public static resultInfo arch_save_to_DB(Architecture arch_in, DerbyDBManager derby_DB_connection) {
+        resultInfo result = new resultInfo();
         try {
             //получить оригинал
             Architecture arch_old = arch_load_from_DB(arch_in.getId(), derby_DB_connection);

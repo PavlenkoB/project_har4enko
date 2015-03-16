@@ -1,7 +1,7 @@
 package Classes;
 
 import editor.classes.DerbyDBManager;
-import editor.classes.result_info;
+import editor.classes.resultInfo;
 import editor.services.ImageConverter;
 import javafx.scene.image.Image;
 
@@ -115,8 +115,8 @@ public class Pattern implements Cloneable {
      * @param derby_DB_connection Підключення до БД
      * @return чи вдалося зберегти
      */
-    public static result_info pattern_save_to_DB(Pattern pattern_in, DerbyDBManager derby_DB_connection) {//Зберегти архітектуру в БД
-        result_info result = new result_info();
+    public static resultInfo pattern_save_to_DB(Pattern pattern_in, DerbyDBManager derby_DB_connection) {//Зберегти архітектуру в БД
+        resultInfo result = new resultInfo();
         if (pattern_in.getId() == null || pattern_in.getId().toString().equals("")) {
             ResultSet rs_tmp;
             try {

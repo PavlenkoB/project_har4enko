@@ -4,7 +4,7 @@ import Classes.*;
 import editor.classes.DerbyDBManager;
 import editor.services.archWork;
 import editor.services.functions;
-import editor.services.gen_arch_done;
+import editor.services.genArchDone;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -594,7 +594,7 @@ public class create_arch_C implements Initializable {
         back_grid_vis.getChildren().add(archery);
 
         architectures_done.clear();
-        architectures_done = gen_arch_done.pre_combine(arc_choise, module_done);
+        architectures_done = genArchDone.pre_combine(arc_choise, module_done);
     }
 
     public void Save_arch(ActionEvent actionEvent) {

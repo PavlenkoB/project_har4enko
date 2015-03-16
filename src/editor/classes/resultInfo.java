@@ -6,16 +6,16 @@ package editor.classes;
  * @author godex_000
  *         Клас для того что бі возвращать результат роботи
  */
-public class result_info {
+public class resultInfo {
     private Boolean status;
     private String comment;
 
-    public result_info() {
+    public resultInfo() {
         status = false;
         comment = "Unknown error";
     }
 
-    public result_info(Boolean status, String comment) {
+    public resultInfo(Boolean status, String comment) {
         this.status = status;
         this.comment = comment;
     }

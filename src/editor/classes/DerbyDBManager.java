@@ -109,8 +109,8 @@ public class DerbyDBManager {
      * @author godex_000
      */
     // запрос на обновление базы данных  (INSERT, UPDATE, CREATE TABLE и т.п.) с файла
-    public result_info executeUpdate_from_file(File sql_file) throws SQLException {
-        result_info res = new result_info();
+    public resultInfo executeUpdate_from_file(File sql_file) throws SQLException {
+        resultInfo res = new resultInfo();
         try {
             BufferedReader in = new BufferedReader(new FileReader(sql_file));
             String str;
@@ -133,8 +133,8 @@ public class DerbyDBManager {
      * @return result_info.comment = коментар
      * @author godex_000
      */
-    public result_info executeUpdate_from_file(String aSQLScriptFilePath) throws SQLException {
-        result_info res = new result_info();
+    public resultInfo executeUpdate_from_file(String aSQLScriptFilePath) throws SQLException {
+        resultInfo res = new resultInfo();
         try {
             BufferedReader in = new BufferedReader(new FileReader(aSQLScriptFilePath));
             String str;

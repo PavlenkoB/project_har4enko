@@ -8,10 +8,10 @@ import Classes.Module;
 import Classes.Pattern;
 import editor.classes.DerbyDBManager;
 import editor.classes.Modals;
-import editor.classes.id_Lable;
+import editor.classes.idLable;
 import editor.interfaces.Configuration;
 import editor.services.drawUml;
-import editor.services.pattern_work;
+import editor.services.patternWork;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -136,7 +136,7 @@ public class paterns_editor_C implements Initializable, Configuration {
     // загрузка превю
     public void load_this_patern_DB(ActionEvent actionEvent) {//ЗАгрузить патерн с базы
         //Читае Идентиф. Параметра
-        edited_pattern = pattern_work.pattern_load_from_DB(((id_Lable) LV_paterns_DB.getSelectionModel().getSelectedItems().get(0)).getDbid(), derby_DB);
+        edited_pattern = patternWork.pattern_load_from_DB(((idLable) LV_paterns_DB.getSelectionModel().getSelectedItems().get(0)).getDbid(), derby_DB);
         TA_patern_description.setText(edited_pattern.getDescription());
         class_text.setText(edited_pattern.getUmlText());
         TF_patern_name_DB.setText(edited_pattern.getName());
@@ -152,7 +152,7 @@ public class paterns_editor_C implements Initializable, Configuration {
         edited_pattern.setPreview(drawUml.draw_class(class_text.getText()));
         edited_pattern.setType("");
         edited_pattern.setArch_id(Layer.load_layer_from_DB(edited_module.getLay_id(), derby_DB).getArch_id());
-        if (pattern_work.pattern_save_to_DB(edited_pattern, derby_DB).getStatus() == true) {
+        if (patternWork.pattern_save_to_DB(edited_pattern, derby_DB).getStatus() == true) {
             JOptionPane.showMessageDialog(null, RB.getString("патерн.збережено"), RB.getString("загальні.інформація"), JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, "Помилка збереження зверніться до Адміністратора чи програміста.", RB.getString("загальні.попередження"), JOptionPane.WARNING_MESSAGE);
@@ -173,7 +173,7 @@ public class paterns_editor_C implements Initializable, Configuration {
                 options,  //the titles of buttons
                 options[0]); //default button title
         if (n == 0) {
-            String query = "DELETE FROM PATERNS WHERE ID=" + ((id_Lable) LV_paterns_DB.getSelectionModel().getSelectedItems().get(0)).getDbid();
+            String query = "DELETE FROM PATERNS WHERE ID=" + ((idLable) LV_paterns_DB.getSelectionModel().getSelectedItems().get(0)).getDbid();
             try {
                 derby_DB.executeUpdate(query);
             } catch (SQLException e) {
@@ -208,10 +208,10 @@ public class paterns_editor_C implements Initializable, Configuration {
                 }
                 e.printStackTrace();
             }
-            ObservableList<id_Lable> items = FXCollections.observableArrayList();
+            ObservableList<idLable> items = FXCollections.observableArrayList();
 
             while (rs.next()) {
-                id_Lable tmp_lable = new id_Lable(rs.getInt("ID"), rs.getString("NAME"));
+                idLable tmp_lable = new idLable(rs.getInt("ID"), rs.getString("NAME"));
                 items.add(tmp_lable);
             }
             LV_paterns_DB.setItems(items);
@@ -223,7 +223,7 @@ public class paterns_editor_C implements Initializable, Configuration {
 
     public void select_to_save_DB() {//скопировать имя патерна для сохранения
         if (derby_DB != null) {
-            TF_patern_name_DB.setText(((id_Lable) LV_paterns_DB.getSelectionModel().getSelectedItems().get(0)).getText());
+            TF_patern_name_DB.setText(((idLable) LV_paterns_DB.getSelectionModel().getSelectedItems().get(0)).getText());
         }
         //load_this_patern_DB(null);
     }
