@@ -20,7 +20,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import static editor.services.Arch_work.arch_image_gen_with_patterns;
+import static editor.services.arch_work.arch_image_gen_with_patterns;
 
 /**
  * Created by Alex on 30.07.2014.
