@@ -1,10 +1,7 @@
 package marks_viewer.function;
 
 import editor.classes.DerbyDBManager;
-import javafx.event.ActionEvent;
 
-import javax.swing.*;
-import java.io.File;
 import java.sql.SQLException;
 
 /**
@@ -15,7 +12,8 @@ public class function {
 
     /**
      * Від'єднання від бази даних
-     * @param database                          -   база до від'єднання
+     *
+     * @param database -   база до від'єднання
      */
     public void disconnect_DB(DerbyDBManager database) {//отключиться от БД
         try {

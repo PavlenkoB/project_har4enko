@@ -5,7 +5,6 @@ package mode_selection;
  */
 
 import editor.controllers.main_C;
-import editor.controllers.patterns_manager_C;
 import editor.models.Main;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

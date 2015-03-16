@@ -57,6 +57,7 @@ public class DB_manager {
         ResultSet result = stmt.executeQuery(sql);
         return result;
     }
+
     public void disconectDB() {//отключиться от БД
         try {
             con.close();

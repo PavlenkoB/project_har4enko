@@ -42,7 +42,6 @@ public class preview {
         //descript.getChildren().clear();
 
 
-
         double zoom = 0.8;
         preview_im.setImage(null);
         preview_im.setFitHeight(preview_image.getRequestedHeight() * zoom);

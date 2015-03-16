@@ -85,7 +85,6 @@ public class Architecture implements Cloneable {
     }
 
 
-
     /**
      * @param arch_id
      * @param derby_DB_connection

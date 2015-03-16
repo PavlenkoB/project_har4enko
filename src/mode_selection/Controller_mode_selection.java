@@ -1,5 +1,6 @@
 package mode_selection;
 
+import editor.models.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,11 +8,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.stage.Stage;
+import rating_arch.Controller.rating_arch_C;
 
 import java.io.IOException;
-
-import rating_arch.Controller.*;
-import editor.models.Main;
 
 /**
  * Created by Alex on 06.05.2014.

@@ -1,8 +1,6 @@
 package mode_selection;
 
 import editor.models.Main;
-import mode_selection.win_choiser;
-import editor.services.functions;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -13,17 +11,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import rating_arch.Controller.rating_arch_C;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 /**
@@ -83,27 +78,28 @@ public class Controller_mode_selection_user implements Initializable {
     public void func_mode_choise(Number new_value) {
         ObservableList<String> func_mod = FXCollections.observableArrayList();
         func_mod.clear();
-        if (new_value.intValue()==0){
-            func_mod.addAll("Конструктор нових варіантів архітектур","Оцінювання існуючих архітектур");
-        } else if (new_value.intValue()==1){
-            func_mod.addAll("Редактор патернів та архітектур","Конструктор нових варіантів архітектур");
-        } else if (new_value.intValue()==2){
+        if (new_value.intValue() == 0) {
+            func_mod.addAll("Конструктор нових варіантів архітектур", "Оцінювання існуючих архітектур");
+        } else if (new_value.intValue() == 1) {
+            func_mod.addAll("Редактор патернів та архітектур", "Конструктор нових варіантів архітектур");
+        } else if (new_value.intValue() == 2) {
             func_mod.add("Оцінювання існуючих архітектур");
         } else {
             System.out.println("ошибка");
         }
-        func_choise.setItems(func_mod);;
+        func_choise.setItems(func_mod);
+        ;
     }
 
 
     public void sel_next_open_main(ActionEvent actionEvent) {
         Stage sel_mode = (Stage) sel_next.getScene().getWindow();
-        if (func_choise.getSelectionModel().getSelectedItem().equals("Конструктор нових варіантів архітектур")){
-            new win_choiser().win_choiser(0,sel_mode);
-        } else if (func_choise.getSelectionModel().getSelectedItem().equals("Оцінювання існуючих архітектур")){
-            new win_choiser().win_choiser(2,sel_mode);
-        } else if (func_choise.getSelectionModel().getSelectedItem().equals("Редактор патернів та архітектур")){
-            new win_choiser().win_choiser(1,sel_mode);
+        if (func_choise.getSelectionModel().getSelectedItem().equals("Конструктор нових варіантів архітектур")) {
+            new win_choiser().win_choiser(0, sel_mode);
+        } else if (func_choise.getSelectionModel().getSelectedItem().equals("Оцінювання існуючих архітектур")) {
+            new win_choiser().win_choiser(2, sel_mode);
+        } else if (func_choise.getSelectionModel().getSelectedItem().equals("Редактор патернів та архітектур")) {
+            new win_choiser().win_choiser(1, sel_mode);
         }
     }
 }

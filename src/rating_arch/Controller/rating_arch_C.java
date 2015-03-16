@@ -218,7 +218,7 @@ public class rating_arch_C implements Initializable {
         try {
             rs = derby_DB.executeQuery("SELECT * FROM TASK WHERE ID=" + functions.get_ID(task_list.getSelectionModel().getSelectedItem().toString()));
             rs.next();
-            task_choise = new Task(rs.getInt("ID"),rs.getString("NAME"),rs.getString("DESCRIPTION"));
+            task_choise = new Task(rs.getInt("ID"), rs.getString("NAME"), rs.getString("DESCRIPTION"));
 
             architecture_done_choise = new arch_work().architectureDoneArrayListFromDbByTaskID(task_choise.getId(), derby_DB);
 

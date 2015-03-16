@@ -10,8 +10,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import rating_arch.Controller.rating_arch_C;
-
 public class Main extends Application {
 
 /*    public void start(Stage primaryStage) throws Exception{

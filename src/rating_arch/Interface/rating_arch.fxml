@@ -1,94 +1,144 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-
-<AnchorPane id="AnchorPane" fx:id="root" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="630.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rating_arch.Controller.rating_arch_C">
+<AnchorPane id="AnchorPane" fx:id="root" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+            minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="630.0"
+            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="rating_arch.Controller.rating_arch_C">
     <children>
-        <AnchorPane fx:id="Rating_arch_1" layoutY="26.0" prefHeight="174.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+        <AnchorPane fx:id="Rating_arch_1" layoutY="26.0" prefHeight="174.0" prefWidth="200.0" visible="false"
+                    AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                    AnchorPane.topAnchor="25.0">
             <children>
-                <AnchorPane fx:id="back_gr_grid" prefHeight="279.0" prefWidth="610.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                <AnchorPane fx:id="back_gr_grid" prefHeight="279.0" prefWidth="610.0" AnchorPane.bottomAnchor="70.0"
+                            AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                     <children>
-                        <Label alignment="CENTER" layoutX="44.0048828125" layoutY="14.0" text="Виберіть завдання для оцінки альтернативних архітектур" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="20.0">
+                        <Label alignment="CENTER" layoutX="44.0048828125" layoutY="14.0"
+                               text="Виберіть завдання для оцінки альтернативних архітектур"
+                               AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="20.0">
                             <font>
-                                <Font size="18.0" />
+                                <Font size="18.0"/>
                             </font>
                         </Label>
-                        <ChoiceBox fx:id="task_list" layoutX="15.0" layoutY="108.5" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="150.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="110.0" />
-                        <Label alignment="CENTER" layoutX="16.0" layoutY="72.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="26.0" prefWidth="150.0" text="Назва завдання" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="70.0">
+                        <ChoiceBox fx:id="task_list" layoutX="15.0" layoutY="108.5" maxHeight="-Infinity"
+                                   maxWidth="-Infinity" prefWidth="150.0" AnchorPane.leftAnchor="15.0"
+                                   AnchorPane.topAnchor="110.0"/>
+                        <Label alignment="CENTER" layoutX="16.0" layoutY="72.0" maxHeight="-Infinity"
+                               maxWidth="-Infinity" prefHeight="26.0" prefWidth="150.0" text="Назва завдання"
+                               AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="70.0">
                             <font>
-                                <Font size="17.0" />
+                                <Font size="17.0"/>
                             </font>
                         </Label>
-                        <TextArea fx:id="task_description" layoutX="205.0" layoutY="110.0" prefHeight="138.0" prefWidth="385.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="190.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="110.0" />
-                        <Label layoutX="190.0" layoutY="74.5" prefHeight="26.0" prefWidth="394.0" text="Опис вибраного завдання" AnchorPane.leftAnchor="190.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="70.0">
+                        <TextArea fx:id="task_description" layoutX="205.0" layoutY="110.0" prefHeight="138.0"
+                                  prefWidth="385.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="190.0"
+                                  AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="110.0"/>
+                        <Label layoutX="190.0" layoutY="74.5" prefHeight="26.0" prefWidth="394.0"
+                               text="Опис вибраного завдання" AnchorPane.leftAnchor="190.0"
+                               AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="70.0">
                             <font>
-                                <Font size="17.0" />
+                                <Font size="17.0"/>
                             </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="16.0" layoutY="148.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="26.0" prefWidth="150.0" text="Критерій оцінки">
+                        <Label alignment="CENTER" layoutX="16.0" layoutY="148.0" maxHeight="-Infinity"
+                               maxWidth="-Infinity" prefHeight="26.0" prefWidth="150.0" text="Критерій оцінки">
                             <font>
-                                <Font size="17.0" />
+                                <Font size="17.0"/>
                             </font>
                         </Label>
-                        <ChoiceBox fx:id="mark_crit" layoutX="15.0" layoutY="184.0" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="150.0" />
+                        <ChoiceBox fx:id="mark_crit" layoutX="15.0" layoutY="184.0" maxHeight="-Infinity"
+                                   maxWidth="-Infinity" prefWidth="150.0"/>
                     </children>
                 </AnchorPane>
-                <Button id="Cancel" layoutX="439.0" layoutY="331.0" mnemonicParsing="false" onAction="#back_to_mode_sel" text="Відміна" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="180.0" />
-                <Button id="Arch_create_next_2" layoutX="519.0" layoutY="331.0" mnemonicParsing="false" onAction="#choice_task" prefWidth="-1.0" text="Обрати" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0" />
+                <Button id="Cancel" layoutX="439.0" layoutY="331.0" mnemonicParsing="false" onAction="#back_to_mode_sel"
+                        text="Відміна" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="180.0"/>
+                <Button id="Arch_create_next_2" layoutX="519.0" layoutY="331.0" mnemonicParsing="false"
+                        onAction="#choice_task" prefWidth="-1.0" text="Обрати" AnchorPane.bottomAnchor="15.0"
+                        AnchorPane.rightAnchor="65.0"/>
             </children>
         </AnchorPane>
-        <MenuBar id="new_arch_menu" prefHeight="25.0" prefWidth="629.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <MenuBar id="new_arch_menu" prefHeight="25.0" prefWidth="629.0" AnchorPane.leftAnchor="0.0"
+                 AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <menus>
                 <Menu mnemonicParsing="false" text="Файл">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#connect_DB" text="Під'єднання до БД" />
-                        <MenuItem mnemonicParsing="false" onAction="#close" text="Вихід" />
+                        <MenuItem mnemonicParsing="false" onAction="#connect_DB" text="Під'єднання до БД"/>
+                        <MenuItem mnemonicParsing="false" onAction="#close" text="Вихід"/>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Допомога">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Довідка" />
-                        <MenuItem mnemonicParsing="false" text="Про програму" />
+                        <MenuItem mnemonicParsing="false" text="Довідка"/>
+                        <MenuItem mnemonicParsing="false" text="Про програму"/>
                     </items>
                 </Menu>
             </menus>
         </MenuBar>
-        <AnchorPane fx:id="Rating_arch_2" layoutY="26.0" prefHeight="375.0" prefWidth="630.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+        <AnchorPane fx:id="Rating_arch_2" layoutY="26.0" prefHeight="375.0" prefWidth="630.0" visible="false"
+                    AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                    AnchorPane.topAnchor="25.0">
             <children>
-                <AnchorPane prefHeight="279.0" prefWidth="610.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+                <AnchorPane prefHeight="279.0" prefWidth="610.0" AnchorPane.bottomAnchor="70.0"
+                            AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
                     <children>
-                        <Label alignment="CENTER" layoutX="15.0" layoutY="14.0" prefHeight="27.0" prefWidth="274.0" text="Оцініть архітектури попарно" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="20.0">
+                        <Label alignment="CENTER" layoutX="15.0" layoutY="14.0" prefHeight="27.0" prefWidth="274.0"
+                               text="Оцініть архітектури попарно" AnchorPane.leftAnchor="15.0"
+                               AnchorPane.topAnchor="20.0">
                             <font>
-                                <Font size="18.0" />
+                                <Font size="18.0"/>
                             </font>
                         </Label>
-                        <TextField fx:id="crit" disable="true" layoutX="305.0" layoutY="21.0" prefHeight="25.0" prefWidth="292.0" AnchorPane.rightAnchor="13.0" />
-                        <AnchorPane fx:id="mark" layoutX="305.0" layoutY="251.0" prefHeight="38.0" prefWidth="292.0" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0">
+                        <TextField fx:id="crit" disable="true" layoutX="305.0" layoutY="21.0" prefHeight="25.0"
+                                   prefWidth="292.0" AnchorPane.rightAnchor="13.0"/>
+                        <AnchorPane fx:id="mark" layoutX="305.0" layoutY="251.0" prefHeight="38.0" prefWidth="292.0"
+                                    AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0">
                             <children>
-                                <Button layoutX="256.0" layoutY="13.0" mnemonicParsing="false" onAction="#mark_9" text="9" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="255.0" AnchorPane.topAnchor="5.0" />
-                                <Button layoutX="46.0" layoutY="13.0" mnemonicParsing="false" onAction="#mark_2" text="2" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="5.0" />
-                                <Button layoutX="233.0" layoutY="13.0" mnemonicParsing="false" onAction="#mark_8" text="8" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="225.0" AnchorPane.topAnchor="5.0" />
-                                <Button layoutX="79.0" layoutY="13.0" mnemonicParsing="false" onAction="#mark_3" text="3" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="5.0" />
-                                <Button layoutX="110.0" layoutY="13.0" mnemonicParsing="false" onAction="#mark_4" text="4" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="5.0" />
-                                <Button layoutX="197.0" layoutY="13.0" mnemonicParsing="false" onAction="#mark_7" text="7" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="195.0" AnchorPane.topAnchor="5.0" />
-                                <Button layoutX="170.0" layoutY="13.0" mnemonicParsing="false" onAction="#mark_6" text="6" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="165.0" AnchorPane.topAnchor="5.0" />
-                                <Button layoutX="139.0" layoutY="13.0" mnemonicParsing="false" onAction="#mark_5" text="5" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="135.0" AnchorPane.topAnchor="5.0" />
-                                <Button layoutX="14.0" layoutY="13.0" mnemonicParsing="false" onAction="#mark_1" text="1" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="5.0" />
+                                <Button layoutX="256.0" layoutY="13.0" mnemonicParsing="false" onAction="#mark_9"
+                                        text="9" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="255.0"
+                                        AnchorPane.topAnchor="5.0"/>
+                                <Button layoutX="46.0" layoutY="13.0" mnemonicParsing="false" onAction="#mark_2"
+                                        text="2" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="45.0"
+                                        AnchorPane.topAnchor="5.0"/>
+                                <Button layoutX="233.0" layoutY="13.0" mnemonicParsing="false" onAction="#mark_8"
+                                        text="8" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="225.0"
+                                        AnchorPane.topAnchor="5.0"/>
+                                <Button layoutX="79.0" layoutY="13.0" mnemonicParsing="false" onAction="#mark_3"
+                                        text="3" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="75.0"
+                                        AnchorPane.topAnchor="5.0"/>
+                                <Button layoutX="110.0" layoutY="13.0" mnemonicParsing="false" onAction="#mark_4"
+                                        text="4" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="105.0"
+                                        AnchorPane.topAnchor="5.0"/>
+                                <Button layoutX="197.0" layoutY="13.0" mnemonicParsing="false" onAction="#mark_7"
+                                        text="7" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="195.0"
+                                        AnchorPane.topAnchor="5.0"/>
+                                <Button layoutX="170.0" layoutY="13.0" mnemonicParsing="false" onAction="#mark_6"
+                                        text="6" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="165.0"
+                                        AnchorPane.topAnchor="5.0"/>
+                                <Button layoutX="139.0" layoutY="13.0" mnemonicParsing="false" onAction="#mark_5"
+                                        text="5" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="135.0"
+                                        AnchorPane.topAnchor="5.0"/>
+                                <Button layoutX="14.0" layoutY="13.0" mnemonicParsing="false" onAction="#mark_1"
+                                        text="1" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="15.0"
+                                        AnchorPane.topAnchor="5.0"/>
                             </children>
                         </AnchorPane>
-                        <TabPane layoutX="14.0" layoutY="53.0" prefHeight="200.0" prefWidth="580.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
+                        <TabPane layoutX="14.0" layoutY="53.0" prefHeight="200.0" prefWidth="580.0"
+                                 tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="60.0"
+                                 AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
                             <tabs>
                                 <Tab text="Текстове зображення">
                                     <content>
-                                        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0">
+                                        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                                    minHeight="0.0" minWidth="0.0">
                                             <children>
-                                                <ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <ScrollPane prefHeight="200.0" prefWidth="200.0"
+                                                            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                                            AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                     <content>
-                                                        <AnchorPane fx:id="text_view" />
+                                                        <AnchorPane fx:id="text_view"/>
                                                     </content>
                                                 </ScrollPane>
                                             </children>
@@ -99,24 +149,49 @@
                                     <content>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                             <children>
-                                                <SplitPane dividerPositions="0.5" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                                <SplitPane dividerPositions="0.5" prefHeight="200.0" prefWidth="200.0"
+                                                           AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0"
+                                                           AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
                                                     <items>
-                                                        <AnchorPane fx:id="ankor_im_1" prefHeight="123.0" prefWidth="286.0">
+                                                        <AnchorPane fx:id="ankor_im_1" prefHeight="123.0"
+                                                                    prefWidth="286.0">
                                                             <children>
-                                                                <AnchorPane fx:id="title_arch1" prefHeight="25.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                                                <ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0" GridPane.columnIndex="1">
+                                                                <AnchorPane fx:id="title_arch1" prefHeight="25.0"
+                                                                            prefWidth="200.0"
+                                                                            AnchorPane.leftAnchor="0.0"
+                                                                            AnchorPane.rightAnchor="0.0"
+                                                                            AnchorPane.topAnchor="0.0"/>
+                                                                <ScrollPane prefHeight="200.0" prefWidth="200.0"
+                                                                            AnchorPane.bottomAnchor="0.0"
+                                                                            AnchorPane.leftAnchor="0.0"
+                                                                            AnchorPane.rightAnchor="0.0"
+                                                                            AnchorPane.topAnchor="25.0"
+                                                                            GridPane.columnIndex="1">
                                                                     <content>
-                                                                        <ImageView fx:id="arch_1_im" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                                                        <ImageView fx:id="arch_1_im" fitHeight="150.0"
+                                                                                   fitWidth="200.0" pickOnBounds="true"
+                                                                                   preserveRatio="true"/>
                                                                     </content>
                                                                 </ScrollPane>
                                                             </children>
                                                         </AnchorPane>
-                                                        <AnchorPane fx:id="ankor_im_2" prefHeight="200.0" prefWidth="200.0">
+                                                        <AnchorPane fx:id="ankor_im_2" prefHeight="200.0"
+                                                                    prefWidth="200.0">
                                                             <children>
-                                                                <AnchorPane fx:id="title_arch2" prefHeight="25.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                                                <ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+                                                                <AnchorPane fx:id="title_arch2" prefHeight="25.0"
+                                                                            prefWidth="200.0"
+                                                                            AnchorPane.leftAnchor="0.0"
+                                                                            AnchorPane.rightAnchor="0.0"
+                                                                            AnchorPane.topAnchor="0.0"/>
+                                                                <ScrollPane prefHeight="200.0" prefWidth="200.0"
+                                                                            AnchorPane.bottomAnchor="0.0"
+                                                                            AnchorPane.leftAnchor="0.0"
+                                                                            AnchorPane.rightAnchor="0.0"
+                                                                            AnchorPane.topAnchor="25.0">
                                                                     <content>
-                                                                        <ImageView fx:id="arch_2_im" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                                                        <ImageView fx:id="arch_2_im" fitHeight="150.0"
+                                                                                   fitWidth="200.0" pickOnBounds="true"
+                                                                                   preserveRatio="true"/>
                                                                     </content>
                                                                 </ScrollPane>
                                                             </children>
@@ -129,47 +204,67 @@
                                 </Tab>
                             </tabs>
                         </TabPane>
-                        <Label alignment="CENTER" layoutX="32.0" layoutY="263.0" prefHeight="17.0" prefWidth="274.0" text="Градація оцінок" textAlignment="CENTER" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="300.0">
+                        <Label alignment="CENTER" layoutX="32.0" layoutY="263.0" prefHeight="17.0" prefWidth="274.0"
+                               text="Градація оцінок" textAlignment="CENTER" AnchorPane.bottomAnchor="35.0"
+                               AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="300.0">
                             <font>
-                                <Font size="13.0" />
+                                <Font size="13.0"/>
                             </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="159.0" layoutY="263.0" prefHeight="17.0" prefWidth="137.0" text="1-3 не значно краща" textAlignment="CENTER" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="300.0">
+                        <Label alignment="CENTER" layoutX="159.0" layoutY="263.0" prefHeight="17.0" prefWidth="137.0"
+                               text="1-3 не значно краща" textAlignment="CENTER" AnchorPane.bottomAnchor="25.0"
+                               AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="300.0">
                             <font>
-                                <Font size="11.0" />
+                                <Font size="11.0"/>
                             </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="159.0" layoutY="263.0" prefHeight="17.0" prefWidth="137.0" text="4-6 - краща" textAlignment="CENTER" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="300.0">
+                        <Label alignment="CENTER" layoutX="159.0" layoutY="263.0" prefHeight="17.0" prefWidth="137.0"
+                               text="4-6 - краща" textAlignment="CENTER" AnchorPane.bottomAnchor="15.0"
+                               AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="300.0">
                             <font>
-                                <Font size="11.0" />
+                                <Font size="11.0"/>
                             </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="159.0" layoutY="263.0" prefHeight="17.0" prefWidth="137.0" text="7-9 - значно краща" textAlignment="CENTER" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="300.0">
+                        <Label alignment="CENTER" layoutX="159.0" layoutY="263.0" prefHeight="17.0" prefWidth="137.0"
+                               text="7-9 - значно краща" textAlignment="CENTER" AnchorPane.bottomAnchor="5.0"
+                               AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="300.0">
                             <font>
-                                <Font size="11.0" />
+                                <Font size="11.0"/>
                             </font>
                         </Label>
                     </children>
                 </AnchorPane>
-                <Button id="Cancel" layoutX="439.0" layoutY="331.0" mnemonicParsing="false" onAction="#Start_rating" text="Відміна" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="180.0" />
-                <Button id="Arch_create_next_2" fx:id="Next_twise" layoutX="519.0" layoutY="331.0" mnemonicParsing="false" onAction="#next_twise" prefWidth="-1.0" text="Наступна пара" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0" />
+                <Button id="Cancel" layoutX="439.0" layoutY="331.0" mnemonicParsing="false" onAction="#Start_rating"
+                        text="Відміна" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="180.0"/>
+                <Button id="Arch_create_next_2" fx:id="Next_twise" layoutX="519.0" layoutY="331.0"
+                        mnemonicParsing="false" onAction="#next_twise" prefWidth="-1.0" text="Наступна пара"
+                        AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0"/>
             </children>
         </AnchorPane>
-        <AnchorPane fx:id="Rating_arch_3" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+        <AnchorPane fx:id="Rating_arch_3" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
+                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
             <children>
-                <Button id="Arch_create_next_2" fx:id="save_marks_but" layoutX="505.0" layoutY="330.0" mnemonicParsing="false" onAction="#Save_marks" prefHeight="25.0" prefWidth="150.0" text="Зберігти оцінки" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="40.0" />
-                <Button id="Cancel" layoutX="440.0" layoutY="310.0" mnemonicParsing="false" onAction="#Start_rating" prefWidth="150.0" text="Відмінити оцінювання" AnchorPane.bottomAnchor="45.0" AnchorPane.rightAnchor="40.0" />
-            <ScrollPane prefHeight="287.0" prefWidth="630.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-              <content>
-                <AnchorPane fx:id="mark_panel" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-              </content>
-            </ScrollPane>
-            <TextArea fx:id="note_field" layoutX="123.0" layoutY="306.0" prefHeight="55.0" prefWidth="250.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="150.0" />
-            <Label layoutX="38.0" layoutY="309.0" text="Примітка" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="50.0">
-               <font>
-                  <Font name="Times New Roman" size="20.0" />
-               </font>
-            </Label>
+                <Button id="Arch_create_next_2" fx:id="save_marks_but" layoutX="505.0" layoutY="330.0"
+                        mnemonicParsing="false" onAction="#Save_marks" prefHeight="25.0" prefWidth="150.0"
+                        text="Зберігти оцінки" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="40.0"/>
+                <Button id="Cancel" layoutX="440.0" layoutY="310.0" mnemonicParsing="false" onAction="#Start_rating"
+                        prefWidth="150.0" text="Відмінити оцінювання" AnchorPane.bottomAnchor="45.0"
+                        AnchorPane.rightAnchor="40.0"/>
+                <ScrollPane prefHeight="287.0" prefWidth="630.0" AnchorPane.bottomAnchor="75.0"
+                            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <content>
+                        <AnchorPane fx:id="mark_panel" minHeight="0.0" minWidth="0.0" prefHeight="200.0"
+                                    prefWidth="200.0"/>
+                    </content>
+                </ScrollPane>
+                <TextArea fx:id="note_field" layoutX="123.0" layoutY="306.0" prefHeight="55.0" prefWidth="250.0"
+                          AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="150.0"/>
+                <Label layoutX="38.0" layoutY="309.0" text="Примітка" AnchorPane.bottomAnchor="45.0"
+                       AnchorPane.leftAnchor="50.0">
+                    <font>
+                        <Font name="Times New Roman" size="20.0"/>
+                    </font>
+                </Label>
             </children>
         </AnchorPane>
     </children>

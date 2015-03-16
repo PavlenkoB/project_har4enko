@@ -110,8 +110,8 @@ public class Layer implements Cloneable {
         this.modules = modules;
     }
 
-    public static Layer load_layer_from_DB(Integer layer_id,DerbyDBManager dbManager){
-        Layer layer=new Layer();
+    public static Layer load_layer_from_DB(Integer layer_id, DerbyDBManager dbManager) {
+        Layer layer = new Layer();
         try {
             ResultSet rs_arch = dbManager.executeQuery("SELECT * FROM LAYER WHERE ID=" + layer_id);
             rs_arch.next();

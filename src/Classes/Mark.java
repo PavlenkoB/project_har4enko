@@ -16,6 +16,7 @@ public class Mark {
         this.num_arch_1 = num_arch_1;
         this.mark = mark;
     }
+
     public Mark(Integer num_arch_0, Integer num_arch_1, Integer mark) {
         this.num_arch_0 = num_arch_0;
         this.num_arch_1 = num_arch_1;
@@ -54,7 +55,7 @@ public class Mark {
         this.id = id;
     }
 
-    public Mark(){
+    public Mark() {
         this.id = null;
         this.num_arch_0 = null;
         this.num_arch_1 = null;

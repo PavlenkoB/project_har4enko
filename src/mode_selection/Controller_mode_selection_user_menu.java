@@ -2,12 +2,9 @@ package mode_selection;
 
 import Classes.log_in;
 import editor.models.Main;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -20,7 +17,6 @@ import javafx.stage.Stage;
 import rating_arch.Controller.rating_arch_C;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
@@ -70,15 +66,15 @@ public class Controller_mode_selection_user_menu implements Initializable {
 
         ObservableList<String> user = FXCollections.observableArrayList();
         user.clear();
-        user.addAll(new String("Адміністратор"),new String("Архітектор"),new String("Експерт"));
+        user.addAll(new String("Адміністратор"), new String("Архітектор"), new String("Експерт"));
         user_choise.setItems(user);
 
         BufferedReader logining_read = null;
-        ArrayList <String> buff_log = new ArrayList<>();
+        ArrayList<String> buff_log = new ArrayList<>();
 
         try {
             logining_read = new BufferedReader(new FileReader("DB/ssap"));
-        String line;
+            String line;
             while ((line = logining_read.readLine()) != null) {
                 buff_log.add(line);
                 log_ins.add(new log_in());
@@ -89,21 +85,21 @@ public class Controller_mode_selection_user_menu implements Initializable {
         }
 
 
-        for (int i=0; i<buff_log.size(); i++){
+        for (int i = 0; i < buff_log.size(); i++) {
             int string_length = 0;
-            String log="";
-            String pass="";
+            String log = "";
+            String pass = "";
             boolean contr = false;
 
-            while (string_length<(buff_log.get(i).length())){
-                if ((buff_log.get(i).charAt(string_length)=='/')){
-                    contr=true;
+            while (string_length < (buff_log.get(i).length())) {
+                if ((buff_log.get(i).charAt(string_length) == '/')) {
+                    contr = true;
                 }
-                if (!contr){
-                    log+=buff_log.get(i).charAt(string_length);
+                if (!contr) {
+                    log += buff_log.get(i).charAt(string_length);
                 }
-                if ((contr)&!(buff_log.get(i).charAt(string_length)=='/')){
-                    pass+=buff_log.get(i).charAt(string_length);
+                if ((contr) & !(buff_log.get(i).charAt(string_length) == '/')) {
+                    pass += buff_log.get(i).charAt(string_length);
                 }
                 string_length++;
             }
@@ -127,25 +123,25 @@ public class Controller_mode_selection_user_menu implements Initializable {
 
     public void rating_arch(ActionEvent actionEvent) {
         Stage sel_mode = (Stage) sel_next.getScene().getWindow();
-        new win_choiser().win_choiser(2,sel_mode);
+        new win_choiser().win_choiser(2, sel_mode);
     }
 
     public void create_new_arch(ActionEvent actionEvent) {
         Stage sel_mode = (Stage) sel_next.getScene().getWindow();
-        new win_choiser().win_choiser(0,sel_mode);
+        new win_choiser().win_choiser(0, sel_mode);
     }
 
     public void edit_arch(ActionEvent actionEvent) {
         Stage sel_mode = (Stage) sel_next.getScene().getWindow();
-        new win_choiser().win_choiser(1,sel_mode);
+        new win_choiser().win_choiser(1, sel_mode);
     }
 
     public void logining(ActionEvent actionEvent) {
-        String password=null;
+        String password = null;
         boolean log = false;
-        if(user_choise.getSelectionModel().getSelectedItem().equals("Адміністратор")){
-            for (int i=0; i<log_ins.size();i++){
-                if (log_ins.get(i).getLogin().equals("adm") & pass_write.getText().equals(log_ins.get(i).getPassword())){
+        if (user_choise.getSelectionModel().getSelectedItem().equals("Адміністратор")) {
+            for (int i = 0; i < log_ins.size(); i++) {
+                if (log_ins.get(i).getLogin().equals("adm") & pass_write.getText().equals(log_ins.get(i).getPassword())) {
                     adm_menu.setDisable(false);
                     arch_menu.setDisable(true);
                     exp_menu.setDisable(true);
@@ -154,29 +150,29 @@ public class Controller_mode_selection_user_menu implements Initializable {
                     Label log_mass = new Label("Вхід виконано - Адміністратором");
                     log_mass.setAlignment(Pos.CENTER);
                     log_mass.setFont(Font.font(15));
-                    log_massage.setRightAnchor(log_mass,25.0);
+                    log_massage.setRightAnchor(log_mass, 25.0);
                     log_massage.setLeftAnchor(log_mass, 25.0);
                     log_massage.setTopAnchor(log_mass, 5.0);
-                    log_massage.setBottomAnchor(log_mass,5.0);
+                    log_massage.setBottomAnchor(log_mass, 5.0);
                     log_massage.getChildren().add(log_mass);
                     log = true;
-                }
-                else if (!log){
+                } else if (!log) {
                     log_massage.getChildren().clear();
                     Label log_mass = new Label("Пароль введений невірно");
                     log_mass.setAlignment(Pos.CENTER);
                     log_mass.setFont(Font.font(15));
-                    log_massage.setRightAnchor(log_mass,25.0);
+                    log_massage.setRightAnchor(log_mass, 25.0);
                     log_massage.setLeftAnchor(log_mass, 25.0);
                     log_massage.setTopAnchor(log_mass, 5.0);
-                    log_massage.setBottomAnchor(log_mass,5.0);
+                    log_massage.setBottomAnchor(log_mass, 5.0);
                     log_massage.getChildren().add(log_mass);
                 }
             }
-        };
-        if(user_choise.getSelectionModel().getSelectedItem().equals("Архітектор")){
-            for (int i=0; i<log_ins.size();i++){
-                if (log_ins.get(i).getLogin().equals("arch") & pass_write.getText().equals(log_ins.get(i).getPassword())){
+        }
+        ;
+        if (user_choise.getSelectionModel().getSelectedItem().equals("Архітектор")) {
+            for (int i = 0; i < log_ins.size(); i++) {
+                if (log_ins.get(i).getLogin().equals("arch") & pass_write.getText().equals(log_ins.get(i).getPassword())) {
                     adm_menu.setDisable(true);
                     arch_menu.setDisable(false);
                     exp_menu.setDisable(true);
@@ -185,29 +181,29 @@ public class Controller_mode_selection_user_menu implements Initializable {
                     Label log_mass = new Label("Вхід виконано - Архітектором");
                     log_mass.setAlignment(Pos.CENTER);
                     log_mass.setFont(Font.font(15));
-                    log_massage.setRightAnchor(log_mass,25.0);
+                    log_massage.setRightAnchor(log_mass, 25.0);
                     log_massage.setLeftAnchor(log_mass, 25.0);
                     log_massage.setTopAnchor(log_mass, 5.0);
-                    log_massage.setBottomAnchor(log_mass,5.0);
+                    log_massage.setBottomAnchor(log_mass, 5.0);
                     log_massage.getChildren().add(log_mass);
                     log = true;
-                }
-                else if (!log){
+                } else if (!log) {
                     log_massage.getChildren().clear();
                     Label log_mass = new Label("Пароль введений невірно");
                     log_mass.setAlignment(Pos.CENTER);
                     log_mass.setFont(Font.font(15));
-                    log_massage.setRightAnchor(log_mass,25.0);
+                    log_massage.setRightAnchor(log_mass, 25.0);
                     log_massage.setLeftAnchor(log_mass, 25.0);
                     log_massage.setTopAnchor(log_mass, 5.0);
-                    log_massage.setBottomAnchor(log_mass,5.0);
+                    log_massage.setBottomAnchor(log_mass, 5.0);
                     log_massage.getChildren().add(log_mass);
                 }
             }
-        };
-        if(user_choise.getSelectionModel().getSelectedItem().equals("Експерт")){
-            for (int i=0; i<log_ins.size();i++){
-                if (log_ins.get(i).getLogin().equals("exp") & pass_write.getText().equals(log_ins.get(i).getPassword())){
+        }
+        ;
+        if (user_choise.getSelectionModel().getSelectedItem().equals("Експерт")) {
+            for (int i = 0; i < log_ins.size(); i++) {
+                if (log_ins.get(i).getLogin().equals("exp") & pass_write.getText().equals(log_ins.get(i).getPassword())) {
                     adm_menu.setDisable(true);
                     arch_menu.setDisable(true);
                     exp_menu.setDisable(false);
@@ -216,26 +212,26 @@ public class Controller_mode_selection_user_menu implements Initializable {
                     Label log_mass = new Label("Вхід виконано - Експертом");
                     log_mass.setAlignment(Pos.CENTER);
                     log_mass.setFont(Font.font(15));
-                    log_massage.setRightAnchor(log_mass,25.0);
+                    log_massage.setRightAnchor(log_mass, 25.0);
                     log_massage.setLeftAnchor(log_mass, 25.0);
                     log_massage.setTopAnchor(log_mass, 5.0);
-                    log_massage.setBottomAnchor(log_mass,5.0);
+                    log_massage.setBottomAnchor(log_mass, 5.0);
                     log_massage.getChildren().add(log_mass);
                     log = true;
-                }
-                else if (!log){
+                } else if (!log) {
                     log_massage.getChildren().clear();
                     Label log_mass = new Label("Пароль введений невірно");
                     log_mass.setAlignment(Pos.CENTER);
                     log_mass.setFont(Font.font(15));
-                    log_massage.setRightAnchor(log_mass,25.0);
+                    log_massage.setRightAnchor(log_mass, 25.0);
                     log_massage.setLeftAnchor(log_mass, 25.0);
                     log_massage.setTopAnchor(log_mass, 5.0);
-                    log_massage.setBottomAnchor(log_mass,5.0);
+                    log_massage.setBottomAnchor(log_mass, 5.0);
                     log_massage.getChildren().add(log_mass);
                 }
             }
-        };
+        }
+        ;
     }
 
     public void onEnter(ActionEvent actionEvent) {

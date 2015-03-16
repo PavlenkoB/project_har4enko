@@ -1,7 +1,6 @@
 package editor.services;
 
 import Classes.Architecture;
-import Classes.Layer;
 import editor.classes.DerbyDBManager;
 import editor.classes.result_info;
 
@@ -83,7 +82,7 @@ public class arch_work {
                 architectureArrayList.get(i).setId_done(id_done);
                 architectureArrayList.get(i).setTask_id(task_id);
 
-                rsLay =null;
+                rsLay = null;
                 rsLay = patternDB.executeQuery("SELECT * FROM LAY_DONE WHERE ARCH_DONE_ID=" + architectureArrayList.get(i).getId_done());
                 while (rsLay.next()) {
                     for (int j = 0; j < architectureArrayList.get(i).getLayers().size(); j++) {

@@ -1,128 +1,163 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.controllers.marks_viewer_contoller">
-   <children>
-      <MenuBar id="new_arch_menu" layoutY="2.0" prefHeight="25.0" prefWidth="629.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <menus>
-            <Menu mnemonicParsing="false" text="Файл">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#connect_DB_repository" text="Під'єднання до Репозитарію архітектур" />
-                  <MenuItem mnemonicParsing="false" onAction="#connect_DB_mark" text="Під'єднання до Бази оцінок" />
-                  <MenuItem mnemonicParsing="false" onAction="#close" text="Вихід" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Допомога">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Довідка" />
-                  <MenuItem mnemonicParsing="false" text="Про програму" />
-               </items>
-            </Menu>
-         </menus>
-      </MenuBar>
-      <AnchorPane fx:id="marks_viewer_anchor_0" layoutX="10.0" layoutY="36.0" prefHeight="174.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
-         <children>
-            <AnchorPane fx:id="session_choise_anchor" prefHeight="279.0" prefWidth="610.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-               <children>
-                  <Label alignment="CENTER" layoutX="15.0" layoutY="14.0" text="Виберіть завдання та сесію оцінювання для перегляду оцінок архітектурр" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="14.0">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <ChoiceBox fx:id="session_list_choisebox" layoutX="15.0" layoutY="99.0" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="150.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="100.0" />
-                  <Label alignment="CENTER" layoutX="16.0" layoutY="72.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="26.0" prefWidth="150.0" text="Сесія - завдання" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="75.0">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
-                  <TextArea fx:id="task_description" layoutX="209.0" layoutY="111.0" prefHeight="65.0" prefWidth="350.0" AnchorPane.leftAnchor="205.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="111.0" />
-                  <Label layoutX="209.0" layoutY="70.0" prefHeight="26.0" prefWidth="249.0" text="Опис завдання" AnchorPane.rightAnchor="115.0" AnchorPane.topAnchor="70.0">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
-                  <Label alignment="CENTER" layoutX="15.0" layoutY="135.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="26.0" prefWidth="150.0" text="Критерій оцінки" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="125.0">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="Criteriy_name" editable="false" layoutX="19.0" layoutY="171.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="150.0" />
-                  <Label alignment="CENTER" layoutX="19.0" layoutY="211.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="26.0" prefWidth="150.0" text="Дата сесії" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="175.0">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="dateTextField" editable="false" layoutX="16.0" layoutY="201.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="200.0" />
-                  <TextField fx:id="Note_field" alignment="TOP_LEFT" layoutX="209.0" layoutY="200.0" prefHeight="65.0" prefWidth="350.0" AnchorPane.leftAnchor="205.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="205.0" />
-                  <Label layoutX="209.0" layoutY="175.0" prefHeight="26.0" prefWidth="249.0" text="Примітки" AnchorPane.rightAnchor="115.0" AnchorPane.topAnchor="175.0">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
-            <Button id="choice_session" layoutX="519.0" layoutY="331.0" mnemonicParsing="false" onAction="#choice_session" prefWidth="-1.0" text="Обрати" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0" />
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="mark_view_matrix" layoutY="25.0" prefHeight="375.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
-         <children>
-            <ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-              <content>
-                <AnchorPane fx:id="marks_matrix" />
-              </content>
-            </ScrollPane>
-            <Button layoutX="496.0" layoutY="336.0" mnemonicParsing="false" onAction="#close" prefHeight="25.0" prefWidth="100.0" text="Вихід" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="75.0" />
-            <Button fx:id="back" layoutX="290.0" layoutY="336.0" mnemonicParsing="false" onAction="#Session_choise" prefHeight="25.0" prefWidth="100.0" text="Обрати сесію" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="200.0" />
-         </children></AnchorPane>
-      <Label layoutX="274.0" layoutY="168.0" text="Mark 1.1" visible="false" />
-      <Label layoutX="274.0" layoutY="202.0" text="Mark 1.1" visible="false" />
-      <Label layoutX="208.0" layoutY="133.0" text="Mark 1.1" visible="false" />
-      <Label layoutX="274.0" layoutY="133.0" text="Mark 1.1" visible="false" />
-      <Label layoutX="337.0" layoutY="133.0" text="Mark 1.1" visible="false" />
-      <Label layoutX="208.0" layoutY="168.0" text="Mark 1.1" visible="false" />
-      <Label layoutX="140.0" layoutY="131.0" text="Mark 1.1" visible="false" />
-      <Button layoutX="49.0" layoutY="127.0" mnemonicParsing="false" text="Арх 1" visible="false" />
-      <Button layoutX="49.0" layoutY="164.0" mnemonicParsing="false" text="Арх 1" visible="false" />
-      <Button layoutX="49.0" layoutY="198.0" mnemonicParsing="false" text="Арх 1" visible="false" />
-      <Button layoutX="515.0" layoutY="363.0" mnemonicParsing="false" text="Close" visible="false" />
-      <Button layoutX="49.0" layoutY="230.0" mnemonicParsing="false" text="Арх 1" visible="false" />
-      <Button layoutX="273.0" layoutY="89.0" mnemonicParsing="false" text="Арх 1" visible="false" />
-      <Button layoutX="336.0" layoutY="89.0" mnemonicParsing="false" text="Арх 1" visible="false" />
-      <Button layoutX="207.0" layoutY="89.0" mnemonicParsing="false" text="Арх 1" visible="false" />
-      <Button layoutX="139.0" layoutY="89.0" mnemonicParsing="false" text="Арх 1" visible="false" />
-      <Label layoutX="32.0" layoutY="91.0" text="Архітектура" visible="false">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <Label layoutX="421.0" layoutY="45.0" text="Безопасность" visible="false">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <Label layoutX="357.0" layoutY="45.0" text="Criteriy:" visible="false">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <Label layoutX="207.0" layoutY="45.0" text="id" visible="false">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <Label layoutX="130.0" layoutY="45.0" text="Session id:" visible="false">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <Label layoutX="32.0" layoutY="45.0" text="Task Name" visible="false">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-   </children>
+<?import javafx.scene.text.*?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="src.controllers.marks_viewer_contoller">
+    <children>
+        <MenuBar id="new_arch_menu" layoutY="2.0" prefHeight="25.0" prefWidth="629.0" AnchorPane.leftAnchor="0.0"
+                 AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <menus>
+                <Menu mnemonicParsing="false" text="Файл">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#connect_DB_repository"
+                                  text="Під'єднання до Репозитарію архітектур"/>
+                        <MenuItem mnemonicParsing="false" onAction="#connect_DB_mark"
+                                  text="Під'єднання до Бази оцінок"/>
+                        <MenuItem mnemonicParsing="false" onAction="#close" text="Вихід"/>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Допомога">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Довідка"/>
+                        <MenuItem mnemonicParsing="false" text="Про програму"/>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <AnchorPane fx:id="marks_viewer_anchor_0" layoutX="10.0" layoutY="36.0" prefHeight="174.0" prefWidth="200.0"
+                    visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0"
+                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+            <children>
+                <AnchorPane fx:id="session_choise_anchor" prefHeight="279.0" prefWidth="610.0"
+                            AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0"
+                            AnchorPane.topAnchor="10.0">
+                    <children>
+                        <Label alignment="CENTER" layoutX="15.0" layoutY="14.0"
+                               text="Виберіть завдання та сесію оцінювання для перегляду оцінок архітектурр"
+                               textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="15.0"
+                               AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="14.0">
+                            <font>
+                                <Font size="18.0"/>
+                            </font>
+                        </Label>
+                        <ChoiceBox fx:id="session_list_choisebox" layoutX="15.0" layoutY="99.0" maxHeight="-Infinity"
+                                   maxWidth="-Infinity" prefWidth="150.0" AnchorPane.leftAnchor="15.0"
+                                   AnchorPane.topAnchor="100.0"/>
+                        <Label alignment="CENTER" layoutX="16.0" layoutY="72.0" maxHeight="-Infinity"
+                               maxWidth="-Infinity" prefHeight="26.0" prefWidth="150.0" text="Сесія - завдання"
+                               AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="75.0">
+                            <font>
+                                <Font size="17.0"/>
+                            </font>
+                        </Label>
+                        <TextArea fx:id="task_description" layoutX="209.0" layoutY="111.0" prefHeight="65.0"
+                                  prefWidth="350.0" AnchorPane.leftAnchor="205.0" AnchorPane.rightAnchor="15.0"
+                                  AnchorPane.topAnchor="111.0"/>
+                        <Label layoutX="209.0" layoutY="70.0" prefHeight="26.0" prefWidth="249.0" text="Опис завдання"
+                               AnchorPane.rightAnchor="115.0" AnchorPane.topAnchor="70.0">
+                            <font>
+                                <Font size="17.0"/>
+                            </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="15.0" layoutY="135.0" maxHeight="-Infinity"
+                               maxWidth="-Infinity" prefHeight="26.0" prefWidth="150.0" text="Критерій оцінки"
+                               AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="125.0">
+                            <font>
+                                <Font size="17.0"/>
+                            </font>
+                        </Label>
+                        <TextField fx:id="Criteriy_name" editable="false" layoutX="19.0" layoutY="171.0"
+                                   AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="150.0"/>
+                        <Label alignment="CENTER" layoutX="19.0" layoutY="211.0" maxHeight="-Infinity"
+                               maxWidth="-Infinity" prefHeight="26.0" prefWidth="150.0" text="Дата сесії"
+                               AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="175.0">
+                            <font>
+                                <Font size="17.0"/>
+                            </font>
+                        </Label>
+                        <TextField fx:id="dateTextField" editable="false" layoutX="16.0" layoutY="201.0"
+                                   AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="200.0"/>
+                        <TextField fx:id="Note_field" alignment="TOP_LEFT" layoutX="209.0" layoutY="200.0"
+                                   prefHeight="65.0" prefWidth="350.0" AnchorPane.leftAnchor="205.0"
+                                   AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="205.0"/>
+                        <Label layoutX="209.0" layoutY="175.0" prefHeight="26.0" prefWidth="249.0" text="Примітки"
+                               AnchorPane.rightAnchor="115.0" AnchorPane.topAnchor="175.0">
+                            <font>
+                                <Font size="17.0"/>
+                            </font>
+                        </Label>
+                    </children>
+                </AnchorPane>
+                <Button id="choice_session" layoutX="519.0" layoutY="331.0" mnemonicParsing="false"
+                        onAction="#choice_session" prefWidth="-1.0" text="Обрати" AnchorPane.bottomAnchor="15.0"
+                        AnchorPane.rightAnchor="65.0"/>
+            </children>
+        </AnchorPane>
+        <AnchorPane fx:id="mark_view_matrix" layoutY="25.0" prefHeight="375.0" prefWidth="600.0"
+                    AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                    AnchorPane.topAnchor="25.0">
+            <children>
+                <ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0"
+                            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <content>
+                        <AnchorPane fx:id="marks_matrix"/>
+                    </content>
+                </ScrollPane>
+                <Button layoutX="496.0" layoutY="336.0" mnemonicParsing="false" onAction="#close" prefHeight="25.0"
+                        prefWidth="100.0" text="Вихід" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="75.0"/>
+                <Button fx:id="back" layoutX="290.0" layoutY="336.0" mnemonicParsing="false" onAction="#Session_choise"
+                        prefHeight="25.0" prefWidth="100.0" text="Обрати сесію" AnchorPane.bottomAnchor="15.0"
+                        AnchorPane.rightAnchor="200.0"/>
+            </children>
+        </AnchorPane>
+        <Label layoutX="274.0" layoutY="168.0" text="Mark 1.1" visible="false"/>
+        <Label layoutX="274.0" layoutY="202.0" text="Mark 1.1" visible="false"/>
+        <Label layoutX="208.0" layoutY="133.0" text="Mark 1.1" visible="false"/>
+        <Label layoutX="274.0" layoutY="133.0" text="Mark 1.1" visible="false"/>
+        <Label layoutX="337.0" layoutY="133.0" text="Mark 1.1" visible="false"/>
+        <Label layoutX="208.0" layoutY="168.0" text="Mark 1.1" visible="false"/>
+        <Label layoutX="140.0" layoutY="131.0" text="Mark 1.1" visible="false"/>
+        <Button layoutX="49.0" layoutY="127.0" mnemonicParsing="false" text="Арх 1" visible="false"/>
+        <Button layoutX="49.0" layoutY="164.0" mnemonicParsing="false" text="Арх 1" visible="false"/>
+        <Button layoutX="49.0" layoutY="198.0" mnemonicParsing="false" text="Арх 1" visible="false"/>
+        <Button layoutX="515.0" layoutY="363.0" mnemonicParsing="false" text="Close" visible="false"/>
+        <Button layoutX="49.0" layoutY="230.0" mnemonicParsing="false" text="Арх 1" visible="false"/>
+        <Button layoutX="273.0" layoutY="89.0" mnemonicParsing="false" text="Арх 1" visible="false"/>
+        <Button layoutX="336.0" layoutY="89.0" mnemonicParsing="false" text="Арх 1" visible="false"/>
+        <Button layoutX="207.0" layoutY="89.0" mnemonicParsing="false" text="Арх 1" visible="false"/>
+        <Button layoutX="139.0" layoutY="89.0" mnemonicParsing="false" text="Арх 1" visible="false"/>
+        <Label layoutX="32.0" layoutY="91.0" text="Архітектура" visible="false">
+            <font>
+                <Font size="15.0"/>
+            </font>
+        </Label>
+        <Label layoutX="421.0" layoutY="45.0" text="Безопасность" visible="false">
+            <font>
+                <Font size="15.0"/>
+            </font>
+        </Label>
+        <Label layoutX="357.0" layoutY="45.0" text="Criteriy:" visible="false">
+            <font>
+                <Font size="15.0"/>
+            </font>
+        </Label>
+        <Label layoutX="207.0" layoutY="45.0" text="id" visible="false">
+            <font>
+                <Font size="15.0"/>
+            </font>
+        </Label>
+        <Label layoutX="130.0" layoutY="45.0" text="Session id:" visible="false">
+            <font>
+                <Font size="15.0"/>
+            </font>
+        </Label>
+        <Label layoutX="32.0" layoutY="45.0" text="Task Name" visible="false">
+            <font>
+                <Font size="15.0"/>
+            </font>
+        </Label>
+    </children>
 </AnchorPane>

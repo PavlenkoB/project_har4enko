@@ -18,14 +18,14 @@ public class Task {
         this.architectures = architectures;
     }
 
-    public Task(Integer id, String name, String description){
+    public Task(Integer id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.architectures = null;
     }
 
-    public Task(){
+    public Task() {
         this.id = null;
         this.name = "";
         this.description = "";
