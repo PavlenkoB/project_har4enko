@@ -4,7 +4,7 @@ import editor.classes.DerbyDBManager;
 import editor.classes.Modals;
 import editor.classes.result_info;
 import editor.services.ImageConverter;
-import editor.services.draw_uml;
+import editor.services.drawUml;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
@@ -425,7 +425,7 @@ public class Architecture implements Cloneable {
      * @return картинка архитектуры с патернами внутри
      */
     public static javafx.scene.image.Image arch_image_gen_with_patterns(Architecture architecture) {
-        return draw_uml.draw_class(arch_uml_text_gen(architecture));
+        return drawUml.draw_class(arch_uml_text_gen(architecture));
     }
 
     /**

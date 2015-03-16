@@ -3,7 +3,7 @@ package editor.services;
 /**
  * Created by godex_000 on 20.05.2014.
  */
-public class draw_uml {
+public class drawUml {
     /**
      * С текста UML генерирует картинку
      *

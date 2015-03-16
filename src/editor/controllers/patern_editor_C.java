@@ -4,7 +4,7 @@ import Classes.Pattern;
 import editor.classes.DerbyDBManager;
 import editor.classes.Modals;
 import editor.interfaces.Configuration;
-import editor.services.draw_uml;
+import editor.services.drawUml;
 import editor.services.functions;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -100,7 +100,7 @@ public class patern_editor_C implements Initializable, Configuration {
         tmp_pattern.setName(TA_pattern_name.getText());
         tmp_pattern.setDescription(TA_pattern_description.getText());
         tmp_pattern.setUmlText(TA_pattern_uml.getText());
-        tmp_pattern.setPreview(draw_uml.draw_class(TA_pattern_uml.getText()));
+        tmp_pattern.setPreview(drawUml.draw_class(TA_pattern_uml.getText()));
         Pattern.pattern_save_to_DB(tmp_pattern, derby_DB);
         Modals.showInfoApplicationModal("Інформація", "Паттерн збережено");
     }

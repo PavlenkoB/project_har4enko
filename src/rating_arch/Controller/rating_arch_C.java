@@ -5,7 +5,7 @@ import Classes.Mark;
 import Classes.Task;
 import editor.classes.DerbyDBManager;
 import editor.classes.Modals;
-import editor.services.arch_work;
+import editor.services.archWork;
 import editor.services.functions;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-import static editor.services.arch_work.arch_image_gen_with_patterns;
+import static editor.services.archWork.arch_image_gen_with_patterns;
 
 /**
  * Created by Alex Shcherbak on 24.04.2014.
@@ -220,7 +220,7 @@ public class rating_arch_C implements Initializable {
             rs.next();
             task_choise = new Task(rs.getInt("ID"), rs.getString("NAME"), rs.getString("DESCRIPTION"));
 
-            architecture_done_choise = new arch_work().architectureDoneArrayListFromDbByTaskID(task_choise.getId(), derby_DB);
+            architecture_done_choise = new archWork().architectureDoneArrayListFromDbByTaskID(task_choise.getId(), derby_DB);
 
             /*
             rs = null;
@@ -233,7 +233,7 @@ public class rating_arch_C implements Initializable {
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
-        architecture_done_choise_type = arch_work.arch_load_from_DB(architecture_done_choise.get(0).getId(), derby_DB);
+        architecture_done_choise_type = archWork.arch_load_from_DB(architecture_done_choise.get(0).getId(), derby_DB);
 /*
         for (int i = 0; i < architecture_done_choise.size(); i++) {
             int task_id = architecture_done_choise.get(i).getTask_id(),

@@ -10,7 +10,7 @@ import editor.classes.DerbyDBManager;
 import editor.classes.Modals;
 import editor.classes.id_Lable;
 import editor.interfaces.Configuration;
-import editor.services.draw_uml;
+import editor.services.drawUml;
 import editor.services.pattern_work;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -111,7 +111,7 @@ public class paterns_editor_C implements Initializable, Configuration {
     /*Действия*/
     @FXML//Отрисовка класса
     public void Action_draw_class() {
-        class_image = draw_uml.draw_class(class_text.getText());
+        class_image = drawUml.draw_class(class_text.getText());
         edited_pattern.setPreview(class_image);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/image_preview.fxml"));
 
@@ -149,7 +149,7 @@ public class paterns_editor_C implements Initializable, Configuration {
         edited_pattern.setName(TF_patern_name_DB.getText());
         edited_pattern.setUmlText(class_text.getText());
         edited_pattern.setDescription(TA_patern_description.getText());
-        edited_pattern.setPreview(draw_uml.draw_class(class_text.getText()));
+        edited_pattern.setPreview(drawUml.draw_class(class_text.getText()));
         edited_pattern.setType("");
         edited_pattern.setArch_id(Layer.load_layer_from_DB(edited_module.getLay_id(), derby_DB).getArch_id());
         if (pattern_work.pattern_save_to_DB(edited_pattern, derby_DB).getStatus() == true) {

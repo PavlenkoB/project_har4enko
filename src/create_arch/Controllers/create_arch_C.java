@@ -2,7 +2,7 @@ package create_arch.Controllers;
 
 import Classes.*;
 import editor.classes.DerbyDBManager;
-import editor.services.arch_work;
+import editor.services.archWork;
 import editor.services.functions;
 import editor.services.gen_arch_done;
 import javafx.collections.FXCollections;
@@ -184,7 +184,7 @@ public class create_arch_C implements Initializable {
         if (derby_DB != null) {
             Number num_choise_arch = Arch_list.getSelectionModel().selectedIndexProperty().getValue();
             ResultSet rs_arch;
-            arc_choise = arch_work.arch_load_from_DB(functions.get_ID((String) Arch_list.getItems().get(num_choise_arch.intValue())), derby_DB);
+            arc_choise = archWork.arch_load_from_DB(functions.get_ID((String) Arch_list.getItems().get(num_choise_arch.intValue())), derby_DB);
 
             Description.setText(arc_choise.getDescription());
             class_image = arc_choise.getPreview();

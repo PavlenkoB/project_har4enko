@@ -11,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Created by godex_000 on 15.06.2014.
  */
-public class arch_work {
+public class archWork {
 
     //TODO опис функції
     public static Architecture arch_load_from_DB(Integer arch_id, DerbyDBManager derby_DB_connection) {
@@ -43,7 +43,7 @@ public class arch_work {
      * @return картинка архитектуры с патернами внутри
      */
     public static javafx.scene.image.Image arch_image_gen_with_patterns(Architecture architecture) {
-        return draw_uml.draw_class(arch_uml_text_gen(architecture));
+        return drawUml.draw_class(arch_uml_text_gen(architecture));
     }
 
     /**

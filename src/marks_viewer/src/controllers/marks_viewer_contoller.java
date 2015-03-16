@@ -2,7 +2,7 @@ package src.controllers;
 
 import Classes.*;
 import editor.classes.DerbyDBManager;
-import editor.services.arch_work;
+import editor.services.archWork;
 import editor.services.functions;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -125,7 +125,7 @@ public class marks_viewer_contoller implements Initializable {
                 rs_rep = derby_DB.executeQuery("SELECT * FROM TASK");
 
                 while (rs_rep.next()) {
-                    tasks.add(new Task(rs_rep.getInt("ID"), rs_rep.getString("NAME"), rs_rep.getString("DESCRIPTION"), new arch_work().architectureDoneArrayListFromDbByTaskID(rs_rep.getInt("ID"), derby_DB)));
+                    tasks.add(new Task(rs_rep.getInt("ID"), rs_rep.getString("NAME"), rs_rep.getString("DESCRIPTION"), new archWork().architectureDoneArrayListFromDbByTaskID(rs_rep.getInt("ID"), derby_DB)));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
