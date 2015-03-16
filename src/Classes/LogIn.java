@@ -3,11 +3,11 @@ package Classes;
 /**
  * Created by Alex on 23.07.2014.
  */
-public class log_in {
+public class LogIn {
     String login;
     String password;
 
-    public log_in() {
+    public LogIn() {
         login = null;
         password = null;
     }
