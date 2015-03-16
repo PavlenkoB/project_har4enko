@@ -156,7 +156,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
 //TODO Del
 
-        try {
+        /*try {
             derby_DB = new DerbyDBManager("DB/paterns_DB");
             list_load_DB();
         } catch (Exception e) {
@@ -374,7 +374,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
     public void load_this_arch_DB(ActionEvent actionEvent) {//ЗАгрузить архитектуру с базы
         //Читае Идентиф. Параметра
-        arch_tmp = arch_work.arch_load_from_DB(((id_Lable) LV_archs_DB.getSelectionModel().getSelectedItems().get(0)).getDbid(), derby_DB);
+        arch_tmp = Arch_work.arch_load_from_DB(((id_Lable) LV_archs_DB.getSelectionModel().getSelectedItems().get(0)).getDbid(), derby_DB);
         try {
             arch_old = arch_tmp.clone();//сохраним оригинальный вариант архитектуры
         } catch (CloneNotSupportedException e) {
@@ -660,7 +660,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
 
         if (Modals.showYNDialog(RB.getString("загальні.увага"), "Зберегти зміни в архітектурі") == Modals.Response.YES) {
-            arch_work.arch_save_to_DB(arch_old, derby_DB);
+            Arch_work.arch_save_to_DB(arch_old, derby_DB);
         }
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/paterns_editor.fxml"));
 
@@ -683,7 +683,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
     public void arch_uml_gen(ActionEvent actionEvent) {
         //arch_image = draw_uml.draw_class(functions.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
 
-        arch_image = draw_uml.draw_class(arch_work.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
+        arch_image = draw_uml.draw_class(Arch_work.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
         /**/
         IV_arch_imageview.setFitHeight(arch_image.getRequestedHeight());
         IV_arch_imageview.setFitWidth(arch_image.getRequestedWidth());
@@ -717,12 +717,12 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
     public void save_this_arch_to_DB(ActionEvent actionEvent) {
         //TODO решить как лутьше
-        arch_image = draw_uml.draw_class(arch_work.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
+        arch_image = draw_uml.draw_class(Arch_work.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
         arch_tmp.setName(TF_arch_name_DB.getText());
         arch_tmp.setPreview(arch_image);
         arch_tmp.setUsecase(TA_arch_relations.getText());
         arch_tmp.setDescription(TA_arch_description.getText());
-        result_info result = arch_work.arch_save_to_DB(arch_tmp, derby_DB);
+        result_info result = Arch_work.arch_save_to_DB(arch_tmp, derby_DB);
         if (result.getStatus() == true) {
             Modals.showInfoApplicationModal(RB.getString("загальні.інформація"), "Архітектура успішно збережена.");
         } else {
@@ -855,7 +855,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
                 docx = new XWPFDocument(new FileInputStream(docx_f));
                 tmpParagraph = docx.createParagraph();
                 tmpRun = tmpParagraph.createRun();
-                architecture = arch_work.arch_load_from_DB(((id_Lable) LV_archs_DB.getItems().get(arch_nom)).getDbid(), derby_DB);
+                architecture = Arch_work.arch_load_from_DB(((id_Lable) LV_archs_DB.getItems().get(arch_nom)).getDbid(), derby_DB);
                 tmpRun.setText("(" + RB.getString("загальні.Архітектура") + ")" + architecture.getName());
                 docx.write(new FileOutputStream(docx_f));
 

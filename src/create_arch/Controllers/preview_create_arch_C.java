@@ -2,7 +2,6 @@ package create_arch.Controllers;
 
 import Classes.Architecture;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -15,14 +14,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import static editor.services.arch_work.arch_image_gen_with_patterns;
+import static editor.services.Arch_work.arch_image_gen_with_patterns;
 
 /**
  * Created by Alex on 30.07.2014.

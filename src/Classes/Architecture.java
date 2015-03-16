@@ -84,6 +84,13 @@ public class Architecture implements Cloneable {
         this.usecase = usecase;
     }
 
+
+
+    /**
+     * @param arch_id
+     * @param derby_DB_connection
+     * @return
+     */
     //TODO опис функції
     public static Architecture arch_load_from_DB(Integer arch_id, DerbyDBManager derby_DB_connection) {
         Architecture arch_out = new Architecture();

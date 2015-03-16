@@ -2,6 +2,7 @@ package src.controllers;
 
 import Classes.*;
 import editor.classes.DerbyDBManager;
+import editor.services.Arch_work;
 import editor.services.functions;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -36,6 +37,10 @@ import java.util.ResourceBundle;
 
 /**
  * Created by Alx Shcherbak on 07.11.2014.
+ * Просмоторщик результатов оценок
+ *
+ * @author Alx Shcherbak
+ * @see javafx.fxml.Initializable
  */
 public class marks_viewer_contoller implements Initializable {
     public AnchorPane marks_viewer_anchor_0;
@@ -48,20 +53,26 @@ public class marks_viewer_contoller implements Initializable {
     public TextField dateTextField;
     public TextField Note_field;
 
-    private ArrayList<Task> tasks = new ArrayList<>();
-    private ArrayList<Session> sessions = new ArrayList<>();
-    private Session session_choice = new Session();
-    private Architecture architecture_done_choice_type;
+    private ArrayList<Task> tasks = new ArrayList<>();          //  Массив заданий
+    private ArrayList<Session> sessions = new ArrayList<>();    //  Массив сессий
+    private Session session_choice = new Session();             //  Вибрана сессия для просмотра оценок с массива sessions
+    private Architecture architecture_done_choice_type;         //  Тип выбраной архитектуры
 
-    private boolean flag_repos = false,
-            flag_mark = false;
+    private boolean flag_repos = false,     //  Флаг на выбраную и считаную базу патернов
+            flag_mark = false;              //  Флаг на выбраную и считаную базу оценок
 
     DerbyDBManager derby_DB; //= new DerbyDBManager("DB/paterns_DB");
     DerbyDBManager mark_db; // = new DerbyDBManager("DB/Marks");
 
-    String pattern_db_str;
-    String mark_db_str;
+    String pattern_db_str;      //  Путь к базе патернов    -   относительный
+    String mark_db_str;         //  Путь к базе оценок
 
+    /**
+     * Метод закрытия окна программы, через вызовов диалогового окна
+     *
+     * @param actionEvent -   Нажатие на кноку "Вихід"
+     * @throws IOException
+     */
     public void close(ActionEvent actionEvent) throws IOException {
         try {
             Stage stage = new Stage();
@@ -84,7 +95,9 @@ public class marks_viewer_contoller implements Initializable {
      */
     public void connect_DB_repository(ActionEvent actionEvent) {
         try {
-            disconnect_DB(derby_DB);
+            if (derby_DB != null) {
+                disconnect_DB(derby_DB);
+            }
             JFileChooser db_dir = new JFileChooser(new File(System.getProperty("user.dir")));
             db_dir.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             db_dir.setAcceptAllFileFilterUsed(false);
@@ -100,42 +113,23 @@ public class marks_viewer_contoller implements Initializable {
             e.printStackTrace();
             derby_DB = null;
         }
-        ResultSet rs_rep = null,
-                rs_arch = null,
-                rs_lay = null,
-                rs_mod = null,
-                rs_pat = null;
+
+        /*
+        * Подгрузка в массива заданий с БД
+        */
+        ResultSet rs_rep = null;
+
         if (flag_repos) {
             try {
                 //derby_DB
                 rs_rep = derby_DB.executeQuery("SELECT * FROM TASK");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
+
                 while (rs_rep.next()) {
-                    ArrayList<Architecture> architecture_done = new ArrayList<>();
-                    rs_arch = null;
-                    rs_arch = derby_DB.executeQuery("SELECT * FROM ARCH_DONE WHERE TASK_ID=" + rs_rep.getInt("ID"));
-                    while (rs_arch.next()) {
-                        ArrayList<Layer> layers = new ArrayList<>();
-                        rs_lay = null;
-                        rs_lay = derby_DB.executeQuery("SELECT * FROM LAY_DONE WHERE ARCH_DONE_ID=" + rs_arch.getInt("ID"));
-                        while (rs_lay.next()) {
-                            ArrayList<Module> modules = new ArrayList<>();
-                            rs_mod = null;
-                            rs_mod = derby_DB.executeQuery("SELECT * FROM MODULE_DONE WHERE LAY_DONE_ID=" + rs_lay.getInt("LAY_ID"));
-                            while (rs_mod.next()) {
-                                modules.add(new Module(rs_mod.getInt("MOD_ID"), rs_lay.getInt("LAY_ID"), "", "", rs_mod.getInt("ID")));
-                                modules.get(modules.size() - 1).setSelected_pattern(Pattern.patternLoadFromDB(rs_mod.getInt("PATTERN_ID"), derby_DB));
-                            }
-                            layers.add(new Layer(rs_lay.getInt("LAY_ID"), rs_lay.getInt("ARCH_DONE_ID"), "", "", rs_lay.getInt("ID"), modules));
-                        }
-                        architecture_done.add(new Architecture(rs_arch.getInt("ARCH_ID"), "", layers, "", rs_arch.getInt("ID"), rs_rep.getInt("ID")));
-                    }
-                    tasks.add(new Task(rs_rep.getInt("ID"), rs_rep.getString("NAME"), rs_rep.getString("DESCRIPTION"), architecture_done));
+                    tasks.add(new Task(rs_rep.getInt("ID"), rs_rep.getString("NAME"), rs_rep.getString("DESCRIPTION"), new Arch_work().architectureDoneArrayListFromDbByTaskID(rs_rep.getInt("ID"), derby_DB)));
                 }
             } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (CloneNotSupportedException e) {
                 e.printStackTrace();
             }
             Choice_session();
@@ -144,7 +138,10 @@ public class marks_viewer_contoller implements Initializable {
 
     public void connect_DB_mark(ActionEvent actionEvent) {
         try {
-            disconnect_DB(mark_db);
+            if (mark_db != null) {
+                disconnect_DB(mark_db);
+            }
+
             JFileChooser db_dir = new JFileChooser(new File(System.getProperty("user.dir")));
             db_dir.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             db_dir.setAcceptAllFileFilterUsed(false);

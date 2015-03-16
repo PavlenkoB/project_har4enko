@@ -3,7 +3,6 @@ package src.controllers;
 import Classes.Architecture;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,7 +13,7 @@ import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 
-import static editor.services.arch_work.arch_image_gen_with_patterns;
+import static editor.services.Arch_work.arch_image_gen_with_patterns;
 
 /**
  * Created by Alx Shcherbak on 26.11.2014.
