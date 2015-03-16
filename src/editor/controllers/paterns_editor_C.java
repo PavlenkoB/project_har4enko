@@ -136,7 +136,7 @@ public class paterns_editor_C implements Initializable, Configuration {
     // загрузка превю
     public void load_this_patern_DB(ActionEvent actionEvent) {//ЗАгрузить патерн с базы
         //Читае Идентиф. Параметра
-        edited_pattern = patternWork.pattern_load_from_DB(((idLable) LV_paterns_DB.getSelectionModel().getSelectedItems().get(0)).getDbid(), derby_DB);
+        edited_pattern = patternWork.pattern_load_from_DB(((idLable) LV_paterns_DB.getSelectionModel().getSelectedItems().get(0)).getDbId(), derby_DB);
         TA_patern_description.setText(edited_pattern.getDescription());
         class_text.setText(edited_pattern.getUmlText());
         TF_patern_name_DB.setText(edited_pattern.getName());
@@ -173,7 +173,7 @@ public class paterns_editor_C implements Initializable, Configuration {
                 options,  //the titles of buttons
                 options[0]); //default button title
         if (n == 0) {
-            String query = "DELETE FROM PATERNS WHERE ID=" + ((idLable) LV_paterns_DB.getSelectionModel().getSelectedItems().get(0)).getDbid();
+            String query = "DELETE FROM PATERNS WHERE ID=" + ((idLable) LV_paterns_DB.getSelectionModel().getSelectedItems().get(0)).getDbId();
             try {
                 derby_DB.executeUpdate(query);
             } catch (SQLException e) {

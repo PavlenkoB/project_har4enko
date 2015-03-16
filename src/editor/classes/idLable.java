@@ -6,24 +6,24 @@ import javafx.scene.control.Label;
  * Created by godex_000 on 03.07.2014.
  */
 public class idLable extends Label {
-    Integer dbid;
+    Integer dbId;
 
     public idLable(Integer id, String text) {
         super(text);
-        this.dbid = id;
+        this.dbId = id;
     }
 
-    public Integer getDbid() {
-        return dbid;
+    public Integer getDbId() {
+        return dbId;
     }
 
     /**
      * Встановити значення ID
      *
-     * @param dbid який ID встановити
+     * @param dbId який ID встановити
      */
-    public void setDbid(Integer dbid) {
-        this.dbid = dbid;
+    public void setDbId(Integer dbId) {
+        this.dbId = dbId;
     }
 
 }

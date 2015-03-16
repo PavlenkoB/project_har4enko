@@ -374,7 +374,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
     public void load_this_arch_DB(ActionEvent actionEvent) {//ЗАгрузить архитектуру с базы
         //Читае Идентиф. Параметра
-        arch_tmp = archWork.arch_load_from_DB(((idLable) LV_archs_DB.getSelectionModel().getSelectedItems().get(0)).getDbid(), derby_DB);
+        arch_tmp = archWork.arch_load_from_DB(((idLable) LV_archs_DB.getSelectionModel().getSelectedItems().get(0)).getDbId(), derby_DB);
         try {
             arch_old = arch_tmp.clone();//сохраним оригинальный вариант архитектуры
         } catch (CloneNotSupportedException e) {
@@ -405,7 +405,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
                 options,  //the titles of buttons
                 options[0]); //default button title
         if (n == 0) {
-            String query = "DELETE FROM ARCHITECTURE WHERE ID=" + ((idLable) LV_archs_DB.getSelectionModel().getSelectedItems().get(0)).getDbid();
+            String query = "DELETE FROM ARCHITECTURE WHERE ID=" + ((idLable) LV_archs_DB.getSelectionModel().getSelectedItems().get(0)).getDbId();
             try {
                 derby_DB.executeUpdate(query);
             } catch (Exception e) {
@@ -855,7 +855,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
                 docx = new XWPFDocument(new FileInputStream(docx_f));
                 tmpParagraph = docx.createParagraph();
                 tmpRun = tmpParagraph.createRun();
-                architecture = archWork.arch_load_from_DB(((idLable) LV_archs_DB.getItems().get(arch_nom)).getDbid(), derby_DB);
+                architecture = archWork.arch_load_from_DB(((idLable) LV_archs_DB.getItems().get(arch_nom)).getDbId(), derby_DB);
                 tmpRun.setText("(" + RB.getString("загальні.Архітектура") + ")" + architecture.getName());
                 docx.write(new FileOutputStream(docx_f));
 
