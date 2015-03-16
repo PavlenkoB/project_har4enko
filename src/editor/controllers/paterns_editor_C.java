@@ -151,7 +151,7 @@ public class paterns_editor_C implements Initializable, Configuration {
         edited_pattern.setDescription(TA_patern_description.getText());
         edited_pattern.setPreview(drawUml.draw_class(class_text.getText()));
         edited_pattern.setType("");
-        edited_pattern.setArch_id(Layer.load_layer_from_DB(edited_module.getLay_id(), derby_DB).getArch_id());
+        edited_pattern.setArch_id(Layer.load_layer_from_DB(edited_module.getLayId(), derby_DB).getArchId());
         if (patternWork.pattern_save_to_DB(edited_pattern, derby_DB).getStatus() == true) {
             JOptionPane.showMessageDialog(null, RB.getString("патерн.збережено"), RB.getString("загальні.інформація"), JOptionPane.INFORMATION_MESSAGE);
         } else {
@@ -304,7 +304,7 @@ public class paterns_editor_C implements Initializable, Configuration {
         //dialog.get
         if (name != null && !name.equals("")) {
             try {
-                ResultSet rs = derby_DB.executeQuery("SELECT * FROM LAYER WHERE ID =" + edited_module.getLay_id() + " ORDER BY NAME ASC");//отримати шар модулю
+                ResultSet rs = derby_DB.executeQuery("SELECT * FROM LAYER WHERE ID =" + edited_module.getLayId() + " ORDER BY NAME ASC");//отримати шар модулю
                 rs.next();
                 rs = derby_DB.executeQuery("SELECT * FROM ARCHITECTURE WHERE ID =" + rs.getInt("ARCH_ID") + " ORDER BY NAME ASC");//отримати арзітектуру модуля
                 rs.next();

@@ -228,7 +228,7 @@ public class marks_viewer_contoller implements Initializable {
         if (flag_repos & flag_mark) {
             for (int i = 0; i < sessions.size(); i++) {
                 for (int j = 0; j < tasks.size(); j++) {
-                    if (sessions.get(i).getTask_id() == tasks.get(j).getId()) {
+                    if (sessions.get(i).getTaskId() == tasks.get(j).getId()) {
                         sessions.get(i).setTask(tasks.get(j));
                     }
                 }
@@ -280,7 +280,7 @@ public class marks_viewer_contoller implements Initializable {
         for (int i = 0; i < sessions.size(); i++) {
             if (session_choice.getId() == sessions.get(i).getId()) {
                 session_choice = sessions.get(i);
-                //new Session(sessions.get(i).getId(), sessions.get(i).getTask(), sessions.get(i).getCriteriy(), sessions.get(i).getTask_id(), sessions.get(i).getMarks());
+                //new Session(sessions.get(i).getId(), sessions.get(i).getTask(), sessions.get(i).getCriteriy(), sessions.get(i).getTaskId(), sessions.get(i).getMarks());
                 derby_DB = new DerbyDBManager(pattern_db_str);
                 architecture_done_choice_type = Architecture.arch_load_from_DB(session_choice.getTask().getArchitectures().get(0).getId(), derby_DB);
             }
@@ -366,7 +366,7 @@ public class marks_viewer_contoller implements Initializable {
         ArrayList<Label> labels_marks = new ArrayList<>();
         for (int i = 0; i < session_choice.getMarks().size(); i++) {
             labels_marks.add(new Label(session_choice.getMarks().get(i).getMark().toString()));
-            gridPane_mark.add(labels_marks.get(labels_marks.size() - 1), (session_choice.getMarks().get(i).getNum_arch_1() - session_choice.getMarks().get(0).getNum_arch_0() + 1), (session_choice.getMarks().get(i).getNum_arch_0() - session_choice.getMarks().get(0).getNum_arch_0() + 1));
+            gridPane_mark.add(labels_marks.get(labels_marks.size() - 1), (session_choice.getMarks().get(i).getNumArch1() - session_choice.getMarks().get(0).getNumArch0() + 1), (session_choice.getMarks().get(i).getNumArch0() - session_choice.getMarks().get(0).getNumArch0() + 1));
         }
         for (int i = 0; i < archery_open_button_hor.size(); i++) {
             final int finalI = i;

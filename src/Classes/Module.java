@@ -10,45 +10,45 @@ import java.util.ArrayList;
  */
 public class Module implements Cloneable {
     private Integer id;
-    private Integer lay_id;
+    private Integer layId;
     private String description;
     private String name;
-    private ArrayList<Pattern> avilable_patterns = new ArrayList<Pattern>();//патерни доступні цьому модулю
-    private Pattern selected_pattern;//Вибраний патерн
-    private Integer id_done;
+    private ArrayList<Pattern> avilablePatterns = new ArrayList<Pattern>();//патерни доступні цьому модулю
+    private Pattern selectedPattern;//Вибраний патерн
+    private Integer idDone;
 
-    public Module(Integer id, Integer lay_id, String name, String description) {
+    public Module(Integer id, Integer layId, String name, String description) {
         this.id = id;
-        this.lay_id = lay_id;
+        this.layId = layId;
         this.description = description;
         this.name = name;
     }
 
-    public Module(Integer id, Integer lay_id, String name, String description, Integer id_done) {
+    public Module(Integer id, Integer layId, String name, String description, Integer idDone) {
         this.id = id;
-        this.lay_id = lay_id;
+        this.layId = layId;
         this.description = description;
         this.name = name;
-        this.id_done = id_done;
+        this.idDone = idDone;
     }
 
     public Module() {
     }
 
-    public ArrayList<Pattern> getAvilable_patterns() {
-        return avilable_patterns;
+    public ArrayList<Pattern> getAvilablePatterns() {
+        return avilablePatterns;
     }
 
-    public void setAvilable_patterns(ArrayList<Pattern> avilable_patterns) {
-        this.avilable_patterns = avilable_patterns;
+    public void setAvilablePatterns(ArrayList<Pattern> avilablePatterns) {
+        this.avilablePatterns = avilablePatterns;
     }
 
-    public Pattern getSelected_pattern() {
-        return selected_pattern;
+    public Pattern getSelectedPattern() {
+        return selectedPattern;
     }
 
-    public void setSelected_pattern(Pattern selected_pattern) {
-        this.selected_pattern = selected_pattern;
+    public void setSelectedPattern(Pattern selectedPattern) {
+        this.selectedPattern = selectedPattern;
     }
 
     public Module clone() throws CloneNotSupportedException {
@@ -58,24 +58,24 @@ public class Module implements Cloneable {
         else
 
             m_return.id = null;
-        if (this.lay_id != null)
-            m_return.lay_id = new Integer(this.lay_id);
+        if (this.layId != null)
+            m_return.layId = new Integer(this.layId);
         else
-            m_return.lay_id = null;
+            m_return.layId = null;
         m_return.description = new String(this.description);
         m_return.name = new String(this.name);
 
-        ArrayList<Pattern> avilable_p = new ArrayList<Pattern>(this.avilable_patterns.size());
-        for (Pattern item : this.avilable_patterns) avilable_p.add(item.clone());
-        m_return.avilable_patterns = avilable_p;
-        if (selected_pattern != null)
-            m_return.selected_pattern = this.selected_pattern.clone();//Вибраний патерн
+        ArrayList<Pattern> avilable_p = new ArrayList<Pattern>(this.avilablePatterns.size());
+        for (Pattern item : this.avilablePatterns) avilable_p.add(item.clone());
+        m_return.avilablePatterns = avilable_p;
+        if (selectedPattern != null)
+            m_return.selectedPattern = this.selectedPattern.clone();//Вибраний патерн
         else
-            m_return.selected_pattern = null;
-        if (this.id_done != null)
-            m_return.id_done = new Integer(this.id_done);
+            m_return.selectedPattern = null;
+        if (this.idDone != null)
+            m_return.idDone = new Integer(this.idDone);
         else
-            m_return.id_done = null;
+            m_return.idDone = null;
 
         return m_return;
     }
@@ -88,12 +88,12 @@ public class Module implements Cloneable {
         this.id = id;
     }
 
-    public Integer getLay_id() {
-        return lay_id;
+    public Integer getLayId() {
+        return layId;
     }
 
-    public void setLay_id(Integer lay_id) {
-        this.lay_id = lay_id;
+    public void setLayId(Integer layId) {
+        this.layId = layId;
     }
 
     public String getDescription() {
@@ -112,12 +112,12 @@ public class Module implements Cloneable {
         this.name = name;
     }
 
-    public Integer getId_done() {
-        return id_done;
+    public Integer getIdDone() {
+        return idDone;
     }
 
-    public void setId_done(Integer id_done) {
-        this.id_done = id_done;
+    public void setIdDone(Integer idDone) {
+        this.idDone = idDone;
     }
 
     public static Module load_module_from_DB(Integer module_ID, DerbyDBManager derby_DB_connection) {
@@ -126,7 +126,7 @@ public class Module implements Cloneable {
             ResultSet rs_arch = derby_DB_connection.executeQuery("SELECT * FROM MODULE WHERE ID=" + module_ID);
             rs_arch.next();
             module.setId(rs_arch.getInt("ID"));
-            module.setLay_id(rs_arch.getInt("LAY_ID"));
+            module.setLayId(rs_arch.getInt("LAY_ID"));
             module.setName(rs_arch.getString("NAME"));
             module.setDescription(rs_arch.getString("DESCRIPTION"));
         } catch (Exception e) {

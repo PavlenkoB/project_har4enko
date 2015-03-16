@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public class Layer implements Cloneable {
     private Integer id;
-    private Integer arch_id;
+    private Integer archId;
     private String name;
     private String description;
     private Integer id_done;
@@ -23,10 +23,10 @@ public class Layer implements Cloneable {
             l_return.id = new Integer(this.id);
         else
             l_return.id = null;
-        if (this.arch_id != null)
-            l_return.arch_id = new Integer(this.arch_id);
+        if (this.archId != null)
+            l_return.archId = new Integer(this.archId);
         else
-            l_return.arch_id = null;
+            l_return.archId = null;
 
         l_return.name = new String(this.name);
         l_return.description = new String(this.description);
@@ -43,16 +43,16 @@ public class Layer implements Cloneable {
         return l_return;
     }
 
-    public Layer(Integer id, Integer arch_id, String name, String description) {
+    public Layer(Integer id, Integer archId, String name, String description) {
         this.id = id;
-        this.arch_id = arch_id;
+        this.archId = archId;
         this.name = name;
         this.description = description;
     }
 
-    public Layer(Integer id, Integer arch_id, String name, String description, Integer id_done, ArrayList<Module> modules) {
+    public Layer(Integer id, Integer archId, String name, String description, Integer id_done, ArrayList<Module> modules) {
         this.id = id;
-        this.arch_id = arch_id;
+        this.archId = archId;
         this.name = name;
         this.description = description;
         this.id_done = id_done;
@@ -70,12 +70,12 @@ public class Layer implements Cloneable {
         this.id = id;
     }
 
-    public Integer getArch_id() {
-        return arch_id;
+    public Integer getArchId() {
+        return archId;
     }
 
-    public void setArch_id(Integer arch_id) {
-        this.arch_id = arch_id;
+    public void setArchId(Integer archId) {
+        this.archId = archId;
     }
 
     public String getName() {
@@ -116,7 +116,7 @@ public class Layer implements Cloneable {
             ResultSet rs_arch = dbManager.executeQuery("SELECT * FROM LAYER WHERE ID=" + layer_id);
             rs_arch.next();
             layer.setId(rs_arch.getInt("ID"));
-            layer.setArch_id(rs_arch.getInt("ARCH_ID"));
+            layer.setArchId(rs_arch.getInt("ARCH_ID"));
             layer.setName(rs_arch.getString("NAME"));
             layer.setDescription(rs_arch.getString("DESCRIPTION"));
         } catch (Exception e) {

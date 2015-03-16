@@ -489,7 +489,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
             //Модулі
             for (int s_mod = 0; s_mod < arch_tmp.getLayers().get(s_lay).getModules().size(); s_mod++) {//вивід модулів
                 /*Кнопка Патернів*/
-                tmp_btn = new Button(RB.getString("загальні.Патерни") + "(" + +arch_tmp.getLayers().get(s_lay).getModules().get(s_mod).getAvilable_patterns().size() + ")...");
+                tmp_btn = new Button(RB.getString("загальні.Патерни") + "(" + +arch_tmp.getLayers().get(s_lay).getModules().get(s_mod).getAvilablePatterns().size() + ")...");
                 //tmp_btn.setPrefWidth(s_x2);
                 //tmp_btn.setPrefHeight(s_y2);
                 tmp_btn.setLayoutX(pos_x);
@@ -890,20 +890,20 @@ public class main_C extends JPanel implements Initializable, Configuration {
                         tmpRun.addBreak();
                         tmpRun.setText("------(" + RB.getString("загальні.Модуль") + ")" + architecture.getLayers().get(layer).getModules().get(module).getName());
                         docx.write(new FileOutputStream(docx_f));
-                        for (int avilable_pattern = 0; avilable_pattern < architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().size(); avilable_pattern++) {
+                        for (int avilable_pattern = 0; avilable_pattern < architecture.getLayers().get(layer).getModules().get(module).getAvilablePatterns().size(); avilable_pattern++) {
                             docx = new XWPFDocument(new FileInputStream(docx_f));
                             tmpParagraph = docx.createParagraph();
                             tmpRun = tmpParagraph.createRun();
-                            //tmpRun.setText("---------(Патерн)" + architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getName());
+                            //tmpRun.setText("---------(Патерн)" + architecture.getLayers().get(layer).getModules().get(module).getAvilablePatterns().get(avilable_pattern).getName());
                             docx.write(new FileOutputStream(docx_f));
-                            if (architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview() == null) {//если превю не существует создать
-                                architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).setPreview(
-                                        functions.draw_class_image(architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getUmlText()));//создать превю
-                                Pattern.pattern_save_to_DB(architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern), derby_DB);//сохарнить в базу патерн с превюшкой
-                                bi = ImageConverter.FXImgtoBufferedImage(architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview());
+                            if (architecture.getLayers().get(layer).getModules().get(module).getAvilablePatterns().get(avilable_pattern).getPreview() == null) {//если превю не существует создать
+                                architecture.getLayers().get(layer).getModules().get(module).getAvilablePatterns().get(avilable_pattern).setPreview(
+                                        functions.draw_class_image(architecture.getLayers().get(layer).getModules().get(module).getAvilablePatterns().get(avilable_pattern).getUmlText()));//создать превю
+                                Pattern.pattern_save_to_DB(architecture.getLayers().get(layer).getModules().get(module).getAvilablePatterns().get(avilable_pattern), derby_DB);//сохарнить в базу патерн с превюшкой
+                                bi = ImageConverter.FXImgtoBufferedImage(architecture.getLayers().get(layer).getModules().get(module).getAvilablePatterns().get(avilable_pattern).getPreview());
 
                             } else {
-                                bi = ImageConverter.FXImgtoBufferedImage(architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview());
+                                bi = ImageConverter.FXImgtoBufferedImage(architecture.getLayers().get(layer).getModules().get(module).getAvilablePatterns().get(avilable_pattern).getPreview());
                             }
                             try {
                                 new FileOutputStream(outputfile).close();
@@ -915,15 +915,15 @@ public class main_C extends JPanel implements Initializable, Configuration {
                             fos = new FileOutputStream(docx_f);
                             id = document.addPictureData(new FileInputStream(outputfile), Document.PICTURE_TYPE_PNG);
 
-                            width = ((Double) architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview().getWidth()).intValue();//ширина картинки що потрібно вставити
-                            height = ((Double) architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview().getHeight()).intValue();//висота картинки що потрібно вставити
+                            width = ((Double) architecture.getLayers().get(layer).getModules().get(module).getAvilablePatterns().get(avilable_pattern).getPreview().getWidth()).intValue();//ширина картинки що потрібно вставити
+                            height = ((Double) architecture.getLayers().get(layer).getModules().get(module).getAvilablePatterns().get(avilable_pattern).getPreview().getHeight()).intValue();//висота картинки що потрібно вставити
 
                             if (height > max_height) {
                                 width = width * max_height / height;
                                 height = height * max_height / height;
                             } else {
                             }
-                            document.createPicture("---------(" + RB.getString("загальні.Патерн") + ")" + architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getName(), id, document.getNextPicNameNumber(Document.PICTURE_TYPE_PNG), ((Double) architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview().getWidth()).intValue(), ((Double) architecture.getLayers().get(layer).getModules().get(module).getAvilable_patterns().get(avilable_pattern).getPreview().getHeight()).intValue());
+                            document.createPicture("---------(" + RB.getString("загальні.Патерн") + ")" + architecture.getLayers().get(layer).getModules().get(module).getAvilablePatterns().get(avilable_pattern).getName(), id, document.getNextPicNameNumber(Document.PICTURE_TYPE_PNG), ((Double) architecture.getLayers().get(layer).getModules().get(module).getAvilablePatterns().get(avilable_pattern).getPreview().getWidth()).intValue(), ((Double) architecture.getLayers().get(layer).getModules().get(module).getAvilablePatterns().get(avilable_pattern).getPreview().getHeight()).intValue());
                             document.write(fos);
                             fos.flush();
                             fos.close();

@@ -236,7 +236,7 @@ public class rating_arch_C implements Initializable {
         architecture_done_choise_type = archWork.arch_load_from_DB(architecture_done_choise.get(0).getId(), derby_DB);
 /*
         for (int i = 0; i < architecture_done_choise.size(); i++) {
-            int task_id = architecture_done_choise.get(i).getTask_id(),
+            int task_id = architecture_done_choise.get(i).getTaskId(),
                     id_done = architecture_done_choise.get(i).getIdDone();
 
             try {
@@ -245,7 +245,7 @@ public class rating_arch_C implements Initializable {
                 e.printStackTrace();
             }
             architecture_done_choise.get(i).setIdDone(id_done);
-            architecture_done_choise.get(i).setTask_id(task_id);
+            architecture_done_choise.get(i).setTaskId(task_id);
 
             try {
                 rs = derby_DB.executeQuery("SELECT * FROM LAY_DONE WHERE ARCH_DONE_ID=" + architecture_done_choise.get(i).getIdDone());
@@ -263,9 +263,9 @@ public class rating_arch_C implements Initializable {
                         for (int k = 0; k < architecture_done_choise.get(i).getLayers().get(j).getModules().size(); k++) {
                             if (rs.getInt("MOD_ID") == architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).getId()) {
                                 architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).setIdDone(rs.getInt("ID"));
-                                for (int p = 0; p < architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).getAvilable_patterns().size(); p++) {
-                                    if (architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).getAvilable_patterns().get(p).getId() == rs.getInt("PATTERN_ID")) {
-                                        architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).setSelected_pattern(architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).getAvilable_patterns().get(p));
+                                for (int p = 0; p < architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).getAvilablePatterns().size(); p++) {
+                                    if (architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).getAvilablePatterns().get(p).getId() == rs.getInt("PATTERN_ID")) {
+                                        architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).setSelectedPattern(architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).getAvilablePatterns().get(p));
                                     }
                                 }
                             }
@@ -401,11 +401,11 @@ public class rating_arch_C implements Initializable {
                 gridPane_arch.add(label_0.get(label_0.size() - 1), 1, vpos);
 
                 label_1.add(new Label());
-                label_1.get(label_1.size() - 1).setText(architecture_done_choise.get(arch_mark_combine[0]).getLayers().get(i).getModules().get(j).getSelected_pattern().getName());
+                label_1.get(label_1.size() - 1).setText(architecture_done_choise.get(arch_mark_combine[0]).getLayers().get(i).getModules().get(j).getSelectedPattern().getName());
                 label_1.get(label_1.size() - 1).setFont(Font.font(12));
 
                 label_2.add(new Label());
-                label_2.get(label_2.size() - 1).setText(architecture_done_choise.get(arch_mark_combine[1]).getLayers().get(i).getModules().get(j).getSelected_pattern().getName());
+                label_2.get(label_2.size() - 1).setText(architecture_done_choise.get(arch_mark_combine[1]).getLayers().get(i).getModules().get(j).getSelectedPattern().getName());
                 label_2.get(label_2.size() - 1).setFont(Font.font(12));
 
                 if (!label_1.get(label_1.size() - 1).getText().toString().equals(label_2.get(label_2.size() - 1).getText().toString())) {
@@ -561,11 +561,11 @@ public class rating_arch_C implements Initializable {
             textField_marks.add(new javafx.scene.control.TextField());
             textField_marks.get(textField_marks.size() - 1).setText(marks.get(i).getMark().toString());
             textField_marks.get(textField_marks.size() - 1).setMaxWidth(45);
-            gridPane_mark.add(textField_marks.get(textField_marks.size() - 1), marks.get(i).getNum_arch_1() + 1, marks.get(i).getNum_arch_0() + 1);
+            gridPane_mark.add(textField_marks.get(textField_marks.size() - 1), marks.get(i).getNumArch1() + 1, marks.get(i).getNumArch0() + 1);
             /**
              * Обробка діагоналі оцінок
              */
-            if (marks.get(i).getNum_arch_0() == marks.get(i).getNum_arch_1()) {
+            if (marks.get(i).getNumArch0() == marks.get(i).getNumArch1()) {
                 textField_marks.get(textField_marks.size() - 1).setText("1");
             }
         }
@@ -676,7 +676,7 @@ public class rating_arch_C implements Initializable {
 
             for (int i = 0; i < markArrayList.size(); i++) {
                 try {
-                    marks_save_to_DB(markArrayList.get(i), architecture_done_choise.get(markArrayList.get(i).getNum_arch_0()).getIdDone(), architecture_done_choise.get(markArrayList.get(i).getNum_arch_1()).getIdDone(), session_id, mark_db);
+                    marks_save_to_DB(markArrayList.get(i), architecture_done_choise.get(markArrayList.get(i).getNumArch0()).getIdDone(), architecture_done_choise.get(markArrayList.get(i).getNumArch1()).getIdDone(), session_id, mark_db);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

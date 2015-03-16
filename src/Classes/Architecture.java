@@ -36,7 +36,7 @@ public class Architecture implements Cloneable {
     private ArrayList<Layer> layers = new ArrayList<Layer>();   //array fo layers
     private String description;                                 // architecture description
     private Integer idDone;                                    //TODO
-    private Integer task_id;                                    //TODO
+    private Integer taskId;                                    //TODO
     private String usecase;                                     // plantuml text of architecture
     private javafx.scene.image.Image preview;                   //architecture preview
 
@@ -46,16 +46,16 @@ public class Architecture implements Cloneable {
         this.layers = null;
         this.description = new String();
         this.idDone = 0;
-        this.task_id = 0;
+        this.taskId = 0;
         this.usecase = new String();
     }
 
 
-    public Architecture(Integer id, String name, Integer idDone, Integer task_id) {
+    public Architecture(Integer id, String name, Integer idDone, Integer taskId) {
         this.id = id;
         this.name = name;
         this.idDone = idDone;
-        this.task_id = task_id;
+        this.taskId = taskId;
         this.layers = null;
         this.description = new String();
     }
@@ -67,13 +67,13 @@ public class Architecture implements Cloneable {
     }
 
 
-    public Architecture(Integer id, String name, ArrayList<Layer> layers, String description, Integer idDone, Integer task_id) {
+    public Architecture(Integer id, String name, ArrayList<Layer> layers, String description, Integer idDone, Integer taskId) {
         this.id = id;
         this.name = name;
         this.layers = layers;
         this.description = description;
         this.idDone = idDone;
-        this.task_id = task_id;
+        this.taskId = taskId;
     }
 
     public Architecture(Integer id, String name, ArrayList<Layer> layers, String description, String usecase) {
@@ -146,7 +146,7 @@ public class Architecture implements Cloneable {
                     rs_pat = derby_DB_connection.executeQuery("SELECT * FROM PATERNS WHERE MOD_ID=" + rs_mod.getInt("ID"));
                     ObservableList<String> items = FXCollections.observableArrayList();
                     while (rs_pat.next()) {//Все патерны что подходят модулю в кнопку
-                        arch_out.getLayers().get(s_lay).getModules().get(s_mod).getAvilable_patterns().add(Pattern.patternLoadFromDB(rs_pat.getInt("ID"), derby_DB_connection));
+                        arch_out.getLayers().get(s_lay).getModules().get(s_mod).getAvilablePatterns().add(Pattern.patternLoadFromDB(rs_pat.getInt("ID"), derby_DB_connection));
                         items.add(rs_pat.getString("ID") + "|" + rs_pat.getString("NAME"));
                     }
                     s_mod++;
@@ -402,11 +402,11 @@ public class Architecture implements Cloneable {
             class_text += "package \"" + architecture.getLayers().get(s_lay).getName() + "\"{\n";
             for (int s_mod = 0; s_mod < architecture.getLayers().get(s_lay).getModules().size(); s_mod++) {
                 class_text += "package \"" + architecture.getLayers().get(s_lay).getModules().get(s_mod).getName() + "\"{\n";
-                /*if (architecture.getLayers().get(s_lay).getModules().get(s_mod).getSelected_pattern() != null)
-                    class_text += architecture.getLayers().get(s_lay).getModules().get(s_mod).getSelected_pattern().getUmlText() + "\n";
+                /*if (architecture.getLayers().get(s_lay).getModules().get(s_mod).getSelectedPattern() != null)
+                    class_text += architecture.getLayers().get(s_lay).getModules().get(s_mod).getSelectedPattern().getUmlText() + "\n";
                 class_text += "package \"" + architecture.getLayers().get(s_lay).getModules().get(s_mod).getName() + "\"{\n";*/
-                if (architecture.getLayers().get(s_lay).getModules().get(s_mod).getSelected_pattern() != null) {
-                    String temp = new String(architecture.getLayers().get(s_lay).getModules().get(s_mod).getSelected_pattern().getUmlText() + "\n");
+                if (architecture.getLayers().get(s_lay).getModules().get(s_mod).getSelectedPattern() != null) {
+                    String temp = new String(architecture.getLayers().get(s_lay).getModules().get(s_mod).getSelectedPattern().getUmlText() + "\n");
                     temp = temp.replace("path.", architecture.getLayers().get(s_lay).getModules().get(s_mod).getName() + ".");
                     class_text += temp;
                 }
@@ -443,7 +443,7 @@ public class Architecture implements Cloneable {
         for (int s_mod = 0; s_mod < modules_arr.size(); s_mod++) {
             modd_arr_sellected.add(s_mod, 0);
             try {
-                modules_arr.get(s_mod).setSelected_pattern(modules_arr.get(s_mod).getAvilable_patterns().get(0).clone());
+                modules_arr.get(s_mod).setSelectedPattern(modules_arr.get(s_mod).getAvilablePatterns().get(0).clone());
             } catch (CloneNotSupportedException e) {
                 e.printStackTrace();
             }
@@ -473,8 +473,8 @@ public class Architecture implements Cloneable {
                 for (int s_copy = 0; s_copy < modules_arr.size(); s_copy++) {
                     if (tmp_arch.getLayers().get(s_lay).getModules().get(s_mod).getId().intValue() == modules_arr.get(s_copy).getId().intValue()) {//если ИД моделя совпадает то записать ему патерн
                         try {
-                            tmp_arch.getLayers().get(s_lay).getModules().get(s_mod).setSelected_pattern(new Pattern());
-                            tmp_arch.getLayers().get(s_lay).getModules().get(s_mod).setSelected_pattern(modules_arr.get(s_copy).getAvilable_patterns().get(modd_arr_sell.get(s_copy)).clone());
+                            tmp_arch.getLayers().get(s_lay).getModules().get(s_mod).setSelectedPattern(new Pattern());
+                            tmp_arch.getLayers().get(s_lay).getModules().get(s_mod).setSelectedPattern(modules_arr.get(s_copy).getAvilablePatterns().get(modd_arr_sell.get(s_copy)).clone());
                         } catch (CloneNotSupportedException e) {
                             e.printStackTrace();
                         }
@@ -486,10 +486,10 @@ public class Architecture implements Cloneable {
         return_Architectures.add(tmp_arch);//сохраняем архитекутуры вариант
         modd_arr_sell.set(modd_arr_sell.size() - 1, modd_arr_sell.get(modd_arr_sell.size() - 1) + 1);//к последнему добавить +1
         for (int ta = modd_arr_sell.size() - 1; ta >= 0; ta--) {//провиряем не вышол кто за границы доступных патернов
-            if (modd_arr_sell.get(ta) > modules_arr.get(ta).getAvilable_patterns().size() - 1 && ta == 0) {//если все патерны попробованы
+            if (modd_arr_sell.get(ta) > modules_arr.get(ta).getAvilablePatterns().size() - 1 && ta == 0) {//если все патерны попробованы
                 return return_Architectures;
             }
-            if (modd_arr_sell.get(ta) > modules_arr.get(ta).getAvilable_patterns().size() - 1) {
+            if (modd_arr_sell.get(ta) > modules_arr.get(ta).getAvilablePatterns().size() - 1) {
                 modd_arr_sell.set(ta, 0);
                 modd_arr_sell.set(ta - 1, modd_arr_sell.get(ta - 1) + 1);
             }
@@ -524,7 +524,7 @@ public class Architecture implements Cloneable {
         a_return.layers = layers;
         a_return.description = this.description;
         a_return.idDone = this.idDone;
-        a_return.task_id = this.task_id;
+        a_return.taskId = this.taskId;
         a_return.usecase = this.usecase;
         //TODO картинку тоже клонировать
         a_return.preview = this.preview;
@@ -573,12 +573,12 @@ public class Architecture implements Cloneable {
         this.idDone = idDone;
     }
 
-    public Integer getTask_id() {
-        return task_id;
+    public Integer getTaskId() {
+        return taskId;
     }
 
-    public void setTask_id(Integer task_id) {
-        this.task_id = task_id;
+    public void setTaskId(Integer taskId) {
+        this.taskId = taskId;
     }
 
     public String getUsecase() {

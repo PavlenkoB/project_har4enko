@@ -6,37 +6,37 @@ package Classes;
  */
 public class Mark {
     private Integer id;
-    private Integer num_arch_0;
-    private Integer num_arch_1;
+    private Integer numArch0;
+    private Integer numArch1;
     private Integer mark;
 
-    public Mark(Integer id, Integer num_arch_0, Integer num_arch_1, Integer mark) {
+    public Mark(Integer id, Integer numArch0, Integer numArch1, Integer mark) {
         this.id = id;
-        this.num_arch_0 = num_arch_0;
-        this.num_arch_1 = num_arch_1;
+        this.numArch0 = numArch0;
+        this.numArch1 = numArch1;
         this.mark = mark;
     }
 
-    public Mark(Integer num_arch_0, Integer num_arch_1, Integer mark) {
-        this.num_arch_0 = num_arch_0;
-        this.num_arch_1 = num_arch_1;
+    public Mark(Integer numArch0, Integer numArch1, Integer mark) {
+        this.numArch0 = numArch0;
+        this.numArch1 = numArch1;
         this.mark = mark;
     }
 
-    public Integer getNum_arch_0() {
-        return num_arch_0;
+    public Integer getNumArch0() {
+        return numArch0;
     }
 
-    public void setNum_arch_0(Integer num_arch_0) {
-        this.num_arch_0 = num_arch_0;
+    public void setNumArch0(Integer numArch0) {
+        this.numArch0 = numArch0;
     }
 
-    public Integer getNum_arch_1() {
-        return num_arch_1;
+    public Integer getNumArch1() {
+        return numArch1;
     }
 
-    public void setNum_arch_1(Integer num_arch_1) {
-        this.num_arch_1 = num_arch_1;
+    public void setNumArch1(Integer numArch1) {
+        this.numArch1 = numArch1;
     }
 
     public Integer getMark() {
@@ -57,8 +57,8 @@ public class Mark {
 
     public Mark() {
         this.id = null;
-        this.num_arch_0 = null;
-        this.num_arch_1 = null;
+        this.numArch0 = null;
+        this.numArch1 = null;
         this.mark = null;
     }
 }

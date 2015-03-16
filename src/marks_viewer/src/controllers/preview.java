@@ -105,7 +105,7 @@ public class preview {
                 gridPane_arch.add(label_0.get(label_0.size() - 1), 1, vpos);
 
                 label_1.add(new Label());
-                label_1.get(label_1.size() - 1).setText(architecture.getLayers().get(i).getModules().get(j).getSelected_pattern().getName());
+                label_1.get(label_1.size() - 1).setText(architecture.getLayers().get(i).getModules().get(j).getSelectedPattern().getName());
                 label_1.get(label_1.size() - 1).setFont(Font.font(12));
                 gridPane_arch.add(label_1.get(label_1.size() - 1), 2, vpos);
                 vpos++;

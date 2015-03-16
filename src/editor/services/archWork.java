@@ -80,7 +80,7 @@ public class archWork {
 
                 architectureArrayList.set(i, architectureType.clone());
                 architectureArrayList.get(i).setIdDone(id_done);
-                architectureArrayList.get(i).setTask_id(task_id);
+                architectureArrayList.get(i).setTaskId(task_id);
 
                 rsLay = null;
                 rsLay = patternDB.executeQuery("SELECT * FROM LAY_DONE WHERE ARCH_DONE_ID=" + architectureArrayList.get(i).getIdDone());
@@ -97,10 +97,10 @@ public class archWork {
                     while (rsMod.next()) {
                         for (int k = 0; k < architectureArrayList.get(i).getLayers().get(j).getModules().size(); k++) {
                             if (rsMod.getInt("MOD_ID") == architectureArrayList.get(i).getLayers().get(j).getModules().get(k).getId()) {
-                                architectureArrayList.get(i).getLayers().get(j).getModules().get(k).setId_done(rsMod.getInt("ID"));
-                                for (int p = 0; p < architectureArrayList.get(i).getLayers().get(j).getModules().get(k).getAvilable_patterns().size(); p++) {
-                                    if (architectureArrayList.get(i).getLayers().get(j).getModules().get(k).getAvilable_patterns().get(p).getId() == rsMod.getInt("PATTERN_ID")) {
-                                        architectureArrayList.get(i).getLayers().get(j).getModules().get(k).setSelected_pattern(architectureArrayList.get(i).getLayers().get(j).getModules().get(k).getAvilable_patterns().get(p));
+                                architectureArrayList.get(i).getLayers().get(j).getModules().get(k).setIdDone(rsMod.getInt("ID"));
+                                for (int p = 0; p < architectureArrayList.get(i).getLayers().get(j).getModules().get(k).getAvilablePatterns().size(); p++) {
+                                    if (architectureArrayList.get(i).getLayers().get(j).getModules().get(k).getAvilablePatterns().get(p).getId() == rsMod.getInt("PATTERN_ID")) {
+                                        architectureArrayList.get(i).getLayers().get(j).getModules().get(k).setSelectedPattern(architectureArrayList.get(i).getLayers().get(j).getModules().get(k).getAvilablePatterns().get(p));
                                     }
                                 }
                             }

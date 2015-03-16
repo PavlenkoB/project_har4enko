@@ -122,8 +122,8 @@ public class functions {
             derby_DB_connection.executeUpdate("INSERT INTO LAY_DONE (ARCH_DONE_ID,LAY_ID) VALUES (" + arch_in.getIdDone() + "," + arch_in.getLayers().get(s_lay).getId() + ")");
             arch_in.getLayers().get(s_lay).setId_done(functions.last_id_from_table_DB("LAY_DONE", derby_DB_connection));
             for (int s_mod = 0; s_mod < arch_in.getLayers().get(s_lay).getModules().size(); s_mod++) {
-                derby_DB_connection.executeUpdate("INSERT INTO MODULE_DONE (LAY_DONE_ID,MOD_ID,PATTERN_ID) VALUES (" + arch_in.getLayers().get(s_lay).getId_done() + "," + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getId() + "," + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getSelected_pattern().getId() + ")");
-                arch_in.getLayers().get(s_lay).getModules().get(s_mod).setId_done(functions.last_id_from_table_DB("MODULE_DONE", derby_DB_connection));
+                derby_DB_connection.executeUpdate("INSERT INTO MODULE_DONE (LAY_DONE_ID,MOD_ID,PATTERN_ID) VALUES (" + arch_in.getLayers().get(s_lay).getId_done() + "," + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getId() + "," + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getSelectedPattern().getId() + ")");
+                arch_in.getLayers().get(s_lay).getModules().get(s_mod).setIdDone(functions.last_id_from_table_DB("MODULE_DONE", derby_DB_connection));
             }
         }
 
