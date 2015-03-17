@@ -222,7 +222,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
     }
 
     public void creat_DB(ActionEvent actionEvent) { //Создать БД
-        if (derby_DB!=null) {
+        if (derby_DB != null) {
             disconnect_DB(null);
         }
         // существет ли база(создана ли)
@@ -325,26 +325,30 @@ public class main_C extends JPanel implements Initializable, Configuration {
         FC_zip.setInitialDirectory(new File(System.getProperty("user.dir")));
         FC_zip.setTitle(RB.getString("загальні.Виберіть") + " " + RB.getString("загальні.архів") + "...");
         FC_zip.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Zip", "*.zip"),
-                new FileChooser.ExtensionFilter("Зашифрований" + " " + RB.getString("загальні.архів"), "*.zip.enc")
+                new FileChooser.ExtensionFilter("Зашифрований" + " " + RB.getString("загальні.архів"), "*.zip.enc"),
+                new FileChooser.ExtensionFilter("Zip", "*.zip")
         );
         //TODO Ввід пароля
 
         File zip_file = FC_zip.showOpenDialog(functions.get_stage_by_element(TA_arch_description));
         File decrypted = null;
-        if (FileUtils.getExtension(zip_file.getName().toString()).equals("enc")) {
-            File original = zip_file;
-            decrypted = new File(zip_file.getName() + ".zip");
-            security.decrypt_file(secretkey, new FileInputStream(original), new FileOutputStream(decrypted));
-            zip_file = decrypted;
-        }
-        DirectoryChooser db_dir_FC = new DirectoryChooser();
-        db_dir_FC.setInitialDirectory(new File(System.getProperty("user.dir")));
-        db_dir_FC.setTitle("Виберіть місце куди розархівувати архів...");
-        File db_dir = db_dir_FC.showDialog(functions.get_stage_by_element(TA_arch_description));
-        if (db_dir != null || zip_file != null) {
-            zip.zip_unpack(zip_file.getAbsolutePath().toString(), db_dir.getAbsolutePath().toString());
-            decrypted.delete();
+        if (zip_file != null && zip_file.exists()) {
+            if (FileUtils.getExtension(zip_file.getName().toString()).equals("enc")) {
+                File original = zip_file;
+                decrypted = new File(zip_file.getName() + ".zip");
+                security.decrypt_file(secretkey, new FileInputStream(original), new FileOutputStream(decrypted));
+                zip_file = decrypted;
+            }
+            DirectoryChooser db_dir_FC = new DirectoryChooser();
+            db_dir_FC.setInitialDirectory(new File(System.getProperty("user.dir")));
+            db_dir_FC.setTitle("Виберіть місце куди розархівувати архів...");
+            File db_dir = db_dir_FC.showDialog(functions.get_stage_by_element(TA_arch_description));
+            if (db_dir != null || zip_file != null) {
+                zip.zip_unpack(zip_file.getAbsolutePath().toString(), db_dir.getAbsolutePath().toString());
+                decrypted.delete();
+            }
+        } else {
+            System.out.println("File not selected");
         }
     }
 
