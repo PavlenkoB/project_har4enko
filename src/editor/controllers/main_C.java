@@ -156,7 +156,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
 //TODO Del
 
-        /*try {
+        try {
             derby_DB = new DerbyDBManager("DB/paterns_DB");
             list_load_DB();
         } catch (Exception e) {
