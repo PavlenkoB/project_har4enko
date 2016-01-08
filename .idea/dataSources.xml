@@ -6,14 +6,12 @@
       <synchronize>true</synchronize>
       <jdbc-driver>org.apache.derby.jdbc.EmbeddedDriver</jdbc-driver>
       <jdbc-url>jdbc:derby:$PROJECT_DIR$/DB/paterns_DB;create=true</jdbc-url>
-      <libraries />
     </data-source>
     <data-source source="LOCAL" name="marks" uuid="2ed7f3ae-ea56-442d-b281-d0d2f244635a">
       <driver-ref>derby.embedded</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.apache.derby.jdbc.EmbeddedDriver</jdbc-driver>
       <jdbc-url>jdbc:derby:$PROJECT_DIR$/DB/Marks;create=true</jdbc-url>
-      <libraries />
     </data-source>
   </component>
 </project>

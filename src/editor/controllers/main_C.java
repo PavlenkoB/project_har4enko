@@ -112,7 +112,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
     }
 
     public void initData() {
-        System.out.printf("Init");
+        System.out.println("Init");
         thisstage = (Stage) root.getScene().getWindow();
         thisstage.getIcons().add(new Image("/res/img/uml_icon.png"));
         thisstage.setTitle(RB.getString("управління_репозиторієм_патернів_редактор_архітектур"));
@@ -131,6 +131,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        System.out.println("initialize start");
         //arch.class
         //TODO log_in();
         //при двойном клике грузить архитекутуру
@@ -157,6 +158,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
 //TODO Del
 
         try {
+            System.out.println("initialize 1");
             derby_DB = new DerbyDBManager("DB/paterns_DB");
             list_load_DB();
         } catch (Exception e) {
@@ -321,6 +323,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
      * @throws IOException
      */
     public void unpack_backup() throws Throwable {
+        System.out.println("unpack_backup start");
         FileChooser FC_zip = new FileChooser();
         FC_zip.setInitialDirectory(new File(System.getProperty("user.dir")));
         FC_zip.setTitle(RB.getString("загальні.Виберіть") + " " + RB.getString("загальні.архів") + "...");
@@ -350,6 +353,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
         } else {
             System.out.println("File not selected");
         }
+        System.out.println("unpack_backup end");
     }
 
 
@@ -376,8 +380,12 @@ public class main_C extends JPanel implements Initializable, Configuration {
     }
 
 
-    public void load_this_arch_DB(ActionEvent actionEvent) {//ЗАгрузить архитектуру с базы
-        //Читае Идентиф. Параметра
+    public void load_this_arch_DB(ActionEvent actionEvent) {
+        System.out.println("load_this_arch_DB");
+        /*
+        ЗАгрузить архитектуру с базы
+        Читае Идентиф. Параметра
+        */
         arch_tmp = archWork.arch_load_from_DB(((idLable) LV_archs_DB.getSelectionModel().getSelectedItems().get(0)).getDbId(), derby_DB);
         try {
             arch_old = arch_tmp.clone();//сохраним оригинальный вариант архитектуры
@@ -398,6 +406,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
 
     public void delete_arch_DB(ActionEvent actionEvent) {//удалить з базы по ID
+        System.out.println("delete_arch_DB");
         Object[] options = {RB.getString("загальні.так"),
                 RB.getString("загальні.ні")};
         int n = JOptionPane.showOptionDialog(null,
@@ -420,6 +429,8 @@ public class main_C extends JPanel implements Initializable, Configuration {
     }
 
     public void list_load_DB() {//Загрузка з базы
+
+        System.out.println("list_load_DB");
         ResultSet rs = null;
         try {
             try {
@@ -650,7 +661,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
                     Modals.showInputDialog(RB.getString("загальні.Модуль"), RB.getString("загальні.введіть_опис"), arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).getDescription())
             );
         }
-        System.out.printf(name);
+        System.out.println(name);
         draw_arch_struct();
     }
 
@@ -948,7 +959,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
             e.printStackTrace();
         }
         outputfile.delete();
-        System.out.printf("Export end");
+        System.out.println("Export end");
         Modals.showInfoApplicationModal(RB.getString("загальні.інформація"), "Експорт завершено");
         root.setDisable(false);
     }
