@@ -10,11 +10,15 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class Main extends Application implements Configuration {
+    public static Logger logger = Logger.getLogger(Main.class);
 
     public static void main(String[] args) {
         launch(args);
@@ -22,6 +26,8 @@ public class Main extends Application implements Configuration {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        logger.setLevel(Level.INFO);
+        BasicConfigurator.configure();
         FXMLLoader mainFXML = new FXMLLoader();
         mainFXML.setResources(ResourceBundle.getBundle("localization.editor", new Locale(programConfig.language)));
         //mainFXML.load()

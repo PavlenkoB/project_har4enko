@@ -14,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 import rating_arch.Controller.rating_arch_C;
 
 import java.io.BufferedReader;
@@ -29,6 +30,7 @@ import java.util.ResourceBundle;
 
 
 public class Controller_mode_selection_user_menu implements Initializable {
+    public static Logger logger = Logger.getLogger(Controller_mode_selection_user_menu.class);
     public AnchorPane sel_next;
     public Menu adm_menu;
     public Menu arch_menu;
@@ -155,6 +157,7 @@ public class Controller_mode_selection_user_menu implements Initializable {
                     log_massage.setTopAnchor(log_mass, 5.0);
                     log_massage.setBottomAnchor(log_mass, 5.0);
                     log_massage.getChildren().add(log_mass);
+                    logger.info(": Entered by admin");
                     log = true;
                 } else if (!log) {
                     log_massage.getChildren().clear();
