@@ -153,8 +153,17 @@ public class DerbyDBManager {
     }
 
     // запрос на выборку данных из базы
-    public ResultSet executeQuery(String sql) throws SQLException {
+    public ResultSet executeQuery(String sql, Object... objects) throws SQLException {
         PreparedStatement preparedStatement = con.prepareStatement(sql);
+        int count = 1;
+        for (Object o : objects) {
+            if (o.getClass().equals(Integer.class)) {
+                preparedStatement.setInt(count, (Integer) o);
+            } else if (o.getClass().equals(String.class)) {
+                preparedStatement.setString(count, (String) o);
+            }
+            count++;
+        }
         ResultSet result = preparedStatement.executeQuery();
         return result;
     }

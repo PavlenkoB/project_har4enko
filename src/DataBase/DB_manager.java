@@ -1,4 +1,4 @@
-package create_arch;
+package DataBase;
 
 import java.sql.*;
 
@@ -17,7 +17,7 @@ public class DB_manager {
             try {
                 Class.forName(driver);
                 // Подключение к БД или её создание
-                con = DriverManager.getConnection(url + dbName + ";create=true");
+                con = DriverManager.getConnection(url + dbName);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (SQLException e) {
@@ -42,7 +42,6 @@ public class DB_manager {
             return true;
         }
         return false;
-
     }
 
     // запрос на обновление базы данных  (INSERT, UPDATE, CREATE TABLE и т.п.)
@@ -57,5 +56,14 @@ public class DB_manager {
         Statement stmt = con.createStatement();
         ResultSet result = stmt.executeQuery(sql);
         return result;
+    }
+
+    public void disconectDB() {//отключиться от БД
+        try {
+            con.close();
+        } catch (SQLException e) {
+            System.out.println("Не удалось закрыть подключение к БД");
+            e.printStackTrace();
+        }
     }
 }

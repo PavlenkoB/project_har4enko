@@ -9,16 +9,16 @@ import java.util.Date;
 public class Session {
     private Integer id;
     private Task task;
-    private Criteriy criteriy;
+    private Criterion criterion;
     private Integer taskId;
     private ArrayList<Mark> marks;
     private Date date;
     private String note;
 
-    public Session(Integer id, Task task, Criteriy criteriy, Integer taskId, ArrayList<Mark> marks, Date date, String note) {
+    public Session(Integer id, Task task, String criterion, Integer taskId, ArrayList<Mark> marks, Date date, String note) {
         this.id = id;
         this.task = task;
-        this.criteriy = criteriy;
+        this.criterion = Criterion.valueOf(criterion);
         this.taskId = taskId;
         this.marks = marks;
         this.date = date;
@@ -42,9 +42,9 @@ public class Session {
         this.note = note;
     }
 
-    public Session(Integer id, Criteriy criteriy, Integer taskId, ArrayList<Mark> marks, Date date, String note) {
+    public Session(Integer id, String criterion, Integer taskId, ArrayList<Mark> marks, Date date, String note) {
         this.id = id;
-        this.criteriy = criteriy;
+        this.criterion = Criterion.valueOf(criterion);
         this.taskId = taskId;
         this.marks = marks;
         this.date = date;
@@ -58,10 +58,10 @@ public class Session {
         this.date = date;
     }
 
-    public Session(Integer id, Task task, Criteriy criteriy, Integer taskId, ArrayList<Mark> marks, Date date) {
+    public Session(Integer id, Task task, String criterion, Integer taskId, ArrayList<Mark> marks, Date date) {
         this.id = id;
         this.task = task;
-        this.criteriy = criteriy;
+        this.criterion = Criterion.valueOf(criterion);
         this.taskId = taskId;
         this.marks = marks;
         this.date = date;
@@ -95,7 +95,7 @@ public class Session {
     public Session() {
         this.id = null;
         this.task = null;
-        this.criteriy = null;
+        this.criterion = null;
         this.taskId = null;
         this.marks = null;
         this.date = null;
@@ -106,10 +106,10 @@ public class Session {
         return id;
     }
 
-    public Session(Integer id, Task task, Criteriy criteriy, Integer taskId, ArrayList<Mark> marks) {
+    public Session(Integer id, Task task, String criterion, Integer taskId, ArrayList<Mark> marks) {
         this.id = id;
         this.task = task;
-        this.criteriy = criteriy;
+        this.criterion = Criterion.valueOf(criterion);
         this.taskId = taskId;
         this.marks = marks;
     }
@@ -126,12 +126,12 @@ public class Session {
         this.task = task;
     }
 
-    public Criteriy getCriteriy() {
-        return criteriy;
+    public Criterion getCriteriy() {
+        return criterion;
     }
 
-    public void setCriteriy(Criteriy criteriy) {
-        this.criteriy = criteriy;
+    public void setCriteriy(Criterion criterion) {
+        this.criterion = criterion;
     }
 
     public Session(Integer id, Task task) {
@@ -147,10 +147,10 @@ public class Session {
         this.marks = marks;
     }
 
-    public Session(Integer id, Task task, Criteriy criteriy) {
+    public Session(Integer id, Task task, String criterion) {
 
         this.id = id;
         this.task = task;
-        this.criteriy = criteriy;
+        this.criterion = Criterion.valueOf(criterion);
     }
 }

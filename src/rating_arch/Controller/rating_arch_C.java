@@ -1,6 +1,7 @@
 package rating_arch.Controller;
 
 import Classes.Architecture;
+import Classes.Criterion;
 import Classes.Mark;
 import Classes.Task;
 import editor.classes.DerbyDBManager;
@@ -54,7 +55,7 @@ public class rating_arch_C implements Initializable {
      * arch_mark_combine            -   комбінація оцінуваних архітектур
      * arch_1_image, arch_2_image   -   Поточна візуалізація
      * redo_im_1, redo_im_2         -   Візуалізація наступної пари архітектур
-     * <p/>
+     * <p>
      * Rating_arch_1                -   Вибір завдання та критерію
      * Rating_arch_2                -   Попарне оцінювання
      * Rating_arch_3                -   Матриця оцінок
@@ -88,7 +89,6 @@ public class rating_arch_C implements Initializable {
     public TextField crit;
     public Button Next_twise;
     public AnchorPane mark_panel;
-    public String crit_choise;
     public TextArea note_field;
     ArrayList<javafx.scene.control.TextField> textField_marks = new ArrayList<>();
 
@@ -97,6 +97,9 @@ public class rating_arch_C implements Initializable {
     DerbyDBManager mark_db; // = new DerbyDBManager("DB/Marks");
     String pattern_db_str;
     String mark_db_str = "DB/Marks";
+
+
+    public String crit_choise;
 
     //Windows close dialog
     public void close(ActionEvent actionEvent) throws IOException {
@@ -137,7 +140,9 @@ public class rating_arch_C implements Initializable {
         }
         ObservableList<String> crit = FXCollections.observableArrayList();
         crit.clear();
-        crit.addAll("Надійність", "Ефективність", "Швидкодія");
+        for (Criterion criterion : Criterion.values()) {
+            crit.add(criterion.getCriterion());
+        }
         mark_crit.setItems(crit);
     }
 
@@ -234,48 +239,6 @@ public class rating_arch_C implements Initializable {
             e.printStackTrace();
         }
         architecture_done_choise_type = archWork.arch_load_from_DB(architecture_done_choise.get(0).getId(), derby_DB);
-/*
-        for (int i = 0; i < architecture_done_choise.size(); i++) {
-            int task_id = architecture_done_choise.get(i).getTaskId(),
-                    id_done = architecture_done_choise.get(i).getIdDone();
-
-            try {
-                architecture_done_choise.set(i, architecture_done_choise_type.clone());
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
-            architecture_done_choise.get(i).setIdDone(id_done);
-            architecture_done_choise.get(i).setTaskId(task_id);
-
-            try {
-                rs = derby_DB.executeQuery("SELECT * FROM LAY_DONE WHERE ARCH_DONE_ID=" + architecture_done_choise.get(i).getIdDone());
-                while (rs.next()) {
-                    for (int j = 0; j < architecture_done_choise.get(i).getLayers().size(); j++) {
-                        if (rs.getInt("LAY_ID") == architecture_done_choise.get(i).getLayers().get(j).getId()) {
-                            architecture_done_choise.get(i).getLayers().get(j).setIdDone(rs.getInt("ID"));
-                        }
-                    }
-                }
-                for (int j = 0; j < architecture_done_choise.get(i).getLayers().size(); j++) {
-                    rs = null;
-                    rs = derby_DB.executeQuery("SELECT * FROM MODULE_DONE WHERE LAY_DONE_ID=" + architecture_done_choise.get(i).getLayers().get(j).getIdDone());
-                    while (rs.next()) {
-                        for (int k = 0; k < architecture_done_choise.get(i).getLayers().get(j).getModules().size(); k++) {
-                            if (rs.getInt("MOD_ID") == architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).getId()) {
-                                architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).setIdDone(rs.getInt("ID"));
-                                for (int p = 0; p < architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).getAvilablePatterns().size(); p++) {
-                                    if (architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).getAvilablePatterns().get(p).getId() == rs.getInt("PATTERN_ID")) {
-                                        architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).setSelectedPattern(architecture_done_choise.get(i).getLayers().get(j).getModules().get(k).getAvilablePatterns().get(p));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }*/
 
         arch_mark_combine[0] = 0;
         if (architecture_done_choise.size() > 1) {
@@ -661,14 +624,8 @@ public class rating_arch_C implements Initializable {
 
             String note_exp = note_field.getText().toString();
 
-            int criter_id = 0;
             try {
-                criter_id = crit_id(mark_db, crit_choise);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                session_save_to_db(task_choise.getId(), mark_db, criter_id, note_exp);
+                session_save_to_db(task_choise.getId(), mark_db, crit_choise, note_exp);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -763,52 +720,23 @@ public class rating_arch_C implements Initializable {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
-            //TODO создание
-            /*try {
-                mark_db.executeUpdate("INSERT INTO CRITERION (NAME, DESCRIPTION) VALUES ('Надійність','властивість програмного засобу зберігати у часі в установлених межах значення всіх параметрів')");
-                mark_db.executeUpdate("INSERT INTO CRITERION (NAME, DESCRIPTION) VALUES ('Ефективність','швидкість обробки одиниці інформації, питомі витрати на обробки одиниці інформації')");
-                mark_db.executeUpdate("INSERT INTO CRITERION (NAME, DESCRIPTION) VALUES ('Швидкодія','середньостатистична кількість операцій (команд) які виконує ЕОМ за одиницю часу.')");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }*/
-
-            ResultSet rs;
-            try {
-                rs = mark_db.executeQuery("SELECT * FROM CRITERION");
-                if (!rs.next()) {
-                    mark_db.executeUpdate("INSERT INTO CRITERION (NAME, DESCRIPTION) VALUES ('Надійність','властивість програмного засобу зберігати у часі в установлених межах значення всіх параметрів')");
-                    mark_db.executeUpdate("INSERT INTO CRITERION (NAME, DESCRIPTION) VALUES ('Ефективність','швидкість обробки одиниці інформації, питомі витрати на обробки одиниці інформації')");
-                    mark_db.executeUpdate("INSERT INTO CRITERION (NAME, DESCRIPTION) VALUES ('Швидкодія','середньостатистична кількість операцій (команд) які виконує ЕОМ за одиницю часу.')");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+//
+//            ResultSet rs;
+//            try {
+//                rs = mark_db.executeQuery("SELECT * FROM CRITERION");
+//                if (!rs.next()) {
+//                    mark_db.executeUpdate("INSERT INTO CRITERION (NAME, DESCRIPTION) VALUES ('Надійність','властивість програмного засобу зберігати у часі в установлених межах значення всіх параметрів')");
+//                    mark_db.executeUpdate("INSERT INTO CRITERION (NAME, DESCRIPTION) VALUES ('Ефективність','швидкість обробки одиниці інформації, питомі витрати на обробки одиниці інформації')");
+//                    mark_db.executeUpdate("INSERT INTO CRITERION (NAME, DESCRIPTION) VALUES ('Швидкодія','середньостатистична кількість операцій (команд) які виконує ЕОМ за одиницю часу.')");
+//                }
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
         } else {
             mark_db = new DerbyDBManager(db_dir);
         }
     }
 
-
-    /**
-     * @param mark_db_conn -   підключення до бази даних оцінок
-     * @param crit_choise  - вибраний критерій
-     * @return
-     * @throws SQLException
-     */
-    public int crit_id(DerbyDBManager mark_db_conn, String crit_choise) throws SQLException {
-        ResultSet rs;
-        int id = 0;
-        if (mark_db_conn == null) {
-            Modals.showInfoApplicationModal("error", "conection to marks DB not establised");
-            System.exit(-1);
-        }
-        rs = mark_db_conn.executeQuery("SELECT * FROM CRITERION WHERE NAME='" + crit_choise + "'");
-        while (rs.next()) {
-            id = rs.getInt("ID");
-        }
-        return id;
-    }
 
     /**
      * Збереження сесії оцінювання у базу
@@ -818,14 +746,14 @@ public class rating_arch_C implements Initializable {
      * @return -   вдалість операції
      * @throws SQLException
      */
-    public static boolean session_save_to_db(int task_id, DerbyDBManager mark_db_conn, int crit_id, String note_exp) throws SQLException {
+    public static boolean session_save_to_db(int task_id, DerbyDBManager mark_db_conn, String criterion, String note_exp) throws SQLException {
         boolean result = false;
         ResultSet rs;
         ResultSet rs_tmp;
         Date d = new Date();
         float df = d.getTime();
-        System.out.printf("INSERT INTO SESSION (TASK_ID) VALUES (" + task_id + ")\n");
-        mark_db_conn.executeUpdate("INSERT INTO SESSION (TASK_ID, DATE_SES, CRITERION_ID, NOTE) VALUES (" + task_id + "," + df + ", " + crit_id + ",'" + note_exp + "')");
+        //System.out.printf("INSERT INTO SESSION (TASK_ID) VALUES (" + task_id + ")\n");
+        mark_db_conn.executeUpdate("INSERT INTO SESSION (TASK_ID, DATE_SES, CRITERION, NOTE) VALUES (" + task_id + "," + df + ", " + Criterion.fromString(criterion).name() + ",'" + note_exp + "')");
 
         System.out.printf("session save successful");
         return result;
@@ -885,21 +813,6 @@ public class rating_arch_C implements Initializable {
             });
         }
     });
-
-    /*private Thread myThread = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    if (arch_mark_combine[0] != architecture_done_choise.size()-2)
-                        redo_im_1 = arch_image_gen_with_patterns(architecture_done_choise.get(arch_mark_combine[0]+1));
-                    if (arch_mark_combine[1] != architecture_done_choise.size()-1)
-                        redo_im_2 = arch_image_gen_with_patterns(architecture_done_choise.get(arch_mark_combine[1]+1));
-                }
-            });
-        }
-    });*/
 }
 
 
