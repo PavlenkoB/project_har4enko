@@ -168,12 +168,7 @@ public class marks_viewer_contoller implements Initializable {
                         marks.add(new Mark(rs_mark.getInt("ID"), rs_mark.getInt("ARCH_1_ID"), rs_mark.getInt("ARCH_2_ID"), rs_mark.getInt("MARK")));
                     }
                     Date date = new Date((long) rs_sess.getFloat("DATE_SES"));
-                    Criteriy criter = null;
-                    ResultSet rs_crit = null;
-                    rs_crit = mark_db.executeQuery("SELECT * FROM CRITERION WHERE ID =" + rs_sess.getInt("CRITERION_ID"));
-                    while (rs_crit.next()) {
-                        criter = new Criteriy(rs_crit.getInt("ID"), rs_crit.getString("NAME"), rs_crit.getString("DESCRIPTION"));
-                    }
+                    String criter = null;
                     sessions.add(new Session(rs_sess.getInt("ID"), criter, rs_sess.getInt("TASK_ID"), marks, date, rs_sess.getString("NOTE")));
                 }
                 Choice_session();

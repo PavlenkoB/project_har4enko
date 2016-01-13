@@ -42,7 +42,7 @@ public class Controller_mode_selection_user_menu implements Initializable {
     rating_arch_C rating = new rating_arch_C();
     public Button cancelButton;
 
-    ArrayList<LogIn> LogIns = new ArrayList<>();
+    ArrayList<LogIn> logIns = new ArrayList<>();
 
 
     public void close(ActionEvent actionEvent) throws IOException {
@@ -79,7 +79,7 @@ public class Controller_mode_selection_user_menu implements Initializable {
             String line;
             while ((line = logining_read.readLine()) != null) {
                 buff_log.add(line);
-                LogIns.add(new LogIn());
+                logIns.add(new LogIn());
             }
             logining_read.close();
         } catch (IOException e) {
@@ -106,8 +106,8 @@ public class Controller_mode_selection_user_menu implements Initializable {
                 string_length++;
             }
 
-            LogIns.get(i).setLogin(log);
-            LogIns.get(i).setPassword(pass);
+            logIns.get(i).setLogin(log);
+            logIns.get(i).setPassword(pass);
         }
 
     }
@@ -140,104 +140,80 @@ public class Controller_mode_selection_user_menu implements Initializable {
 
     public void logining(ActionEvent actionEvent) {
         String password = null;
-        boolean log = false;
+        Boolean log = false;
         if (user_choise.getSelectionModel().getSelectedItem().equals("Адміністратор")) {
-            for (int i = 0; i < LogIns.size(); i++) {
-                if (LogIns.get(i).getLogin().equals("adm") & pass_write.getText().equals(LogIns.get(i).getPassword())) {
+            for (int i = 0; i < logIns.size(); i++) {
+                if (logIns.get(i).getLogin().equals("adm") & pass_write.getText().equals(logIns.get(i).getPassword())) {
                     adm_menu.setDisable(false);
                     arch_menu.setDisable(true);
                     exp_menu.setDisable(true);
-
-                    log_massage.getChildren().clear();
-                    Label log_mass = new Label("Вхід виконано - Адміністратором");
-                    log_mass.setAlignment(Pos.CENTER);
-                    log_mass.setFont(Font.font(15));
-                    log_massage.setRightAnchor(log_mass, 25.0);
-                    log_massage.setLeftAnchor(log_mass, 25.0);
-                    log_massage.setTopAnchor(log_mass, 5.0);
-                    log_massage.setBottomAnchor(log_mass, 5.0);
-                    log_massage.getChildren().add(log_mass);
-                    logger.info(": Entered by admin");
                     log = true;
-                } else if (!log) {
-                    log_massage.getChildren().clear();
-                    Label log_mass = new Label("Пароль введений невірно");
-                    log_mass.setAlignment(Pos.CENTER);
-                    log_mass.setFont(Font.font(15));
-                    log_massage.setRightAnchor(log_mass, 25.0);
-                    log_massage.setLeftAnchor(log_mass, 25.0);
-                    log_massage.setTopAnchor(log_mass, 5.0);
-                    log_massage.setBottomAnchor(log_mass, 5.0);
-                    log_massage.getChildren().add(log_mass);
+                    break;
+                } else {
+                    log = false;
                 }
             }
+            entryLogSet(log, "Вхід виконано - Адміністратором");
         }
-        ;
+
         if (user_choise.getSelectionModel().getSelectedItem().equals("Архітектор")) {
-            for (int i = 0; i < LogIns.size(); i++) {
-                if (LogIns.get(i).getLogin().equals("arch") & pass_write.getText().equals(LogIns.get(i).getPassword())) {
+            for (int i = 0; i < logIns.size(); i++) {
+                if (logIns.get(i).getLogin().equals("arch") & pass_write.getText().equals(logIns.get(i).getPassword())) {
                     adm_menu.setDisable(true);
                     arch_menu.setDisable(false);
                     exp_menu.setDisable(true);
-
-                    log_massage.getChildren().clear();
-                    Label log_mass = new Label("Вхід виконано - Архітектором");
-                    log_mass.setAlignment(Pos.CENTER);
-                    log_mass.setFont(Font.font(15));
-                    log_massage.setRightAnchor(log_mass, 25.0);
-                    log_massage.setLeftAnchor(log_mass, 25.0);
-                    log_massage.setTopAnchor(log_mass, 5.0);
-                    log_massage.setBottomAnchor(log_mass, 5.0);
-                    log_massage.getChildren().add(log_mass);
                     log = true;
-                } else if (!log) {
-                    log_massage.getChildren().clear();
-                    Label log_mass = new Label("Пароль введений невірно");
-                    log_mass.setAlignment(Pos.CENTER);
-                    log_mass.setFont(Font.font(15));
-                    log_massage.setRightAnchor(log_mass, 25.0);
-                    log_massage.setLeftAnchor(log_mass, 25.0);
-                    log_massage.setTopAnchor(log_mass, 5.0);
-                    log_massage.setBottomAnchor(log_mass, 5.0);
-                    log_massage.getChildren().add(log_mass);
+                    break;
+                } else {
+                    log = false;
                 }
             }
+            entryLogSet(log, "Вхід виконано - Архітектором");
         }
-        ;
+
         if (user_choise.getSelectionModel().getSelectedItem().equals("Експерт")) {
-            for (int i = 0; i < LogIns.size(); i++) {
-                if (LogIns.get(i).getLogin().equals("exp") & pass_write.getText().equals(LogIns.get(i).getPassword())) {
+            for (int i = 0; i < logIns.size(); i++) {
+                if (logIns.get(i).getLogin().equals("exp") & pass_write.getText().equals(logIns.get(i).getPassword())) {
                     adm_menu.setDisable(true);
                     arch_menu.setDisable(true);
                     exp_menu.setDisable(false);
-
-                    log_massage.getChildren().clear();
-                    Label log_mass = new Label("Вхід виконано - Експертом");
-                    log_mass.setAlignment(Pos.CENTER);
-                    log_mass.setFont(Font.font(15));
-                    log_massage.setRightAnchor(log_mass, 25.0);
-                    log_massage.setLeftAnchor(log_mass, 25.0);
-                    log_massage.setTopAnchor(log_mass, 5.0);
-                    log_massage.setBottomAnchor(log_mass, 5.0);
-                    log_massage.getChildren().add(log_mass);
                     log = true;
-                } else if (!log) {
-                    log_massage.getChildren().clear();
-                    Label log_mass = new Label("Пароль введений невірно");
-                    log_mass.setAlignment(Pos.CENTER);
-                    log_mass.setFont(Font.font(15));
-                    log_massage.setRightAnchor(log_mass, 25.0);
-                    log_massage.setLeftAnchor(log_mass, 25.0);
-                    log_massage.setTopAnchor(log_mass, 5.0);
-                    log_massage.setBottomAnchor(log_mass, 5.0);
-                    log_massage.getChildren().add(log_mass);
+                    break;
+                } else {
+                    log = false;
                 }
             }
+            entryLogSet(log, "Вхід виконано - Експертом");
         }
-        ;
+
     }
 
     public void onEnter(ActionEvent actionEvent) {
         logining(null);
+    }
+
+    private void entryLogSet(Boolean log, String message) {
+        if (log) {
+            log_massage.getChildren().clear();
+            Label log_mass = new Label(message);
+            log_mass.setAlignment(Pos.CENTER);
+            log_mass.setFont(Font.font(15));
+            log_massage.setRightAnchor(log_mass, 25.0);
+            log_massage.setLeftAnchor(log_mass, 25.0);
+            log_massage.setTopAnchor(log_mass, 5.0);
+            log_massage.setBottomAnchor(log_mass, 5.0);
+            log_massage.getChildren().add(log_mass);
+        } else {
+            log_massage.getChildren().clear();
+            Label log_mass = new Label("Пароль введений невірно");
+            log_mass.setAlignment(Pos.CENTER);
+            log_mass.setFont(Font.font(15));
+            log_massage.setRightAnchor(log_mass, 25.0);
+            log_massage.setLeftAnchor(log_mass, 25.0);
+            log_massage.setTopAnchor(log_mass, 5.0);
+            log_massage.setBottomAnchor(log_mass, 5.0);
+            log_massage.getChildren().add(log_mass);
+            logger.info(":wrong password ");
+        }
     }
 }
