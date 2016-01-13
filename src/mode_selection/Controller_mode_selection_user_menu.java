@@ -203,6 +203,7 @@ public class Controller_mode_selection_user_menu implements Initializable {
             log_massage.setTopAnchor(log_mass, 5.0);
             log_massage.setBottomAnchor(log_mass, 5.0);
             log_massage.getChildren().add(log_mass);
+            logger.info(": " + message);
         } else {
             log_massage.getChildren().clear();
             Label log_mass = new Label("Пароль введений невірно");
@@ -213,7 +214,7 @@ public class Controller_mode_selection_user_menu implements Initializable {
             log_massage.setTopAnchor(log_mass, 5.0);
             log_massage.setBottomAnchor(log_mass, 5.0);
             log_massage.getChildren().add(log_mass);
-            logger.info(":wrong password ");
+            logger.info(": wrong password ");
         }
     }
 }
