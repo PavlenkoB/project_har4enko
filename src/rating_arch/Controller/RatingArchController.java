@@ -129,7 +129,7 @@ public class RatingArchController implements Initializable {
     }
     //Windows close dialog
 
-    private boolean isCloseWindows() {
+    protected boolean isCloseWindows() {
         return Rating_arch_1 == null || Rating_arch_2 == null || Rating_arch_3 == null;
     }
 
@@ -138,7 +138,7 @@ public class RatingArchController implements Initializable {
         if (!isCloseWindows()) {
             visibleFalseToAllAnchors();
             Rating_arch_1.setVisible(true);
-            startRating(null);
+            startRating();
 
             ObservableList<String> crit = FXCollections.observableArrayList();
             crit.clear();
@@ -149,7 +149,8 @@ public class RatingArchController implements Initializable {
         }
     }
 
-    protected void startRating(ActionEvent actionEvent) {
+    @FXML
+    protected void startRating() {
         visibleFalseToAllAnchors();
         Rating_arch_1.setVisible(true);
         taskList = dbWorker.getTasksList();
@@ -533,7 +534,7 @@ public class RatingArchController implements Initializable {
             // существет ли база(создана ли)
 
             dbWorker.connectionToArchDb(db_dir.getSelectedFile().getAbsolutePath().toString());
-            startRating(null);
+            startRating();
         } catch (Exception e) {
             e.printStackTrace();
             dbWorker.disconnectArchDb();
@@ -611,7 +612,7 @@ public class RatingArchController implements Initializable {
                     options,  //the titles of buttons
                     options[0]); //default button title
             if (n == 0) {
-                startRating(null);
+                startRating();
             } else if (n == 1) {
                 Stage win = new Stage();
                 win = (Stage) root.getScene().getWindow();

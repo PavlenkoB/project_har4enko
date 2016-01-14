@@ -321,7 +321,7 @@ public class MarksViewerContoller implements Initializable {
                     e1.printStackTrace();
                 }
 
-                preview controller = loader.<preview>getController();
+                Preview controller = loader.<Preview>getController();
                 controller.initData(session_choice.getTask().getArchitectures().get(finalI));
                 stage.setTitle("Візуалізація архітектури " + (finalI + 1));
                 stage.show();
