@@ -90,7 +90,9 @@ public class DerbyDBManager {
         return false;
     }
 
-    // запрос на обновление базы данных  (INSERT, UPDATE, CREATE TABLE и т.п.)
+    /**
+     * запрос на обновление базы данных  (INSERT, UPDATE, CREATE TABLE и т.п.)
+     */
     public void executeUpdate(String sql) throws SQLException {
         //Statement stmt = con.createStatement();
         PreparedStatement preparedStatement = con.prepareStatement(sql);
@@ -102,13 +104,13 @@ public class DerbyDBManager {
         preparedStatement.close();
     }
 
-    /*
-
+    /**
+     * запрос на обновление базы данных  (INSERT, UPDATE, CREATE TABLE и т.п.) с файла
+     *
      * @param sql_file файл який необхідно виконати
      * @return result_info.comment = коментар
      * @author godex_000
      */
-    // запрос на обновление базы данных  (INSERT, UPDATE, CREATE TABLE и т.п.) с файла
     public resultInfo executeUpdate_from_file(File sql_file) throws SQLException {
         resultInfo res = new resultInfo();
         try {

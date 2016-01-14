@@ -126,11 +126,11 @@ public class Session {
         this.task = task;
     }
 
-    public Criterion getCriteriy() {
+    public Criterion getCriterion() {
         return criterion;
     }
 
-    public void setCriteriy(Criterion criterion) {
+    public void setCriterion(Criterion criterion) {
         this.criterion = criterion;
     }
 

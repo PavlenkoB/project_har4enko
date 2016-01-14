@@ -4,9 +4,6 @@ import Classes.Architecture;
 import Classes.Criterion;
 import Classes.Mark;
 import Classes.Task;
-import editor.classes.DerbyDBManager;
-import editor.classes.Modals;
-import editor.services.archWork;
 import editor.services.functions;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -37,7 +34,7 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import static editor.services.archWork.arch_image_gen_with_patterns;
@@ -65,10 +62,6 @@ public class rating_arch_C implements Initializable {
     public ChoiceBox task_list;
     public TextArea task_description;
     public Button cancelButton;
-    public Task task_choise;
-    public ArrayList<Architecture> architecture_done_choise = new ArrayList<>();
-    public Architecture architecture_done_choise_type;
-    public ArrayList<Mark> marks = new ArrayList<>();
     public ChoiceBox mark_crit;
     public AnchorPane mark;
     public AnchorPane Rating_arch_2;
@@ -92,14 +85,22 @@ public class rating_arch_C implements Initializable {
     public TextArea note_field;
     ArrayList<javafx.scene.control.TextField> textField_marks = new ArrayList<>();
 
+    protected DBWorker dbWorker = DBWorker.getInstance();
+    protected List<Task> taskList = null;
 
-    DerbyDBManager derby_DB; // = new DerbyDBManager("DB/paterns_DB");
-    DerbyDBManager mark_db; // = new DerbyDBManager("DB/Marks");
-    String pattern_db_str;
-    String mark_db_str = "DB/Marks";
+    protected Task task_choise;
+    protected List<Architecture> architecture_done_choise = new ArrayList<>();
+    protected Architecture architecture_done_choise_type;
+    protected ArrayList<Mark> marks = new ArrayList<>();
+
+//
+//    DerbyDBManager derby_DB; // = new DerbyDBManager("DB/paterns_DB");
+//    DerbyDBManager mark_db; // = new DerbyDBManager("DB/Marks");
+//    String pattern_db_str;
+//    String mark_db_str = "DB/Marks";
 
 
-    public String crit_choise;
+    protected String crit_choise;
 
     //Windows close dialog
     public void close(ActionEvent actionEvent) throws IOException {
@@ -117,7 +118,8 @@ public class rating_arch_C implements Initializable {
     }
 
     public void Exit(ActionEvent actionEvent) {
-        disconnect_DB(null);
+        dbWorker.disconnectArchDb();
+        dbWorker.disconnectMarkDb();
         System.exit(1);
     }
 
@@ -130,14 +132,10 @@ public class rating_arch_C implements Initializable {
 
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
-        Rating_arch_2.setVisible(false);
-        Rating_arch_3.setVisible(false);
-        try {
-            Rating_arch_1.setVisible(true);
-            Start_rating();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        visibleFalseToAllAnchors();
+        Rating_arch_1.setVisible(true);
+        Start_rating();
+
         ObservableList<String> crit = FXCollections.observableArrayList();
         crit.clear();
         for (Criterion criterion : Criterion.values()) {
@@ -146,54 +144,39 @@ public class rating_arch_C implements Initializable {
         mark_crit.setItems(crit);
     }
 
-    public void Start_rating() {
-        //disconnect_DB(mark_db);
-        derby_DB = new DerbyDBManager(pattern_db_str);
+    protected void Start_rating() {
+        visibleFalseToAllAnchors();
         Rating_arch_1.setVisible(true);
-        Rating_arch_2.setVisible(false);
-        Rating_arch_3.setVisible(false);
-        ResultSet rs = null;
-        try {
-            try {
-                //derby_DB
-                rs = derby_DB.executeQuery("SELECT * FROM TASK");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            ObservableList<String> items = FXCollections.observableArrayList();
+        taskList = dbWorker.getTasksList();
 
-            while (rs.next()) {
-                //System.out.println(rs.getInt("ID") + "|" + rs.getString("NAME"));
-                items.add(rs.getString("ID") + "|" + rs.getString("NAME"));
+        ObservableList<String> items = FXCollections.observableArrayList();
+        if (taskList != null) {
+            for (Task task : taskList) {
+                items.add(task.getId() + "|" + task.getName());
             }
-            task_list.setItems(items);
-            task_list.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
-                @Override
-                public void changed(ObservableValue<? extends Number> observableValue, Number value, Number new_value) {
-                    task_description_view(new_value);
-                }
-            });
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-        //ObservableList<String> mark_crit = FXCollections.observableArrayList();
-        //mark_crit.addAll("Швидкодія", "Безпека", "Надійність");
-        // mark_crit.addAll(mark_crit);
 
+        task_list.setItems(items);
+        task_list.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number value, Number new_value) {
+                task_description_view(new_value);
+            }
+        });
     }
 
-    private void task_description_view(Number new_value) {
-        ResultSet rs_task;
+    protected void task_description_view(Number new_value) {
         task_description.clear();
-        try {
-            rs_task = derby_DB.executeQuery("SELECT * FROM TASK WHERE ID=" + functions.get_ID((String) task_list.getItems().get(new_value.intValue())));
-            rs_task.next();
-            task_description.clear();
-            task_description.setText(rs_task.getString("DESCRIPTION"));
-            task_description.setEditable(false);
-        } catch (SQLException e) {
+        if (taskList != null) {
+            for (Task task : taskList) {
+                if (task.getId().equals(functions.get_ID((String) task_list.getItems().get(new_value.intValue())))) {
+                    task_description.setEditable(true);
+                    task_description.setText(task.getDescription());
+                    task_description.setEditable(false);
+                    break;
+                }
+            }
         }
-        ;
     }
 
     public void back_to_mode_sel(ActionEvent actionEvent) {
@@ -208,9 +191,8 @@ public class rating_arch_C implements Initializable {
         crit_choise = mark_crit.getSelectionModel().selectedItemProperty().getValue().toString();
         crit.clear();
         crit.setText(crit_choise);
-        Rating_arch_1.setVisible(false);
+        visibleFalseToAllAnchors();
         Rating_arch_2.setVisible(true);
-        Rating_arch_3.setVisible(false);
         marks.clear();
         ResultSet rs = null;
         task_choise = new Task();
@@ -218,27 +200,19 @@ public class rating_arch_C implements Initializable {
         architecture_done_choise.clear();
 
         /*
-        * Подгрузка в массива заданий с БД
+        * Подгрузка массива заданий с БД
         */
-        try {
-            rs = derby_DB.executeQuery("SELECT * FROM TASK WHERE ID=" + functions.get_ID(task_list.getSelectionModel().getSelectedItem().toString()));
-            rs.next();
-            task_choise = new Task(rs.getInt("ID"), rs.getString("NAME"), rs.getString("DESCRIPTION"));
-
-            architecture_done_choise = new archWork().architectureDoneArrayListFromDbByTaskID(task_choise.getId(), derby_DB);
-
-            /*
-            rs = null;
-            rs = derby_DB.executeQuery("SELECT * FROM ARCH_DONE WHERE TASK_ID=" + task_choise.getId());
-            while (rs.next()) {
-                architecture_done_choise.add(new Architecture(rs.getInt("ARCH_ID"), "", rs.getInt("ID"), task_choise.getId()));
-            }*/
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
+        if (taskList != null) {
+            for (Task task : taskList) {
+                if (task.getId().equals(functions.get_ID(task_list.getSelectionModel().getSelectedItem().toString()))) {
+                    task_choise = task;
+                    break;
+                }
+            }
         }
-        architecture_done_choise_type = archWork.arch_load_from_DB(architecture_done_choise.get(0).getId(), derby_DB);
+
+        architecture_done_choise = dbWorker.getArchitectureListByTaskID(task_choise.getId());
+        architecture_done_choise_type = dbWorker.getArchitectureType(architecture_done_choise.get(0));
 
         arch_mark_combine[0] = 0;
         if (architecture_done_choise.size() > 1) {
@@ -255,7 +229,7 @@ public class rating_arch_C implements Initializable {
     /**
      * Формування візуалізацій пар архітетур, тектового вигляду та загрузка графічного
      */
-    public void draw_arch_im_text() {
+    protected void draw_arch_im_text() {
 
         //Визов потоку генерації візуалізацій наступної пари архітектур
         tread_go();
@@ -390,7 +364,7 @@ public class rating_arch_C implements Initializable {
      * Загрузка з потоку зображення наступної і попередньої архітектур
      * Перевірка на закінчення оцінювання - визов відображення матриці
      */
-    public void setArch_mark_combine_combine_next() {
+    protected void setArch_mark_combine_combine_next() {
         arch_1_image = redo_im_1;
         arch_2_image = redo_im_2;
 
@@ -482,10 +456,9 @@ public class rating_arch_C implements Initializable {
      * textField_marks      - масив текстових полів з оцінками
      * gridPane_mark        - грід-панель відображення оцінок
      */
-    public void mark_done() {
+    protected void mark_done() {
         mark_panel.getChildren().clear();
-        Rating_arch_1.setVisible(false);
-        Rating_arch_2.setVisible(false);
+        visibleFalseToAllAnchors();
         Rating_arch_3.setVisible(true);
 
         int hsize = architecture_done_choise.size() + 1;
@@ -546,7 +519,7 @@ public class rating_arch_C implements Initializable {
      */
     public void connect_DB(ActionEvent actionEvent) {
         try {
-            disconnect_DB(derby_DB);
+            dbWorker.disconnectArchDb();
             JFileChooser db_dir = new JFileChooser(new File(System.getProperty("user.dir")));
             db_dir.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             db_dir.setAcceptAllFileFilterUsed(false);
@@ -554,33 +527,20 @@ public class rating_arch_C implements Initializable {
             db_dir.showDialog(null, "Обрати");
             // существет ли база(создана ли)
 
-            pattern_db_str = db_dir.getSelectedFile().getAbsolutePath().toString();
-            derby_DB = new DerbyDBManager(pattern_db_str);
+            dbWorker.connectionToArchDb(db_dir.getSelectedFile().getAbsolutePath().toString());
             Start_rating();
         } catch (Exception e) {
             e.printStackTrace();
-            derby_DB = null;
+            dbWorker.disconnectArchDb();
         }
     }
 
-    /**
-     * Від'єднання від бази даних
-     *
-     * @param database -   база до від'єднання
-     */
-    public void disconnect_DB(DerbyDBManager database) {//отключиться от БД
-        try {
-            if (database != null) {
-                if (database.getCon() != null) {
-                    if (!database.getCon().isClosed()) {
-                        database.disconectDB();
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    protected void visibleFalseToAllAnchors() {
+        Rating_arch_1.setVisible(false);
+        Rating_arch_2.setVisible(false);
+        Rating_arch_3.setVisible(false);
     }
+
 
     /**
      * Зчитування оцінок з матриці, організація збереження їх у базу
@@ -614,26 +574,22 @@ public class rating_arch_C implements Initializable {
                 markArrayList.add(new Mark(i, i, 1));
             }
 
+            dbWorker.connectionToMarkDb();
 
-            try {
-                // disconnect_DB(derby_DB);
-                creat_mark_DB();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
             String note_exp = note_field.getText().toString();
 
             try {
-                session_save_to_db(task_choise.getId(), mark_db, crit_choise, note_exp);
+                dbWorker.session_save_to_db(task_choise.getId(), crit_choise, note_exp);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            int session_id = functions.last_id_from_table_DB("SESSION", mark_db);
+            int session_id = dbWorker.getLastSessionID();
 
             for (int i = 0; i < markArrayList.size(); i++) {
                 try {
-                    marks_save_to_DB(markArrayList.get(i), architecture_done_choise.get(markArrayList.get(i).getNumArch0()).getIdDone(), architecture_done_choise.get(markArrayList.get(i).getNumArch1()).getIdDone(), session_id, mark_db);
+                    dbWorker.marksSaveToDB(markArrayList.get(i), architecture_done_choise.get(markArrayList.get(i).getNumArch0()).getIdDone(),
+                            architecture_done_choise.get(markArrayList.get(i).getNumArch1()).getIdDone(), session_id);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -654,8 +610,7 @@ public class rating_arch_C implements Initializable {
             } else if (n == 1) {
                 Stage win = new Stage();
                 win = (Stage) root.getScene().getWindow();
-                disconnect_DB(mark_db);
-                disconnect_DB(derby_DB);
+                dbWorker.disconnectAll();
                 win.close();
             } else {
             /*Stage win = new Stage();
@@ -671,127 +626,13 @@ public class rating_arch_C implements Initializable {
     }
 
     /**
-     * Створення бази даних оцінок в директорії "DB/Marks"
-     *
-     * @throws IOException
-     */
-    public void creat_mark_DB() throws IOException { //Создать БД
-        File db_dir = new File(mark_db_str);
-
-        //Если требуемого файла не существует.
-        if (!db_dir.exists()) {
-            //Создаем его.
-            if (!db_dir.mkdirs()) {
-                Modals.showInfoApplicationModal("INfo", "Crete marks direction");
-            }
-            mark_db = new DerbyDBManager(db_dir);
-            System.out.print("Создаю таблиці)");
-            try {
-                //todo сделать нормально блок с доступом к ресурсам
-                File in_dir;
-                in_dir = new File(this.getClass().getClassLoader().getResource("sql/create_marks_DB").getFile());
-                if (!in_dir.exists()) {
-                    in_dir = new File("sql/create_marks_DB");
-                    if (!in_dir.exists()) {
-                        Modals.showInfoApplicationModal("Err", "cant find resource sql/create_marks_DB");
-                        System.exit(-1);
-                    }
-                }
-                //ResourceAsStream("/editor/sql/creat_DB");
-
-                File[] fList;
-
-                fList = in_dir.listFiles();
-
-                for (File sql_file : fList) {
-                    System.out.println(sql_file.getName());
-                    //Нужны только папки в место isFile() пишим isDirectory()
-                    if (sql_file.isFile()) {
-                        String filename = sql_file.getName();
-                        int dotPos = filename.lastIndexOf(".");
-                        String ext = filename.substring(dotPos);
-                        if (ext.equals(".sql")) {
-                            mark_db.executeUpdate_from_file(sql_file);
-                        }
-                    }
-                }
-
-                System.out.print("Создал таблиці)");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-//
-//            ResultSet rs;
-//            try {
-//                rs = mark_db.executeQuery("SELECT * FROM CRITERION");
-//                if (!rs.next()) {
-//                    mark_db.executeUpdate("INSERT INTO CRITERION (NAME, DESCRIPTION) VALUES ('Надійність','властивість програмного засобу зберігати у часі в установлених межах значення всіх параметрів')");
-//                    mark_db.executeUpdate("INSERT INTO CRITERION (NAME, DESCRIPTION) VALUES ('Ефективність','швидкість обробки одиниці інформації, питомі витрати на обробки одиниці інформації')");
-//                    mark_db.executeUpdate("INSERT INTO CRITERION (NAME, DESCRIPTION) VALUES ('Швидкодія','середньостатистична кількість операцій (команд) які виконує ЕОМ за одиницю часу.')");
-//                }
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
-        } else {
-            mark_db = new DerbyDBManager(db_dir);
-        }
-    }
-
-
-    /**
-     * Збереження сесії оцінювання у базу
-     *
-     * @param task_id      -   ідентифікатор оцінуваного завдання
-     * @param mark_db_conn -   підключення до бази даних оцінок
-     * @return -   вдалість операції
-     * @throws SQLException
-     */
-    public static boolean session_save_to_db(int task_id, DerbyDBManager mark_db_conn, String criterion, String note_exp) throws SQLException {
-        boolean result = false;
-        ResultSet rs;
-        ResultSet rs_tmp;
-        Date d = new Date();
-        float df = d.getTime();
-        //System.out.printf("INSERT INTO SESSION (TASK_ID) VALUES (" + task_id + ")\n");
-        mark_db_conn.executeUpdate("INSERT INTO SESSION (TASK_ID, DATE_SES, CRITERION, NOTE) VALUES (" + task_id + "," + df + ", " + Criterion.fromString(criterion).name() + ",'" + note_exp + "')");
-
-        System.out.printf("session save successful");
-        return result;
-    }
-
-    /**
-     * Збереженя оцінок у базу даних оцінок
-     *
-     * @param mark         -   записувана оцінка
-     * @param arch_1_id    -   1 оцінувана архітектура (з пари)
-     * @param arch_2_id    -   2 оцінувана архітектура (з пари)
-     * @param session_id   -   ідентифікатор сесії оцінювання
-     * @param mark_db_conn -   підключення до бази даних оцінок
-     * @return -   вдалість операції
-     * @throws SQLException
-     */
-    public static boolean marks_save_to_DB(Mark mark, int arch_1_id, int arch_2_id, int session_id, DerbyDBManager mark_db_conn) throws SQLException {//Зберегти архітектуру в БД
-        boolean result = false;
-        ResultSet rs_tmp;
-        //Добавить в базу
-        mark_db_conn.executeUpdate("INSERT INTO MARK (SESSION_ID,ARCH_1_ID,ARCH_2_ID,MARK) VALUES (" + session_id + "," + arch_1_id + "," + arch_2_id + "," + mark.getMark() + ")");
-
-
-        System.out.printf("mark save successful");
-        return result;
-    }
-
-    /**
      * Функція (метод) викліку потоку
      */
-    private void tread_go() {
+    protected void tread_go() {
         Thread myThread = new Thread(MyThread);
         myThread.setPriority(5);
         myThread.setDaemon(true);
         myThread.start();
-        /*myThread = new Thread(task);
-        myThread.setDaemon(true);
-        myThread.start();*/
     }
 
     /**

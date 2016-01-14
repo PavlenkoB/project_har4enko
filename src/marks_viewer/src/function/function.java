@@ -1,4 +1,4 @@
-package marks_viewer.function;
+package src.function;
 
 import editor.classes.DerbyDBManager;
 

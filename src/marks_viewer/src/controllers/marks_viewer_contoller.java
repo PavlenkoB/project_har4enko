@@ -258,7 +258,7 @@ public class marks_viewer_contoller implements Initializable {
                 task_description.setEditable(false);
                 SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy hh:mm");
                 dateTextField.setText(format1.format(sessions.get(i).getDate()));
-                Criteriy_name.setText(sessions.get(i).getCriteriy().getName());
+                Criteriy_name.setText(sessions.get(i).getCriterion().name());
                 Criteriy_name.setEditable(false);
             }
         }
@@ -324,7 +324,7 @@ public class marks_viewer_contoller implements Initializable {
         marks_matrix.getChildren().add(label_session_id);
 
         Label criteriy = new Label();
-        criteriy.setText("Критерій : " + session_choice.getCriteriy().getName());
+        criteriy.setText("Критерій : " + session_choice.getCriterion().getCriterion());
         criteriy.setLayoutX(400);
         criteriy.setLayoutY(40);
         criteriy.setFont(Font.font(16));
