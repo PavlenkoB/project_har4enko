@@ -8,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.stage.Stage;
-import rating_arch.Controller.rating_arch_C;
+import rating_arch.Controller.RatingArchController;
 
 import java.io.IOException;
 
@@ -19,7 +19,7 @@ import java.io.IOException;
 
 public class Controller_mode_selection {
     Main editor = new Main();
-    rating_arch_C rating = new rating_arch_C();
+    RatingArchController rating = new RatingArchController();
 
     public RadioButton choice1_set_new_arch;
     public RadioButton choice1_add_new_patt;

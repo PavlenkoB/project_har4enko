@@ -15,7 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import rating_arch.Controller.rating_arch_C;
+import rating_arch.Controller.RatingArchController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,7 +28,7 @@ import java.util.ResourceBundle;
 
 public class Controller_mode_selection_user implements Initializable {
     Main editor = new Main();
-    rating_arch_C rating = new rating_arch_C();
+    RatingArchController rating = new RatingArchController();
     public Button cancelButton;
     public Button sel_next;
     public ChoiceBox user_choise;

@@ -5,14 +5,14 @@
 <?import javafx.scene.text.*?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
             prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="src.controllers.marks_viewer_contoller">
+            fx:controller="src.controllers.MarksViewerContoller">
     <children>
         <MenuBar id="new_arch_menu" layoutY="2.0" prefHeight="25.0" prefWidth="629.0" AnchorPane.leftAnchor="0.0"
                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <menus>
                 <Menu mnemonicParsing="false" text="Файл">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#connect_DB_repository"
+                        <MenuItem mnemonicParsing="false" onAction="#connectRepositoryDB"
                                   text="Під'єднання до Репозитарію архітектур"/>
                         <MenuItem mnemonicParsing="false" onAction="#connect_DB_mark"
                                   text="Під'єднання до Бази оцінок"/>

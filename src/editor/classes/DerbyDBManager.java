@@ -11,6 +11,10 @@ public class DerbyDBManager {
     private String dbName = null;
     private Connection con = null;
 
+    public boolean connectionEstablish() {
+        return dbName != null && con != null;
+    }
+
     public DerbyDBManager(String dbName) {
         this.dbName = dbName;
         System.out.println("Try connect to '" + dbName + "'");

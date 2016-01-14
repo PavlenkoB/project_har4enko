@@ -1,8 +1,8 @@
 package src.controllers;
 
-import Classes.*;
-import editor.classes.DerbyDBManager;
-import editor.services.archWork;
+import Classes.Architecture;
+import Classes.Session;
+import Classes.Task;
 import editor.services.functions;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -23,16 +23,16 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.apache.log4j.Logger;
+import src.function.DbWorker;
 
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -42,7 +42,7 @@ import java.util.ResourceBundle;
  * @author Alx Shcherbak
  * @see javafx.fxml.Initializable
  */
-public class marks_viewer_contoller implements Initializable {
+public class MarksViewerContoller implements Initializable {
     public AnchorPane marks_viewer_anchor_0;
     public AnchorPane session_choise_anchor;
     public ChoiceBox session_list_choisebox;
@@ -52,20 +52,19 @@ public class marks_viewer_contoller implements Initializable {
     public AnchorPane marks_matrix;
     public TextField dateTextField;
     public TextField Note_field;
+    public Button cancelButton;
 
-    private ArrayList<Task> tasks = new ArrayList<>();          //  Массив заданий
-    private ArrayList<Session> sessions = new ArrayList<>();    //  Массив сессий
+    private static Logger logger = Logger.getLogger(MarksViewerContoller.class);
+
+    private List<Task> tasks = new ArrayList<>();          //  Массив заданий
+    private List<Session> sessions = new ArrayList<>();    //  Массив сессий
     private Session session_choice = new Session();             //  Вибрана сессия для просмотра оценок с массива sessions
     private Architecture architecture_done_choice_type;         //  Тип выбраной архитектуры
 
-    private boolean flag_repos = false,     //  Флаг на выбраную и считаную базу патернов
-            flag_mark = false;              //  Флаг на выбраную и считаную базу оценок
-
-    DerbyDBManager derby_DB; //= new DerbyDBManager("DB/paterns_DB");
-    DerbyDBManager mark_db; // = new DerbyDBManager("DB/Marks");
-
-    String pattern_db_str;      //  Путь к базе патернов    -   относительный
-    String mark_db_str;         //  Путь к базе оценок
+    /**
+     *
+     */
+    protected DbWorker dbWorker = DbWorker.getInstance();
 
     /**
      * Метод закрытия окна программы, через вызовов диалогового окна
@@ -77,7 +76,7 @@ public class marks_viewer_contoller implements Initializable {
         try {
             Stage stage = new Stage();
             Parent root;
-            root = FXMLLoader.load(getClass().getResource("/mode_selection/Close.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/src/view_fxml/Close.fxml"));
             stage.setTitle("Завершити програму");
             stage.setScene(new Scene(root, 600, 130));
             stage.setResizable(false);
@@ -93,134 +92,68 @@ public class marks_viewer_contoller implements Initializable {
      *
      * @param actionEvent
      */
-    public void connect_DB_repository(ActionEvent actionEvent) {
-        try {
-            if (derby_DB != null) {
-                disconnect_DB(derby_DB);
-            }
-            JFileChooser db_dir = new JFileChooser(new File(System.getProperty("user.dir")));
-            db_dir.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            db_dir.setAcceptAllFileFilterUsed(false);
-            db_dir.setDialogTitle("Виберіть папку з БД архітектур");
-            db_dir.showDialog(null, "Обрати");
-            // существет ли база(создана ли)
+    public void connectRepositoryDB(ActionEvent actionEvent) {
+        JFileChooser db_dir = new JFileChooser(new File(System.getProperty("user.dir")));
+        db_dir.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        db_dir.setAcceptAllFileFilterUsed(false);
+        db_dir.setDialogTitle("Виберіть папку з БД архітектур");
+        db_dir.showDialog(null, "Обрати");
 
-            pattern_db_str = db_dir.getSelectedFile().getAbsolutePath().toString();
-            derby_DB = new DerbyDBManager(pattern_db_str);
-            flag_repos = true;
-            //Choice_session();
-        } catch (Exception e) {
-            e.printStackTrace();
-            derby_DB = null;
-        }
-
-        /*
-        * Подгрузка в массива заданий с БД
-        */
-        ResultSet rs_rep = null;
-
-        if (flag_repos) {
-            try {
-                //derby_DB
-                rs_rep = derby_DB.executeQuery("SELECT * FROM TASK");
-
-                while (rs_rep.next()) {
-                    tasks.add(new Task(rs_rep.getInt("ID"), rs_rep.getString("NAME"), rs_rep.getString("DESCRIPTION"), new archWork().architectureDoneArrayListFromDbByTaskID(rs_rep.getInt("ID"), derby_DB)));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
-            Choice_session();
-        }
+        dbWorker.connectionToArchDb(db_dir.getSelectedFile().getAbsolutePath().toString());
+        tasks = dbWorker.getTaskList();
+        choiceSession();
     }
-
-    public void connect_DB_mark(ActionEvent actionEvent) {
-        try {
-            if (mark_db != null) {
-                disconnect_DB(mark_db);
-            }
-
-            JFileChooser db_dir = new JFileChooser(new File(System.getProperty("user.dir")));
-            db_dir.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            db_dir.setAcceptAllFileFilterUsed(false);
-            db_dir.setDialogTitle("Виберіть папку з БД оцінок");
-            db_dir.showDialog(null, "Обрати");
-            // существет ли база(создана ли)
-
-            mark_db_str = db_dir.getSelectedFile().getAbsolutePath().toString();
-            mark_db = new DerbyDBManager(mark_db_str);
-            flag_mark = true;
-            if (flag_mark) {
-                ResultSet rs_sess = null;
-                try {
-                    //derby_DB
-                    rs_sess = mark_db.executeQuery("SELECT * FROM SESSION");
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                while (rs_sess.next()) {
-                    ArrayList<Mark> marks = new ArrayList<>();
-                    ResultSet rs_mark = null;
-                    rs_mark = mark_db.executeQuery("SELECT * FROM MARK WHERE SESSION_ID =" + rs_sess.getInt("ID"));
-                    while (rs_mark.next()) {
-                        marks.add(new Mark(rs_mark.getInt("ID"), rs_mark.getInt("ARCH_1_ID"), rs_mark.getInt("ARCH_2_ID"), rs_mark.getInt("MARK")));
-                    }
-                    Date date = new Date((long) rs_sess.getFloat("DATE_SES"));
-                    String criter = null;
-                    sessions.add(new Session(rs_sess.getInt("ID"), criter, rs_sess.getInt("TASK_ID"), marks, date, rs_sess.getString("NOTE")));
-                }
-                Choice_session();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            mark_db = null;
-        }
-    }
-
 
     /**
-     * Від'єднання від бази даних
      *
-     * @param database -   база до від'єднання
+     * @param actionEvent
      */
-    public void disconnect_DB(DerbyDBManager database) {//отключиться от БД
-        try {
-            if (database != null) {
-                if (database.getCon() != null) {
-                    if (!database.getCon().isClosed()) {
-                        database.disconectDB();
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public void connect_DB_mark(ActionEvent actionEvent) {
+        JFileChooser db_dir = new JFileChooser(new File(System.getProperty("user.dir")));
+        db_dir.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        db_dir.setAcceptAllFileFilterUsed(false);
+        db_dir.setDialogTitle("Виберіть папку з БД оцінок");
+        db_dir.showDialog(null, "Обрати");
+
+        dbWorker.connectionToMarkDb(db_dir.getSelectedFile().getAbsolutePath().toString());
+        sessions = dbWorker.getSessionList();
+        choiceSession();
+    }
+
+    /**
+     *
+     */
+    protected void visibleFalseToAllAnchors() {
+        marks_viewer_anchor_0.setVisible(false);
+        mark_view_matrix.setVisible(false);
+    }
+
+    /**
+     *
+     * @return
+     */
+    private boolean isCloseWindows() {
+        return mark_view_matrix == null || marks_viewer_anchor_0 == null;
+    }
+
+    /**
+     *
+     * @param url
+     * @param rb
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        if (!isCloseWindows()) {
+            visibleFalseToAllAnchors();
+            marks_viewer_anchor_0.setVisible(true);
         }
     }
 
-    public void initialize(URL url, ResourceBundle rb) {
-        marks_viewer_anchor_0.setVisible(true);
-        mark_view_matrix.setVisible(false);
-
-        ////////////////////date
-        SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy hh:mm");
-        Date d = new Date();
-        System.out.println(format1.format(d)); //25.02.2013 09:03
-        float df = d.getTime();
-        d = new Date((long) df);
-        System.out.println("float " + format1.format(d)); //25.02.2013 09:03
-        long dl = d.getTime();
-        d = new Date(dl);
-        System.out.println(dl);
-        System.out.println("long " + format1.format(d)); //25.02.2013 09:03
-
-    }
-
-    private void Choice_session() {
-        int task_id;
-        int criter_id;
-        if (flag_repos & flag_mark) {
+    /**
+     *
+     */
+    private void choiceSession() {
+        if (dbWorker.readyToWork()) {
             for (int i = 0; i < sessions.size(); i++) {
                 for (int j = 0; j < tasks.size(); j++) {
                     if (sessions.get(i).getTaskId() == tasks.get(j).getId()) {
@@ -241,11 +174,13 @@ public class marks_viewer_contoller implements Initializable {
                 }
             });
         }
-        System.out.println("Choice_session");
     }
 
+    /**
+     *
+     * @param new_value
+     */
     private void task_description_view(Number new_value) {
-        ResultSet rs_task;
         task_description.clear();
         Note_field.clear();
         dateTextField.clear();
@@ -262,12 +197,14 @@ public class marks_viewer_contoller implements Initializable {
                 Criteriy_name.setEditable(false);
             }
         }
-
-        ;
     }
 
+    /**
+     *
+     * @param actionEvent
+     */
     public void choice_session(final ActionEvent actionEvent) {
-        marks_viewer_anchor_0.setVisible(false);
+        visibleFalseToAllAnchors();
         marks_matrix.getChildren().clear();
         mark_view_matrix.setVisible(true);
 
@@ -275,9 +212,8 @@ public class marks_viewer_contoller implements Initializable {
         for (int i = 0; i < sessions.size(); i++) {
             if (session_choice.getId() == sessions.get(i).getId()) {
                 session_choice = sessions.get(i);
-                //new Session(sessions.get(i).getId(), sessions.get(i).getTask(), sessions.get(i).getCriteriy(), sessions.get(i).getTaskId(), sessions.get(i).getMarks());
-                derby_DB = new DerbyDBManager(pattern_db_str);
-                architecture_done_choice_type = Architecture.arch_load_from_DB(session_choice.getTask().getArchitectures().get(0).getId(), derby_DB);
+                architecture_done_choice_type = dbWorker.getArchitectureType(session_choice.getTask().getArchitectures().get(0));
+
             }
         }
 
@@ -363,53 +299,43 @@ public class marks_viewer_contoller implements Initializable {
             labels_marks.add(new Label(session_choice.getMarks().get(i).getMark().toString()));
             gridPane_mark.add(labels_marks.get(labels_marks.size() - 1), (session_choice.getMarks().get(i).getNumArch1() - session_choice.getMarks().get(0).getNumArch0() + 1), (session_choice.getMarks().get(i).getNumArch0() - session_choice.getMarks().get(0).getNumArch0() + 1));
         }
+
+
+        /**
+         *
+         */
+        class EventHandlerViewPreviewImpl implements EventHandler<ActionEvent> {
+            final int finalI;
+
+            public EventHandlerViewPreviewImpl(int finalI) {
+                this.finalI = finalI;
+            }
+
+            @Override
+            public void handle(javafx.event.ActionEvent e) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/view_fxml/preview.fxml"));
+                Stage stage = new Stage(StageStyle.DECORATED);
+                try {
+                    stage.setScene(new Scene((Pane) loader.load()));
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+
+                preview controller = loader.<preview>getController();
+                controller.initData(session_choice.getTask().getArchitectures().get(finalI));
+                stage.setTitle("Візуалізація архітектури " + (finalI + 1));
+                stage.show();
+                choice_session(actionEvent);
+            }
+        }
+
         for (int i = 0; i < archery_open_button_hor.size(); i++) {
             final int finalI = i;
-            archery_open_button_hor.get(i).setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent e) {
-                    Stage preview_view = new Stage();
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/view_fxml/preview.fxml"));
-
-                    Stage stage = new Stage(StageStyle.DECORATED);
-                    try {
-                        stage.setScene(new Scene((Pane) loader.load()));
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-
-                    preview controller = loader.<preview>getController();
-                    ;
-                    controller.initData(session_choice.getTask().getArchitectures().get(finalI));
-                    stage.setTitle("Візуалізація архітектури " + (finalI + 1));
-                    stage.show();
-                    choice_session(actionEvent);
-                }
-            });
+            archery_open_button_hor.get(i).setOnAction(new EventHandlerViewPreviewImpl(i));
         }
         for (int i = 0; i < archery_open_button_ver.size(); i++) {
             final int finalI = i;
-            archery_open_button_ver.get(i).setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent e) {
-                    Stage preview_view = new Stage();
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/view_fxml/preview.fxml"));
-
-                    Stage stage = new Stage(StageStyle.DECORATED);
-                    try {
-                        stage.setScene(new Scene((Pane) loader.load()));
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-
-                    preview controller = loader.<preview>getController();
-                    ;
-                    controller.initData(session_choice.getTask().getArchitectures().get(finalI));
-                    stage.setTitle("Візуалізація архітектури " + (finalI + 1));
-                    stage.show();
-                    choice_session(actionEvent);
-                }
-            });
+            archery_open_button_ver.get(i).setOnAction(new EventHandlerViewPreviewImpl(i));
         }
 
         gridPane_mark.setLayoutY(60);
@@ -420,8 +346,37 @@ public class marks_viewer_contoller implements Initializable {
 
     }
 
+    /**
+     *
+     * @param actionEvent
+     */
     public void Session_choise(ActionEvent actionEvent) {
         marks_viewer_anchor_0.setVisible(true);
         mark_view_matrix.setVisible(false);
+    }
+
+    /**
+     *
+     * @param actionEvent
+     */
+    public void goBackMain(ActionEvent actionEvent) {
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        // do what you have to do
+        stage.close();
+    }
+
+    /**
+     *
+     * @param actionEvent
+     */
+    public void exit(ActionEvent actionEvent) {
+        dbWorker.disconnectAll();
+        try {
+            wait(500l);
+        } catch (InterruptedException e) {
+
+            e.printStackTrace();
+        }
+        System.exit(1);
     }
 }

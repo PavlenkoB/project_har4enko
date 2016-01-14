@@ -7,9 +7,9 @@
 <AnchorPane id="AnchorPane" fx:id="root" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
             minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="630.0"
             xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="rating_arch.Controller.rating_arch_C">
+            fx:controller="rating_arch.Controller.RatingArchController">
     <children>
-        <AnchorPane fx:id="Rating_arch_1" layoutY="26.0" prefHeight="174.0" prefWidth="200.0" visible="false"
+        <AnchorPane fx:id="ratingArch1" layoutY="26.0" prefHeight="174.0" prefWidth="200.0" visible="false"
                     AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                     AnchorPane.topAnchor="25.0">
             <children>
@@ -53,10 +53,10 @@
                                    maxWidth="-Infinity" prefWidth="150.0"/>
                     </children>
                 </AnchorPane>
-                <Button id="Cancel" layoutX="439.0" layoutY="331.0" mnemonicParsing="false" onAction="#back_to_mode_sel"
+                <Button id="Cancel" layoutX="439.0" layoutY="331.0" mnemonicParsing="false" onAction="#backToModeSel"
                         text="Відміна" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="180.0"/>
                 <Button id="Arch_create_next_2" layoutX="519.0" layoutY="331.0" mnemonicParsing="false"
-                        onAction="#choice_task" prefWidth="-1.0" text="Обрати" AnchorPane.bottomAnchor="15.0"
+                        onAction="#choiceTask" prefWidth="-1.0" text="Обрати" AnchorPane.bottomAnchor="15.0"
                         AnchorPane.rightAnchor="65.0"/>
             </children>
         </AnchorPane>
@@ -234,10 +234,10 @@
                         </Label>
                     </children>
                 </AnchorPane>
-                <Button id="Cancel" layoutX="439.0" layoutY="331.0" mnemonicParsing="false" onAction="#Start_rating"
+                <Button id="Cancel" layoutX="439.0" layoutY="331.0" mnemonicParsing="false" onAction="#startRating"
                         text="Відміна" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="180.0"/>
                 <Button id="Arch_create_next_2" fx:id="Next_twise" layoutX="519.0" layoutY="331.0"
-                        mnemonicParsing="false" onAction="#next_twise" prefWidth="-1.0" text="Наступна пара"
+                        mnemonicParsing="false" onAction="#nextTwise" prefWidth="-1.0" text="Наступна пара"
                         AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0"/>
             </children>
         </AnchorPane>
@@ -247,7 +247,7 @@
                 <Button id="Arch_create_next_2" fx:id="save_marks_but" layoutX="505.0" layoutY="330.0"
                         mnemonicParsing="false" onAction="#Save_marks" prefHeight="25.0" prefWidth="150.0"
                         text="Зберігти оцінки" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="40.0"/>
-                <Button id="Cancel" layoutX="440.0" layoutY="310.0" mnemonicParsing="false" onAction="#Start_rating"
+                <Button id="Cancel" layoutX="440.0" layoutY="310.0" mnemonicParsing="false" onAction="#startRating"
                         prefWidth="150.0" text="Відмінити оцінювання" AnchorPane.bottomAnchor="45.0"
                         AnchorPane.rightAnchor="40.0"/>
                 <ScrollPane prefHeight="287.0" prefWidth="630.0" AnchorPane.bottomAnchor="75.0"

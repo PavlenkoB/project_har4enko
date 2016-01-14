@@ -42,7 +42,7 @@ import static editor.services.archWork.arch_image_gen_with_patterns;
 /**
  * Created by Alex Shcherbak on 24.04.2014.
  */
-public class rating_arch_C implements Initializable {
+public class RatingArchController implements Initializable {
     /**
      * task_choise                  -   Задача що оцінюється, має зв'язок з архітектурою
      * architecture_done_choise     -   Масив архітектур згенерованих архітектором до завдання
@@ -117,34 +117,39 @@ public class rating_arch_C implements Initializable {
         }
     }
 
-    public void Exit(ActionEvent actionEvent) {
-        dbWorker.disconnectArchDb();
-        dbWorker.disconnectMarkDb();
+    public void exit(ActionEvent actionEvent) {
+        dbWorker.disconnectAll();
         System.exit(1);
     }
 
-    public void GoBack_main(ActionEvent actionEvent) {
+    public void goBackMain(ActionEvent actionEvent) {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         // do what you have to do
         stage.close();
     }
     //Windows close dialog
 
-    @FXML
-    public void initialize(URL url, ResourceBundle rb) {
-        visibleFalseToAllAnchors();
-        Rating_arch_1.setVisible(true);
-        Start_rating();
-
-        ObservableList<String> crit = FXCollections.observableArrayList();
-        crit.clear();
-        for (Criterion criterion : Criterion.values()) {
-            crit.add(criterion.getCriterion());
-        }
-        mark_crit.setItems(crit);
+    private boolean isCloseWindows() {
+        return Rating_arch_1 == null || Rating_arch_2 == null || Rating_arch_3 == null;
     }
 
-    protected void Start_rating() {
+    @FXML
+    public void initialize(URL url, ResourceBundle rb) {
+        if (!isCloseWindows()) {
+            visibleFalseToAllAnchors();
+            Rating_arch_1.setVisible(true);
+            startRating(null);
+
+            ObservableList<String> crit = FXCollections.observableArrayList();
+            crit.clear();
+            for (Criterion criterion : Criterion.values()) {
+                crit.add(criterion.getCriterion());
+            }
+            mark_crit.setItems(crit);
+        }
+    }
+
+    protected void startRating(ActionEvent actionEvent) {
         visibleFalseToAllAnchors();
         Rating_arch_1.setVisible(true);
         taskList = dbWorker.getTasksList();
@@ -160,12 +165,12 @@ public class rating_arch_C implements Initializable {
         task_list.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number value, Number new_value) {
-                task_description_view(new_value);
+                taskDescriptionView(new_value);
             }
         });
     }
 
-    protected void task_description_view(Number new_value) {
+    protected void taskDescriptionView(Number new_value) {
         task_description.clear();
         if (taskList != null) {
             for (Task task : taskList) {
@@ -179,7 +184,7 @@ public class rating_arch_C implements Initializable {
         }
     }
 
-    public void back_to_mode_sel(ActionEvent actionEvent) {
+    public void backToModeSel(ActionEvent actionEvent) {
     }
 
     /**
@@ -187,7 +192,7 @@ public class rating_arch_C implements Initializable {
      *
      * @param actionEvent
      */
-    public void choice_task(ActionEvent actionEvent) {
+    public void choiceTask(ActionEvent actionEvent) {
         crit_choise = mark_crit.getSelectionModel().selectedItemProperty().getValue().toString();
         crit.clear();
         crit.setText(crit_choise);
@@ -223,13 +228,13 @@ public class rating_arch_C implements Initializable {
 
         arch_1_image = arch_image_gen_with_patterns(architecture_done_choise.get(arch_mark_combine[0]));
         arch_2_image = arch_image_gen_with_patterns(architecture_done_choise.get(arch_mark_combine[1]));
-        draw_arch_im_text();
+        drawArchImText();
     }
 
     /**
      * Формування візуалізацій пар архітетур, тектового вигляду та загрузка графічного
      */
-    protected void draw_arch_im_text() {
+    protected void drawArchImText() {
 
         //Визов потоку генерації візуалізацій наступної пари архітектур
         tread_go();
@@ -364,7 +369,7 @@ public class rating_arch_C implements Initializable {
      * Загрузка з потоку зображення наступної і попередньої архітектур
      * Перевірка на закінчення оцінювання - визов відображення матриці
      */
-    protected void setArch_mark_combine_combine_next() {
+    protected void setArchMarkCombineCombineNext() {
         arch_1_image = redo_im_1;
         arch_2_image = redo_im_2;
 
@@ -386,10 +391,10 @@ public class rating_arch_C implements Initializable {
      *
      * @param actionEvent
      */
-    public void next_twise(ActionEvent actionEvent) {
+    public void nextTwise(ActionEvent actionEvent) {
         marks.add(new Mark(arch_mark_combine[0], arch_mark_combine[1], 0));
-        setArch_mark_combine_combine_next();
-        draw_arch_im_text();
+        setArchMarkCombineCombineNext();
+        drawArchImText();
     }
 
     /**
@@ -399,56 +404,56 @@ public class rating_arch_C implements Initializable {
      */
     public void mark_1(ActionEvent actionEvent) {
         marks.add(new Mark(arch_mark_combine[0], arch_mark_combine[1], 1));
-        setArch_mark_combine_combine_next();
-        draw_arch_im_text();
+        setArchMarkCombineCombineNext();
+        drawArchImText();
     }
 
     public void mark_2(ActionEvent actionEvent) {
         marks.add(new Mark(arch_mark_combine[0], arch_mark_combine[1], 2));
-        setArch_mark_combine_combine_next();
-        draw_arch_im_text();
+        setArchMarkCombineCombineNext();
+        drawArchImText();
     }
 
     public void mark_3(ActionEvent actionEvent) {
         marks.add(new Mark(arch_mark_combine[0], arch_mark_combine[1], 3));
-        setArch_mark_combine_combine_next();
-        draw_arch_im_text();
+        setArchMarkCombineCombineNext();
+        drawArchImText();
     }
 
     public void mark_4(ActionEvent actionEvent) {
         marks.add(new Mark(arch_mark_combine[0], arch_mark_combine[1], 4));
-        setArch_mark_combine_combine_next();
-        draw_arch_im_text();
+        setArchMarkCombineCombineNext();
+        drawArchImText();
     }
 
     public void mark_5(ActionEvent actionEvent) {
         marks.add(new Mark(arch_mark_combine[0], arch_mark_combine[1], 5));
-        setArch_mark_combine_combine_next();
-        draw_arch_im_text();
+        setArchMarkCombineCombineNext();
+        drawArchImText();
     }
 
     public void mark_6(ActionEvent actionEvent) {
         marks.add(new Mark(arch_mark_combine[0], arch_mark_combine[1], 6));
-        setArch_mark_combine_combine_next();
-        draw_arch_im_text();
+        setArchMarkCombineCombineNext();
+        drawArchImText();
     }
 
     public void mark_7(ActionEvent actionEvent) {
         marks.add(new Mark(arch_mark_combine[0], arch_mark_combine[1], 7));
-        setArch_mark_combine_combine_next();
-        draw_arch_im_text();
+        setArchMarkCombineCombineNext();
+        drawArchImText();
     }
 
     public void mark_8(ActionEvent actionEvent) {
         marks.add(new Mark(arch_mark_combine[0], arch_mark_combine[1], 8));
-        setArch_mark_combine_combine_next();
-        draw_arch_im_text();
+        setArchMarkCombineCombineNext();
+        drawArchImText();
     }
 
     public void mark_9(ActionEvent actionEvent) {
         marks.add(new Mark(arch_mark_combine[0], arch_mark_combine[1], 9));
-        setArch_mark_combine_combine_next();
-        draw_arch_im_text();
+        setArchMarkCombineCombineNext();
+        drawArchImText();
     }
 
     /**
@@ -528,7 +533,7 @@ public class rating_arch_C implements Initializable {
             // существет ли база(создана ли)
 
             dbWorker.connectionToArchDb(db_dir.getSelectedFile().getAbsolutePath().toString());
-            Start_rating();
+            startRating(null);
         } catch (Exception e) {
             e.printStackTrace();
             dbWorker.disconnectArchDb();
@@ -606,7 +611,7 @@ public class rating_arch_C implements Initializable {
                     options,  //the titles of buttons
                     options[0]); //default button title
             if (n == 0) {
-                Start_rating();
+                startRating(null);
             } else if (n == 1) {
                 Stage win = new Stage();
                 win = (Stage) root.getScene().getWindow();

@@ -15,7 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
-import rating_arch.Controller.rating_arch_C;
+import rating_arch.Controller.RatingArchController;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -39,7 +39,7 @@ public class Controller_mode_selection_user_menu implements Initializable {
     public PasswordField pass_write;
     public AnchorPane log_massage;
     Main editor = new Main();
-    rating_arch_C rating = new rating_arch_C();
+    RatingArchController rating = new RatingArchController();
     public Button cancelButton;
 
     ArrayList<LogIn> logIns = new ArrayList<>();

@@ -9,14 +9,22 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
 public class main extends Application {
 
+    public static Logger logger = Logger.getLogger(main.class);
+
     @Override
     public void start(Stage primaryStage) throws Exception {
+        logger.setLevel(Level.INFO);
+        BasicConfigurator.configure();
+        logger.info(":MarkViewer program started");
         Parent root = FXMLLoader.load(getClass().getResource("/src/view_fxml/marks_viewer.fxml"));
         primaryStage.setTitle("ПЕРЕГЛЯД ОЦІНОК");
         primaryStage.setScene(new Scene(root, 700, 500));
