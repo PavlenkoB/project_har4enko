@@ -18,7 +18,7 @@ import static editor.services.archWork.arch_image_gen_with_patterns;
 /**
  * Created by Alx Shcherbak on 26.11.2014.
  */
-public class Preview2 {
+public class Preview {
     public AnchorPane preview_text;
     public ImageView preview_im;
     //public AnchorPane descript;
