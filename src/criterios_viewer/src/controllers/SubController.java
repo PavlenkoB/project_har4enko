@@ -16,6 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
+import src.functions.CriterionMark;
 import src.functions.DBWorker;
 import src.functions.OperateFunc;
 
@@ -78,13 +79,18 @@ public class SubController {
     public static List<CriterionMark> criterionMarksListFromTextFieldsMatrixList() {
         List<CriterionMark> criterionMarkList = new ArrayList<>();
         Deque<TextField> textFieldDeque = new LinkedList<>();
-        Collections.copy((LinkedList) textFieldsOfCriterionMarksList, (LinkedList) textFieldDeque);
+        /**
+         * Deque of textFields copying
+         */
+        for (TextField textField : textFieldsOfCriterionMarksList){
+            textFieldDeque.add(textField);
+        }
+
         try {
             for (int i = 0; i < Criterion.size(); i++) {
                 criterionMarkList.add(new CriterionMark(Criterion.values()[i], Criterion.values()[i],
                         Integer.valueOf(textFieldDeque.removeFirst().getText())));
                 for (int j = i - 1; j >= 0; j--) {
-
                     criterionMarkList.add(new CriterionMark(Criterion.values()[i], Criterion.values()[j],
                             Integer.parseInt(textFieldDeque.removeFirst().getText())));
 

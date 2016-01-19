@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
+import src.functions.CriterionMark;
 import src.functions.DBWorker;
 import src.functions.OperateFunc;
 

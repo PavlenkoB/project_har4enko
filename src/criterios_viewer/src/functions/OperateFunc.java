@@ -5,7 +5,6 @@ import Classes.Criterion;
 import Classes.Session;
 import Classes.Task;
 import org.apache.log4j.Logger;
-import src.controllers.ArchitectureCriterionMark;
 
 import java.util.ArrayList;
 import java.util.HashMap;

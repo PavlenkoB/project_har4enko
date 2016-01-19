@@ -1,4 +1,4 @@
-package src.controllers;
+package src.functions;
 
 import Classes.Criterion;
 
