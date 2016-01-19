@@ -297,7 +297,8 @@ public class MarksViewerContoller implements Initializable {
         ArrayList<Label> labels_marks = new ArrayList<>();
         for (int i = 0; i < session_choice.getMarks().size(); i++) {
             labels_marks.add(new Label(session_choice.getMarks().get(i).getMark().toString()));
-            gridPane_mark.add(labels_marks.get(labels_marks.size() - 1), (session_choice.getMarks().get(i).getNumArch1() - session_choice.getMarks().get(0).getNumArch0() + 1), (session_choice.getMarks().get(i).getNumArch0() - session_choice.getMarks().get(0).getNumArch0() + 1));
+            gridPane_mark.add(labels_marks.get(labels_marks.size() - 1), (session_choice.getMarks().get(i).getNumArch1()
+                    - session_choice.getMarks().get(0).getNumArch0() + 1), (session_choice.getMarks().get(i).getNumArch0() - session_choice.getMarks().get(0).getNumArch0() + 1));
         }
 
 
@@ -330,11 +331,9 @@ public class MarksViewerContoller implements Initializable {
         }
 
         for (int i = 0; i < archery_open_button_hor.size(); i++) {
-            final int finalI = i;
             archery_open_button_hor.get(i).setOnAction(new EventHandlerViewPreviewImpl(i));
         }
         for (int i = 0; i < archery_open_button_ver.size(); i++) {
-            final int finalI = i;
             archery_open_button_ver.get(i).setOnAction(new EventHandlerViewPreviewImpl(i));
         }
 

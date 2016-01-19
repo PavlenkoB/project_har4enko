@@ -1,4 +1,4 @@
-package src.function;
+package src.functions;
 
 import Classes.Architecture;
 import Classes.Mark;
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by AlxEx on 14.01.2016.
  */
-public class DbWorker {
+public class DBWorker{
     /**
      * DB manager to patterns and architectures repository
      */
@@ -53,7 +53,7 @@ public class DbWorker {
         List<Task> taskList = new ArrayList<>();
         if (archDB.connectionEstablish()) {
             try {
-                ResultSet rs_rep = archDB.executeQuery("SELECT * FROM TASK");
+                ResultSet rs_rep = archDB.executeQuery(PrepareStat.SELECT_FROM_TASK.getPrepareStat());
                 while (rs_rep.next()) {
                     taskList.add(new Task(rs_rep.getInt("ID"), rs_rep.getString("NAME"), rs_rep.getString("DESCRIPTION"),
                             new archWork().architectureDoneArrayListFromDbByTaskID(rs_rep.getInt("ID"), archDB)));
@@ -77,12 +77,14 @@ public class DbWorker {
         List<Session> sessionList = new ArrayList<>();
         if (markDb.connectionEstablish()) {
             try {
-                ResultSet rs_sess = markDb.executeQuery("SELECT * FROM SESSION");
+                ResultSet rs_sess = markDb.executeQuery(PrepareStat.SELECT_ALL_FROM_SESSION.getPrepareStat());
                 while (rs_sess.next()) {
                     ArrayList<Mark> marks = new ArrayList<>();
-                    ResultSet rs_mark = markDb.executeQuery("SELECT * FROM MARK WHERE SESSION_ID =" + rs_sess.getInt("ID"));
+                    ResultSet rs_mark = markDb.executeQuery(PrepareStat.SELECT_FROM_MARK_BY_SESSION_ID.getPrepareStat(),
+                            rs_sess.getInt("ID"));
                     while (rs_mark.next()) {
-                        marks.add(new Mark(rs_mark.getInt("ID"), rs_mark.getInt("ARCH_1_ID"), rs_mark.getInt("ARCH_2_ID"), rs_mark.getInt("MARK")));
+                        marks.add(new Mark(rs_mark.getInt("ID"), rs_mark.getInt("ARCH_1_ID"),
+                                rs_mark.getInt("ARCH_2_ID"), rs_mark.getInt("MARK")));
                     }
                     Date date = new Date((long) rs_sess.getFloat("DATE_SES"));
                     sessionList.add(new Session(rs_sess.getInt("ID"), rs_sess.getString("CRITERION"), rs_sess.getInt("TASK_ID"), marks, date, rs_sess.getString("NOTE")));
@@ -168,18 +170,18 @@ public class DbWorker {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(": disconnecting from DB Error / " + e.getMessage() + " / " + e.getStackTrace() + " / " + e.getSQLState());e.printStackTrace();
         }
     }
 
-    private static DbWorker ourInstance = new DbWorker();
+    private static DBWorker ourInstance = new DBWorker();
 
-    public static DbWorker getInstance() {
+    public static DBWorker getInstance() {
         return ourInstance;
     }
 
-    private DbWorker() {
+    private DBWorker() {
     }
 
-    private static Logger logger = Logger.getLogger(DbWorker.ourInstance.getClass());
+    private static Logger logger = Logger.getLogger(DBWorker.ourInstance.getClass());
 }

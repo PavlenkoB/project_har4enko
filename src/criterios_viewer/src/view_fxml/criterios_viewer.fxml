@@ -47,18 +47,18 @@
                   </Label>
                </children>
             </AnchorPane>
-            <Button id="Cancel" layoutX="439.0" layoutY="331.0" mnemonicParsing="false" onAction="#backButtonTaskVeiwer" text="Відміна" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="180.0" />
-            <Button id="Arch_create_next_2" layoutX="519.0" layoutY="331.0" mnemonicParsing="false" onAction="#choiceButtonTaskVeiwer" prefWidth="-1.0" text="Обрати" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0" />
+            <Button id="Cancel" layoutX="439.0" layoutY="331.0" mnemonicParsing="false" onAction="#backButtonTaskViewer" text="Відміна" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="180.0" />
+            <Button id="Arch_create_next_2" layoutX="519.0" layoutY="331.0" mnemonicParsing="false" onAction="#choiceButtonTaskViewer" prefWidth="-1.0" text="Обрати" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="anchorCriterionViewerCriterionMatrix" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="35.0">
          <children>
             <Separator layoutX="24.0" layoutY="289.0" prefHeight="12.0" prefWidth="542.0" />
-            <Button id="Cancel" layoutX="354.0" layoutY="317.0" mnemonicParsing="false" onAction="#backButtonCriterinMatrix" text="Відміна" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="180.0" />
-            <Button id="Arch_create_next_2" layoutX="451.0" layoutY="318.0" mnemonicParsing="false" onAction="#choiceButtonCriterinMatrix" prefWidth="-1.0" text="Обрати" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0" />
+            <Button id="Cancel" layoutX="354.0" layoutY="317.0" mnemonicParsing="false" onAction="#backButtonCriterionMatrix" text="Відміна" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="180.0" />
+            <Button id="Arch_create_next_2" layoutX="451.0" layoutY="318.0" mnemonicParsing="false" onAction="#choiceButtonCriterionMatrix" prefWidth="-1.0" text="Обрати" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0" />
             <ScrollPane layoutX="19.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
               <content>
-                <AnchorPane fx:id="criteronMatrix" minHeight="0.0" minWidth="0.0" prefHeight="259.0" prefWidth="558.0" />
+                <AnchorPane fx:id="criterionMatrix" minHeight="0.0" minWidth="0.0" prefHeight="259.0" prefWidth="558.0" />
               </content>
             </ScrollPane>
          </children>

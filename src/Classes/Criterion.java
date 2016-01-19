@@ -32,4 +32,8 @@ public enum Criterion {
     public void setCriterion(String criterion) {
         this.criterion = this.name();
     }
+
+    public static int size(){
+        return values().length;
+    }
 }

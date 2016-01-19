@@ -1,72 +1,84 @@
 package src.functions;
 
-import Classes.*;
-import DataBase.DB_manager;
-import editor.classes.DerbyDBManager;
+import Classes.Architecture;
+import Classes.Criterion;
+import Classes.Session;
+import Classes.Task;
+import org.apache.log4j.Logger;
+import src.controllers.ArchitectureCriterionMark;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by AlxEx on 16.12.2015.
  */
 public class OperateFunc {
-    private ArrayList<Task> tasks = new ArrayList<>();          //  Массив заданий
-    private ArrayList<Session> sessions = new ArrayList<>();    //  Массив сессий
-    private Session session_choice = new Session();             //  Вибрана сессия для просмотра оценок с массива sessions
-    private Architecture architecture_done_choice_type;         //  Тип выбраной архитектуры
-    private Map<Criterion, Integer> criterionMap = new HashMap<>(); // Оценки по критериям
+    private static OperateFunc instance = new OperateFunc();
+    private static Logger logger = Logger.getLogger(OperateFunc.getInstance().getClass());
 
-    public void loadDataMark(DerbyDBManager markDb) throws SQLException {
-        boolean flag_mark = true;
+    public static OperateFunc getInstance() {
+        return instance;
+    }
 
-        if (flag_mark) {
-            ResultSet rs_sess = null;
-            try {
-                //derby_DB
-                rs_sess = markDb.executeQuery(PrepareStat.SELECT_ALL_FROM_SESSION.getPrepareStat());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            while (rs_sess.next()) {
-                ArrayList<Mark> marks = new ArrayList<>();
-                ResultSet rs_mark = null;
-                rs_mark = markDb.executeQuery(PrepareStat.SELECT_FROM_MARK.getPrepareStat(), +rs_sess.getInt("ID"));
-                while (rs_mark.next()) {
-                    marks.add(new Mark(rs_mark.getInt("ID"), rs_mark.getInt("ARCH_1_ID"), rs_mark.getInt("ARCH_2_ID"), rs_mark.getInt("MARK")));
-                }
-                Date date = new Date((long) rs_sess.getFloat("DATE_SES"));
-                sessions.add(new Session(rs_sess.getInt("ID"), rs_sess.getString("CRITERION"), rs_sess.getInt("TASK_ID"), marks, date, rs_sess.getString("NOTE")));
+    private OperateFunc() {
+    }
+
+    private List<Task> tasks = new ArrayList<>();          //  Массив заданий
+    private List<Session> sessions = new ArrayList<>();    //  Массив сессий
+    private Task taskChoice;
+    private Architecture architectureChoiceType;         //  Тип выбраной архитектуры
+    private List<ArchitectureCriterionMark> architectureCriterionMarkList;
+    private Map<Architecture, Integer> architecttureComplexMap = new HashMap<>();
+
+    public int getMarkByArchitectureCriterion(Architecture architecture, Criterion criterion) {
+        for (ArchitectureCriterionMark architectureCriterionMark : architectureCriterionMarkList) {
+            if (architectureCriterionMark.isIt(architecture, criterion)) {
+                return architectureCriterionMark.getMark();
             }
         }
+        return 0;
     }
 
-    public void loadDataTask(DerbyDBManager archDb){
-
+    public Integer getComplexMarkByArchitecture(Architecture architecture) {
+        return architecttureComplexMap.containsKey(architecture) ? architecttureComplexMap.get(architecture) : 0;
     }
 
-    public ArrayList<Task> getTasks() {
+    public List<Task> getTasks() {
         return tasks;
     }
 
-    public ArrayList<Session> getSessions() {
+    public List<Session> getSessions() {
         return sessions;
     }
 
-    public Session getSession_choice() {
-        return session_choice;
+    public Task getTaskChoice() {
+        return taskChoice;
     }
 
-    public Architecture getArchitecture_done_choice_type() {
-        return architecture_done_choice_type;
+    public List<ArchitectureCriterionMark> getArchitectureCriterionMarkList() {
+        return architectureCriterionMarkList;
     }
 
-    public Map<Criterion, Integer> getCriterionMap() {
-        return criterionMap;
+    public void setTaskChoice(Task taskChoice) {
+        this.taskChoice = taskChoice;
+    }
+
+    public Architecture getArchitectureChoiceType() {
+        return architectureChoiceType;
+    }
+
+    public void setArchitectureChoiceType(Architecture architectureChoiceType) {
+        this.architectureChoiceType = architectureChoiceType;
+    }
+
+    public void setTaskList(List<Task> taskList) {
+        this.tasks = taskList;
+    }
+
+    public void setSessionsList(List<Session> sessionList) {
+        this.sessions = sessionList;
     }
 }
