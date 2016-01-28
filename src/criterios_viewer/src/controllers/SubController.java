@@ -116,14 +116,13 @@ public class SubController {
         gridPane.setPadding(new Insets(10, 10, 10, 10));
         gridPane.setBorder(Border.EMPTY);
 
-        Label tmpLabel = new Label();
-        tmpLabel.setText(String.format("%-20s%\n%-20s", "Критерій /", "Архітектура"));
+        Label tmpLabel = new Label(String.format("%-30s", "Критерій/Архітектура"));
         gridPane.add(tmpLabel, 0, 0);
 
         int i = 1;
         for (Criterion criterion : Criterion.values()) {
             tmpLabel = new Label(String.format("%-20s", criterion.getCriterion()));
-            gridPane.add(tmpLabel, 0, i);
+            gridPane.add(tmpLabel, 0, i++);
         }
 
         i = 1;
@@ -134,8 +133,9 @@ public class SubController {
 
             int j = 1;
             for (Criterion criterion : Criterion.values()) {
-                tmpLabel = new Label(String.format("%-15s", operateFunc.getMarkByArchitectureCriterion(architecture, criterion)));
-                gridPane.add(tmpLabel, i, j++);
+                TextField textField = new TextField(String.format("%.2f",
+                        operateFunc.getMarkByArchitectureCriterion(architecture, criterion)));
+                gridPane.add(textField, i, j++);
             }
             i++;
         }
@@ -157,8 +157,7 @@ public class SubController {
         gridPane.setPadding(new Insets(10, 10, 10, 10));
         gridPane.setBorder(Border.EMPTY);
 
-        Label tmpLabel = new Label();
-        tmpLabel.setText(String.format("%-20s%\n%-20s", "Критерій /", "Архітектура"));
+        Label tmpLabel = new Label(String.format("%-30s", "Критерій/Архітектура"));
         gridPane.add(tmpLabel, 0, 0);
 
 
@@ -171,8 +170,9 @@ public class SubController {
             gridPane.add(archeryOpenButtonHor.getLast(), i, 0);
             archeryOpenButtonHor.getLast().setOnAction(new EventHandlerViewPreviewImpl(architecture, i));
 
-            tmpLabel = new Label(String.format("%-20s", operateFunc.getComplexMarkByArchitecture(architecture)));
-            gridPane.add(tmpLabel, i++, 1);
+            TextField textField = new TextField(String.format("%.2f",
+                    operateFunc.getComplexMarkByArchitecture(architecture)));
+            gridPane.add(textField, i++, 1);
         }
 
         return gridPane;
@@ -202,7 +202,7 @@ public class SubController {
 
             Preview controller = loader.<Preview>getController();
             controller.initData(architecture);
-            stage.setTitle("Візуалізація архітектури " + (finalI + 1));
+            stage.setTitle("Візуалізація архітектури " + (finalI));
             stage.show();
         }
     }

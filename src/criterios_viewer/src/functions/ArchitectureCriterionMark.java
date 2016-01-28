@@ -9,9 +9,9 @@ import Classes.Criterion;
 public class ArchitectureCriterionMark {
     private Architecture architecture;
     private Criterion criterion;
-    private int mark;
+    private double mark;
 
-    public ArchitectureCriterionMark(Architecture architecture, Criterion criterion, int mark) {
+    public ArchitectureCriterionMark(Architecture architecture, Criterion criterion, double mark) {
         this.architecture = architecture;
         this.criterion = criterion;
         this.mark = mark;
@@ -25,11 +25,19 @@ public class ArchitectureCriterionMark {
         return criterion;
     }
 
-    public int getMark() {
+    public double getMark() {
         return mark;
     }
 
     public boolean isIt(Architecture architecture, Criterion criterion) {
         return this.architecture.equals(architecture) && this.criterion.equals(criterion);
+    }
+
+    public void addMarks(double mark) {
+        this.mark += mark;
+    }
+
+    public void normalization(double index) {
+        this.mark = mark * index;
     }
 }

@@ -98,6 +98,36 @@ public class DBWorker{
     }
 
     /**
+     * getting from BD list of all sessions with marks
+     *
+     * @return - sessionsList (ArrayList)
+     */
+    public List<Session> getSessionListByTask(Task task) {
+        List<Session> sessionList = new ArrayList<>();
+        if (markDb.connectionEstablish()) {
+            try {
+                ResultSet rs_sess = markDb.executeQuery(PrepareStat.SELECT_ALL_FROM_SESSION_BY_TASK_ID.getPrepareStat(),task.getId());
+                while (rs_sess.next()) {
+                    ArrayList<Mark> marks = new ArrayList<>();
+                    ResultSet rs_mark = markDb.executeQuery(PrepareStat.SELECT_FROM_MARK_BY_SESSION_ID.getPrepareStat(),
+                            rs_sess.getInt("ID"));
+                    while (rs_mark.next()) {
+                        marks.add(new Mark(rs_mark.getInt("ID"), rs_mark.getInt("ARCH_1_ID"),
+                                rs_mark.getInt("ARCH_2_ID"), rs_mark.getInt("MARK")));
+                    }
+                    Date date = new Date((long) rs_sess.getFloat("DATE_SES"));
+                    sessionList.add(new Session(rs_sess.getInt("ID"), task, rs_sess.getString("CRITERION"),
+                            rs_sess.getInt("TASK_ID"), marks, date, rs_sess.getString("NOTE")));
+                }
+                logger.info(": Sessions have gotten from DB");
+            } catch (SQLException e) {
+                logger.error(": Sessions getting from DB Error / " + e.getMessage() + " / " + e.getStackTrace() + " / " + e.getSQLState());
+            }
+        }
+        return sessionList;
+    }
+
+    /**
      * getting architecture type from BD by one architecture
      *
      * @param once - example architecture

@@ -12,12 +12,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
-import src.functions.CriterionMark;
 import src.functions.DBWorker;
 import src.functions.OperateFunc;
 
@@ -25,7 +25,6 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -43,6 +42,11 @@ public class CriterionController implements Initializable {
     public ChoiceBox taskListChoiceBox;
     public TextArea taskDescriptionTextField;
     public AnchorPane criterionMatrix;
+    public ScrollPane criterionMatrixScrollPane;
+    public AnchorPane anchorCriterionViewerArchMarksByCriterionMatrix;
+    public AnchorPane anchorCriterionViewerComplexMarkViewer;
+    public AnchorPane archMarksByCriterionMatrix;
+    public AnchorPane complexMarkViewer;
 
     /**
      * Метод закрытия окна программы, через вызовов диалогового окна
@@ -116,6 +120,8 @@ public class CriterionController implements Initializable {
     protected void setAllAnchorsVisibleFalse() {
         anchorCriterionViewerCriterionMatrix.setVisible(false);
         anchorCriterionViewerTaskChoice.setVisible(false);
+        anchorCriterionViewerArchMarksByCriterionMatrix.setVisible(false);
+        anchorCriterionViewerComplexMarkViewer.setVisible(false);
     }
 
     public void connect_DB_repository(ActionEvent actionEvent) {
@@ -138,11 +144,8 @@ public class CriterionController implements Initializable {
         db_dir.showDialog(null, "Обрати");
 
         dbWorker.connectionToMarkDb(db_dir.getSelectedFile().getAbsolutePath().toString());
-        operateFunc.setSessionsList(dbWorker.getSessionList());
+        //operateFunc.setSessionsList(dbWorker.getSessionList());
         startRating();
-    }
-
-    public void backButtonTaskViewer(ActionEvent actionEvent) {
     }
 
     public void choiceButtonTaskViewer(ActionEvent actionEvent) {
@@ -157,7 +160,7 @@ public class CriterionController implements Initializable {
                 }
             }
         }
-
+        operateFunc.setSessionsList(dbWorker.getSessionListByTask(operateFunc.getTaskChoice()));
         GridPane gridPaneCriterion = SubController.gridPaneCriterionMatrixRating();
 
         criterionMatrix.getChildren().clear();
@@ -165,11 +168,36 @@ public class CriterionController implements Initializable {
     }
 
     public void backButtonCriterionMatrix(ActionEvent actionEvent) {
+        setAllAnchorsVisibleFalse();
+        anchorCriterionViewerCriterionMatrix.setVisible(true);
     }
 
     public void choiceButtonCriterionMatrix(ActionEvent actionEvent) {
-        List<CriterionMark> criterionMarkList = SubController.criterionMarksListFromTextFieldsMatrixList();
+        setAllAnchorsVisibleFalse();
+        anchorCriterionViewerArchMarksByCriterionMatrix.setVisible(true);
 
         GridPane gridPaneArchitectureCriterion = SubController.gridPaneArchitectureCriterion();
+        archMarksByCriterionMatrix.getChildren().clear();
+        archMarksByCriterionMatrix.getChildren().add(gridPaneArchitectureCriterion);
+    }
+
+    public void backButtonArchMarksByCriterionMatrix(ActionEvent actionEvent) {
+        setAllAnchorsVisibleFalse();
+        anchorCriterionViewerComplexMarkViewer.setVisible(true);
+    }
+
+    public void choiceButtonArchMarksByCriterionMatrix(ActionEvent actionEvent) {
+        setAllAnchorsVisibleFalse();
+        anchorCriterionViewerComplexMarkViewer.setVisible(true);
+        operateFunc.calculateComplexMarks();
+
+        GridPane gridPane = SubController.gridPaneArchitectureComplexMark();
+        complexMarkViewer.getChildren().clear();
+        complexMarkViewer.getChildren().add(gridPane);
+    }
+
+    public void backButtonComplexMarkViewer(ActionEvent actionEvent) {
+        setAllAnchorsVisibleFalse();
+        anchorCriterionViewerArchMarksByCriterionMatrix.setVisible(true);
     }
 }
