@@ -370,12 +370,6 @@ public class MarksViewerContoller implements Initializable {
      */
     public void exit(ActionEvent actionEvent) {
         dbWorker.disconnectAll();
-        try {
-            wait(500l);
-        } catch (InterruptedException e) {
-
-            e.printStackTrace();
-        }
         System.exit(1);
     }
 }

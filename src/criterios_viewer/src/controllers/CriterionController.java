@@ -169,7 +169,7 @@ public class CriterionController implements Initializable {
 
     public void backButtonCriterionMatrix(ActionEvent actionEvent) {
         setAllAnchorsVisibleFalse();
-        anchorCriterionViewerCriterionMatrix.setVisible(true);
+        anchorCriterionViewerTaskChoice.setVisible(true);
     }
 
     public void choiceButtonCriterionMatrix(ActionEvent actionEvent) {
@@ -183,7 +183,7 @@ public class CriterionController implements Initializable {
 
     public void backButtonArchMarksByCriterionMatrix(ActionEvent actionEvent) {
         setAllAnchorsVisibleFalse();
-        anchorCriterionViewerComplexMarkViewer.setVisible(true);
+        anchorCriterionViewerCriterionMatrix.setVisible(true);
     }
 
     public void choiceButtonArchMarksByCriterionMatrix(ActionEvent actionEvent) {

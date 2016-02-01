@@ -102,7 +102,7 @@ public class OperateFunc {
                 sessionCount = 0;
             }
         }
-        normalizationArchitectureCriterionMark();
+        //normalizationArchitectureCriterionMark();
     }
 
     private double sumAllCriterionMarks(List<CriterionMark> criterionList) {
@@ -153,7 +153,7 @@ public class OperateFunc {
             }
             architectureComplexMap.put(architecture, complexMark);
         }
-        normalizationComplexArchMark();
+        //normalizationComplexArchMark();
     }
 
     private void normalizationArchitectureCriterionMark() {
