@@ -6,10 +6,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.ButtonBuilder;
-import javafx.scene.control.LabelBuilder;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFieldBuilder;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBoxBuilder;
 import javafx.scene.layout.VBoxBuilder;
 import javafx.scene.paint.Color;
@@ -65,7 +62,7 @@ public class Modals implements Configuration {
      */
     public static String showInputDialog(String title, String text, String val) {
         final String[] inputVal = new String[1];
-        final TextField[] textField = new TextField[1];
+        final TextArea[] textAreas = new TextArea[1];
         final Stage dialogNONE = new Stage();
         dialogNONE.initModality(Modality.APPLICATION_MODAL);
         Scene sceneNONE = new Scene(HBoxBuilder.create().styleClass("modal-dialog").children(
@@ -79,19 +76,19 @@ public class Modals implements Configuration {
                 ButtonBuilder.create().text(RB.getString("загальні.відміна")).cancelButton(true).onAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        textField[0].setText(null);
+                        textAreas[0].setText(null);
                         dialogNONE.close();
                     }
                 }).build(),
-                TextFieldBuilder.create().text(val).id("tfInput").build()
+                TextAreaBuilder.create().text(val).prefWidth(200).prefHeight(200).id("tfInput").wrapText(true).build()
         ).build(), Color.TRANSPARENT
         );
-        textField[0] = (TextField) sceneNONE.lookup("#tfInput");
+        textAreas[0] = (TextArea) sceneNONE.lookup("#tfInput");
         dialogNONE.setTitle(title);
         dialogNONE.setScene(sceneNONE);
         donotResizeAndAddStyle(dialogNONE);
         dialogNONE.showAndWait();
-        return textField[0].getText();
+        return textAreas[0].getText();
     }
 
     public static Response showYNDialog(String title, String text, String yes, String no) {

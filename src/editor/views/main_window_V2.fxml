@@ -96,7 +96,7 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#creat_arch" text="Створити нову архітектуру" />
+                        <Button mnemonicParsing="false" onAction="#createArch" text="Створити нову архітектуру"/>
                     </children>
                 </GridPane>
             </bottom>

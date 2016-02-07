@@ -357,12 +357,15 @@ public class main_C extends JPanel implements Initializable, Configuration {
     }
 
 
-    public void creat_arch(ActionEvent actionEvent) {
-        JDialog Jname = new JDialog();
-        Jname.setAlwaysOnTop(true);
-
+    /**
+     * Создать архитектуру
+     *
+     * @param actionEvent
+     */
+    public void createArch(ActionEvent actionEvent) {
+        JDialog jDialog = new JDialog();
+        jDialog.setAlwaysOnTop(true);
         String name = Modals.showInputDialog(RB.getString("загальні.Архітектура"), RB.getString("загальні.введіть_назву"), null);
-
         //dialog.get
         if (name != null && !name.equals("")) {
             try {
@@ -379,13 +382,13 @@ public class main_C extends JPanel implements Initializable, Configuration {
         functions.clread_DB(derby_DB);
     }
 
-
+    /**
+     * ЗАгрузить архитектуру с базы
+     * Читае Идентиф. Параметра
+     * @param actionEvent
+     */
     public void load_this_arch_DB(ActionEvent actionEvent) {
         System.out.println("load_this_arch_DB");
-        /*
-        ЗАгрузить архитектуру с базы
-        Читае Идентиф. Параметра
-        */
         arch_tmp = archWork.arch_load_from_DB(((idLable) LV_archs_DB.getSelectionModel().getSelectedItems().get(0)).getDbId(), derby_DB);
         try {
             arch_old = arch_tmp.clone();//сохраним оригинальный вариант архитектуры
@@ -405,7 +408,12 @@ public class main_C extends JPanel implements Initializable, Configuration {
     }
 
 
-    public void delete_arch_DB(ActionEvent actionEvent) {//удалить з базы по ID
+    /**
+     * удалить з базы по ID
+     *
+     * @param actionEvent
+     */
+    public void delete_arch_DB(ActionEvent actionEvent) {
         System.out.println("delete_arch_DB");
         Object[] options = {RB.getString("загальні.так"),
                 RB.getString("загальні.ні")};
@@ -428,8 +436,10 @@ public class main_C extends JPanel implements Initializable, Configuration {
         }
     }
 
-    public void list_load_DB() {//Загрузка з базы
-
+    /**
+     * Загрузка з базы
+     */
+    public void list_load_DB() {
         System.out.println("list_load_DB");
         ResultSet rs = null;
         try {

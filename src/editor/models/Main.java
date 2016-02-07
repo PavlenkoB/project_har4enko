@@ -28,12 +28,12 @@ public class Main extends Application implements Configuration {
     public void start(Stage primaryStage) throws Exception {
         logger.setLevel(Level.INFO);
         BasicConfigurator.configure();
+        logger.info("Start test");
         FXMLLoader mainFXML = new FXMLLoader();
         mainFXML.setResources(ResourceBundle.getBundle("localization.editor", new Locale(programConfig.language)));
         //mainFXML.load()
         Parent root = mainFXML.load(getClass().getResource("/editor/views/main_window_V2.fxml"));
         primaryStage.getIcons().add(new Image("res/img/uml_icon.png"));
-
         primaryStage.setTitle(RB.getString("управління_репозиторієм_патернів_редактор_архітектур"));
         primaryStage.setMinWidth(900);//Минимальная шырина
         primaryStage.setMinHeight(700);//Минимальная высота окна
