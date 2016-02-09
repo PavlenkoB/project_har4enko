@@ -1,5 +1,5 @@
-/DB_backup
 /.idea/*
+/out/
 /target/
 /DB/
 ### JetBrains template
