@@ -28,7 +28,7 @@ public class Main extends Application implements Configuration {
     public void start(Stage primaryStage) throws Exception {
         logger.setLevel(Level.INFO);
         BasicConfigurator.configure();
-        logger.info("Start test");
+        logger.info(":Start editor");
         FXMLLoader mainFXML = new FXMLLoader();
         mainFXML.setResources(ResourceBundle.getBundle("localization.editor", new Locale(programConfig.language)));
         //mainFXML.load()

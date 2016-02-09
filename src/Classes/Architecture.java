@@ -8,6 +8,7 @@ import editor.services.drawUml;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
+import org.apache.log4j.Logger;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -32,6 +33,7 @@ import java.util.HashMap;
  * </p>
  */
 public class Architecture implements Cloneable {
+    private static Logger logger = Logger.getLogger(Architecture.class.getClass());
     private Integer id;                                          // id in DB
     private String name;                                         // name of architecture
     private ArrayList<Layer> layers = new ArrayList<Layer>();   //array fo layers
@@ -157,7 +159,8 @@ public class Architecture implements Cloneable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("Arch load end->" + archOut.getName());
+
+        logger.info("Arch load end->" + archOut.getName());
         return archOut;
     }
 

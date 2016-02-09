@@ -37,7 +37,7 @@
         <dependency>
             <groupId>net.sourceforge.plantuml</groupId>
             <artifactId>plantuml</artifactId>
-            <version>8018</version>
+            <version>8036</version>
         </dependency>
 
         <dependency>
@@ -67,6 +67,7 @@
             <artifactId>derbytools</artifactId>
             <version>${derby.version}</version>
         </dependency>
+
 
 
         <dependency>

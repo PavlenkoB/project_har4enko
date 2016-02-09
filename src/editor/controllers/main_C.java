@@ -31,6 +31,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.*;
+import org.apache.log4j.Logger;
 import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
 import org.apache.poi.xwpf.usermodel.Document;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -59,6 +60,9 @@ import java.util.ResourceBundle;
  * @author godex_000
  */
 public class main_C extends JPanel implements Initializable, Configuration {
+
+    private static Logger logger = Logger.getLogger(main_C.class.getClass());
+
     @FXML
     public Label selected_DB;
     public Button B_connect;
@@ -800,7 +804,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
             docx = new XWPFDocument();
             docx.write(new FileOutputStream(docx_f));
 
-
+/*
             docx = new XWPFDocument(new FileInputStream(docx_f));
             XWPFHeaderFooterPolicy policy = docx.getHeaderFooterPolicy();
             if (policy == null) {
@@ -825,29 +829,54 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
             //импорт глобальных паттернов
             ArrayList<Pattern> globalPatterns = new ArrayList<>();
-            ResultSet rs = null;
+            ResultSet resultSet = null;
+            Pattern tmpPattern;
             try {
                 try {
                     //derby_DB
-                    rs = derby_DB.executeQuery("SELECT * FROM PATERNS WHERE TYPE='GLOBAL'");
+                    resultSet = derby_DB.executeQuery("SELECT * FROM PATERNS WHERE TYPE='GLOBAL'");
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
                 ObservableList<idLable> items = FXCollections.observableArrayList();
-                while (rs.next()) {
-                    globalPatterns.add(Pattern.patternLoadFromDB(rs.getInt("ID"), derby_DB));
+                while (resultSet.next()) {
+                    tmpPattern = Pattern.patternLoadFromDB(resultSet.getInt("ID"), derby_DB);
+                    if (!tmpPattern.getName().startsWith("*")) {//Помечен как не доделан
+                        globalPatterns.add(tmpPattern);
+                    }
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
 
             }/**/
 
-            System.out.print("Glabals paterns load from DB end");
+            logger.info("Glabals paterns load from DB end");
+            docx = new XWPFDocument(new FileInputStream(docx_f));
+            tmpParagraph = docx.createParagraph();
+            tmpRun = tmpParagraph.createRun();
+            tmpRun.setText("Глобальні патерні старт");
+            docx.write(new FileOutputStream(docx_f));
+
             for (Pattern pattern : globalPatterns) {
+                logger.info("write pattern - " + pattern.getName());
                 docx = new XWPFDocument(new FileInputStream(docx_f));
                 tmpParagraph = docx.createParagraph();
                 tmpRun = tmpParagraph.createRun();
-                tmpRun.setText("(" + RB.getString("загальні.Патерн") + ")" + pattern.getName());
+                tmpRun.setBold(true);
+                tmpRun.setText("Назва");
+                /* Назва */
+                tmpParagraph = docx.createParagraph();
+                tmpRun = tmpParagraph.createRun();
+                tmpRun.setText(pattern.getName());
+                /* Опис */
+                tmpParagraph = docx.createParagraph();
+                tmpRun = tmpParagraph.createRun();
+                tmpRun.setBold(true);
+                tmpRun.setText("Опис");
+                tmpParagraph = docx.createParagraph();
+                tmpRun = tmpParagraph.createRun();
+                tmpRun.setText(pattern.getDescription());
+
                 docx.write(new FileOutputStream(docx_f));
 
                 bi = ImageConverter.FXImgtoBufferedImage(pattern.getPreview());
@@ -872,7 +901,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
                 fos.close();
 
             }
-            System.out.print("patterns import end");
+            logger.info("patterns import end");
             /**/
 
             for (int arch_nom = 0; arch_nom < LV_archs_DB.getItems().size(); arch_nom++) {
@@ -969,7 +998,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
             e.printStackTrace();
         }
         outputfile.delete();
-        System.out.println("Export end");
+        logger.info("Export end");
         Modals.showInfoApplicationModal(RB.getString("загальні.інформація"), "Експорт завершено");
         root.setDisable(false);
     }
