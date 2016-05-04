@@ -32,7 +32,7 @@ public class CustomXWPFDocument extends XWPFDocument {
         CTInline inline = createParagraph().createRun().getCTR().addNewDrawing().addNewInline();
 
         String picXml = "" +
-                "<a:graphic xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\">" +
+                "<a:graphic xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/Main\">" +
                 "   <a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">" +
                 "      <pic:pic xmlns:pic=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">" +
                 "         <pic:nvPicPr>" +
@@ -97,7 +97,7 @@ public class CustomXWPFDocument extends XWPFDocument {
 
 
         String picXml = "" +
-                "<a:graphic xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\">" +
+                "<a:graphic xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/Main\">" +
                 "   <a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">" +
                 "      <pic:pic xmlns:pic=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">" +
                 "         <pic:nvPicPr>" +

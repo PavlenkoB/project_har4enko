@@ -16,9 +16,9 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class main extends Application {
+public class Main extends Application {
 
-    public static Logger logger = Logger.getLogger(main.class);
+    public static Logger logger = Logger.getLogger(src.Main.class);
 
     @Override
     public void start(Stage primaryStage) throws Exception {

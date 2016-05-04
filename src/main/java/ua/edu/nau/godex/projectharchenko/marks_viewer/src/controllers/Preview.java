@@ -1,6 +1,6 @@
-package src.controllers;
+package ua.edu.nau.godex.projectharchenko.marks_viewer.src.controllers;
 
-import Classes.Architecture;
+
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -13,7 +13,6 @@ import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 
-import static editor.services.archWork.arch_image_gen_with_patterns;
 
 /**
  * Created by Alx Shcherbak on 26.11.2014.
