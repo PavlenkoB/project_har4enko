@@ -4,14 +4,17 @@ package ua.edu.nau.godex.projectharchenko.mode_selection;
  * Created by Alex on 22.06.2014.
  */
 
-import editor.controllers.main_C;
-import editor.models.Main;
+//import editor.controllers.main_C;
+//import editor.models.Main;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import ua.edu.nau.godex.projectharchenko.editor.controllers.main_C;
+import ua.edu.nau.godex.projectharchenko.editor.models.Main;
 
 import java.io.IOException;
 
@@ -68,7 +71,7 @@ public class win_choiser {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    editor.controllers.main_C controller = loader.<main_C>getController();
+                    main_C controller = loader.<main_C>getController();
                     controller.initData();
                     stage.setTitle("Управління репозиторіем патернів");
                     stage.show();

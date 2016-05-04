@@ -1,13 +1,13 @@
 package ua.edu.nau.godex.projectharchenko.editor.tests;
 
-import editor.classes.DerbyDBManager;
-import editor.controllers.patterns_manager_C;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import ua.edu.nau.godex.projectharchenko.editor.classes.DerbyDBManager;
+import ua.edu.nau.godex.projectharchenko.editor.controllers.patterns_manager_C;
 
 import java.io.IOException;
 

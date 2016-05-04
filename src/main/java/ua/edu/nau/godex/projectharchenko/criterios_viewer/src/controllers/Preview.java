@@ -1,6 +1,5 @@
 package ua.edu.nau.godex.projectharchenko.criterios_viewer.src.controllers;
 
-import Classes.Architecture;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -10,10 +9,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
+import ua.edu.nau.godex.projectharchenko.classes.Architecture;
 
 import java.util.ArrayList;
 
-import static editor.services.archWork.arch_image_gen_with_patterns;
+import static ua.edu.nau.godex.projectharchenko.editor.services.archWork.arch_image_gen_with_patterns;
+
 
 /**
  * Created by Alx Shcherbak on 26.11.2014.

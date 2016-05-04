@@ -1,8 +1,9 @@
 package ua.edu.nau.godex.projectharchenko.editor.services;
 
-import Classes.Architecture;
-import editor.classes.DerbyDBManager;
-import editor.classes.resultInfo;
+
+import ua.edu.nau.godex.projectharchenko.classes.Architecture;
+import ua.edu.nau.godex.projectharchenko.editor.classes.DerbyDBManager;
+import ua.edu.nau.godex.projectharchenko.editor.classes.resultInfo;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

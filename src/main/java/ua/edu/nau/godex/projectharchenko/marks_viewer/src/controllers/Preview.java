@@ -10,8 +10,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
+import ua.edu.nau.godex.projectharchenko.classes.Architecture;
 
 import java.util.ArrayList;
+
+import static ua.edu.nau.godex.projectharchenko.editor.services.archWork.arch_image_gen_with_patterns;
 
 
 /**

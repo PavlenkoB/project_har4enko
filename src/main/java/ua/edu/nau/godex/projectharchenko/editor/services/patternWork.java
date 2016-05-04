@@ -1,8 +1,13 @@
 package ua.edu.nau.godex.projectharchenko.editor.services;
-
+/*
 import Classes.Pattern;
 import editor.classes.DerbyDBManager;
 import editor.classes.resultInfo;
+*/
+
+import ua.edu.nau.godex.projectharchenko.classes.Pattern;
+import ua.edu.nau.godex.projectharchenko.editor.classes.DerbyDBManager;
+import ua.edu.nau.godex.projectharchenko.editor.classes.resultInfo;
 
 /**
  * Created by godex_000 on 15.06.2014.

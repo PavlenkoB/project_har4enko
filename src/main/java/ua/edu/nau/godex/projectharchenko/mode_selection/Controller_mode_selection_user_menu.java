@@ -1,7 +1,8 @@
 package ua.edu.nau.godex.projectharchenko.mode_selection;
-
+/*
 import Classes.LogIn;
-import editor.models.Main;
+import editor.models.Main;*/
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,7 +16,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
-import rating_arch.Controller.RatingArchController;
+import ua.edu.nau.godex.projectharchenko.classes.LogIn;
+import ua.edu.nau.godex.projectharchenko.editor.models.Main;
+import ua.edu.nau.godex.projectharchenko.rating_arch.Controller.RatingArchController;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -23,6 +26,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+//import rating_arch.Controller.RatingArchController;
 
 /**
  * Created by Alex on 06.05.2014.

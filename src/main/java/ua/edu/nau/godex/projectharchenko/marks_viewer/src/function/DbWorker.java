@@ -1,12 +1,12 @@
 package ua.edu.nau.godex.projectharchenko.marks_viewer.src.function;
 
-import Classes.Architecture;
-import Classes.Mark;
-import Classes.Session;
-import Classes.Task;
-import editor.classes.DerbyDBManager;
-import editor.services.archWork;
 import org.apache.log4j.Logger;
+import ua.edu.nau.godex.projectharchenko.classes.Architecture;
+import ua.edu.nau.godex.projectharchenko.classes.Mark;
+import ua.edu.nau.godex.projectharchenko.classes.Session;
+import ua.edu.nau.godex.projectharchenko.classes.Task;
+import ua.edu.nau.godex.projectharchenko.editor.classes.DerbyDBManager;
+import ua.edu.nau.godex.projectharchenko.editor.services.archWork;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

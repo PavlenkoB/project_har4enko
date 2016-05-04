@@ -1,6 +1,7 @@
 package ua.edu.nau.godex.projectharchenko.editor.interfaces;
 
-import editor.services.FileUtils;
+
+import ua.edu.nau.godex.projectharchenko.editor.services.FileUtils;
 
 import java.io.File;
 import java.io.FileInputStream;

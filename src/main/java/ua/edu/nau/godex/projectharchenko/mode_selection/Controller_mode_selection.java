@@ -1,6 +1,7 @@
 package ua.edu.nau.godex.projectharchenko.mode_selection;
 
-import editor.models.Main;
+//import editor.models.Main;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,7 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.stage.Stage;
-import rating_arch.Controller.RatingArchController;
+import ua.edu.nau.godex.projectharchenko.editor.models.Main;
+import ua.edu.nau.godex.projectharchenko.rating_arch.Controller.RatingArchController;
 
 import java.io.IOException;
 

@@ -1,7 +1,8 @@
 package ua.edu.nau.godex.projectharchenko.editor.services;
 
-import Classes.Architecture;
-import Classes.Module;
+
+import ua.edu.nau.godex.projectharchenko.classes.Architecture;
+import ua.edu.nau.godex.projectharchenko.classes.Module;
 
 import java.util.ArrayList;
 

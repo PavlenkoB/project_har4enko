@@ -1,9 +1,6 @@
 package ua.edu.nau.godex.projectharchenko.marks_viewer.src.controllers;
 
-import Classes.Architecture;
-import Classes.Session;
-import Classes.Task;
-import editor.services.functions;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -24,7 +21,11 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
-import src.function.DbWorker;
+import ua.edu.nau.godex.projectharchenko.classes.Architecture;
+import ua.edu.nau.godex.projectharchenko.classes.Session;
+import ua.edu.nau.godex.projectharchenko.classes.Task;
+import ua.edu.nau.godex.projectharchenko.editor.services.functions;
+import ua.edu.nau.godex.projectharchenko.marks_viewer.src.function.DbWorker;
 
 import javax.swing.*;
 import java.io.File;

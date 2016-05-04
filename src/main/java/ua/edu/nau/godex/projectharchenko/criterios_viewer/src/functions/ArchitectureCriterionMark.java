@@ -1,7 +1,8 @@
 package ua.edu.nau.godex.projectharchenko.criterios_viewer.src.functions;
 
-import Classes.Architecture;
-import Classes.Criterion;
+
+import ua.edu.nau.godex.projectharchenko.classes.Architecture;
+import ua.edu.nau.godex.projectharchenko.classes.Criterion;
 
 /**
  * Created by AlxEx on 19.01.2016.

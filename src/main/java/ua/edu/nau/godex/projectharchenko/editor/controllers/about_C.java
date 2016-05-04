@@ -1,8 +1,8 @@
 package ua.edu.nau.godex.projectharchenko.editor.controllers;
 
-import editor.services.functions;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
+import ua.edu.nau.godex.projectharchenko.editor.services.functions;
 
 import java.net.URISyntaxException;
 import java.net.URL;

@@ -1,15 +1,24 @@
 package ua.edu.nau.godex.projectharchenko.rating_arch.Controller;
-
+/*
 import Classes.Architecture;
 import Classes.Criterion;
 import Classes.Mark;
 import Classes.Task;
-import com.sun.istack.internal.Nullable;
 import editor.classes.DerbyDBManager;
 import editor.classes.Modals;
 import editor.services.archWork;
-import editor.services.functions;
+import editor.services.functions;*/
+
+import com.sun.istack.internal.Nullable;
 import org.apache.log4j.Logger;
+import ua.edu.nau.godex.projectharchenko.classes.Architecture;
+import ua.edu.nau.godex.projectharchenko.classes.Criterion;
+import ua.edu.nau.godex.projectharchenko.classes.Mark;
+import ua.edu.nau.godex.projectharchenko.classes.Task;
+import ua.edu.nau.godex.projectharchenko.editor.classes.DerbyDBManager;
+import ua.edu.nau.godex.projectharchenko.editor.classes.Modals;
+import ua.edu.nau.godex.projectharchenko.editor.services.archWork;
+import ua.edu.nau.godex.projectharchenko.editor.services.functions;
 
 import java.io.File;
 import java.sql.ResultSet;

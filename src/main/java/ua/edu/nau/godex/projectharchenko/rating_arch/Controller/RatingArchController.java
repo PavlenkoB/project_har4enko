@@ -1,10 +1,12 @@
 package ua.edu.nau.godex.projectharchenko.rating_arch.Controller;
-
+/*
 import Classes.Architecture;
 import Classes.Criterion;
 import Classes.Mark;
 import Classes.Task;
 import editor.services.functions;
+*/
+
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -26,6 +28,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import ua.edu.nau.godex.projectharchenko.classes.Architecture;
+import ua.edu.nau.godex.projectharchenko.classes.Criterion;
+import ua.edu.nau.godex.projectharchenko.classes.Mark;
+import ua.edu.nau.godex.projectharchenko.classes.Task;
+import ua.edu.nau.godex.projectharchenko.editor.services.functions;
 
 import javax.swing.*;
 import java.io.File;
@@ -37,7 +44,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static editor.services.archWork.arch_image_gen_with_patterns;
+import static ua.edu.nau.godex.projectharchenko.editor.services.archWork.arch_image_gen_with_patterns;
+
+//import static editor.services.archWork.arch_image_gen_with_patterns;
 
 /**
  * Created by Alex Shcherbak on 24.04.2014.

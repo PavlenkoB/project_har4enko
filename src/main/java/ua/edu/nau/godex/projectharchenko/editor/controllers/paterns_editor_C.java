@@ -3,7 +3,7 @@ package ua.edu.nau.godex.projectharchenko.editor.controllers;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
+/*
 import Classes.Layer;
 import Classes.Module;
 import Classes.Pattern;
@@ -12,7 +12,8 @@ import editor.classes.Modals;
 import editor.classes.idLable;
 import editor.interfaces.Configuration;
 import editor.services.drawUml;
-import editor.services.patternWork;
+import editor.services.patternWork;*/
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,6 +30,15 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import ua.edu.nau.godex.projectharchenko.classes.Layer;
+import ua.edu.nau.godex.projectharchenko.classes.Module;
+import ua.edu.nau.godex.projectharchenko.classes.Pattern;
+import ua.edu.nau.godex.projectharchenko.editor.classes.DerbyDBManager;
+import ua.edu.nau.godex.projectharchenko.editor.classes.Modals;
+import ua.edu.nau.godex.projectharchenko.editor.classes.idLable;
+import ua.edu.nau.godex.projectharchenko.editor.interfaces.Configuration;
+import ua.edu.nau.godex.projectharchenko.editor.services.drawUml;
+import ua.edu.nau.godex.projectharchenko.editor.services.patternWork;
 
 import javax.swing.*;
 import java.io.IOException;

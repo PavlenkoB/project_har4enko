@@ -1,7 +1,5 @@
 package ua.edu.nau.godex.projectharchenko.editor.models;
 
-import editor.classes.Modals;
-import editor.interfaces.Configuration;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +11,8 @@ import javafx.stage.WindowEvent;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import ua.edu.nau.godex.projectharchenko.editor.classes.Modals;
+import ua.edu.nau.godex.projectharchenko.editor.interfaces.Configuration;
 
 import java.util.Locale;
 import java.util.ResourceBundle;

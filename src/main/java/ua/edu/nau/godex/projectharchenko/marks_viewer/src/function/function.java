@@ -1,6 +1,7 @@
 package ua.edu.nau.godex.projectharchenko.marks_viewer.src.function;
 
-import editor.classes.DerbyDBManager;
+
+import ua.edu.nau.godex.projectharchenko.editor.classes.DerbyDBManager;
 
 import java.sql.SQLException;
 

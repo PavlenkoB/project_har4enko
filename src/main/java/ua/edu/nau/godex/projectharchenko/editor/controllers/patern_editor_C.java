@@ -1,11 +1,13 @@
 package ua.edu.nau.godex.projectharchenko.editor.controllers;
-
+/*
 import Classes.Pattern;
 import editor.classes.DerbyDBManager;
 import editor.classes.Modals;
 import editor.interfaces.Configuration;
 import editor.services.drawUml;
 import editor.services.functions;
+*/
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +22,12 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import ua.edu.nau.godex.projectharchenko.classes.Pattern;
+import ua.edu.nau.godex.projectharchenko.editor.classes.DerbyDBManager;
+import ua.edu.nau.godex.projectharchenko.editor.classes.Modals;
+import ua.edu.nau.godex.projectharchenko.editor.interfaces.Configuration;
+import ua.edu.nau.godex.projectharchenko.editor.services.drawUml;
+import ua.edu.nau.godex.projectharchenko.editor.services.functions;
 
 import java.io.IOException;
 import java.net.URL;

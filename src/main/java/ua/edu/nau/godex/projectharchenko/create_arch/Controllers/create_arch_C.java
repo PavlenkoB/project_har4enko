@@ -1,10 +1,5 @@
 package ua.edu.nau.godex.projectharchenko.create_arch.Controllers;
 
-import Classes.*;
-import editor.classes.DerbyDBManager;
-import editor.services.archWork;
-import editor.services.functions;
-import editor.services.genArchDone;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,6 +23,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import ua.edu.nau.godex.projectharchenko.classes.*;
+import ua.edu.nau.godex.projectharchenko.editor.classes.DerbyDBManager;
+import ua.edu.nau.godex.projectharchenko.editor.services.archWork;
+import ua.edu.nau.godex.projectharchenko.editor.services.functions;
+import ua.edu.nau.godex.projectharchenko.editor.services.genArchDone;
 
 import javax.swing.*;
 import java.io.File;

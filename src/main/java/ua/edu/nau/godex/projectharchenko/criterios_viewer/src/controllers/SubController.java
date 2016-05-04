@@ -1,7 +1,5 @@
 package ua.edu.nau.godex.projectharchenko.criterios_viewer.src.controllers;
 
-import Classes.Architecture;
-import Classes.Criterion;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -16,12 +14,17 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
-import src.functions.CriterionMark;
-import src.functions.DBWorker;
-import src.functions.OperateFunc;
+import ua.edu.nau.godex.projectharchenko.classes.Architecture;
+import ua.edu.nau.godex.projectharchenko.classes.Criterion;
+import ua.edu.nau.godex.projectharchenko.criterios_viewer.src.functions.CriterionMark;
+import ua.edu.nau.godex.projectharchenko.criterios_viewer.src.functions.DBWorker;
+import ua.edu.nau.godex.projectharchenko.criterios_viewer.src.functions.OperateFunc;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by AlxEx on 16.12.2015.

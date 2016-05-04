@@ -1,6 +1,6 @@
 package ua.edu.nau.godex.projectharchenko.mode_selection;
 
-import editor.models.Main;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -15,11 +15,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import rating_arch.Controller.RatingArchController;
+import ua.edu.nau.godex.projectharchenko.editor.models.Main;
+import ua.edu.nau.godex.projectharchenko.rating_arch.Controller.RatingArchController;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+//import rating_arch.Controller.RatingArchController;
 
 /**
  * Created by Alex on 06.05.2014.

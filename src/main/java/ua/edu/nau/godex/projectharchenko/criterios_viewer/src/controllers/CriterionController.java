@@ -1,7 +1,5 @@
 package ua.edu.nau.godex.projectharchenko.criterios_viewer.src.controllers;
 
-import Classes.Task;
-import editor.services.functions;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -18,8 +16,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
-import src.functions.DBWorker;
-import src.functions.OperateFunc;
+import ua.edu.nau.godex.projectharchenko.classes.Task;
+import ua.edu.nau.godex.projectharchenko.criterios_viewer.src.functions.DBWorker;
+import ua.edu.nau.godex.projectharchenko.criterios_viewer.src.functions.OperateFunc;
+import ua.edu.nau.godex.projectharchenko.editor.services.functions;
 
 import javax.swing.*;
 import java.io.File;

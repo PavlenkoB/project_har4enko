@@ -1,8 +1,8 @@
 package ua.edu.nau.godex.projectharchenko.criterios_viewer.src.functions;
 
-import Classes.*;
 import org.apache.log4j.Logger;
-import src.controllers.SubController;
+import ua.edu.nau.godex.projectharchenko.classes.*;
+import ua.edu.nau.godex.projectharchenko.criterios_viewer.src.controllers.SubController;
 
 import java.util.*;
 

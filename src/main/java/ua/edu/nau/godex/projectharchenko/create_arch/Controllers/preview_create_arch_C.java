@@ -1,6 +1,6 @@
 package ua.edu.nau.godex.projectharchenko.create_arch.Controllers;
 
-import Classes.Architecture;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -15,12 +15,16 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
+import ua.edu.nau.godex.projectharchenko.classes.Architecture;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import static editor.services.archWork.arch_image_gen_with_patterns;
+import static ua.edu.nau.godex.projectharchenko.editor.services.archWork.arch_image_gen_with_patterns;
+
+//import static ua.edu.nau.godex.projectharchenko.classes.Architecture.arch_image_gen_with_patterns;
+
 
 /**
  * Created by Alex on 30.07.2014.

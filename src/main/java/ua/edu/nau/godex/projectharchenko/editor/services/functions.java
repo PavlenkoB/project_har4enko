@@ -1,13 +1,13 @@
 package ua.edu.nau.godex.projectharchenko.editor.services;
 
-import Classes.Architecture;
-import Classes.Task;
-import editor.classes.DerbyDBManager;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import net.sourceforge.plantuml.SourceStringReader;
+import ua.edu.nau.godex.projectharchenko.classes.Architecture;
+import ua.edu.nau.godex.projectharchenko.classes.Task;
+import ua.edu.nau.godex.projectharchenko.editor.classes.DerbyDBManager;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

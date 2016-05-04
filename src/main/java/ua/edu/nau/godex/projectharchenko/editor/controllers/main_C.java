@@ -3,14 +3,15 @@ package ua.edu.nau.godex.projectharchenko.editor.controllers;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
+/*
 import Classes.Architecture;
 import Classes.Layer;
 import Classes.Module;
 import Classes.Pattern;
 import editor.classes.*;
 import editor.interfaces.Configuration;
-import editor.services.*;
+import editor.services.*;*/
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -33,12 +34,17 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.*;
 import org.apache.log4j.Logger;
-import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
 import org.apache.poi.xwpf.usermodel.Document;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.*;
+import ua.edu.nau.godex.projectharchenko.classes.Architecture;
+import ua.edu.nau.godex.projectharchenko.classes.Layer;
+import ua.edu.nau.godex.projectharchenko.classes.Module;
+import ua.edu.nau.godex.projectharchenko.classes.Pattern;
+import ua.edu.nau.godex.projectharchenko.editor.classes.*;
+import ua.edu.nau.godex.projectharchenko.editor.interfaces.Configuration;
+import ua.edu.nau.godex.projectharchenko.editor.services.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
