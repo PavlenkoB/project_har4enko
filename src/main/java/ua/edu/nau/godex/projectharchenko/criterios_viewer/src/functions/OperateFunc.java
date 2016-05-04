@@ -1,4 +1,4 @@
-package src.functions;
+package ua.edu.nau.godex.projectharchenko.criterios_viewer.src.functions;
 
 import Classes.*;
 import org.apache.log4j.Logger;

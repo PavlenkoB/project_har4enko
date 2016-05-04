@@ -1,4 +1,4 @@
-package editor.models;
+package ua.edu.nau.godex.projectharchenko.editor.models;
 
 import editor.classes.Modals;
 import editor.interfaces.Configuration;

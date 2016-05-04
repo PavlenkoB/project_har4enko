@@ -1,4 +1,4 @@
-package editor.services;
+package ua.edu.nau.godex.projectharchenko.editor.services;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;

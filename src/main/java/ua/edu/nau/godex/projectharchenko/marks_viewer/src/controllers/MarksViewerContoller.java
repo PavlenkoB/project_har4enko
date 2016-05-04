@@ -1,4 +1,4 @@
-package src.controllers;
+package ua.edu.nau.godex.projectharchenko.marks_viewer.src.controllers;
 
 import Classes.Architecture;
 import Classes.Session;

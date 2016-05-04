@@ -1,6 +1,5 @@
-package localization;
+package ua.edu.nau.godex.projectharchenko.localization;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 

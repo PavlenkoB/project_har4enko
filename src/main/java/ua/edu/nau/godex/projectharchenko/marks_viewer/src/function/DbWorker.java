@@ -1,4 +1,4 @@
-package src.function;
+package ua.edu.nau.godex.projectharchenko.marks_viewer.src.function;
 
 import Classes.Architecture;
 import Classes.Mark;

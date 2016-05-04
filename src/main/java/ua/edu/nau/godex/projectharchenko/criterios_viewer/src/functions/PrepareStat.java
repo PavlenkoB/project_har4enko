@@ -1,6 +1,4 @@
-package src.functions;
-
-import java.sql.PreparedStatement;
+package ua.edu.nau.godex.projectharchenko.criterios_viewer.src.functions;
 
 /**
  * Created by AlxEx on 23.12.2015.

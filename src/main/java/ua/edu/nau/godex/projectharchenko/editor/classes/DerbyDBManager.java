@@ -1,4 +1,4 @@
-package editor.classes;
+package ua.edu.nau.godex.projectharchenko.editor.classes;
 
 import java.io.BufferedReader;
 import java.io.File;

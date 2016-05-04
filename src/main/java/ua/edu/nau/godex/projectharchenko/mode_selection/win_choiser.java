@@ -1,4 +1,4 @@
-package mode_selection;
+package ua.edu.nau.godex.projectharchenko.mode_selection;
 
 /**
  * Created by Alex on 22.06.2014.

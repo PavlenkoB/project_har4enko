@@ -1,4 +1,4 @@
-package mode_selection;
+package ua.edu.nau.godex.projectharchenko.mode_selection;
 
 import editor.models.Main;
 import javafx.event.ActionEvent;

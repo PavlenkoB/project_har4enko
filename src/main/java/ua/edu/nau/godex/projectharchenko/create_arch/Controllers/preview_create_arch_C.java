@@ -1,4 +1,4 @@
-package create_arch.Controllers;
+package ua.edu.nau.godex.projectharchenko.create_arch.Controllers;
 
 import Classes.Architecture;
 import javafx.application.Platform;

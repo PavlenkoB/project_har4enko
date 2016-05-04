@@ -1,4 +1,4 @@
-package editor.interfaces;
+package ua.edu.nau.godex.projectharchenko.editor.interfaces;
 
 import editor.services.FileUtils;
 

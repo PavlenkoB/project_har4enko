@@ -1,4 +1,4 @@
-package rating_arch.Controller;
+package ua.edu.nau.godex.projectharchenko.rating_arch.Controller;
 
 import Classes.Architecture;
 import Classes.Criterion;

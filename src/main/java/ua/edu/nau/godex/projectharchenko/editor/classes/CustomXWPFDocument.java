@@ -1,4 +1,4 @@
-package editor.classes;
+package ua.edu.nau.godex.projectharchenko.editor.classes;
 
 /**
  * Created by godex_000 on 09.07.2014.

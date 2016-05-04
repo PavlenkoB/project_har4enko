@@ -1,4 +1,4 @@
-package editor.services;
+package ua.edu.nau.godex.projectharchenko.editor.services;
 
 import Classes.Architecture;
 import Classes.Task;

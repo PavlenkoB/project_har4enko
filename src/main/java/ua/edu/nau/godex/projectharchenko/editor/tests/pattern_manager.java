@@ -1,4 +1,4 @@
-package editor.tests;
+package ua.edu.nau.godex.projectharchenko.editor.tests;
 
 import editor.classes.DerbyDBManager;
 import editor.controllers.patterns_manager_C;

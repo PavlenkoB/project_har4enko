@@ -1,4 +1,4 @@
-package editor.controllers;
+package ua.edu.nau.godex.projectharchenko.editor.controllers;
 
 import editor.services.functions;
 import javafx.fxml.Initializable;

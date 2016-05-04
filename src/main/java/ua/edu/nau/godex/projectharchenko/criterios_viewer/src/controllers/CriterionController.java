@@ -1,4 +1,4 @@
-package src.controllers;
+package ua.edu.nau.godex.projectharchenko.criterios_viewer.src.controllers;
 
 import Classes.Task;
 import editor.services.functions;

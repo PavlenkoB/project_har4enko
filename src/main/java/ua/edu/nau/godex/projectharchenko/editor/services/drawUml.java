@@ -1,4 +1,4 @@
-package editor.services;
+package ua.edu.nau.godex.projectharchenko.editor.services;
 
 /**
  * Created by godex_000 on 20.05.2014.

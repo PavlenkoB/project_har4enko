@@ -1,4 +1,4 @@
-package src;
+package ua.edu.nau.godex.projectharchenko.criterios_viewer.src;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

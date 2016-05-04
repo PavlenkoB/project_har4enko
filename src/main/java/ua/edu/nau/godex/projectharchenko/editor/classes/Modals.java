@@ -1,6 +1,5 @@
-package editor.classes;
+package ua.edu.nau.godex.projectharchenko.editor.classes;
 
-import editor.interfaces.Configuration;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;

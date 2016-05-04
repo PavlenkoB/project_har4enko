@@ -10,5 +10,5 @@ Class-Path: editor/lib/derby.jar editor/lib/lib_poi/commons-codec-1.5.
  .10-FINAL-20140208.jar editor/lib/poi/poi-ooxml-schemas-3.10-FINAL-20
  140208.jar editor/lib/poi/poi-scratchpad-3.10-FINAL-20140208.jar
 Created-By: JavaFX Packager
-Main-Class: Run.Main
+Main-Class: ua.edu.nau.godex.projectharchenko.run.Main
 
