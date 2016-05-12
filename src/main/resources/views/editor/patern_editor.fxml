@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity"
+          minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+          xmlns="http://javafx.com/javafx/8"
+          fx:controller="ua.edu.nau.godex.projectharchenko.editor.controllers.patern_editor_C">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES"/>
+    </rowConstraints>
+    <children>
+        <HBox prefHeight="100.0" prefWidth="200.0">
+            <children>
+                <Label text="І'мя"/>
+                <TextField fx:id="TA_pattern_name"/>
+            </children>
+        </HBox>
+        <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
+            <children>
+                <Label text="Опис"/>
+                <TextArea fx:id="TA_pattern_description" wrapText="true"/>
+            </children>
+        </HBox>
+        <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
+            <children>
+                <Label text="Uml"/>
+                <TextArea fx:id="TA_pattern_uml"/>
+            </children>
+        </HBox>
+        <HBox prefHeight="30.0" prefWidth="600.0" GridPane.rowIndex="3">
+            <children>
+                <Button mnemonicParsing="false" onAction="#preview" prefHeight="40.0" prefWidth="88.0" text="Візуалізувати"/>
+                <Button mnemonicParsing="false" onAction="#save" prefHeight="40.0" text="Зберегти"/>
+                <Button mnemonicParsing="false" onAction="#cancel" prefHeight="40.0" text="Відмінити редагування"/>
+            </children>
+        </HBox>
+    </children>
+</GridPane>

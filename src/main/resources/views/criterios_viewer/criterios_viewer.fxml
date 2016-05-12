@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8"
+            fx:controller="ua.edu.nau.godex.projectharchenko.criterios_viewer.controllers.CriterionController">
+    <children>
+        <MenuBar id="new_arch_menu" layoutY="2.0" prefHeight="25.0" prefWidth="629.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <menus>
+                <Menu mnemonicParsing="false" text="Файл">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#connect_DB_repository" text="Під'єднання до Репозитарію архітектур" />
+                        <MenuItem mnemonicParsing="false" onAction="#connect_DB_mark" text="Під'єднання до Бази оцінок" />
+                        <MenuItem mnemonicParsing="false" onAction="#close" text="Вихід" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Допомога">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Довідка" />
+                        <MenuItem mnemonicParsing="false" text="Про програму" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+      <AnchorPane fx:id="anchorCriterionViewerTaskChoice" layoutX="10.0" layoutY="36.0" prefHeight="174.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="35.0">
+         <children>
+            <AnchorPane fx:id="back_gr_grid" prefHeight="279.0" prefWidth="610.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+               <children>
+                  <Label alignment="CENTER" layoutX="44.0048828125" layoutY="14.0" text="Виберіть завдання для оцінки альтернативних архітектур" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="20.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <ChoiceBox fx:id="taskListChoiceBox" layoutX="15.0" layoutY="108.5" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="150.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="110.0" />
+                  <Label alignment="CENTER" layoutX="16.0" layoutY="72.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="26.0" prefWidth="150.0" text="Назва завдання" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="70.0">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <TextArea fx:id="taskDescriptionTextField" layoutX="205.0" layoutY="110.0" prefHeight="138.0" prefWidth="385.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="190.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="110.0" />
+                  <Label layoutX="190.0" layoutY="74.5" prefHeight="26.0" prefWidth="394.0" text="Опис вибраного завдання" AnchorPane.leftAnchor="190.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="70.0">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <Button id="Arch_create_next_2" layoutX="519.0" layoutY="331.0" mnemonicParsing="false" onAction="#choiceButtonTaskViewer" prefWidth="-1.0" text="Обрати" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="anchorCriterionViewerCriterionMatrix" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="35.0">
+         <children>
+            <Separator layoutX="24.0" layoutY="289.0" prefHeight="12.0" prefWidth="542.0" />
+            <Button id="Cancel" layoutX="354.0" layoutY="317.0" mnemonicParsing="false" onAction="#backButtonCriterionMatrix" text="Відміна" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="180.0" />
+            <Button id="Arch_create_next_2" layoutX="451.0" layoutY="318.0" mnemonicParsing="false" onAction="#choiceButtonCriterionMatrix" prefWidth="-1.0" text="Обрати" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0" />
+            <ScrollPane fx:id="criterionMatrixScrollPane" layoutX="19.0" layoutY="14.0" pannable="true" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+              <content>
+                <AnchorPane fx:id="criterionMatrix" minHeight="0.0" minWidth="0.0" />
+              </content>
+            </ScrollPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="anchorCriterionViewerArchMarksByCriterionMatrix" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
+         <children>
+            <Separator layoutX="24.0" layoutY="289.0" prefHeight="12.0" prefWidth="542.0" />
+            <Button id="Cancel" layoutX="354.0" layoutY="317.0" mnemonicParsing="false" onAction="#backButtonArchMarksByCriterionMatrix" text="Відміна" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="180.0" />
+            <Button id="Arch_create_next_2" layoutX="451.0" layoutY="318.0" mnemonicParsing="false" onAction="#choiceButtonArchMarksByCriterionMatrix" prefWidth="-1.0" text="Обрати" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0" />
+            <ScrollPane fx:id="criterionMatrixScrollPane1" layoutX="19.0" layoutY="14.0" pannable="true" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+               <content>
+                  <AnchorPane fx:id="archMarksByCriterionMatrix" minHeight="0.0" minWidth="0.0" />
+               </content>
+            </ScrollPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="anchorCriterionViewerComplexMarkViewer" layoutX="20.0" layoutY="20.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
+         <children>
+            <Separator layoutX="24.0" layoutY="289.0" prefHeight="12.0" prefWidth="542.0" />
+            <Button id="Cancel" layoutX="354.0" layoutY="317.0" mnemonicParsing="false" onAction="#backButtonComplexMarkViewer" text="Відміна" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="180.0" />
+            <ScrollPane fx:id="criterionMatrixScrollPane11" layoutX="19.0" layoutY="14.0" pannable="true" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+               <content>
+                  <AnchorPane fx:id="complexMarkViewer" minHeight="0.0" minWidth="0.0" />
+               </content>
+            </ScrollPane>
+         </children>
+      </AnchorPane>
+    </children>
+</AnchorPane>

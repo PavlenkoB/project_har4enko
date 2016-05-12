@@ -33,7 +33,7 @@ public class win_choiser {
         switch (mode) {
             case 0: {
                 try {
-                    root = FXMLLoader.load(getClass().getResource("/create_arch/Interface/create_arch.fxml"));
+                    root = FXMLLoader.load(getClass().getResource("/views/create_arch/create_arch.fxml"));
                     create_new_arch_win.setTitle("Створення альтернативних архітектур");
                     create_new_arch_win.setScene(new Scene(root, 1000, 600));
                     create_new_arch_win.setMinWidth(630);
@@ -48,7 +48,7 @@ public class win_choiser {
             }
             case 2: {
                 try {
-                    root = FXMLLoader.load(getClass().getResource("/rating_arch/Interface/rating_arch.fxml"));
+                    root = FXMLLoader.load(getClass().getResource("/views/rating_arch/rating_arch.fxml"));
                     create_new_arch_win.setTitle("Оцінювання архітектур");
                     create_new_arch_win.setScene(new Scene(root, 1000, 600));
                     create_new_arch_win.setMinWidth(630);

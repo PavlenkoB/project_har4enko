@@ -1,4 +1,4 @@
-package Run;
+package ua.edu.nau.godex.projectharchenko.run;
 
 
 import javafx.application.Application;
@@ -24,22 +24,21 @@ public class Main extends Application {
         primaryStage.show();
     }*/
 
+    public static void main(String[] args) throws IOException, SQLException {
+        launch();
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         logger.setLevel(Level.INFO);
         BasicConfigurator.configure();
         logger.info(":Main program started");
-        Parent root = FXMLLoader.load(getClass().getResource("/mode_selection/Selection_mode_user_menu.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/views/mode_selection/Selection_mode_user_menu.fxml"));
         primaryStage.setTitle("АРХІТЕКТОР ПРОГРАМНИХ СИСТЕМ");
         primaryStage.setScene(new Scene(root, 700, 500));
         primaryStage.setMinHeight(400);
         primaryStage.setMinWidth(640);
         primaryStage.show();
         primaryStage.setResizable(false);
-    }
-
-
-    public static void main(String[] args) throws IOException, SQLException {
-        launch();
     }
 }

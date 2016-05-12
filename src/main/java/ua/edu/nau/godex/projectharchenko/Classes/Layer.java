@@ -1,7 +1,7 @@
-package Classes;
+package ua.edu.nau.godex.projectharchenko.classes;
 
 
-import editor.classes.DerbyDBManager;
+import ua.edu.nau.godex.projectharchenko.editor.classes.DerbyDBManager;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -16,6 +16,40 @@ public class Layer implements Cloneable {
     private String description;
     private Integer id_done;
     private ArrayList<Module> modules = new ArrayList<>();
+
+    public Layer(Integer id, Integer archId, String name, String description) {
+        this.id = id;
+        this.archId = archId;
+        this.name = name;
+        this.description = description;
+    }
+
+    public Layer(Integer id, Integer archId, String name, String description, Integer id_done, ArrayList<Module> modules) {
+        this.id = id;
+        this.archId = archId;
+        this.name = name;
+        this.description = description;
+        this.id_done = id_done;
+        this.modules = modules;
+    }
+
+    public Layer() {
+    }
+
+    public static Layer load_layer_from_DB(Integer layer_id, DerbyDBManager dbManager) {
+        Layer layer = new Layer();
+        try {
+            ResultSet rs_arch = dbManager.executeQuery("SELECT * FROM LAYER WHERE ID=" + layer_id);
+            rs_arch.next();
+            layer.setId(rs_arch.getInt("ID"));
+            layer.setArchId(rs_arch.getInt("ARCH_ID"));
+            layer.setName(rs_arch.getString("NAME"));
+            layer.setDescription(rs_arch.getString("DESCRIPTION"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return layer;
+    }
 
     public Layer clone() throws CloneNotSupportedException {
         Layer l_return = (Layer) super.clone();
@@ -41,25 +75,6 @@ public class Layer implements Cloneable {
         l_return.modules = modules;
 
         return l_return;
-    }
-
-    public Layer(Integer id, Integer archId, String name, String description) {
-        this.id = id;
-        this.archId = archId;
-        this.name = name;
-        this.description = description;
-    }
-
-    public Layer(Integer id, Integer archId, String name, String description, Integer id_done, ArrayList<Module> modules) {
-        this.id = id;
-        this.archId = archId;
-        this.name = name;
-        this.description = description;
-        this.id_done = id_done;
-        this.modules = modules;
-    }
-
-    public Layer() {
     }
 
     public Integer getId() {
@@ -108,20 +123,5 @@ public class Layer implements Cloneable {
 
     public void setModules(ArrayList<Module> modules) {
         this.modules = modules;
-    }
-
-    public static Layer load_layer_from_DB(Integer layer_id, DerbyDBManager dbManager) {
-        Layer layer = new Layer();
-        try {
-            ResultSet rs_arch = dbManager.executeQuery("SELECT * FROM LAYER WHERE ID=" + layer_id);
-            rs_arch.next();
-            layer.setId(rs_arch.getInt("ID"));
-            layer.setArchId(rs_arch.getInt("ARCH_ID"));
-            layer.setName(rs_arch.getString("NAME"));
-            layer.setDescription(rs_arch.getString("DESCRIPTION"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return layer;
     }
 }

@@ -88,7 +88,7 @@ public class create_arch_C implements Initializable {
         try {
             Stage stage = new Stage();
             Parent root;
-            root = FXMLLoader.load(getClass().getResource("/create_arch/Interface/Close.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/views/create_arch/Close.fxml"));
             stage.setTitle("Завершити програму");
             stage.setScene(new Scene(root, 600, 130));
             stage.setResizable(false);

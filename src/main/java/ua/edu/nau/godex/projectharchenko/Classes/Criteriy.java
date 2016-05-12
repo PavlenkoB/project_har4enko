@@ -1,4 +1,4 @@
-package Classes;
+package ua.edu.nau.godex.projectharchenko.classes;
 
 /**
  * Created by Alx Shcherbak on 07.11.2014.

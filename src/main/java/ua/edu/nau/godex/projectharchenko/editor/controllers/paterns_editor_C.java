@@ -253,7 +253,7 @@ public class paterns_editor_C implements Initializable, Configuration {
 
     public void show_about(ActionEvent actionEvent) {
         try {
-            Parent Parent = FXMLLoader.load(getClass().getResource("/editor/views/about.fxml"));
+            Parent Parent = FXMLLoader.load(getClass().getResource("/views/editor/about.fxml"));
             Stage Stage = new Stage();
             Stage.setTitle(RB.getString("загальні.допомога"));
             Stage.setScene(new Scene(Parent));

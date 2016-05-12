@@ -20,21 +20,20 @@ import java.io.IOException;
 
 
 public class Controller_mode_selection {
-    Main editor = new Main();
-    RatingArchController rating = new RatingArchController();
-
     public RadioButton choice1_set_new_arch;
     public RadioButton choice1_add_new_patt;
     public RadioButton choice1_rate_task;
     public Button cancelButton;
     public Button sel_next_1;
     public Stage create_new_arch_win;
+    Main editor = new Main();
+    RatingArchController rating = new RatingArchController();
 
     public void close(ActionEvent actionEvent) throws IOException {
         try {
             Stage stage = new Stage();
             Parent root;
-            root = FXMLLoader.load(getClass().getResource("/mode_selection/Close.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/views/mode_selection/Close.fxml"));
             stage.setTitle("Завершити програму");
             stage.setScene(new Scene(root, 600, 130));
             stage.setResizable(false);
@@ -60,7 +59,7 @@ public class Controller_mode_selection {
             try {
                 create_new_arch_win = new Stage();
                 Parent root;
-                root = FXMLLoader.load(getClass().getResource("/create_arch/Interface/create_arch.fxml"));
+                root = FXMLLoader.load(getClass().getResource("/views/create_arch/create_arch.fxml"));
                 create_new_arch_win.setTitle("Створення нової архітектури");
                 create_new_arch_win.setScene(new Scene(root, 1000, 600));
                 create_new_arch_win.setMinWidth(630);
@@ -76,7 +75,7 @@ public class Controller_mode_selection {
             try {
                 create_new_arch_win = new Stage();
                 Parent root;
-                root = FXMLLoader.load(getClass().getResource("/rating_arch/Interface/rating_arch.fxml"));
+                root = FXMLLoader.load(getClass().getResource("/views/rating_arch/rating_arch.fxml"));
                 create_new_arch_win.setTitle("Оцінювання існуючих архітектур");
                 create_new_arch_win.setScene(new Scene(root, 1000, 600));
                 create_new_arch_win.setMinWidth(630);

@@ -92,31 +92,46 @@ public class RatingArchController implements Initializable {
     public Button Next_twise;
     public AnchorPane mark_panel;
     public TextArea note_field;
-    ArrayList<javafx.scene.control.TextField> textField_marks = new ArrayList<>();
-
     protected DBWorker dbWorker = DBWorker.getInstance();
     protected List<Task> taskList = null;
-
     protected Task task_choise;
     protected List<Architecture> architecture_done_choise = new ArrayList<>();
     protected Architecture architecture_done_choise_type;
     protected ArrayList<Mark> marks = new ArrayList<>();
+    protected String crit_choise;
 
 //
 //    DerbyDBManager derby_DB; // = new DerbyDBManager("DB/paterns_DB");
 //    DerbyDBManager mark_db; // = new DerbyDBManager("DB/Marks");
 //    String pattern_db_str;
 //    String mark_db_str = "DB/Marks";
-
-
-    protected String crit_choise;
+    /**
+     * Потік генерації наступної  візуалізації архітектур
+     */
+    protected Thread MyThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    if (arch_mark_combine[0] != architecture_done_choise.size() - 2)
+                        redo_im_1 = arch_image_gen_with_patterns(architecture_done_choise.get(arch_mark_combine[0] + 1));
+                    System.out.println("redo" + arch_mark_combine[0]);
+                    if (arch_mark_combine[1] != architecture_done_choise.size() - 1)
+                        redo_im_2 = arch_image_gen_with_patterns(architecture_done_choise.get(arch_mark_combine[1] + 1));
+                    System.out.println("redo" + arch_mark_combine[1]);
+                }
+            });
+        }
+    });
+    ArrayList<javafx.scene.control.TextField> textField_marks = new ArrayList<>();
 
     //Windows close dialog
     public void close(ActionEvent actionEvent) throws IOException {
         try {
             Stage stage = new Stage();
             Parent root;
-            root = FXMLLoader.load(getClass().getResource("/rating_arch/Interface/Close.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/views/rating_arch/Close.fxml"));
             stage.setTitle("Завершити програму");
             stage.setScene(new Scene(root, 600, 130));
             stage.setResizable(false);
@@ -130,13 +145,13 @@ public class RatingArchController implements Initializable {
         dbWorker.disconnectAll();
         System.exit(1);
     }
+    //Windows close dialog
 
     public void goBackMain(ActionEvent actionEvent) {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         // do what you have to do
         stage.close();
     }
-    //Windows close dialog
 
     protected boolean isCloseWindows() {
         return Rating_arch_1 == null || Rating_arch_2 == null || Rating_arch_3 == null;
@@ -556,7 +571,6 @@ public class RatingArchController implements Initializable {
         Rating_arch_3.setVisible(false);
     }
 
-
     /**
      * Зчитування оцінок з матриці, організація збереження їх у базу
      * В структурі масиву текстових полів textField_marks - спочатку йдуть елементи з оцінками різнойменніх
@@ -649,26 +663,6 @@ public class RatingArchController implements Initializable {
         myThread.setDaemon(true);
         myThread.start();
     }
-
-    /**
-     * Потік генерації наступної  візуалізації архітектур
-     */
-    protected Thread MyThread = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    if (arch_mark_combine[0] != architecture_done_choise.size() - 2)
-                        redo_im_1 = arch_image_gen_with_patterns(architecture_done_choise.get(arch_mark_combine[0] + 1));
-                    System.out.println("redo" + arch_mark_combine[0]);
-                    if (arch_mark_combine[1] != architecture_done_choise.size() - 1)
-                        redo_im_2 = arch_image_gen_with_patterns(architecture_done_choise.get(arch_mark_combine[1] + 1));
-                    System.out.println("redo" + arch_mark_combine[1]);
-                }
-            });
-        }
-    });
 }
 
 

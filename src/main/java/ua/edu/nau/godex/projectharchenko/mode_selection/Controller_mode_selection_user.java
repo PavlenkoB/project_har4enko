@@ -30,20 +30,20 @@ import java.util.ResourceBundle;
 
 
 public class Controller_mode_selection_user implements Initializable {
-    Main editor = new Main();
-    RatingArchController rating = new RatingArchController();
     public Button cancelButton;
     public Button sel_next;
     public ChoiceBox user_choise;
     public ChoiceBox func_choise;
     public TextField user_password;
     public Stage create_new_arch_win;
+    Main editor = new Main();
+    RatingArchController rating = new RatingArchController();
 
     public void close(ActionEvent actionEvent) throws IOException {
         try {
             Stage stage = new Stage();
             Parent root;
-            root = FXMLLoader.load(getClass().getResource("/mode_selection/Close.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/views/mode_selection/Close.fxml"));
             stage.setTitle("Завершити програму");
             stage.setScene(new Scene(root, 600, 130));
             stage.setResizable(false);

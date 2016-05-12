@@ -1,4 +1,4 @@
-package DataBase;
+package ua.edu.nau.godex.projectharchenko.database;
 
 import java.sql.*;
 

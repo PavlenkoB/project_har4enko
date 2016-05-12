@@ -30,7 +30,7 @@ public class Main extends Application implements Configuration {
         BasicConfigurator.configure();
         logger.info(":Start editor");
         FXMLLoader mainFXML = new FXMLLoader();
-        mainFXML.setResources(ResourceBundle.getBundle("localization.editor", new Locale(programConfig.language)));
+        mainFXML.setResources(ResourceBundle.getBundle("localization.editor", new Locale(PROGRAM_CONFIGURATION_CONFIG.language)));
         //mainFXML.load()
         Parent root = mainFXML.load(getClass().getResource("/editor/views/main_window_V2.fxml"));
         primaryStage.getIcons().add(new Image("res/img/uml_icon.png"));

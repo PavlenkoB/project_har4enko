@@ -1,6 +1,6 @@
-package Classes;
+package ua.edu.nau.godex.projectharchenko.classes;
 
-import editor.classes.DerbyDBManager;
+import ua.edu.nau.godex.projectharchenko.editor.classes.DerbyDBManager;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -33,6 +33,21 @@ public class Module implements Cloneable {
     }
 
     public Module() {
+    }
+
+    public static Module load_module_from_DB(Integer module_ID, DerbyDBManager derby_DB_connection) {
+        Module module = new Module();
+        try {
+            ResultSet rs_arch = derby_DB_connection.executeQuery("SELECT * FROM MODULE WHERE ID=" + module_ID);
+            rs_arch.next();
+            module.setId(rs_arch.getInt("ID"));
+            module.setLayId(rs_arch.getInt("LAY_ID"));
+            module.setName(rs_arch.getString("NAME"));
+            module.setDescription(rs_arch.getString("DESCRIPTION"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return module;
     }
 
     public ArrayList<Pattern> getAvilablePatterns() {
@@ -118,20 +133,5 @@ public class Module implements Cloneable {
 
     public void setIdDone(Integer idDone) {
         this.idDone = idDone;
-    }
-
-    public static Module load_module_from_DB(Integer module_ID, DerbyDBManager derby_DB_connection) {
-        Module module = new Module();
-        try {
-            ResultSet rs_arch = derby_DB_connection.executeQuery("SELECT * FROM MODULE WHERE ID=" + module_ID);
-            rs_arch.next();
-            module.setId(rs_arch.getInt("ID"));
-            module.setLayId(rs_arch.getInt("LAY_ID"));
-            module.setName(rs_arch.getString("NAME"));
-            module.setDescription(rs_arch.getString("DESCRIPTION"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return module;
     }
 }

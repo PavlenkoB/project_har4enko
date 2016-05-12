@@ -1,6 +1,9 @@
 package ua.edu.nau.godex.projectharchenko.editor.interfaces;
 
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import ua.edu.nau.godex.projectharchenko.editor.services.FileUtils;
 
 import java.io.File;
@@ -14,17 +17,21 @@ import java.util.ResourceBundle;
  * Created by godex_000 on 26.07.2014.
  */
 public interface Configuration {
-    public final static config programConfig = new config();//завантажити конфігурацію
-    public final static ResourceBundle RB = ResourceBundle.getBundle("localization.editor", new Locale(programConfig.language));//завантаження локалызації
+    public static Logger logger = Logger.getLogger(Configuration.class);
+    public final static ConfigurationConfig PROGRAM_CONFIGURATION_CONFIG = new ConfigurationConfig();//завантажити конфігурацію
+    public final static ResourceBundle RB = ResourceBundle.getBundle("localization.editor", new Locale(PROGRAM_CONFIGURATION_CONFIG.language));//завантаження локалызації
 
-    class config {
+    class ConfigurationConfig {
+
         public String language;
         public Integer drawThreads;
 
-        public config() {
-            System.out.println("Init Configuration");
+        public ConfigurationConfig() {
+            logger.setLevel(Level.INFO);
+            BasicConfigurator.configure();
+            logger.info("Init Configuration");
             try {
-                File config = new File("config.properties");
+                File config = new File("ConfigurationConfig.properties");
                 config.createNewFile();
 
                 //TODO problem
@@ -48,9 +55,9 @@ public interface Configuration {
                 drawThreads = Integer.parseInt(property.getProperty("drawThreads"));
             } catch (Exception e) {
                 e.printStackTrace();
+                logger.info("Configuration init error");
             }
-
-            System.out.println("Configuration init end");
+            logger.info("Configuration init end");
         }
     }
 

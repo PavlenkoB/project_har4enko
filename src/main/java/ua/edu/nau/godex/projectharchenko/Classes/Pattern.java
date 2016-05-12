@@ -1,9 +1,9 @@
-package Classes;
+package ua.edu.nau.godex.projectharchenko.classes;
 
-import editor.classes.DerbyDBManager;
-import editor.classes.resultInfo;
-import editor.services.ImageConverter;
 import javafx.scene.image.Image;
+import ua.edu.nau.godex.projectharchenko.editor.classes.DerbyDBManager;
+import ua.edu.nau.godex.projectharchenko.editor.classes.resultInfo;
+import ua.edu.nau.godex.projectharchenko.editor.services.ImageConverter;
 
 import javax.swing.*;
 import java.io.IOException;

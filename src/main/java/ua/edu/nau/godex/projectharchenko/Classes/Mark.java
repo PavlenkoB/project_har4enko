@@ -1,4 +1,4 @@
-package Classes;
+package ua.edu.nau.godex.projectharchenko.classes;
 
 
 /**
@@ -21,6 +21,13 @@ public class Mark {
         this.numArch0 = numArch0;
         this.numArch1 = numArch1;
         this.mark = mark;
+    }
+
+    public Mark() {
+        this.id = null;
+        this.numArch0 = null;
+        this.numArch1 = null;
+        this.mark = null;
     }
 
     public Integer getNumArch0() {
@@ -53,12 +60,5 @@ public class Mark {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Mark() {
-        this.id = null;
-        this.numArch0 = null;
-        this.numArch1 = null;
-        this.mark = null;
     }
 }

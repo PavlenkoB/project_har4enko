@@ -1,4 +1,4 @@
-package Classes;
+package ua.edu.nau.godex.projectharchenko.classes;
 
 import java.util.ArrayList;
 

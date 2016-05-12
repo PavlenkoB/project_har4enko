@@ -1,4 +1,4 @@
-package Classes;
+package ua.edu.nau.godex.projectharchenko.classes;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,15 +22,6 @@ public class Session {
         this.taskId = taskId;
         this.marks = marks;
         this.date = date;
-        this.note = note;
-    }
-
-    public String getNote() {
-
-        return note;
-    }
-
-    public void setNote(String note) {
         this.note = note;
     }
 
@@ -67,31 +58,6 @@ public class Session {
         this.date = date;
     }
 
-    public Date getDate() {
-
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public int getTaskId() {
-        return taskId;
-    }
-
-    public ArrayList<Mark> getMarks() {
-        return marks;
-    }
-
-    public void setMarks(ArrayList<Mark> marks) {
-        this.marks = marks;
-    }
-
-    public void setTaskId(Integer taskId) {
-        this.taskId = taskId;
-    }
-
     public Session() {
         this.id = null;
         this.task = null;
@@ -102,36 +68,12 @@ public class Session {
 
     }
 
-    public Integer getId() {
-        return id;
-    }
-
     public Session(Integer id, Task task, String criterion, Integer taskId, ArrayList<Mark> marks) {
         this.id = id;
         this.task = task;
         this.criterion = Criterion.valueOf(criterion);
         this.taskId = taskId;
         this.marks = marks;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Task getTask() {
-        return task;
-    }
-
-    public void setTask(Task task) {
-        this.task = task;
-    }
-
-    public Criterion getCriterion() {
-        return criterion;
-    }
-
-    public void setCriterion(Criterion criterion) {
-        this.criterion = criterion;
     }
 
     public Session(Integer id, Task task) {
@@ -152,5 +94,63 @@ public class Session {
         this.id = id;
         this.task = task;
         this.criterion = Criterion.valueOf(criterion);
+    }
+
+    public String getNote() {
+
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public Date getDate() {
+
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public int getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Integer taskId) {
+        this.taskId = taskId;
+    }
+
+    public ArrayList<Mark> getMarks() {
+        return marks;
+    }
+
+    public void setMarks(ArrayList<Mark> marks) {
+        this.marks = marks;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Task getTask() {
+        return task;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
+    }
+
+    public Criterion getCriterion() {
+        return criterion;
+    }
+
+    public void setCriterion(Criterion criterion) {
+        this.criterion = criterion;
     }
 }

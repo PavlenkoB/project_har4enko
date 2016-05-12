@@ -1,14 +1,14 @@
-package Classes;
+package ua.edu.nau.godex.projectharchenko.classes;
 
-import editor.classes.DerbyDBManager;
-import editor.classes.Modals;
-import editor.classes.resultInfo;
-import editor.services.ImageConverter;
-import editor.services.drawUml;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 import org.apache.log4j.Logger;
+import ua.edu.nau.godex.projectharchenko.editor.classes.DerbyDBManager;
+import ua.edu.nau.godex.projectharchenko.editor.classes.Modals;
+import ua.edu.nau.godex.projectharchenko.editor.classes.resultInfo;
+import ua.edu.nau.godex.projectharchenko.editor.services.ImageConverter;
+import ua.edu.nau.godex.projectharchenko.editor.services.drawUml;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -16,7 +16,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by Alex Shcherbak on 24.04.2014.
@@ -423,16 +422,6 @@ public class Architecture implements Cloneable {
     }
 
     /**
-     * Генерирует картинку архитектуры с выбраными патернами
-     *
-     * @param architecture архитектура для которой сделать картинку
-     * @return картинка архитектуры с патернами внутри
-     */
-    public static javafx.scene.image.Image arch_image_gen_with_patterns(Architecture architecture) {
-        return drawUml.draw_class(arch_uml_text_gen(architecture));
-    }
-
-    /**
      * Генерирует можливі варіанти архітектур
      * з різними патернами
      *
@@ -500,6 +489,15 @@ public class Architecture implements Cloneable {
         }
         gen_arch_done_combine(return_Architectures, origin_arch, modules_arr, modd_arr_sell);
         return return_Architectures;
+    }
+
+    /**
+     * Генерирует картинку архитектуры с выбраными патернами
+     *
+     * @return картинка архитектуры с патернами внутри
+     */
+    public javafx.scene.image.Image arch_image_gen_with_patterns() {
+        return drawUml.draw_class(arch_uml_text_gen(this));
     }
 
     public javafx.scene.image.Image getPreview() {

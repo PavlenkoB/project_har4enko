@@ -43,10 +43,9 @@ public class Controller_mode_selection_user_menu implements Initializable {
     public ChoiceBox user_choise;
     public PasswordField pass_write;
     public AnchorPane log_massage;
+    public Button cancelButton;
     Main editor = new Main();
     RatingArchController rating = new RatingArchController();
-    public Button cancelButton;
-
     ArrayList<LogIn> logIns = new ArrayList<>();
 
 
@@ -54,7 +53,7 @@ public class Controller_mode_selection_user_menu implements Initializable {
         try {
             Stage stage = new Stage();
             Parent root;
-            root = FXMLLoader.load(getClass().getResource("/mode_selection/Close.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/views/mode_selection/Close.fxml"));
             stage.setTitle("Завершити програму");
             stage.setScene(new Scene(root, 600, 130));
             stage.setResizable(false);
