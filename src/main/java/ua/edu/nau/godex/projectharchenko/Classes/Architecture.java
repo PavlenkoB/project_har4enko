@@ -4,11 +4,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 import org.apache.log4j.Logger;
-import ua.edu.nau.godex.projectharchenko.editor.classes.DerbyDBManager;
-import ua.edu.nau.godex.projectharchenko.editor.classes.Modals;
-import ua.edu.nau.godex.projectharchenko.editor.classes.resultInfo;
-import ua.edu.nau.godex.projectharchenko.editor.services.ImageConverter;
-import ua.edu.nau.godex.projectharchenko.editor.services.drawUml;
+import ua.edu.nau.godex.projectharchenko.repository_editor.classes.DerbyDBManager;
+import ua.edu.nau.godex.projectharchenko.repository_editor.classes.Modals;
+import ua.edu.nau.godex.projectharchenko.repository_editor.classes.resultInfo;
+import ua.edu.nau.godex.projectharchenko.repository_editor.services.ImageConverter;
+import ua.edu.nau.godex.projectharchenko.repository_editor.services.drawUml;
 
 import javax.swing.*;
 import java.io.IOException;

@@ -16,8 +16,8 @@ import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
 import ua.edu.nau.godex.projectharchenko.classes.Architecture;
 import ua.edu.nau.godex.projectharchenko.classes.Criterion;
+import ua.edu.nau.godex.projectharchenko.criterios_viewer.functions.C_V_DBWorker;
 import ua.edu.nau.godex.projectharchenko.criterios_viewer.functions.CriterionMark;
-import ua.edu.nau.godex.projectharchenko.criterios_viewer.functions.DBWorker;
 import ua.edu.nau.godex.projectharchenko.criterios_viewer.functions.OperateFunc;
 
 import java.io.IOException;
@@ -32,7 +32,7 @@ import java.util.List;
 public class SubController {
 
     public static Deque<TextField> textFieldsOfCriterionMarksList = new LinkedList<>();
-    protected static DBWorker dbWorker = DBWorker.getInstance();
+    protected static C_V_DBWorker CVDbWorker = C_V_DBWorker.getInstance();
     protected static OperateFunc operateFunc = OperateFunc.getInstance();
     private static Logger logger = Logger.getLogger(SubController.class.getClass());
 

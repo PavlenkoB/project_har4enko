@@ -1,6 +1,6 @@
 package ua.edu.nau.godex.projectharchenko.classes;
 
-import ua.edu.nau.godex.projectharchenko.editor.classes.DerbyDBManager;
+import ua.edu.nau.godex.projectharchenko.repository_editor.classes.DerbyDBManager;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;

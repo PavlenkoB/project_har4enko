@@ -24,10 +24,10 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import ua.edu.nau.godex.projectharchenko.classes.*;
-import ua.edu.nau.godex.projectharchenko.editor.classes.DerbyDBManager;
-import ua.edu.nau.godex.projectharchenko.editor.services.archWork;
-import ua.edu.nau.godex.projectharchenko.editor.services.functions;
-import ua.edu.nau.godex.projectharchenko.editor.services.genArchDone;
+import ua.edu.nau.godex.projectharchenko.repository_editor.classes.DerbyDBManager;
+import ua.edu.nau.godex.projectharchenko.repository_editor.services.archWork;
+import ua.edu.nau.godex.projectharchenko.repository_editor.services.functions;
+import ua.edu.nau.godex.projectharchenko.repository_editor.services.genArchDone;
 
 import javax.swing.*;
 import java.io.File;

@@ -4,8 +4,8 @@ package ua.edu.nau.godex.projectharchenko.mode_selection;
  * Created by Alex on 22.06.2014.
  */
 
-//import editor.controllers.main_C;
-//import editor.models.Main;
+//import repository_editor.controllers.main_C;
+//import repository_editor.models.Main;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,8 +13,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import ua.edu.nau.godex.projectharchenko.editor.controllers.main_C;
-import ua.edu.nau.godex.projectharchenko.editor.models.Main;
+import ua.edu.nau.godex.projectharchenko.repository_editor.controllers.main_C;
+import ua.edu.nau.godex.projectharchenko.repository_editor.models.Main;
 
 import java.io.IOException;
 
@@ -63,7 +63,7 @@ public class win_choiser {
             }
             case 1: {
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor/views/main_window_V2.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/repository_editor/views/main_window_V2.fxml"));
 
                     Stage stage = new Stage(StageStyle.DECORATED);
                     try {

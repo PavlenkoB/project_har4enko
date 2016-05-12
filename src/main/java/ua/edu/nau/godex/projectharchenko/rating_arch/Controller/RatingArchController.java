@@ -4,7 +4,7 @@ import Classes.Architecture;
 import Classes.Criterion;
 import Classes.Mark;
 import Classes.Task;
-import editor.services.functions;
+import repository_editor.services.functions;
 */
 
 import javafx.application.Platform;
@@ -32,7 +32,7 @@ import ua.edu.nau.godex.projectharchenko.classes.Architecture;
 import ua.edu.nau.godex.projectharchenko.classes.Criterion;
 import ua.edu.nau.godex.projectharchenko.classes.Mark;
 import ua.edu.nau.godex.projectharchenko.classes.Task;
-import ua.edu.nau.godex.projectharchenko.editor.services.functions;
+import ua.edu.nau.godex.projectharchenko.repository_editor.services.functions;
 
 import javax.swing.*;
 import java.io.File;
@@ -44,9 +44,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static ua.edu.nau.godex.projectharchenko.editor.services.archWork.arch_image_gen_with_patterns;
+import static ua.edu.nau.godex.projectharchenko.repository_editor.services.archWork.arch_image_gen_with_patterns;
 
-//import static editor.services.archWork.arch_image_gen_with_patterns;
+//import static repository_editor.services.archWork.arch_image_gen_with_patterns;
 
 /**
  * Created by Alex Shcherbak on 24.04.2014.
@@ -92,7 +92,7 @@ public class RatingArchController implements Initializable {
     public Button Next_twise;
     public AnchorPane mark_panel;
     public TextArea note_field;
-    protected DBWorker dbWorker = DBWorker.getInstance();
+    protected R_A_DBWorker RADbWorker = R_A_DBWorker.getInstance();
     protected List<Task> taskList = null;
     protected Task task_choise;
     protected List<Architecture> architecture_done_choise = new ArrayList<>();
@@ -142,7 +142,7 @@ public class RatingArchController implements Initializable {
     }
 
     public void exit(ActionEvent actionEvent) {
-        dbWorker.disconnectAll();
+        RADbWorker.disconnectAll();
         System.exit(1);
     }
     //Windows close dialog
@@ -177,7 +177,7 @@ public class RatingArchController implements Initializable {
     protected void startRating() {
         visibleFalseToAllAnchors();
         Rating_arch_1.setVisible(true);
-        taskList = dbWorker.getTasksList();
+        taskList = RADbWorker.getTasksList();
 
         ObservableList<String> items = FXCollections.observableArrayList();
         if (taskList != null) {
@@ -241,8 +241,8 @@ public class RatingArchController implements Initializable {
             }
         }
 
-        architecture_done_choise = dbWorker.getArchitectureListByTaskID(task_choise.getId());
-        architecture_done_choise_type = dbWorker.getArchitectureType(architecture_done_choise.get(0));
+        architecture_done_choise = RADbWorker.getArchitectureListByTaskID(task_choise.getId());
+        architecture_done_choise_type = RADbWorker.getArchitectureType(architecture_done_choise.get(0));
 
         arch_mark_combine[0] = 0;
         if (architecture_done_choise.size() > 1) {
@@ -549,7 +549,7 @@ public class RatingArchController implements Initializable {
      */
     public void connect_DB(ActionEvent actionEvent) {
         try {
-            dbWorker.disconnectArchDb();
+            RADbWorker.disconnectArchDb();
             JFileChooser db_dir = new JFileChooser(new File(System.getProperty("user.dir")));
             db_dir.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             db_dir.setAcceptAllFileFilterUsed(false);
@@ -557,11 +557,11 @@ public class RatingArchController implements Initializable {
             db_dir.showDialog(null, "Обрати");
             // существет ли база(создана ли)
 
-            dbWorker.connectionToArchDb(db_dir.getSelectedFile().getAbsolutePath().toString());
+            RADbWorker.connectionToArchDb(db_dir.getSelectedFile().getAbsolutePath().toString());
             startRating();
         } catch (Exception e) {
             e.printStackTrace();
-            dbWorker.disconnectArchDb();
+            RADbWorker.disconnectArchDb();
         }
     }
 
@@ -603,21 +603,21 @@ public class RatingArchController implements Initializable {
                 markArrayList.add(new Mark(i, i, 1));
             }
 
-            dbWorker.connectionToMarkDb();
+            RADbWorker.connectionToMarkDb();
 
 
             String note_exp = note_field.getText().toString();
 
             try {
-                dbWorker.session_save_to_db(task_choise.getId(), crit_choise, note_exp);
+                RADbWorker.session_save_to_db(task_choise.getId(), crit_choise, note_exp);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            int session_id = dbWorker.getLastSessionID();
+            int session_id = RADbWorker.getLastSessionID();
 
             for (int i = 0; i < markArrayList.size(); i++) {
                 try {
-                    dbWorker.marksSaveToDB(markArrayList.get(i), architecture_done_choise.get(markArrayList.get(i).getNumArch0()).getIdDone(),
+                    RADbWorker.marksSaveToDB(markArrayList.get(i), architecture_done_choise.get(markArrayList.get(i).getNumArch0()).getIdDone(),
                             architecture_done_choise.get(markArrayList.get(i).getNumArch1()).getIdDone(), session_id);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -639,7 +639,7 @@ public class RatingArchController implements Initializable {
             } else if (n == 1) {
                 Stage win = new Stage();
                 win = (Stage) root.getScene().getWindow();
-                dbWorker.disconnectAll();
+                RADbWorker.disconnectAll();
                 win.close();
             } else {
             /*Stage win = new Stage();

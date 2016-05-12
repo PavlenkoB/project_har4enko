@@ -17,9 +17,9 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 import ua.edu.nau.godex.projectharchenko.classes.Task;
-import ua.edu.nau.godex.projectharchenko.criterios_viewer.functions.DBWorker;
+import ua.edu.nau.godex.projectharchenko.criterios_viewer.functions.C_V_DBWorker;
 import ua.edu.nau.godex.projectharchenko.criterios_viewer.functions.OperateFunc;
-import ua.edu.nau.godex.projectharchenko.editor.services.functions;
+import ua.edu.nau.godex.projectharchenko.repository_editor.services.functions;
 
 import javax.swing.*;
 import java.io.File;
@@ -32,7 +32,7 @@ import java.util.ResourceBundle;
  */
 public class CriterionController implements Initializable {
 
-    protected static DBWorker dbWorker = DBWorker.getInstance();
+    protected static C_V_DBWorker CVDbWorker = C_V_DBWorker.getInstance();
     protected static OperateFunc operateFunc = OperateFunc.getInstance();
     private static Logger logger = Logger.getLogger(CriterionController.class.getClass());
     public AnchorPane anchorCriterionViewerTaskChoice;
@@ -70,7 +70,7 @@ public class CriterionController implements Initializable {
         setAllAnchorsVisibleFalse();
         anchorCriterionViewerTaskChoice.setVisible(true);
 
-        if (dbWorker.readyToWork()) {
+        if (CVDbWorker.readyToWork()) {
             ObservableList<String> items = FXCollections.observableArrayList();
             if (operateFunc.getTasks() != null) {
                 for (Task task : operateFunc.getTasks()) {
@@ -129,8 +129,8 @@ public class CriterionController implements Initializable {
         db_dir.setDialogTitle("Виберіть папку з БД архітектур");
         db_dir.showDialog(null, "Обрати");
 
-        dbWorker.connectionToArchDb(db_dir.getSelectedFile().getAbsolutePath().toString());
-        operateFunc.setTaskList(dbWorker.getTaskList());
+        CVDbWorker.connectionToArchDb(db_dir.getSelectedFile().getAbsolutePath().toString());
+        operateFunc.setTaskList(CVDbWorker.getTaskList());
         startRating();
     }
 
@@ -141,8 +141,8 @@ public class CriterionController implements Initializable {
         db_dir.setDialogTitle("Виберіть папку з БД оцінок");
         db_dir.showDialog(null, "Обрати");
 
-        dbWorker.connectionToMarkDb(db_dir.getSelectedFile().getAbsolutePath().toString());
-        //operateFunc.setSessionsList(dbWorker.getSessionList());
+        CVDbWorker.connectionToMarkDb(db_dir.getSelectedFile().getAbsolutePath().toString());
+        //operateFunc.setSessionsList(RADbWorker.getSessionList());
         startRating();
     }
 
@@ -158,7 +158,7 @@ public class CriterionController implements Initializable {
                 }
             }
         }
-        operateFunc.setSessionsList(dbWorker.getSessionListByTask(operateFunc.getTaskChoice()));
+        operateFunc.setSessionsList(CVDbWorker.getSessionListByTask(operateFunc.getTaskChoice()));
         GridPane gridPaneCriterion = SubController.gridPaneCriterionMatrixRating();
 
         criterionMatrix.getChildren().clear();

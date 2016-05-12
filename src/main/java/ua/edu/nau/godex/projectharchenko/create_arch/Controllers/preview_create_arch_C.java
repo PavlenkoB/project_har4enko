@@ -21,9 +21,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import static ua.edu.nau.godex.projectharchenko.editor.services.archWork.arch_image_gen_with_patterns;
+import static ua.edu.nau.godex.projectharchenko.repository_editor.services.archWork.arch_image_gen_with_patterns;
 
-//import static ua.edu.nau.godex.projectharchenko.classes.Architecture.arch_image_gen_with_patterns;
 
 
 /**
@@ -40,6 +39,25 @@ public class preview_create_arch_C implements Initializable {
     ArrayList<Architecture> architectures = new ArrayList<>();
     int sel_arch;
     Image undo_im, redo_im, pre_im;
+    //Поток генерації наступної та попередньї візуалізації архітектур
+    protected Thread MyThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    if (sel_arch != 0)
+                        undo_im = arch_image_gen_with_patterns(architectures.get(sel_arch - 1));
+                    System.out.println("undo");
+                    if (sel_arch != architectures.size() - 1)
+                        redo_im = arch_image_gen_with_patterns(architectures.get(sel_arch + 1));
+                    System.out.println("redo");
+                }
+            });
+        }
+    });
+    //private Thread myThread = new Thread();
+    boolean flag_thread;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -197,27 +215,6 @@ public class preview_create_arch_C implements Initializable {
         draw_arch_im_text(architectures.get(sel_arch), pre_im, architectures.size(), sel_arch);
         border_contr(architectures.size(), sel_arch);
     }
-
-    //Поток генерації наступної та попередньї візуалізації архітектур
-    protected Thread MyThread = new Thread(new Runnable() {
-        @Override
-        public void run() {
-                    Platform.runLater(new Runnable(){
-                        @Override
-                        public void run() {
-                            if (sel_arch != 0)
-                                undo_im = arch_image_gen_with_patterns(architectures.get(sel_arch - 1));
-                            System.out.println("undo");
-                            if (sel_arch != architectures.size() - 1)
-                                redo_im = arch_image_gen_with_patterns(architectures.get(sel_arch + 1));
-                            System.out.println("redo");
-                        }
-                    });
-        }
-    });
-
-    //private Thread myThread = new Thread();
-    boolean flag_thread;
 
     private void tread_go() {
         Thread myThread = new Thread(MyThread);

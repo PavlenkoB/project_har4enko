@@ -15,8 +15,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import ua.edu.nau.godex.projectharchenko.editor.models.Main;
 import ua.edu.nau.godex.projectharchenko.rating_arch.Controller.RatingArchController;
+import ua.edu.nau.godex.projectharchenko.repository_editor.models.Main;
 
 import java.io.IOException;
 import java.net.URL;

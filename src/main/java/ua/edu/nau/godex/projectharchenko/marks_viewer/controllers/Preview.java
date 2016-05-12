@@ -14,7 +14,7 @@ import ua.edu.nau.godex.projectharchenko.classes.Architecture;
 
 import java.util.ArrayList;
 
-import static ua.edu.nau.godex.projectharchenko.editor.services.archWork.arch_image_gen_with_patterns;
+import static ua.edu.nau.godex.projectharchenko.repository_editor.services.archWork.arch_image_gen_with_patterns;
 
 
 /**

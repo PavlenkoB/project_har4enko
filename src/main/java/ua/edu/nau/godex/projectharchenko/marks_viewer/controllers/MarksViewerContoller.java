@@ -24,8 +24,8 @@ import org.apache.log4j.Logger;
 import ua.edu.nau.godex.projectharchenko.classes.Architecture;
 import ua.edu.nau.godex.projectharchenko.classes.Session;
 import ua.edu.nau.godex.projectharchenko.classes.Task;
-import ua.edu.nau.godex.projectharchenko.editor.services.functions;
-import ua.edu.nau.godex.projectharchenko.marks_viewer.function.DbWorker;
+import ua.edu.nau.godex.projectharchenko.marks_viewer.function.M_V_DbWorker;
+import ua.edu.nau.godex.projectharchenko.repository_editor.services.functions;
 
 import javax.swing.*;
 import java.io.File;
@@ -58,7 +58,7 @@ public class MarksViewerContoller implements Initializable {
     /**
      *
      */
-    protected DbWorker dbWorker = DbWorker.getInstance();
+    protected M_V_DbWorker MVDbWorker = M_V_DbWorker.getInstance();
     private List<Task> tasks = new ArrayList<>();          //  Массив заданий
     private List<Session> sessions = new ArrayList<>();    //  Массив сессий
     private Session session_choice = new Session();             //  Вибрана сессия для просмотра оценок с массива sessions
@@ -97,8 +97,8 @@ public class MarksViewerContoller implements Initializable {
         db_dir.setDialogTitle("Виберіть папку з БД архітектур");
         db_dir.showDialog(null, "Обрати");
 
-        dbWorker.connectionToArchDb(db_dir.getSelectedFile().getAbsolutePath().toString());
-        tasks = dbWorker.getTaskList();
+        MVDbWorker.connectionToArchDb(db_dir.getSelectedFile().getAbsolutePath().toString());
+        tasks = MVDbWorker.getTaskList();
         choiceSession();
     }
 
@@ -113,8 +113,8 @@ public class MarksViewerContoller implements Initializable {
         db_dir.setDialogTitle("Виберіть папку з БД оцінок");
         db_dir.showDialog(null, "Обрати");
 
-        dbWorker.connectionToMarkDb(db_dir.getSelectedFile().getAbsolutePath().toString());
-        sessions = dbWorker.getSessionList();
+        MVDbWorker.connectionToMarkDb(db_dir.getSelectedFile().getAbsolutePath().toString());
+        sessions = MVDbWorker.getSessionList();
         choiceSession();
     }
 
@@ -151,7 +151,7 @@ public class MarksViewerContoller implements Initializable {
      *
      */
     private void choiceSession() {
-        if (dbWorker.readyToWork()) {
+        if (MVDbWorker.readyToWork()) {
             for (int i = 0; i < sessions.size(); i++) {
                 for (int j = 0; j < tasks.size(); j++) {
                     if (sessions.get(i).getTaskId() == tasks.get(j).getId()) {
@@ -210,7 +210,7 @@ public class MarksViewerContoller implements Initializable {
         for (int i = 0; i < sessions.size(); i++) {
             if (session_choice.getId() == sessions.get(i).getId()) {
                 session_choice = sessions.get(i);
-                architecture_done_choice_type = dbWorker.getArchitectureType(session_choice.getTask().getArchitectures().get(0));
+                architecture_done_choice_type = MVDbWorker.getArchitectureType(session_choice.getTask().getArchitectures().get(0));
 
             }
         }
@@ -367,7 +367,7 @@ public class MarksViewerContoller implements Initializable {
      * @param actionEvent
      */
     public void exit(ActionEvent actionEvent) {
-        dbWorker.disconnectAll();
+        MVDbWorker.disconnectAll();
         System.exit(1);
     }
 }
