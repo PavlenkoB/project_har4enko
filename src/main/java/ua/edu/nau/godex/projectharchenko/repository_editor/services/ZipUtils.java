@@ -12,7 +12,7 @@ import java.util.zip.ZipOutputStream;
 /**
  * Created by godex_000 on 02.06.2014.
  */
-public class zip {
+public class ZipUtils {
     //TODO опис функції
     public static void zip_dir(File directory, File zipfile) throws IOException {
         URI base = directory.toURI();

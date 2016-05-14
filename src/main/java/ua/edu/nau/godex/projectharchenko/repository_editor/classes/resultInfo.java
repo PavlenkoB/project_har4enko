@@ -6,16 +6,16 @@ package ua.edu.nau.godex.projectharchenko.repository_editor.classes;
  * @author godex_000
  *         Клас для того что бі возвращать результат роботи
  */
-public class resultInfo {
+public class ResultInfo {
     private Boolean status;
     private String comment;
 
-    public resultInfo() {
+    public ResultInfo() {
         status = false;
         comment = "Unknown error";
     }
 
-    public resultInfo(Boolean status, String comment) {
+    public ResultInfo(Boolean status, String comment) {
         this.status = status;
         this.comment = comment;
     }
@@ -32,15 +32,15 @@ public class resultInfo {
         return comment;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
     public void setComment(Exception e) {
         StackTraceElement[] stack = e.getStackTrace();
         for (int s = 0; s < e.getStackTrace().length; s++) {
             if (!stack[s].toString().equals("Unknown Source") || !stack[s].toString().equals("com.sun"))
                 this.comment += stack[s].toString() + "\n";
         }
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

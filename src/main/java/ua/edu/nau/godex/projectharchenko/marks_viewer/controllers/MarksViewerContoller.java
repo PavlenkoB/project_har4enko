@@ -24,8 +24,7 @@ import org.apache.log4j.Logger;
 import ua.edu.nau.godex.projectharchenko.classes.Architecture;
 import ua.edu.nau.godex.projectharchenko.classes.Session;
 import ua.edu.nau.godex.projectharchenko.classes.Task;
-import ua.edu.nau.godex.projectharchenko.marks_viewer.function.M_V_DbWorker;
-import ua.edu.nau.godex.projectharchenko.repository_editor.services.functions;
+import ua.edu.nau.godex.projectharchenko.repository_editor.services.RepEditorFunctions;
 
 import javax.swing.*;
 import java.io.File;
@@ -44,7 +43,7 @@ import java.util.ResourceBundle;
  * @see javafx.fxml.Initializable
  */
 public class MarksViewerContoller implements Initializable {
-    private static Logger logger = Logger.getLogger(MarksViewerContoller.class);
+    private static Logger logger = Logger.getLogger(MarksViewerContoller.class.getName());
     public AnchorPane marks_viewer_anchor_0;
     public AnchorPane session_choise_anchor;
     public ChoiceBox session_list_choisebox;
@@ -58,7 +57,7 @@ public class MarksViewerContoller implements Initializable {
     /**
      *
      */
-    protected M_V_DbWorker MVDbWorker = M_V_DbWorker.getInstance();
+    protected ua.edu.nau.godex.projectharchenko.marks_viewer.function.MVDbWorker MVDbWorker = ua.edu.nau.godex.projectharchenko.marks_viewer.function.MVDbWorker.getInstance();
     private List<Task> tasks = new ArrayList<>();          //  Массив заданий
     private List<Session> sessions = new ArrayList<>();    //  Массив сессий
     private Session session_choice = new Session();             //  Вибрана сессия для просмотра оценок с массива sessions
@@ -184,7 +183,7 @@ public class MarksViewerContoller implements Initializable {
         dateTextField.clear();
         Criteriy_name.clear();
         for (int i = 0; i < sessions.size(); i++) {
-            if (sessions.get(i).getId() == functions.get_ID((String) session_list_choisebox.getItems().get(new_value.intValue()))) {
+            if (sessions.get(i).getId() == RepEditorFunctions.get_ID((String) session_list_choisebox.getItems().get(new_value.intValue()))) {
                 Note_field.setText(sessions.get(i).getNote());
                 Note_field.setEditable(false);
                 task_description.setText(sessions.get(i).getTask().getDescription());
@@ -206,7 +205,7 @@ public class MarksViewerContoller implements Initializable {
         marks_matrix.getChildren().clear();
         mark_view_matrix.setVisible(true);
 
-        session_choice.setId(functions.get_ID((String) session_list_choisebox.getSelectionModel().getSelectedItem().toString()));
+        session_choice.setId(RepEditorFunctions.get_ID((String) session_list_choisebox.getSelectionModel().getSelectedItem().toString()));
         for (int i = 0; i < sessions.size(); i++) {
             if (session_choice.getId() == sessions.get(i).getId()) {
                 session_choice = sessions.get(i);

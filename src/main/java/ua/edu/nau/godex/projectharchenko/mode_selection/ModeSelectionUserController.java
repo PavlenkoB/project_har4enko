@@ -15,28 +15,32 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import ua.edu.nau.godex.projectharchenko.rating_arch.Controller.RatingArchController;
-import ua.edu.nau.godex.projectharchenko.repository_editor.models.Main;
+import org.apache.log4j.Logger;
+import ua.edu.nau.godex.projectharchenko.rating_arch.controller.RatingArchController;
+import ua.edu.nau.godex.projectharchenko.repository_editor.RunRepEditor;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-//import rating_arch.Controller.RatingArchController;
+//import rating_arch.controller.RatingArchController;
 
 /**
  * Created by Alex on 06.05.2014.
  */
 
 
-public class Controller_mode_selection_user implements Initializable {
+public class ModeSelectionUserController implements Initializable {
+
+    public static Logger logger = Logger.getLogger(ModeSelectionUserController.class.getName());
+
     public Button cancelButton;
     public Button sel_next;
     public ChoiceBox user_choise;
     public ChoiceBox func_choise;
     public TextField user_password;
     public Stage create_new_arch_win;
-    Main editor = new Main();
+    RunRepEditor editor = new RunRepEditor();
     RatingArchController rating = new RatingArchController();
 
     public void close(ActionEvent actionEvent) throws IOException {
@@ -88,7 +92,7 @@ public class Controller_mode_selection_user implements Initializable {
         } else if (new_value.intValue() == 2) {
             func_mod.add("Оцінювання існуючих архітектур");
         } else {
-            System.out.println("ошибка");
+            logger.info("ошибка");
         }
         func_choise.setItems(func_mod);
         ;
@@ -98,11 +102,11 @@ public class Controller_mode_selection_user implements Initializable {
     public void sel_next_open_main(ActionEvent actionEvent) {
         Stage sel_mode = (Stage) sel_next.getScene().getWindow();
         if (func_choise.getSelectionModel().getSelectedItem().equals("Конструктор нових варіантів архітектур")) {
-            new win_choiser().win_choiser(0, sel_mode);
+            new WinChooser().win_choiser(0, sel_mode);
         } else if (func_choise.getSelectionModel().getSelectedItem().equals("Оцінювання існуючих архітектур")) {
-            new win_choiser().win_choiser(2, sel_mode);
+            new WinChooser().win_choiser(2, sel_mode);
         } else if (func_choise.getSelectionModel().getSelectedItem().equals("Редактор патернів та архітектур")) {
-            new win_choiser().win_choiser(1, sel_mode);
+            new WinChooser().win_choiser(1, sel_mode);
         }
     }
 }

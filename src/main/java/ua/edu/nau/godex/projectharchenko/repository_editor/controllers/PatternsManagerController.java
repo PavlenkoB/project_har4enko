@@ -3,7 +3,7 @@ package ua.edu.nau.godex.projectharchenko.repository_editor.controllers;
 import Classes.Pattern;
 import repository_editor.classes.DerbyDBManager;
 import repository_editor.classes.Modals;
-import repository_editor.classes.idLable;
+import repository_editor.classes.IdLable;
 import repository_editor.interfaces.Configuration;
 */
 
@@ -27,8 +27,8 @@ import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import ua.edu.nau.godex.projectharchenko.classes.Pattern;
 import ua.edu.nau.godex.projectharchenko.repository_editor.classes.DerbyDBManager;
+import ua.edu.nau.godex.projectharchenko.repository_editor.classes.IdLable;
 import ua.edu.nau.godex.projectharchenko.repository_editor.classes.Modals;
-import ua.edu.nau.godex.projectharchenko.repository_editor.classes.idLable;
 import ua.edu.nau.godex.projectharchenko.repository_editor.interfaces.Configuration;
 
 import java.io.IOException;
@@ -40,7 +40,7 @@ import java.util.ResourceBundle;
 /**
  * Created by godex_000 on 04.07.2014.
  */
-public class patterns_manager_C implements Initializable, Configuration {
+public class PatternsManagerController implements Initializable, Configuration {
     public ComboBox cbFromArch;
     public ComboBox cbFromLay;
     public ComboBox cbFromMod;
@@ -61,26 +61,26 @@ public class patterns_manager_C implements Initializable, Configuration {
         try {
             //derby_DB
             rs = dbConnection.executeQuery("SELECT * FROM ARCHITECTURE ORDER BY NAME ASC");
-            ObservableList<idLable> items = FXCollections.observableArrayList();
-            items.add(new idLable(-1, "Базові" + " " + RB.getString("загальні.патерни")));
+            ObservableList<IdLable> items = FXCollections.observableArrayList();
+            items.add(new IdLable(-1, "Базові" + " " + RB.getString("загальні.патерни")));
             while (rs.next()) {
-                idLable tmp_lable = new idLable(rs.getInt("ID"), rs.getString("NAME"));
+                IdLable tmp_lable = new IdLable(rs.getInt("ID"), rs.getString("NAME"));
                 items.add(tmp_lable);
             }
             cbFromArch.setItems(items);
 
-            cbFromArch.valueProperty().addListener(new ChangeListener<idLable>() {
+            cbFromArch.valueProperty().addListener(new ChangeListener<IdLable>() {
                 @Override
-                public void changed(ObservableValue ov, idLable t, idLable t1) {
+                public void changed(ObservableValue ov, IdLable t, IdLable t1) {
                     cbFromMod.setItems(FXCollections.observableArrayList());
                     lvFromList.setItems(FXCollections.observableArrayList());
                     from_lay_load();
                 }
             });
             cbToArch.setItems(items);
-            cbToArch.valueProperty().addListener(new ChangeListener<idLable>() {
+            cbToArch.valueProperty().addListener(new ChangeListener<IdLable>() {
                 @Override
-                public void changed(ObservableValue ov, idLable t, idLable t1) {
+                public void changed(ObservableValue ov, IdLable t, IdLable t1) {
                     cbToMod.setItems(FXCollections.observableArrayList());
                     lvToList.setItems(FXCollections.observableArrayList());
                     to_lay_load();
@@ -116,9 +116,9 @@ public class patterns_manager_C implements Initializable, Configuration {
             ResultSet rs = null;
             rs = dbConnection.executeQuery(Query);
             fromLastQuery = Query;
-            ObservableList<idLable> items = FXCollections.observableArrayList();
+            ObservableList<IdLable> items = FXCollections.observableArrayList();
             while (rs.next()) {
-                idLable tmp_lable = new idLable(rs.getInt("ID"), rs.getString("NAME"));
+                IdLable tmp_lable = new IdLable(rs.getInt("ID"), rs.getString("NAME"));
                 items.add(tmp_lable);
             }
             lvFromList.setItems(items);
@@ -143,9 +143,9 @@ public class patterns_manager_C implements Initializable, Configuration {
             ResultSet rs = null;
             rs = dbConnection.executeQuery(Query);
             toLastQuery = Query;
-            ObservableList<idLable> items = FXCollections.observableArrayList();
+            ObservableList<IdLable> items = FXCollections.observableArrayList();
             while (rs.next()) {
-                idLable tmp_lable = new idLable(rs.getInt("ID"), rs.getString("NAME"));
+                IdLable tmp_lable = new IdLable(rs.getInt("ID"), rs.getString("NAME"));
                 items.add(tmp_lable);
             }
             lvToList.setItems(items);
@@ -164,21 +164,21 @@ public class patterns_manager_C implements Initializable, Configuration {
     private void from_lay_load() {
         ResultSet rs = null;
         try {
-            if (((idLable) cbFromArch.getSelectionModel().getSelectedItem()).getDbId().intValue() != -1) {
+            if (((IdLable) cbFromArch.getSelectionModel().getSelectedItem()).getDbId().intValue() != -1) {
                 //якщо вибрав архітектуру
-                rs = dbConnection.executeQuery("SELECT * FROM LAYER WHERE ARCH_ID=" + ((idLable) cbFromArch.getSelectionModel().getSelectedItem()).getDbId().intValue() + " ORDER BY NAME ASC");
-                fromArchId = ((idLable) cbFromArch.getSelectionModel().getSelectedItem()).getDbId().intValue();
-                ObservableList<idLable> items = FXCollections.observableArrayList();
-                items.add(new idLable(-1, RB.getString("непривязані_паттерни")));
+                rs = dbConnection.executeQuery("SELECT * FROM LAYER WHERE ARCH_ID=" + ((IdLable) cbFromArch.getSelectionModel().getSelectedItem()).getDbId().intValue() + " ORDER BY NAME ASC");
+                fromArchId = ((IdLable) cbFromArch.getSelectionModel().getSelectedItem()).getDbId().intValue();
+                ObservableList<IdLable> items = FXCollections.observableArrayList();
+                items.add(new IdLable(-1, RB.getString("непривязані_паттерни")));
                 fromModId = -1;
                 while (rs.next()) {
-                    idLable tmp_lable = new idLable(rs.getInt("ID"), rs.getString("NAME"));
+                    IdLable tmp_lable = new IdLable(rs.getInt("ID"), rs.getString("NAME"));
                     items.add(tmp_lable);
                 }
                 cbFromLay.setItems(items);
-                cbFromLay.valueProperty().addListener(new ChangeListener<idLable>() {
+                cbFromLay.valueProperty().addListener(new ChangeListener<IdLable>() {
                     @Override
-                    public void changed(ObservableValue ov, idLable t, idLable t1) {
+                    public void changed(ObservableValue ov, IdLable t, IdLable t1) {
                         lvFromList.setItems(FXCollections.observableArrayList());
                         from_mod_load();
                     }
@@ -199,19 +199,19 @@ public class patterns_manager_C implements Initializable, Configuration {
         ResultSet rs = null;
         try {
 
-            if (((idLable) cbFromLay.getSelectionModel().getSelectedItem()).getDbId().intValue() != -1) {
+            if (((IdLable) cbFromLay.getSelectionModel().getSelectedItem()).getDbId().intValue() != -1) {
                 //derby_DB
-                rs = dbConnection.executeQuery("SELECT * FROM MODULE WHERE LAY_ID=" + ((idLable) cbFromLay.getSelectionModel().getSelectedItem()).getDbId().intValue() + " ORDER BY NAME ASC");
+                rs = dbConnection.executeQuery("SELECT * FROM MODULE WHERE LAY_ID=" + ((IdLable) cbFromLay.getSelectionModel().getSelectedItem()).getDbId().intValue() + " ORDER BY NAME ASC");
 
-                ObservableList<idLable> items = FXCollections.observableArrayList();
+                ObservableList<IdLable> items = FXCollections.observableArrayList();
                 while (rs.next()) {
-                    idLable tmp_lable = new idLable(rs.getInt("ID"), rs.getString("NAME"));
+                    IdLable tmp_lable = new IdLable(rs.getInt("ID"), rs.getString("NAME"));
                     items.add(tmp_lable);
                 }
                 cbFromMod.setItems(items);
-                cbFromMod.valueProperty().addListener(new ChangeListener<idLable>() {
+                cbFromMod.valueProperty().addListener(new ChangeListener<IdLable>() {
                     @Override
-                    public void changed(ObservableValue ov, idLable t, idLable t1) {
+                    public void changed(ObservableValue ov, IdLable t, IdLable t1) {
                         from_pat_load();
                     }
                 });
@@ -220,7 +220,7 @@ public class patterns_manager_C implements Initializable, Configuration {
 
 
                 cbFromMod.setItems(FXCollections.observableArrayList());
-                fromListLoad("SELECT * FROM PATERNS WHERE MOD_ID=-1 AND ARCH_ID=" + ((idLable) cbFromArch.getSelectionModel().getSelectedItem()).getDbId().intValue() + " ORDER BY NAME ASC");
+                fromListLoad("SELECT * FROM PATERNS WHERE MOD_ID=-1 AND ARCH_ID=" + ((IdLable) cbFromArch.getSelectionModel().getSelectedItem()).getDbId().intValue() + " ORDER BY NAME ASC");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -229,8 +229,8 @@ public class patterns_manager_C implements Initializable, Configuration {
 
     private void from_pat_load() {
         //derby_DB
-        fromListLoad("SELECT * FROM PATERNS WHERE MOD_ID=" + ((idLable) cbFromMod.getSelectionModel().getSelectedItem()).getDbId().intValue() + " ORDER BY NAME ASC");
-        fromModId = ((idLable) cbFromMod.getSelectionModel().getSelectedItem()).getDbId().intValue();
+        fromListLoad("SELECT * FROM PATERNS WHERE MOD_ID=" + ((IdLable) cbFromMod.getSelectionModel().getSelectedItem()).getDbId().intValue() + " ORDER BY NAME ASC");
+        fromModId = ((IdLable) cbFromMod.getSelectionModel().getSelectedItem()).getDbId().intValue();
     }
 
     @Override
@@ -242,17 +242,17 @@ public class patterns_manager_C implements Initializable, Configuration {
         ResultSet rs = null;
         try {
             //derby_DB
-            rs = dbConnection.executeQuery("SELECT * FROM LAYER WHERE ARCH_ID=" + ((idLable) cbToArch.getSelectionModel().getSelectedItem()).getDbId().intValue() + " ORDER BY NAME ASC");
-            toArchId = ((idLable) cbToArch.getSelectionModel().getSelectedItem()).getDbId().intValue();
-            ObservableList<idLable> items = FXCollections.observableArrayList();
+            rs = dbConnection.executeQuery("SELECT * FROM LAYER WHERE ARCH_ID=" + ((IdLable) cbToArch.getSelectionModel().getSelectedItem()).getDbId().intValue() + " ORDER BY NAME ASC");
+            toArchId = ((IdLable) cbToArch.getSelectionModel().getSelectedItem()).getDbId().intValue();
+            ObservableList<IdLable> items = FXCollections.observableArrayList();
             while (rs.next()) {
-                idLable tmp_lable = new idLable(rs.getInt("ID"), rs.getString("NAME"));
+                IdLable tmp_lable = new IdLable(rs.getInt("ID"), rs.getString("NAME"));
                 items.add(tmp_lable);
             }
             cbToLay.setItems(items);
-            cbToLay.valueProperty().addListener(new ChangeListener<idLable>() {
+            cbToLay.valueProperty().addListener(new ChangeListener<IdLable>() {
                 @Override
-                public void changed(ObservableValue ov, idLable t, idLable t1) {
+                public void changed(ObservableValue ov, IdLable t, IdLable t1) {
                     lvToList.setItems(FXCollections.observableArrayList());
                     to_mod_load();
                 }
@@ -266,16 +266,16 @@ public class patterns_manager_C implements Initializable, Configuration {
         ResultSet rs = null;
         try {
             //derby_DB
-            rs = dbConnection.executeQuery("SELECT * FROM MODULE WHERE LAY_ID=" + ((idLable) cbToLay.getSelectionModel().getSelectedItem()).getDbId().intValue() + " ORDER BY NAME ASC");
-            ObservableList<idLable> items = FXCollections.observableArrayList();
+            rs = dbConnection.executeQuery("SELECT * FROM MODULE WHERE LAY_ID=" + ((IdLable) cbToLay.getSelectionModel().getSelectedItem()).getDbId().intValue() + " ORDER BY NAME ASC");
+            ObservableList<IdLable> items = FXCollections.observableArrayList();
             while (rs.next()) {
-                idLable tmp_lable = new idLable(rs.getInt("ID"), rs.getString("NAME"));
+                IdLable tmp_lable = new IdLable(rs.getInt("ID"), rs.getString("NAME"));
                 items.add(tmp_lable);
             }
             cbToMod.setItems(items);
-            cbToMod.valueProperty().addListener(new ChangeListener<idLable>() {
+            cbToMod.valueProperty().addListener(new ChangeListener<IdLable>() {
                 @Override
-                public void changed(ObservableValue ov, idLable t, idLable t1) {
+                public void changed(ObservableValue ov, IdLable t, IdLable t1) {
                     to_pat_load();
                 }
             });
@@ -286,8 +286,8 @@ public class patterns_manager_C implements Initializable, Configuration {
 
     private void to_pat_load() {
         //derby_DB
-        to_list_load("SELECT * FROM PATERNS WHERE MOD_ID=" + ((idLable) cbToMod.getSelectionModel().getSelectedItem()).getDbId().intValue() + " ORDER BY NAME ASC");
-        toModId = ((idLable) cbToMod.getSelectionModel().getSelectedItem()).getDbId().intValue();
+        to_list_load("SELECT * FROM PATERNS WHERE MOD_ID=" + ((IdLable) cbToMod.getSelectionModel().getSelectedItem()).getDbId().intValue() + " ORDER BY NAME ASC");
+        toModId = ((IdLable) cbToMod.getSelectionModel().getSelectedItem()).getDbId().intValue();
     }
 
     /**
@@ -297,18 +297,18 @@ public class patterns_manager_C implements Initializable, Configuration {
     public void from_move_to() {
         if (lvFromList.getSelectionModel().getSelectedItem() != null) {
             if (cbToArch.getSelectionModel().getSelectedItem() != null) {
-                Pattern from = Pattern.patternLoadFromDB(((idLable) lvFromList.getSelectionModel().getSelectedItem()).getDbId(), dbConnection);
+                Pattern from = Pattern.patternLoadFromDB(((IdLable) lvFromList.getSelectionModel().getSelectedItem()).getDbId(), dbConnection);
                 Pattern new_p = new Pattern();
                 new_p.setName(from.getName());
                 if (cbToMod.getSelectionModel().getSelectedItem() != null) {
-                    new_p.setModId(((idLable) cbToMod.getSelectionModel().getSelectedItem()).getDbId());
+                    new_p.setModId(((IdLable) cbToMod.getSelectionModel().getSelectedItem()).getDbId());
                 } else {
                     new_p.setModId(-1);
                 }
                 new_p.setUmlText(from.getUmlText());
                 new_p.setDescription(from.getDescription());
                 new_p.setPreview(from.getPreview());
-                new_p.setArch_id(((idLable) cbToMod.getSelectionModel().getSelectedItem()).getDbId());
+                new_p.setArch_id(((IdLable) cbToMod.getSelectionModel().getSelectedItem()).getDbId());
                 new_p.setType("");
                 Pattern.pattern_save_to_DB(new_p, dbConnection);
                 Pattern.delete_pattern_from_DB(from.getId(), dbConnection);
@@ -325,18 +325,18 @@ public class patterns_manager_C implements Initializable, Configuration {
     public void from_copy_to() {
         if (lvFromList.getSelectionModel().getSelectedItem() != null) {
             if (cbToArch.getSelectionModel().getSelectedItem() != null) {
-                Pattern from = Pattern.patternLoadFromDB(((idLable) lvFromList.getSelectionModel().getSelectedItem()).getDbId(), dbConnection);
+                Pattern from = Pattern.patternLoadFromDB(((IdLable) lvFromList.getSelectionModel().getSelectedItem()).getDbId(), dbConnection);
                 Pattern new_p = new Pattern();
                 new_p.setName(from.getName());
                 if (cbToMod.getSelectionModel().getSelectedItem() != null) {
-                    new_p.setModId(((idLable) cbToMod.getSelectionModel().getSelectedItem()).getDbId());
+                    new_p.setModId(((IdLable) cbToMod.getSelectionModel().getSelectedItem()).getDbId());
                 } else {
                     new_p.setModId(-1);
                 }
                 new_p.setUmlText(from.getUmlText());
                 new_p.setDescription(from.getDescription());
                 new_p.setPreview(from.getPreview());
-                new_p.setArch_id(((idLable) cbToMod.getSelectionModel().getSelectedItem()).getDbId());
+                new_p.setArch_id(((IdLable) cbToMod.getSelectionModel().getSelectedItem()).getDbId());
                 new_p.setType("");
 
                 Pattern.pattern_save_to_DB(new_p, dbConnection);
@@ -364,7 +364,7 @@ public class patterns_manager_C implements Initializable, Configuration {
     public void from_list_delete() {
         if (lvFromList.getSelectionModel().getSelectedItem() != null) {
             if (Modals.Response.YES == Modals.showYNDialog(RB.getString("загальні.увага"), RB.getString("загальні.ви_впевнені_що_бажаете_видалити") + " " + RB.getString("загальні.патерн"))) {
-                Pattern.delete_pattern_from_DB(((idLable) lvFromList.getSelectionModel().getSelectedItem()).getDbId(), dbConnection);
+                Pattern.delete_pattern_from_DB(((IdLable) lvFromList.getSelectionModel().getSelectedItem()).getDbId(), dbConnection);
                 fromListLoad(fromLastQuery);
             }
         }
@@ -374,7 +374,7 @@ public class patterns_manager_C implements Initializable, Configuration {
     public void from_list_preview() {
         if (lvFromList.getSelectionModel().getSelectedItem() != null) {
 
-            Pattern pattern = Pattern.patternLoadFromDB(((idLable) lvFromList.getSelectionModel().getSelectedItem()).getDbId(), dbConnection);
+            Pattern pattern = Pattern.patternLoadFromDB(((IdLable) lvFromList.getSelectionModel().getSelectedItem()).getDbId(), dbConnection);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/repository_editor/views/image_preview.fxml"));
 
             Stage stage = new Stage(StageStyle.DECORATED);
@@ -384,7 +384,7 @@ public class patterns_manager_C implements Initializable, Configuration {
                 e.printStackTrace();
             }
 
-            image_preview_C controller = loader.<image_preview_C>getController();
+            ImagePreviewController controller = loader.<ImagePreviewController>getController();
             controller.initData(pattern.getPreview(), pattern.getName());
             stage.show();
         }
@@ -402,8 +402,8 @@ public class patterns_manager_C implements Initializable, Configuration {
                 e.printStackTrace();
             }
 
-            patern_editor_C controller = loader.<patern_editor_C>getController();
-            controller.initData(Pattern.patternLoadFromDB(((idLable) lvFromList.getSelectionModel().getSelectedItem()).getDbId(), dbConnection), dbConnection);
+            PaternEditorController controller = loader.<PaternEditorController>getController();
+            controller.initData(Pattern.patternLoadFromDB(((IdLable) lvFromList.getSelectionModel().getSelectedItem()).getDbId(), dbConnection), dbConnection);
             stage.setTitle("Редагування патерну");
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
@@ -423,7 +423,7 @@ public class patterns_manager_C implements Initializable, Configuration {
             e.printStackTrace();
         }
 
-        patern_editor_C controller = loader.<patern_editor_C>getController();
+        PaternEditorController controller = loader.<PaternEditorController>getController();
 
 //        Pattern(Integer id, Integer modId, String name, String description, String umlText, String type, Integer arch_id, Image preview) {
         controller.initData(new Pattern(null, fromModId, "", "", "", fromType, fromArchId, null), dbConnection);
@@ -435,7 +435,7 @@ public class patterns_manager_C implements Initializable, Configuration {
     public void to_list_preview() {
         if (lvToList.getSelectionModel().getSelectedItem() != null) {
 
-            Pattern pattern = Pattern.patternLoadFromDB(((idLable) lvToList.getSelectionModel().getSelectedItem()).getDbId(), dbConnection);
+            Pattern pattern = Pattern.patternLoadFromDB(((IdLable) lvToList.getSelectionModel().getSelectedItem()).getDbId(), dbConnection);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/repository_editor/views/image_preview.fxml"));
 
             Stage stage = new Stage(StageStyle.DECORATED);
@@ -445,7 +445,7 @@ public class patterns_manager_C implements Initializable, Configuration {
                 e.printStackTrace();
             }
 
-            image_preview_C controller = loader.<image_preview_C>getController();
+            ImagePreviewController controller = loader.<ImagePreviewController>getController();
             controller.initData(pattern.getPreview(), pattern.getName());
             stage.show();
         }
@@ -463,8 +463,8 @@ public class patterns_manager_C implements Initializable, Configuration {
                 e.printStackTrace();
             }
 
-            patern_editor_C controller = loader.<patern_editor_C>getController();
-            controller.initData(Pattern.patternLoadFromDB(((idLable) lvToList.getSelectionModel().getSelectedItem()).getDbId(), dbConnection), dbConnection);
+            PaternEditorController controller = loader.<PaternEditorController>getController();
+            controller.initData(Pattern.patternLoadFromDB(((IdLable) lvToList.getSelectionModel().getSelectedItem()).getDbId(), dbConnection), dbConnection);
             stage.setTitle("Редагування патерну");
             stage.showAndWait();
             to_list_load(toLastQuery);
@@ -476,7 +476,7 @@ public class patterns_manager_C implements Initializable, Configuration {
     public void to_list_delete() {
         if (lvToList.getSelectionModel().getSelectedItem() != null) {
             if (Modals.Response.YES == Modals.showYNDialog(RB.getString("загальні.увага"), RB.getString("загальні.ви_впевнені_що_бажаете_видалити") + " " + RB.getString("загальні.патерн"))) {
-                Pattern.delete_pattern_from_DB(((idLable) lvToList.getSelectionModel().getSelectedItem()).getDbId(), dbConnection);
+                Pattern.delete_pattern_from_DB(((IdLable) lvToList.getSelectionModel().getSelectedItem()).getDbId(), dbConnection);
                 to_list_load(toLastQuery);
             }
         }

@@ -210,7 +210,7 @@ public class Modals implements Configuration {
      */
     private static void donotResizeAndAddStyle(Stage stage) {
 
-        stage.getScene().getStylesheets().add(Modals.class.getResource("/repository_editor/css/style.css").toExternalForm());
+        stage.getScene().getStylesheets().add(Modals.class.getResource("/views/repository_editor/css/style.css").toExternalForm());
         //stage.initStyle(StageStyle.UTILITY);
         stage.setResizable(false);
     }

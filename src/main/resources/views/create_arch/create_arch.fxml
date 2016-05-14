@@ -8,7 +8,7 @@
             maxWidth="1.7976931348623157E308"
             minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="630.0"
             xmlns="http://javafx.com/javafx/8"
-            fx:controller="ua.edu.nau.godex.projectharchenko.create_arch.Controllers.create_arch_C">
+            fx:controller="ua.edu.nau.godex.projectharchenko.create_arch.controllers.CreateArchController">
     <children>
         <AnchorPane fx:id="Arch_choise_2" prefHeight="174.0" prefWidth="200.0" visible="false"
                     AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"

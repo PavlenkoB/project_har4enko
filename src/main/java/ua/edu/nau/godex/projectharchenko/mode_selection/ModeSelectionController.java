@@ -1,6 +1,6 @@
 package ua.edu.nau.godex.projectharchenko.mode_selection;
 
-//import repository_editor.models.Main;
+//import repository_editor.models.RunRepEditor;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -9,8 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.stage.Stage;
-import ua.edu.nau.godex.projectharchenko.rating_arch.Controller.RatingArchController;
-import ua.edu.nau.godex.projectharchenko.repository_editor.models.Main;
+import ua.edu.nau.godex.projectharchenko.rating_arch.controller.RatingArchController;
+import ua.edu.nau.godex.projectharchenko.repository_editor.RunRepEditor;
 
 import java.io.IOException;
 
@@ -19,14 +19,14 @@ import java.io.IOException;
  */
 
 
-public class Controller_mode_selection {
+public class ModeSelectionController {
     public RadioButton choice1_set_new_arch;
     public RadioButton choice1_add_new_patt;
     public RadioButton choice1_rate_task;
     public Button cancelButton;
     public Button sel_next_1;
     public Stage create_new_arch_win;
-    Main editor = new Main();
+    RunRepEditor editor = new RunRepEditor();
     RatingArchController rating = new RatingArchController();
 
     public void close(ActionEvent actionEvent) throws IOException {

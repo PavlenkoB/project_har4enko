@@ -2,7 +2,7 @@ package ua.edu.nau.godex.projectharchenko.classes;
 
 import javafx.scene.image.Image;
 import ua.edu.nau.godex.projectharchenko.repository_editor.classes.DerbyDBManager;
-import ua.edu.nau.godex.projectharchenko.repository_editor.classes.resultInfo;
+import ua.edu.nau.godex.projectharchenko.repository_editor.classes.ResultInfo;
 import ua.edu.nau.godex.projectharchenko.repository_editor.services.ImageConverter;
 
 import javax.swing.*;
@@ -115,8 +115,8 @@ public class Pattern implements Cloneable {
      * @param derby_DB_connection Підключення до БД
      * @return чи вдалося зберегти
      */
-    public static resultInfo pattern_save_to_DB(Pattern pattern_in, DerbyDBManager derby_DB_connection) {//Зберегти архітектуру в БД
-        resultInfo result = new resultInfo();
+    public static ResultInfo pattern_save_to_DB(Pattern pattern_in, DerbyDBManager derby_DB_connection) {//Зберегти архітектуру в БД
+        ResultInfo result = new ResultInfo();
         if (pattern_in.getId() == null || pattern_in.getId().toString().equals("")) {
             ResultSet rs_tmp;
             try {

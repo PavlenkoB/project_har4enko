@@ -17,9 +17,8 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 import ua.edu.nau.godex.projectharchenko.classes.Task;
-import ua.edu.nau.godex.projectharchenko.criterios_viewer.functions.C_V_DBWorker;
 import ua.edu.nau.godex.projectharchenko.criterios_viewer.functions.OperateFunc;
-import ua.edu.nau.godex.projectharchenko.repository_editor.services.functions;
+import ua.edu.nau.godex.projectharchenko.repository_editor.services.RepEditorFunctions;
 
 import javax.swing.*;
 import java.io.File;
@@ -32,7 +31,7 @@ import java.util.ResourceBundle;
  */
 public class CriterionController implements Initializable {
 
-    protected static C_V_DBWorker CVDbWorker = C_V_DBWorker.getInstance();
+    protected static ua.edu.nau.godex.projectharchenko.criterios_viewer.functions.CVDbWorker CVDbWorker = ua.edu.nau.godex.projectharchenko.criterios_viewer.functions.CVDbWorker.getInstance();
     protected static OperateFunc operateFunc = OperateFunc.getInstance();
     private static Logger logger = Logger.getLogger(CriterionController.class.getClass());
     public AnchorPane anchorCriterionViewerTaskChoice;
@@ -92,7 +91,7 @@ public class CriterionController implements Initializable {
         taskDescriptionTextField.clear();
         if (operateFunc.getTasks() != null) {
             for (Task task : operateFunc.getTasks()) {
-                if (task.getId().equals(functions.get_ID((String) taskListChoiceBox.getItems().get(new_value.intValue())))) {
+                if (task.getId().equals(RepEditorFunctions.get_ID((String) taskListChoiceBox.getItems().get(new_value.intValue())))) {
                     taskDescriptionTextField.setEditable(true);
                     taskDescriptionTextField.setText(task.getDescription());
                     taskDescriptionTextField.setEditable(false);
@@ -152,7 +151,7 @@ public class CriterionController implements Initializable {
 
         if (operateFunc.getTasks() != null) {
             for (Task task : operateFunc.getTasks()) {
-                if (task.getId().equals(functions.get_ID(taskListChoiceBox.getSelectionModel().getSelectedItem().toString()))) {
+                if (task.getId().equals(RepEditorFunctions.get_ID(taskListChoiceBox.getSelectionModel().getSelectedItem().toString()))) {
                     operateFunc.setTaskChoice(task);
                     break;
                 }

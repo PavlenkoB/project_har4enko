@@ -14,7 +14,7 @@ import java.util.ResourceBundle;
 /**
  * Created by godex_000 on 03.07.2014.
  */
-public class image_preview_C implements Initializable {
+public class ImagePreviewController implements Initializable {
     public ImageView IV_IP;
     public ScrollPane SP_IP;
     public AnchorPane AP_IP;

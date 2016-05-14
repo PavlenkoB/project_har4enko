@@ -4,8 +4,8 @@ package ua.edu.nau.godex.projectharchenko.mode_selection;
  * Created by Alex on 22.06.2014.
  */
 
-//import repository_editor.controllers.main_C;
-//import repository_editor.models.Main;
+//import repository_editor.controllers.MainRepositoryEditorController;
+//import repository_editor.models.RunRepEditor;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,8 +13,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import ua.edu.nau.godex.projectharchenko.repository_editor.controllers.main_C;
-import ua.edu.nau.godex.projectharchenko.repository_editor.models.Main;
+import ua.edu.nau.godex.projectharchenko.repository_editor.RunRepEditor;
+import ua.edu.nau.godex.projectharchenko.repository_editor.controllers.MainRepositoryEditorController;
 
 import java.io.IOException;
 
@@ -23,8 +23,8 @@ import java.io.IOException;
  * = 1 - редактор патернів
  * = 2 - оцінка архітектур
  */
-public class win_choiser {
-    Main editor = new Main();
+public class WinChooser {
+    RunRepEditor editor = new RunRepEditor();
 
     public void win_choiser(int mode, Stage win) {
         Stage create_new_arch_win;
@@ -71,7 +71,7 @@ public class win_choiser {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    main_C controller = loader.<main_C>getController();
+                    MainRepositoryEditorController controller = loader.<MainRepositoryEditorController>getController();
                     controller.initData();
                     stage.setTitle("Управління репозиторіем патернів");
                     stage.show();

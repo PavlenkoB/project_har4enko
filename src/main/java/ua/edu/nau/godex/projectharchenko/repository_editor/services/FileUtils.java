@@ -2,6 +2,7 @@ package ua.edu.nau.godex.projectharchenko.repository_editor.services;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.util.List;
@@ -10,6 +11,9 @@ import java.util.List;
  * Created by godex_000 on 23.07.2014.
  */
 public class FileUtils {
+
+    public static Logger logger = Logger.getLogger(FileUtils.class.getName());
+
     /**
      * Отримати формат файлу (*.оце)
      *
@@ -26,7 +30,6 @@ public class FileUtils {
     }
 
     /**
-     *
      * @param initDir
      * @param title
      * @param stage
@@ -71,7 +74,7 @@ public class FileUtils {
             while ((length = is.read(buffer)) > 0) {
                 os.write(buffer, 0, length);
             }
-            System.out.printf("File copy completed " + destination.getAbsolutePath().toString() + "\n");
+            logger.info("File copy completed " + destination.getAbsolutePath().toString());
         } finally {
             is.close();
             os.close();

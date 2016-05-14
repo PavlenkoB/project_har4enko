@@ -66,9 +66,9 @@ import java.util.ResourceBundle;
 /**
  * @author godex_000
  */
-public class main_C extends JPanel implements Initializable, Configuration {
+public class MainRepositoryEditorController extends JPanel implements Initializable, Configuration {
 
-    private static Logger logger = Logger.getLogger(main_C.class.getClass());
+    private static Logger logger = Logger.getLogger(MainRepositoryEditorController.class.getName());
 
     @FXML
     public Label selected_DB;
@@ -123,7 +123,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
     }
 
     public void initData() {
-        System.out.println("Init");
+        logger.info("Init");
         thisstage = (Stage) root.getScene().getWindow();
         thisstage.getIcons().add(new Image("/res/img/uml_icon.png"));
         thisstage.setTitle(RB.getString("управління_репозиторієм_патернів_редактор_архітектур"));
@@ -142,8 +142,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("initialize start");
-        //arch.class
+        logger.info("Initialize start");
         //TODO log_in();
         //при двойном клике грузить архитекутуру
         LV_archs_DB.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
@@ -169,7 +168,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
 //TODO Del
 
         try {
-            System.out.println("initialize 1");
+            logger.info("initialize 1");
             derby_DB = new DerbyDBManager("DB/paterns_DB");
             list_load_DB();
         } catch (Exception e) {
@@ -192,7 +191,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
             DirectoryChooser db_dir_FC = new DirectoryChooser();
             db_dir_FC.setInitialDirectory(new File(System.getProperty("user.dir")));
             db_dir_FC.setTitle(RB.getString("вкажіть_шлях_до_папки_з_бд"));
-            File db_dir = db_dir_FC.showDialog(functions.get_stage_by_element(TA_arch_description));
+            File db_dir = db_dir_FC.showDialog(RepEditorFunctions.get_stage_by_element(TA_arch_description));
             if (db_dir != null) {
                 derby_DB = new DerbyDBManager(db_dir.getAbsolutePath());
                 //derby_DB.setDbName(db_dir.getName());
@@ -242,10 +241,10 @@ public class main_C extends JPanel implements Initializable, Configuration {
         DirectoryChooser db_dir_FC = new DirectoryChooser();
         db_dir_FC.setInitialDirectory(new File(System.getProperty("user.dir")));
         db_dir_FC.setTitle(RB.getString("вкажіть_шлях_до_папки_для_новоі_бд"));
-        File db_dir = db_dir_FC.showDialog(functions.get_stage_by_element(TA_arch_description));
+        File db_dir = db_dir_FC.showDialog(RepEditorFunctions.get_stage_by_element(TA_arch_description));
         if (db_dir != null) {
             derby_DB = new DerbyDBManager(db_dir);
-            System.out.print("Створюю таблиці");
+            logger.info("Створюю таблиці");
             try {
                 File in_dir = new File(getClass().getClassLoader().getResource("sql/create_DB").getFile());
                 File[] fList;
@@ -261,7 +260,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
                         }
                     }
                 }
-                System.out.print("Створив таблиці");
+                logger.info("Створив таблиці");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -313,15 +312,15 @@ public class main_C extends JPanel implements Initializable, Configuration {
                 DirectoryChooser db_dir_FC = new DirectoryChooser();
                 db_dir_FC.setInitialDirectory(new File(System.getProperty("user.dir")));
                 db_dir_FC.setTitle("Виберіть місце куди зберегти архів...");
-                File zip_dir = db_dir_FC.showDialog(functions.get_stage_by_element(TA_arch_description));
+                File zip_dir = db_dir_FC.showDialog(RepEditorFunctions.get_stage_by_element(TA_arch_description));
                 if (zip_dir != null) {
                     File mydir = new File(derby_DB.getDbName());
-                    File myfile = new File(zip_dir.getAbsoluteFile() + "\\" + mydir.getName() + "_" + new SimpleDateFormat("dd.MM.yyyy_HH_mm_ss").format(new Date()) + ".zip");
-                    zip.zip_dir(mydir, myfile);
+                    File myfile = new File(zip_dir.getAbsoluteFile() + "\\" + mydir.getName() + "_" + new SimpleDateFormat("dd.MM.yyyy_HH_mm_ss").format(new Date()) + ".ZipUtils");
+                    ZipUtils.zip_dir(mydir, myfile);
                     //TODO ввід пароля
-                    security.encrypt_file(secretkey, new FileInputStream(myfile), new FileOutputStream(new File(myfile.getAbsoluteFile() + ".enc")));
+                    SecurityUtils.encrypt_file(secretkey, new FileInputStream(myfile), new FileOutputStream(new File(myfile.getAbsoluteFile() + ".enc")));
                     myfile.delete();
-                    System.out.println(mydir.toURI().relativize(myfile.toURI()).getPath());
+                    logger.info(mydir.toURI().relativize(myfile.toURI()).getPath());
                     Modals.showInfoApplicationModal(RB.getString("загальні.інформація"), mydir.toURI().relativize(myfile.toURI()).getPath());
                 }
             }
@@ -334,37 +333,37 @@ public class main_C extends JPanel implements Initializable, Configuration {
      * @throws IOException
      */
     public void unpack_backup() throws Throwable {
-        System.out.println("unpack_backup start");
+        logger.info("unpack_backup start");
         FileChooser FC_zip = new FileChooser();
         FC_zip.setInitialDirectory(new File(System.getProperty("user.dir")));
         FC_zip.setTitle(RB.getString("загальні.Виберіть") + " " + RB.getString("загальні.архів") + "...");
         FC_zip.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Зашифрований" + " " + RB.getString("загальні.архів"), "*.zip.enc"),
-                new FileChooser.ExtensionFilter("Zip", "*.zip")
+                new FileChooser.ExtensionFilter("Зашифрований" + " " + RB.getString("загальні.архів"), "*.ZipUtils.enc"),
+                new FileChooser.ExtensionFilter("Zip", "*.ZipUtils")
         );
         //TODO Ввід пароля
 
-        File zip_file = FC_zip.showOpenDialog(functions.get_stage_by_element(TA_arch_description));
+        File zip_file = FC_zip.showOpenDialog(RepEditorFunctions.get_stage_by_element(TA_arch_description));
         File decrypted = null;
         if (zip_file != null && zip_file.exists()) {
             if (FileUtils.getExtension(zip_file.getName().toString()).equals("enc")) {
                 File original = zip_file;
-                decrypted = new File(zip_file.getName() + ".zip");
-                security.decrypt_file(secretkey, new FileInputStream(original), new FileOutputStream(decrypted));
+                decrypted = new File(zip_file.getName() + ".ZipUtils");
+                SecurityUtils.decrypt_file(secretkey, new FileInputStream(original), new FileOutputStream(decrypted));
                 zip_file = decrypted;
             }
             DirectoryChooser db_dir_FC = new DirectoryChooser();
             db_dir_FC.setInitialDirectory(new File(System.getProperty("user.dir")));
             db_dir_FC.setTitle("Виберіть місце куди розархівувати архів...");
-            File db_dir = db_dir_FC.showDialog(functions.get_stage_by_element(TA_arch_description));
+            File db_dir = db_dir_FC.showDialog(RepEditorFunctions.get_stage_by_element(TA_arch_description));
             if (db_dir != null || zip_file != null) {
-                zip.zip_unpack(zip_file.getAbsolutePath().toString(), db_dir.getAbsolutePath().toString());
+                ZipUtils.zip_unpack(zip_file.getAbsolutePath().toString(), db_dir.getAbsolutePath().toString());
                 decrypted.delete();
             }
         } else {
-            System.out.println("File not selected");
+            logger.info("File not selected");
         }
-        System.out.println("unpack_backup end");
+        logger.info("unpack_backup end");
     }
 
 
@@ -390,7 +389,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
 
     public void clear_db(ActionEvent actionEvent) {
-        functions.clread_DB(derby_DB);
+        RepEditorFunctions.clread_DB(derby_DB);
     }
 
     /**
@@ -399,8 +398,8 @@ public class main_C extends JPanel implements Initializable, Configuration {
      * @param actionEvent
      */
     public void load_this_arch_DB(ActionEvent actionEvent) {
-        System.out.println("load_this_arch_DB");
-        arch_tmp = archWork.arch_load_from_DB(((idLable) LV_archs_DB.getSelectionModel().getSelectedItems().get(0)).getDbId(), derby_DB);
+        logger.info("load_this_arch_DB");
+        arch_tmp = ArchWork.arch_load_from_DB(((IdLable) LV_archs_DB.getSelectionModel().getSelectedItems().get(0)).getDbId(), derby_DB);
         try {
             arch_old = arch_tmp.clone();//сохраним оригинальный вариант архитектуры
         } catch (CloneNotSupportedException e) {
@@ -425,7 +424,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
      * @param actionEvent
      */
     public void delete_arch_DB(ActionEvent actionEvent) {
-        System.out.println("delete_arch_DB");
+        logger.info("delete_arch_DB");
         Object[] options = {RB.getString("загальні.так"),
                 RB.getString("загальні.ні")};
         int n = JOptionPane.showOptionDialog(null,
@@ -437,7 +436,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
                 options,  //the titles of buttons
                 options[0]); //default button title
         if (n == 0) {
-            String query = "DELETE FROM ARCHITECTURE WHERE ID=" + ((idLable) LV_archs_DB.getSelectionModel().getSelectedItems().get(0)).getDbId();
+            String query = "DELETE FROM ARCHITECTURE WHERE ID=" + ((IdLable) LV_archs_DB.getSelectionModel().getSelectedItems().get(0)).getDbId();
             try {
                 derby_DB.executeUpdate(query);
             } catch (Exception e) {
@@ -451,7 +450,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
      * Загрузка з базы
      */
     public void list_load_DB() {
-        System.out.println("list_load_DB");
+        logger.info("list_load_DB");
         ResultSet rs = null;
         try {
             try {
@@ -460,9 +459,9 @@ public class main_C extends JPanel implements Initializable, Configuration {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            ObservableList<idLable> items = FXCollections.observableArrayList();
+            ObservableList<IdLable> items = FXCollections.observableArrayList();
             while (rs.next()) {
-                idLable tmp_lable = new idLable(rs.getInt("ID"), rs.getString("NAME"));
+                IdLable tmp_lable = new IdLable(rs.getInt("ID"), rs.getString("NAME"));
                 items.add(tmp_lable);
             }
             LV_archs_DB.setItems(items);
@@ -474,7 +473,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
     public void select_to_save_DB() {//скопировать имя патерна для сохранения
         if (derby_DB != null) {
-            TF_arch_name_DB.setText(((idLable) LV_archs_DB.getSelectionModel().getSelectedItems().get(0)).getText());
+            TF_arch_name_DB.setText(((IdLable) LV_archs_DB.getSelectionModel().getSelectedItems().get(0)).getText());
         }
     }
 
@@ -682,7 +681,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
                     Modals.showInputDialog(RB.getString("загальні.Модуль"), RB.getString("загальні.введіть_опис"), arch_tmp.getLayers().get(lay_nom).getModules().get(mod_nom).getDescription())
             );
         }
-        System.out.println(name);
+        logger.info(name);
         draw_arch_struct();
     }
 
@@ -696,7 +695,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
 
         if (Modals.showYNDialog(RB.getString("загальні.увага"), "Зберегти зміни в архітектурі") == Modals.Response.YES) {
-            archWork.arch_save_to_DB(arch_old, derby_DB);
+            ArchWork.arch_save_to_DB(arch_old, derby_DB);
         }
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/repository_editor/views/paterns_editor.fxml"));
 
@@ -708,7 +707,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
             e.printStackTrace();
         }
 
-        paterns_editor_C controller = loader.<paterns_editor_C>getController();
+        PaternsEditorController controller = loader.<PaternsEditorController>getController();
         controller.initData(arch_old.getLayers().get(layer).getModules().get(module), derby_DB);
         stage.setTitle("Редагування патернів \"" + arch_old.getLayers().get(layer).getModules().get(module).getName() + "\" \"" + arch_old.getLayers().get(layer).getName() + "\" \"" + arch_old.getName() + "\"");
         stage.showAndWait();
@@ -717,9 +716,9 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
 
     public void arch_uml_gen(ActionEvent actionEvent) {
-        //arch_image = draw_uml.draw_class(functions.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
+        //arch_image = draw_uml.draw_class(RepEditorFunctions.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
 
-        arch_image = drawUml.draw_class(archWork.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
+        arch_image = DrawUml.draw_class(ArchWork.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
         /**/
         IV_arch_imageview.setFitHeight(arch_image.getRequestedHeight());
         IV_arch_imageview.setFitWidth(arch_image.getRequestedWidth());
@@ -742,7 +741,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
             e.printStackTrace();
         }
 
-        image_preview_C controller = loader.<image_preview_C>getController();
+        ImagePreviewController controller = loader.<ImagePreviewController>getController();
         controller.initData(arch_image, arch_old.getName());
 
         stage.show();
@@ -753,12 +752,12 @@ public class main_C extends JPanel implements Initializable, Configuration {
 
     public void save_this_arch_to_DB(ActionEvent actionEvent) {
         //TODO решить как лутьше
-        arch_image = drawUml.draw_class(archWork.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
+        arch_image = DrawUml.draw_class(ArchWork.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
         arch_tmp.setName(TF_arch_name_DB.getText());
         arch_tmp.setPreview(arch_image);
         arch_tmp.setUsecase(TA_arch_relations.getText());
         arch_tmp.setDescription(TA_arch_description.getText());
-        resultInfo result = archWork.arch_save_to_DB(arch_tmp, derby_DB);
+        ResultInfo result = ArchWork.arch_save_to_DB(arch_tmp, derby_DB);
         if (result.getStatus() == true) {
             Modals.showInfoApplicationModal(RB.getString("загальні.інформація"), "Архітектура успішно збережена.");
         } else {
@@ -769,7 +768,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
     }
 
     public void open_patrern_manager(ActionEvent actionEvent) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/repository_editor/views/pattern_manager.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/repository_editor/views/PatternManager.fxml"));
 
         Stage stage = new Stage(StageStyle.DECORATED);
         try {
@@ -779,7 +778,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
             e.printStackTrace();
         }
 
-        patterns_manager_C controller = loader.<patterns_manager_C>getController();
+        PatternsManagerController controller = loader.<PatternsManagerController>getController();
         controller.initData(derby_DB);
         stage.setTitle("Менеджер патернів ");
         stage.showAndWait();
@@ -845,7 +844,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                ObservableList<idLable> items = FXCollections.observableArrayList();
+                ObservableList<IdLable> items = FXCollections.observableArrayList();
                 while (resultSet.next()) {
                     tmpPattern = Pattern.patternLoadFromDB(resultSet.getInt("ID"), derby_DB);
                     if (!tmpPattern.getName().startsWith("*")) {//Помечен как не доделан
@@ -916,7 +915,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
                 docx = new XWPFDocument(new FileInputStream(docx_f));
                 tmpParagraph = docx.createParagraph();
                 tmpRun = tmpParagraph.createRun();
-                architecture = archWork.arch_load_from_DB(((idLable) LV_archs_DB.getItems().get(arch_nom)).getDbId(), derby_DB);
+                architecture = ArchWork.arch_load_from_DB(((IdLable) LV_archs_DB.getItems().get(arch_nom)).getDbId(), derby_DB);
                 tmpRun.setText("(" + RB.getString("загальні.Архітектура") + ")" + architecture.getName());
                 docx.write(new FileOutputStream(docx_f));
 
@@ -959,7 +958,7 @@ public class main_C extends JPanel implements Initializable, Configuration {
                             docx.write(new FileOutputStream(docx_f));
                             if (architecture.getLayers().get(layer).getModules().get(module).getAvilablePatterns().get(avilable_pattern).getPreview() == null) {//если превю не существует создать
                                 architecture.getLayers().get(layer).getModules().get(module).getAvilablePatterns().get(avilable_pattern).setPreview(
-                                        functions.draw_class_image(architecture.getLayers().get(layer).getModules().get(module).getAvilablePatterns().get(avilable_pattern).getUmlText()));//создать превю
+                                        RepEditorFunctions.draw_class_image(architecture.getLayers().get(layer).getModules().get(module).getAvilablePatterns().get(avilable_pattern).getUmlText()));//создать превю
                                 Pattern.pattern_save_to_DB(architecture.getLayers().get(layer).getModules().get(module).getAvilablePatterns().get(avilable_pattern), derby_DB);//сохарнить в базу патерн с превюшкой
                                 bi = ImageConverter.FXImgtoBufferedImage(architecture.getLayers().get(layer).getModules().get(module).getAvilablePatterns().get(avilable_pattern).getPreview());
 

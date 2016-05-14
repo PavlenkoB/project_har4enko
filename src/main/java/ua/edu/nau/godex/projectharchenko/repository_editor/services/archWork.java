@@ -3,7 +3,7 @@ package ua.edu.nau.godex.projectharchenko.repository_editor.services;
 
 import ua.edu.nau.godex.projectharchenko.classes.Architecture;
 import ua.edu.nau.godex.projectharchenko.repository_editor.classes.DerbyDBManager;
-import ua.edu.nau.godex.projectharchenko.repository_editor.classes.resultInfo;
+import ua.edu.nau.godex.projectharchenko.repository_editor.classes.ResultInfo;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /**
  * Created by godex_000 on 15.06.2014.
  */
-public class archWork {
+public class ArchWork {
 
     //TODO опис функції
     public static Architecture arch_load_from_DB(Integer arch_id, DerbyDBManager derby_DB_connection) {
@@ -26,7 +26,7 @@ public class archWork {
      * @param derby_DB_connection Підключення до БД
      * @return чи вдалося зберегти
      */
-    public static resultInfo arch_save_to_DB(Architecture arch_in, DerbyDBManager derby_DB_connection) {//Зберегти архітектуру в БД
+    public static ResultInfo arch_save_to_DB(Architecture arch_in, DerbyDBManager derby_DB_connection) {//Зберегти архітектуру в БД
         return Architecture.arch_save_to_DB(arch_in, derby_DB_connection);
     }
 
@@ -44,7 +44,7 @@ public class archWork {
      * @return картинка архитектуры с патернами внутри
      */
     public static javafx.scene.image.Image arch_image_gen_with_patterns(Architecture architecture) {
-        return drawUml.draw_class(arch_uml_text_gen(architecture));
+        return DrawUml.draw_class(arch_uml_text_gen(architecture));
     }
 
     /**

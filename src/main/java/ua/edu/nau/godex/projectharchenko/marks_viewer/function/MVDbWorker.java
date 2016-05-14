@@ -1,8 +1,4 @@
-package ua.edu.nau.godex.projectharchenko.criterios_viewer.functions;
-
-/*
-import repository_editor.classes.DerbyDBManager;
-import repository_editor.services.archWork;*/
+package ua.edu.nau.godex.projectharchenko.marks_viewer.function;
 
 import org.apache.log4j.Logger;
 import ua.edu.nau.godex.projectharchenko.classes.Architecture;
@@ -10,7 +6,7 @@ import ua.edu.nau.godex.projectharchenko.classes.Mark;
 import ua.edu.nau.godex.projectharchenko.classes.Session;
 import ua.edu.nau.godex.projectharchenko.classes.Task;
 import ua.edu.nau.godex.projectharchenko.repository_editor.classes.DerbyDBManager;
-import ua.edu.nau.godex.projectharchenko.repository_editor.services.archWork;
+import ua.edu.nau.godex.projectharchenko.repository_editor.services.ArchWork;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,9 +17,9 @@ import java.util.List;
 /**
  * Created by AlxEx on 14.01.2016.
  */
-public class C_V_DBWorker {
-    private static C_V_DBWorker ourInstance = new C_V_DBWorker();
-    private static Logger logger = Logger.getLogger(C_V_DBWorker.ourInstance.getClass());
+public class MVDbWorker {
+    private static MVDbWorker ourInstance = new MVDbWorker();
+    private static Logger logger = Logger.getLogger(MVDbWorker.ourInstance.getClass());
     /**
      * DB manager to patterns and architectures repository
      */
@@ -41,10 +37,10 @@ public class C_V_DBWorker {
      */
     private String markDbStr;       //  Путь к базе оценок
 
-    private C_V_DBWorker() {
+    private MVDbWorker() {
     }
 
-    public static C_V_DBWorker getInstance() {
+    public static MVDbWorker getInstance() {
         return ourInstance;
     }
 
@@ -66,10 +62,10 @@ public class C_V_DBWorker {
         List<Task> taskList = new ArrayList<>();
         if (archDB.connectionEstablish()) {
             try {
-                ResultSet rs_rep = archDB.executeQuery(PrepareStat.SELECT_FROM_TASK.getPrepareStat());
+                ResultSet rs_rep = archDB.executeQuery("SELECT * FROM TASK");
                 while (rs_rep.next()) {
                     taskList.add(new Task(rs_rep.getInt("ID"), rs_rep.getString("NAME"), rs_rep.getString("DESCRIPTION"),
-                            new archWork().architectureDoneArrayListFromDbByTaskID(rs_rep.getInt("ID"), archDB)));
+                            new ArchWork().architectureDoneArrayListFromDbByTaskID(rs_rep.getInt("ID"), archDB)));
                 }
                 logger.info(": Tasks have gotten from DB");
             } catch (SQLException e) {
@@ -90,47 +86,15 @@ public class C_V_DBWorker {
         List<Session> sessionList = new ArrayList<>();
         if (markDb.connectionEstablish()) {
             try {
-                ResultSet rs_sess = markDb.executeQuery(PrepareStat.SELECT_ALL_FROM_SESSION.getPrepareStat());
+                ResultSet rs_sess = markDb.executeQuery("SELECT * FROM SESSION");
                 while (rs_sess.next()) {
                     ArrayList<Mark> marks = new ArrayList<>();
-                    ResultSet rs_mark = markDb.executeQuery(PrepareStat.SELECT_FROM_MARK_BY_SESSION_ID.getPrepareStat(),
-                            rs_sess.getInt("ID"));
+                    ResultSet rs_mark = markDb.executeQuery("SELECT * FROM MARK WHERE SESSION_ID =" + rs_sess.getInt("ID"));
                     while (rs_mark.next()) {
-                        marks.add(new Mark(rs_mark.getInt("ID"), rs_mark.getInt("ARCH_1_ID"),
-                                rs_mark.getInt("ARCH_2_ID"), rs_mark.getInt("MARK")));
+                        marks.add(new Mark(rs_mark.getInt("ID"), rs_mark.getInt("ARCH_1_ID"), rs_mark.getInt("ARCH_2_ID"), rs_mark.getInt("MARK")));
                     }
                     Date date = new Date((long) rs_sess.getFloat("DATE_SES"));
                     sessionList.add(new Session(rs_sess.getInt("ID"), rs_sess.getString("CRITERION"), rs_sess.getInt("TASK_ID"), marks, date, rs_sess.getString("NOTE")));
-                }
-                logger.info(": Sessions have gotten from DB");
-            } catch (SQLException e) {
-                logger.error(": Sessions getting from DB Error / " + e.getMessage() + " / " + e.getStackTrace() + " / " + e.getSQLState());
-            }
-        }
-        return sessionList;
-    }
-
-    /**
-     * getting from BD list of all sessions with marks
-     *
-     * @return - sessionsList (ArrayList)
-     */
-    public List<Session> getSessionListByTask(Task task) {
-        List<Session> sessionList = new ArrayList<>();
-        if (markDb.connectionEstablish()) {
-            try {
-                ResultSet rs_sess = markDb.executeQuery(PrepareStat.SELECT_ALL_FROM_SESSION_BY_TASK_ID.getPrepareStat(),task.getId());
-                while (rs_sess.next()) {
-                    ArrayList<Mark> marks = new ArrayList<>();
-                    ResultSet rs_mark = markDb.executeQuery(PrepareStat.SELECT_FROM_MARK_BY_SESSION_ID.getPrepareStat(),
-                            rs_sess.getInt("ID"));
-                    while (rs_mark.next()) {
-                        marks.add(new Mark(rs_mark.getInt("ID"), rs_mark.getInt("ARCH_1_ID"),
-                                rs_mark.getInt("ARCH_2_ID"), rs_mark.getInt("MARK")));
-                    }
-                    Date date = new Date((long) rs_sess.getFloat("DATE_SES"));
-                    sessionList.add(new Session(rs_sess.getInt("ID"), task, rs_sess.getString("CRITERION"),
-                            rs_sess.getInt("TASK_ID"), marks, date, rs_sess.getString("NOTE")));
                 }
                 logger.info(": Sessions have gotten from DB");
             } catch (SQLException e) {
@@ -147,7 +111,7 @@ public class C_V_DBWorker {
      * @return - architecture type
      */
     public Architecture getArchitectureType(Architecture once) {
-        return archWork.arch_load_from_DB(once.getId(), archDB);
+        return ArchWork.arch_load_from_DB(once.getId(), archDB);
     }
 
     /**
@@ -213,7 +177,7 @@ public class C_V_DBWorker {
                 }
             }
         } catch (SQLException e) {
-            logger.error(": disconnecting from DB Error / " + e.getMessage() + " / " + e.getStackTrace() + " / " + e.getSQLState());e.printStackTrace();
+            e.printStackTrace();
         }
     }
 }

@@ -8,7 +8,7 @@
 <GridPane xmlns:fx="http://javafx.com/fxml/1" fx:id="root" minHeight="400.0" minWidth="600.0"
           stylesheets="@css/style.css"
           xmlns="http://javafx.com/javafx/8"
-          fx:controller="ua.edu.nau.godex.projectharchenko.repository_editor.controllers.paterns_editor_C">
+          fx:controller="ua.edu.nau.godex.projectharchenko.repository_editor.controllers.PaternsEditorController">
     <children>
         <MenuBar fx:id="MB_main_menu" prefHeight="25.0" prefWidth="798.0" GridPane.columnSpan="2">
             <menus>

@@ -1,26 +1,13 @@
 ----------------------------------------------------------------
-Wed Nov 26 12:43:41 EET 2014:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0149-ebb3-0ed0-000001394740 
-on database directory D:\Harchenko\DB\paterns_DB with class loader sun.misc.Launcher$AppClassLoader@58644d46 
-Loaded from file:/D:/Harchenko/src/editor/lib/derby.jar
+Sat May 14 14:54:05 EEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-0154-af1d-c6c0-000006af6c80 
+on database directory D:\workspace\JAVA\project_har4enko\DB\paterns_DB with class loader sun.misc.Launcher$AppClassLoader@5451c3a8 
+Loaded from file:/C:/Users/godex_000/.m2/repository/org/apache/derby/derby/10.10.1.1/derby-10.10.1.1.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_05-b13
-user.dir=D:\Harchenko
-os.name=Windows 8.1
+java.runtime.version=1.8.0_71-b15
+user.dir=D:\workspace\JAVA\project_har4enko
+os.name=Windows 10
 os.arch=amd64
-os.version=6.3
-derby.system.home=null
-Database Class Loader started - derby.database.classpath=''
-----------------------------------------------------------------
-Wed Nov 26 12:43:46 EET 2014:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance 109f00b9-0149-ebb3-0ed0-000001394740 
-on database directory D:\Harchenko\DB\Marks with class loader sun.misc.Launcher$AppClassLoader@58644d46 
-Loaded from file:/D:/Harchenko/src/editor/lib/derby.jar
-java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_05-b13
-user.dir=D:\Harchenko
-os.name=Windows 8.1
-os.arch=amd64
-os.version=6.3
+os.version=10.0
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''

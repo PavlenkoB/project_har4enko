@@ -1,7 +1,7 @@
 package ua.edu.nau.godex.projectharchenko.mode_selection;
 /*
 import Classes.LogIn;
-import repository_editor.models.Main;*/
+import repository_editor.models.RunRepEditor;*/
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,8 +17,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 import ua.edu.nau.godex.projectharchenko.classes.LogIn;
-import ua.edu.nau.godex.projectharchenko.rating_arch.Controller.RatingArchController;
-import ua.edu.nau.godex.projectharchenko.repository_editor.models.Main;
+import ua.edu.nau.godex.projectharchenko.rating_arch.controller.RatingArchController;
+import ua.edu.nau.godex.projectharchenko.repository_editor.RunRepEditor;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -27,15 +27,15 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-//import rating_arch.Controller.RatingArchController;
+//import rating_arch.controller.RatingArchController;
 
 /**
  * Created by Alex on 06.05.2014.
  */
 
 
-public class Controller_mode_selection_user_menu implements Initializable {
-    public static Logger logger = Logger.getLogger(Controller_mode_selection_user_menu.class);
+public class ModeSelectionUserMenuController implements Initializable {
+    public static Logger logger = Logger.getLogger(ModeSelectionUserMenuController.class.getName());
     public AnchorPane sel_next;
     public Menu adm_menu;
     public Menu arch_menu;
@@ -44,7 +44,7 @@ public class Controller_mode_selection_user_menu implements Initializable {
     public PasswordField pass_write;
     public AnchorPane log_massage;
     public Button cancelButton;
-    Main editor = new Main();
+    RunRepEditor editor = new RunRepEditor();
     RatingArchController rating = new RatingArchController();
     ArrayList<LogIn> logIns = new ArrayList<>();
 
@@ -129,17 +129,17 @@ public class Controller_mode_selection_user_menu implements Initializable {
 
     public void rating_arch(ActionEvent actionEvent) {
         Stage sel_mode = (Stage) sel_next.getScene().getWindow();
-        new win_choiser().win_choiser(2, sel_mode);
+        new WinChooser().win_choiser(2, sel_mode);
     }
 
     public void create_new_arch(ActionEvent actionEvent) {
         Stage sel_mode = (Stage) sel_next.getScene().getWindow();
-        new win_choiser().win_choiser(0, sel_mode);
+        new WinChooser().win_choiser(0, sel_mode);
     }
 
     public void edit_arch(ActionEvent actionEvent) {
         Stage sel_mode = (Stage) sel_next.getScene().getWindow();
-        new win_choiser().win_choiser(1, sel_mode);
+        new WinChooser().win_choiser(1, sel_mode);
     }
 
     public void logining(ActionEvent actionEvent) {

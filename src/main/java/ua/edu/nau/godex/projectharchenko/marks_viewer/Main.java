@@ -18,7 +18,7 @@ import java.sql.SQLException;
 
 public class Main extends Application {
 
-    public static Logger logger = Logger.getLogger(Main.class);
+    public static Logger logger = Logger.getLogger(Main.class.getName());
 
     public static void main(String[] args) throws IOException, SQLException {
         launch();

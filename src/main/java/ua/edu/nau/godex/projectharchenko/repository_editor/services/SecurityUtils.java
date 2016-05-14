@@ -10,7 +10,7 @@ import java.io.*;
 /**
  * Created by godex_000 on 23.07.2014.
  */
-public class security {
+public class SecurityUtils {
     private static void main(String[] args) {
         try {
             String key = "squirrel123";

@@ -8,7 +8,7 @@ import java.sql.SQLException;
 /**
  * Created by Alx Shcherbak on 07.11.2014.
  */
-public class function {
+public class Functions {
 
 
     /**

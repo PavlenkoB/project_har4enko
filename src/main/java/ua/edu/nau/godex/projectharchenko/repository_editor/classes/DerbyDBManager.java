@@ -1,11 +1,16 @@
 package ua.edu.nau.godex.projectharchenko.repository_editor.classes;
 
+import org.apache.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.sql.*;
 
 public class DerbyDBManager {
+
+    public static Logger logger = Logger.getLogger(DerbyDBManager.class.getName());
+
     private final String driver = "org.apache.derby.jdbc.EmbeddedDriver";
     private final String url = "jdbc:derby:";
     private String dbName = null;
@@ -13,7 +18,7 @@ public class DerbyDBManager {
 
     public DerbyDBManager(String dbName) {
         this.dbName = dbName;
-        System.out.println("Try connect to '" + dbName + "'");
+        logger.info("Try connect to '" + dbName + "'");
         try {
             Class.forName(driver);
             dbName = dbName.replace('\\', '/');
@@ -28,7 +33,7 @@ public class DerbyDBManager {
                 e1.printStackTrace();
             }
         }
-        System.out.println("Connection to '" + dbName + "' established\n");
+        logger.info("Connection to '" + dbName + "' established\n");
     }
 
     public DerbyDBManager(File db_dir) {//Создать в папке БД
@@ -68,7 +73,7 @@ public class DerbyDBManager {
                     con = DriverManager.getConnection(url + this.dbName);
                     return true;
                 } catch (Exception e) {
-                    System.out.println("Connection error");
+                    logger.info("Connection error");
                     e.printStackTrace();
 
                     // Если база не создана то ничего не делаем
@@ -114,8 +119,8 @@ public class DerbyDBManager {
      * @return result_info.comment = коментар
      * @author godex_000
      */
-    public resultInfo executeUpdate_from_file(File sql_file) throws SQLException {
-        resultInfo res = new resultInfo();
+    public ResultInfo executeUpdate_from_file(File sql_file) throws SQLException {
+        ResultInfo res = new ResultInfo();
         try {
             BufferedReader in = new BufferedReader(new FileReader(sql_file));
             String str;
@@ -138,8 +143,8 @@ public class DerbyDBManager {
      * @return result_info.comment = коментар
      * @author godex_000
      */
-    public resultInfo executeUpdate_from_file(String aSQLScriptFilePath) throws SQLException {
-        resultInfo res = new resultInfo();
+    public ResultInfo executeUpdate_from_file(String aSQLScriptFilePath) throws SQLException {
+        ResultInfo res = new ResultInfo();
         try {
             BufferedReader in = new BufferedReader(new FileReader(aSQLScriptFilePath));
             String str;

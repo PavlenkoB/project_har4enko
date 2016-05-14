@@ -1,17 +1,21 @@
 package ua.edu.nau.godex.projectharchenko.database;
 
+import org.apache.log4j.Logger;
+
 import java.sql.*;
 
 /**
  * Created by Alex on 28.04.2014.
  */
-public class DB_manager {
+public class DateBaseManager {
+
     private static final String driver = "org.apache.derby.jdbc.EmbeddedDriver";
     private static final String url = "jdbc:derby:";
+    public static Logger logger = Logger.getLogger(DateBaseManager.class.getName());
     private static Connection con = null;
     private static String dbName = null;
 
-    public DB_manager(String dbName) {
+    public DateBaseManager(String dbName) {
         this.dbName = dbName;
         if (!dbExists()) {
             try {
@@ -33,7 +37,7 @@ public class DB_manager {
                 con = DriverManager.getConnection(url + this.dbName);
                 return true;
             } catch (Exception e) {
-                System.out.println("Connection error");
+                logger.info("Connection error");
                 e.printStackTrace();
 
                 // Если база не создана то ничего не делаем
@@ -62,7 +66,7 @@ public class DB_manager {
         try {
             con.close();
         } catch (SQLException e) {
-            System.out.println("Не удалось закрыть подключение к БД");
+            logger.info("Не удалось закрыть подключение к БД");
             e.printStackTrace();
         }
     }

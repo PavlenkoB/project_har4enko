@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Font?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8"
-            fx:controller="ua.edu.nau.godex.projectharchenko.repository_editor.controllers.about_C">
+            fx:controller="ua.edu.nau.godex.projectharchenko.repository_editor.controllers.AboutController">
     <top>
         <Label text="Управління репозиторієм патернів V 0.36" BorderPane.alignment="CENTER">
             <font>

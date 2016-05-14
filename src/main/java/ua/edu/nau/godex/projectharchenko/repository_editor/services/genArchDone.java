@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Created by godex_000 on 27.05.2014.
  */
-public class genArchDone {
+public class GenArchDone {
     /**
      * генерирует всевозможные варианты архитектур
      * с разными патернами

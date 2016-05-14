@@ -1,4 +1,4 @@
-package ua.edu.nau.godex.projectharchenko.create_arch.Controllers;
+package ua.edu.nau.godex.projectharchenko.create_arch.controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,9 +25,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import ua.edu.nau.godex.projectharchenko.classes.*;
 import ua.edu.nau.godex.projectharchenko.repository_editor.classes.DerbyDBManager;
-import ua.edu.nau.godex.projectharchenko.repository_editor.services.archWork;
-import ua.edu.nau.godex.projectharchenko.repository_editor.services.functions;
-import ua.edu.nau.godex.projectharchenko.repository_editor.services.genArchDone;
+import ua.edu.nau.godex.projectharchenko.repository_editor.services.ArchWork;
+import ua.edu.nau.godex.projectharchenko.repository_editor.services.GenArchDone;
+import ua.edu.nau.godex.projectharchenko.repository_editor.services.RepEditorFunctions;
 
 import javax.swing.*;
 import java.io.File;
@@ -45,7 +45,7 @@ import java.util.ResourceBundle;
 /**
  * Created by Alex on 10.05.2014.
  */
-public class create_arch_C implements Initializable {
+public class CreateArchController implements Initializable {
     public static Architecture arc_choise = new Architecture();
     public MenuItem close;                      // пункт меню вихід
     public ListView Arch_list;                  // Список архітектур для вибору
@@ -165,7 +165,7 @@ public class create_arch_C implements Initializable {
             ObservableList<String> items = FXCollections.observableArrayList();
 
             while (rs.next()) {
-                //System.out.println(rs.getInt("ID") + "|" + rs.getString("NAME"));
+                //logger.info(rs.getInt("ID") + "|" + rs.getString("NAME"));
                 items.add(rs.getString("ID") + "|" + rs.getString("NAME"));
             }
             Arch_list.setItems(items);
@@ -184,7 +184,7 @@ public class create_arch_C implements Initializable {
         if (derby_DB != null) {
             Number num_choise_arch = Arch_list.getSelectionModel().selectedIndexProperty().getValue();
             ResultSet rs_arch;
-            arc_choise = archWork.arch_load_from_DB(functions.get_ID((String) Arch_list.getItems().get(num_choise_arch.intValue())), derby_DB);
+            arc_choise = ArchWork.arch_load_from_DB(RepEditorFunctions.get_ID((String) Arch_list.getItems().get(num_choise_arch.intValue())), derby_DB);
 
             Description.setText(arc_choise.getDescription());
             class_image = arc_choise.getPreview();
@@ -350,7 +350,7 @@ public class create_arch_C implements Initializable {
                 Layer layer = new Layer();
                 ResultSet rs_mod = null, rs_lay = null;
                 try {
-                    rs = derby_DB.executeQuery("SELECT * FROM PATERNS WHERE ID=" + functions.get_ID(((CheckMenuItem) sel_pat_splitmenu.get(i).getItems().get(0)).getText().toString()));
+                    rs = derby_DB.executeQuery("SELECT * FROM PATERNS WHERE ID=" + RepEditorFunctions.get_ID(((CheckMenuItem) sel_pat_splitmenu.get(i).getItems().get(0)).getText().toString()));
                     rs.next();
                     rs_mod = derby_DB.executeQuery("SELECT * FROM MODULE WHERE ID=" + rs.getInt("MOD_ID"));
                     rs_mod.next();
@@ -378,7 +378,7 @@ public class create_arch_C implements Initializable {
                     if (((CheckMenuItem) sel_pat_splitmenu.get(i).getItems().get(j)).selectedProperty().getValue() & !sel_pat_splitmenu.get(i).getItems().get(j).getText().equals("Обрати усі")) {
                         ResultSet rs_mod = null;
                         try {
-                            rs = derby_DB.executeQuery("SELECT * FROM PATERNS WHERE ID=" + functions.get_ID(((CheckMenuItem) sel_pat_splitmenu.get(i).getItems().get(j)).getText().toString()));
+                            rs = derby_DB.executeQuery("SELECT * FROM PATERNS WHERE ID=" + RepEditorFunctions.get_ID(((CheckMenuItem) sel_pat_splitmenu.get(i).getItems().get(j)).getText().toString()));
                             rs.next();
                             paterns = new Pattern(rs.getInt("ID"), rs.getInt("MOD_ID"), rs.getString("NAME"), rs.getString("DESCRIPTION"), rs.getString("VALUE"));
                             rs_mod = derby_DB.executeQuery("SELECT * FROM MODULE WHERE ID=" + rs.getInt("MOD_ID"));
@@ -406,7 +406,7 @@ public class create_arch_C implements Initializable {
  if (selected_paterns.get(i).getSelectionModel().getSelectedItem() != null) {
  ResultSet rs_mod = null;
  try {
- rs = derby_DB.executeQuery("SELECT * FROM PATERNS WHERE ID=" + functions.get_ID(selected_paterns.get(i).getSelectionModel().getSelectedItem().toString()));
+ rs = derby_DB.executeQuery("SELECT * FROM PATERNS WHERE ID=" + RepEditorFunctions.get_ID(selected_paterns.get(i).getSelectionModel().getSelectedItem().toString()));
  rs.next();
  paterns = new Pattern(rs.getInt("ID"), rs.getInt("MOD_ID"), rs.getString("NAME"), rs.getString("DESCRIPTION"), rs.getString("VALUE"));
  rs_mod = derby_DB.executeQuery("SELECT * FROM MODULE WHERE ID=" + rs.getInt("MOD_ID"));
@@ -424,7 +424,7 @@ public class create_arch_C implements Initializable {
  Layer layer = new Layer();
  ResultSet rs_mod = null, rs_lay = null;
  try {
- rs = derby_DB.executeQuery("SELECT * FROM PATERNS WHERE ID=" + functions.get_ID(selected_paterns.get(i).getItems().get(0).toString()));
+ rs = derby_DB.executeQuery("SELECT * FROM PATERNS WHERE ID=" + RepEditorFunctions.get_ID(selected_paterns.get(i).getItems().get(0).toString()));
  rs.next();
  rs_mod = derby_DB.executeQuery("SELECT * FROM MODULE WHERE ID=" + rs.getInt("MOD_ID"));
  rs_mod.next();
@@ -594,7 +594,7 @@ public class create_arch_C implements Initializable {
         back_grid_vis.getChildren().add(archery);
 
         architectures_done.clear();
-        architectures_done = genArchDone.pre_combine(arc_choise, module_done);
+        architectures_done = GenArchDone.pre_combine(arc_choise, module_done);
     }
 
     public void Save_arch(ActionEvent actionEvent) {
@@ -604,8 +604,8 @@ public class create_arch_C implements Initializable {
         Task_save.setVisible(true);
 
         //architectures_done = gen_arch_done.pre_combine(arc_choise, module_done);
-        //System.out.print("Lol");
-        //System.out.print(architectures_done.get(0).getId());
+        //logger.info("Lol");
+        //logger.info(architectures_done.get(0).getId());
 
     }
 
@@ -615,11 +615,11 @@ public class create_arch_C implements Initializable {
         task.setDescription(task_description.getText());
         task.setArchitectures(architectures_done);
 
-        boolean res_task = new functions().task_done_save_to_DB(task, derby_DB);
+        boolean res_task = new RepEditorFunctions().task_done_save_to_DB(task, derby_DB);
         if (res_task)
             try {
                 for (int i = 0; i < architectures_done.size(); i++) {
-                    boolean res_arch = new functions().arch_done_save_to_DB(task.getId(), architectures_done.get(i), derby_DB);
+                    boolean res_arch = new RepEditorFunctions().arch_done_save_to_DB(task.getId(), architectures_done.get(i), derby_DB);
                 }
 
                 Object[] options = {"ОК"};
@@ -682,7 +682,7 @@ public class create_arch_C implements Initializable {
             e.printStackTrace();
         }
 
-        preview_create_arch_C controller = loader.<preview_create_arch_C>getController();
+        PreviewCreateArchController controller = loader.<PreviewCreateArchController>getController();
         ;
         controller.initData(architectures_done);
         stage.setTitle("Візуалізація створених архітектур");

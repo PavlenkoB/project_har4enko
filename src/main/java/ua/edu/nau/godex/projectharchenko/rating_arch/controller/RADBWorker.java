@@ -1,4 +1,4 @@
-package ua.edu.nau.godex.projectharchenko.rating_arch.Controller;
+package ua.edu.nau.godex.projectharchenko.rating_arch.controller;
 /*
 import Classes.Architecture;
 import Classes.Criterion;
@@ -6,8 +6,8 @@ import Classes.Mark;
 import Classes.Task;
 import repository_editor.classes.DerbyDBManager;
 import repository_editor.classes.Modals;
-import repository_editor.services.archWork;
-import repository_editor.services.functions;*/
+import repository_editor.services.ArchWork;
+import repository_editor.services.RepEditorFunctions;*/
 
 import com.sun.istack.internal.Nullable;
 import org.apache.log4j.Logger;
@@ -17,8 +17,8 @@ import ua.edu.nau.godex.projectharchenko.classes.Mark;
 import ua.edu.nau.godex.projectharchenko.classes.Task;
 import ua.edu.nau.godex.projectharchenko.repository_editor.classes.DerbyDBManager;
 import ua.edu.nau.godex.projectharchenko.repository_editor.classes.Modals;
-import ua.edu.nau.godex.projectharchenko.repository_editor.services.archWork;
-import ua.edu.nau.godex.projectharchenko.repository_editor.services.functions;
+import ua.edu.nau.godex.projectharchenko.repository_editor.services.ArchWork;
+import ua.edu.nau.godex.projectharchenko.repository_editor.services.RepEditorFunctions;
 
 import java.io.File;
 import java.sql.ResultSet;
@@ -30,18 +30,18 @@ import java.util.List;
 /**
  * Created by AlxEx on 13.01.2016.
  */
-public class R_A_DBWorker {
-    private static R_A_DBWorker ourInstance = new R_A_DBWorker();
-    private static Logger logger = Logger.getLogger(R_A_DBWorker.ourInstance.getClass());
+public class RADBWorker {
+    private static RADBWorker ourInstance = new RADBWorker();
+    private static Logger logger = Logger.getLogger(RADBWorker.ourInstance.getClass());
     private DerbyDBManager archDB; // = new DerbyDBManager("DB/paterns_DB");
     private DerbyDBManager markDb; // = new DerbyDBManager("DB/Marks");
     private String archDbStr;
     private String markDbStr = "DB/Marks";
 
-    private R_A_DBWorker() {
+    private RADBWorker() {
     }
 
-    public static R_A_DBWorker getInstance() {
+    public static RADBWorker getInstance() {
         return ourInstance;
     }
 
@@ -55,7 +55,7 @@ public class R_A_DBWorker {
                 rs = archDB.executeQuery("SELECT * FROM TASK");
 
                 while (rs.next()) {
-                    //System.out.println(rs.getInt("ID") + "|" + rs.getString("NAME"));
+                    //logger.info(rs.getInt("ID") + "|" + rs.getString("NAME"));
                     taskList.add(new Task(rs.getInt("ID"), rs.getString("NAME"), rs.getString("DESCRIPTION")));
                 }
             } catch (SQLException e) {
@@ -69,7 +69,7 @@ public class R_A_DBWorker {
     public List<Architecture> getArchitectureListByTaskID(int taskID) {
         List<Architecture> architectureList = null;
         try {
-            architectureList = new archWork().architectureDoneArrayListFromDbByTaskID(taskID, archDB);
+            architectureList = new ArchWork().architectureDoneArrayListFromDbByTaskID(taskID, archDB);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (CloneNotSupportedException e) {
@@ -79,7 +79,7 @@ public class R_A_DBWorker {
     }
 
     public Architecture getArchitectureType(Architecture once) {
-        return archWork.arch_load_from_DB(once.getId(), archDB);
+        return ArchWork.arch_load_from_DB(once.getId(), archDB);
     }
 
     /**
@@ -151,7 +151,7 @@ public class R_A_DBWorker {
     }
 
     public int getLastSessionID() {
-        return functions.last_id_from_table_DB("SESSION", markDb);
+        return RepEditorFunctions.last_id_from_table_DB("SESSION", markDb);
     }
 
     /**
@@ -191,37 +191,37 @@ public class R_A_DBWorker {
             logger.info(": створення бази оцінок / створення таблиць");
             //todo сделать нормально блок с доступом к ресурсам
 
-                File in_dir;
-                in_dir = new File(this.getClass().getClassLoader().getResource("resources/sql/create_marks_DB").getFile());
+            File in_dir;
+            in_dir = new File(this.getClass().getClassLoader().getResource("resources/sql/create_marks_DB").getFile());
+            if (!in_dir.exists()) {
+                in_dir = new File("resources/sql/create_marks_DB");
                 if (!in_dir.exists()) {
-                    in_dir = new File("resources/sql/create_marks_DB");
-                    if (!in_dir.exists()) {
-                        Modals.showInfoApplicationModal("Err", "cant find resource sql/create_marks_DB");
-                        logger.error(":MarkDB / cant find resource sql/create_marks_DB");
-                        System.exit(-1);
-                    }
+                    Modals.showInfoApplicationModal("Err", "cant find resource sql/create_marks_DB");
+                    logger.error(":MarkDB / cant find resource sql/create_marks_DB");
+                    System.exit(-1);
                 }
+            }
 
-                File[] fList;
-                fList = in_dir.listFiles();
-                for (File sql_file : fList) {
-                    System.out.println(sql_file.getName());
-                    //Нужны только папки в место isFile() пишим isDirectory()
-                    if (sql_file.isFile()) {
-                        String filename = sql_file.getName();
-                        int dotPos = filename.lastIndexOf(".");
-                        String ext = filename.substring(dotPos);
-                        if (ext.equals(".sql")) {
-                            try {
-                                markDb.executeUpdate_from_file(sql_file);
-                            } catch (SQLException e) {
-                                logger.error(":MarkDB / " + e.getStackTrace());
-                                e.printStackTrace();
-                            }
+            File[] fList;
+            fList = in_dir.listFiles();
+            for (File sql_file : fList) {
+                logger.info(sql_file.getName());
+                //Нужны только папки в место isFile() пишим isDirectory()
+                if (sql_file.isFile()) {
+                    String filename = sql_file.getName();
+                    int dotPos = filename.lastIndexOf(".");
+                    String ext = filename.substring(dotPos);
+                    if (ext.equals(".sql")) {
+                        try {
+                            markDb.executeUpdate_from_file(sql_file);
+                        } catch (SQLException e) {
+                            logger.error(":MarkDB / " + e.getStackTrace());
+                            e.printStackTrace();
                         }
                     }
                 }
-                logger.info(":MarkDB / tables have been created");
+            }
+            logger.info(":MarkDB / tables have been created");
         }
     }
 }

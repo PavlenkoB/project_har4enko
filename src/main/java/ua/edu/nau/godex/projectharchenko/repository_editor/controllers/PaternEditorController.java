@@ -4,8 +4,8 @@ import Classes.Pattern;
 import repository_editor.classes.DerbyDBManager;
 import repository_editor.classes.Modals;
 import repository_editor.interfaces.Configuration;
-import repository_editor.services.drawUml;
-import repository_editor.services.functions;
+import repository_editor.services.DrawUml;
+import repository_editor.services.RepEditorFunctions;
 */
 
 import javafx.event.ActionEvent;
@@ -26,8 +26,8 @@ import ua.edu.nau.godex.projectharchenko.classes.Pattern;
 import ua.edu.nau.godex.projectharchenko.repository_editor.classes.DerbyDBManager;
 import ua.edu.nau.godex.projectharchenko.repository_editor.classes.Modals;
 import ua.edu.nau.godex.projectharchenko.repository_editor.interfaces.Configuration;
-import ua.edu.nau.godex.projectharchenko.repository_editor.services.drawUml;
-import ua.edu.nau.godex.projectharchenko.repository_editor.services.functions;
+import ua.edu.nau.godex.projectharchenko.repository_editor.services.DrawUml;
+import ua.edu.nau.godex.projectharchenko.repository_editor.services.RepEditorFunctions;
 
 import java.io.IOException;
 import java.net.URL;
@@ -36,7 +36,7 @@ import java.util.ResourceBundle;
 /**
  * Created by godex_000 on 23.07.2014.
  */
-public class patern_editor_C implements Initializable, Configuration {
+public class PaternEditorController implements Initializable, Configuration {
     public TextField TA_pattern_name;
     public TextArea TA_pattern_description;
     public TextArea TA_pattern_uml;
@@ -87,7 +87,7 @@ public class patern_editor_C implements Initializable, Configuration {
      * @param actionEvent
      */
     public void preview(ActionEvent actionEvent) {
-        pattern_image = functions.drawClassImageThread(TA_pattern_uml.getText());
+        pattern_image = RepEditorFunctions.drawClassImageThread(TA_pattern_uml.getText());
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/repository_editor/views/image_preview.fxml"));
 
         Stage stage = new Stage(StageStyle.DECORATED);
@@ -98,7 +98,7 @@ public class patern_editor_C implements Initializable, Configuration {
             e.printStackTrace();
         }
 
-        image_preview_C controller = loader.<image_preview_C>getController();
+        ImagePreviewController controller = loader.<ImagePreviewController>getController();
         controller.initData(pattern_image, tmp_pattern.getName());
         //stage.setTitle("" + arch_old.getName());
         stage.show();
@@ -108,7 +108,7 @@ public class patern_editor_C implements Initializable, Configuration {
         tmp_pattern.setName(TA_pattern_name.getText());
         tmp_pattern.setDescription(TA_pattern_description.getText());
         tmp_pattern.setUmlText(TA_pattern_uml.getText());
-        tmp_pattern.setPreview(drawUml.draw_class(TA_pattern_uml.getText()));
+        tmp_pattern.setPreview(DrawUml.draw_class(TA_pattern_uml.getText()));
         Pattern.pattern_save_to_DB(tmp_pattern, derby_DB);
         Modals.showInfoApplicationModal("Інформація", "Паттерн збережено");
     }
