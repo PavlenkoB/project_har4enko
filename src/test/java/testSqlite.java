@@ -1,3 +1,7 @@
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+
 import java.sql.*;
 
 /**
@@ -6,6 +10,13 @@ import java.sql.*;
  */
 
 public class TestSqlite {
+
+    public static Logger logger = Logger.getLogger(TestSqlite.class.getName());
+
+    static {
+        logger.setLevel(Level.INFO);
+        BasicConfigurator.configure();
+    }
     public static void main(String[] args) throws ClassNotFoundException {
         // load the sqlite-JDBC driver using the current class loader
         Class.forName("org.sqlite.JDBC");
@@ -24,21 +35,23 @@ public class TestSqlite {
             ResultSet rs = statement.executeQuery("select * from person");
             while (rs.next()) {
                 // read the result set
-                System.out.println("name = " + rs.getString("name"));
-                System.out.println("id = " + rs.getInt("id"));
+                logger.info("name = " + rs.getString("name"));
+                logger.info("id = " + rs.getInt("id"));
             }
         } catch (SQLException e) {
             // if the error message is "out of memory",
             // it probably means no database file is found
-            System.err.println(e.getMessage());
+            logger.error(e.getMessage());
+            e.printStackTrace();
         } finally {
             try {
                 if (connection != null)
                     connection.close();
             } catch (SQLException e) {
-                // connection close failed.
-                System.err.println(e);
+                logger.error("Connection close failed");
+                e.printStackTrace();
             }
         }
     }
 }
+

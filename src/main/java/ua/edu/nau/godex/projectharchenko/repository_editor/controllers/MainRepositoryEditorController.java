@@ -315,7 +315,7 @@ public class MainRepositoryEditorController extends JPanel implements Initializa
                 File zip_dir = db_dir_FC.showDialog(RepEditorFunctions.get_stage_by_element(TA_arch_description));
                 if (zip_dir != null) {
                     File mydir = new File(derby_DB.getDbName());
-                    File myfile = new File(zip_dir.getAbsoluteFile() + "\\" + mydir.getName() + "_" + new SimpleDateFormat("dd.MM.yyyy_HH_mm_ss").format(new Date()) + ".ZipUtils");
+                    File myfile = new File(zip_dir.getAbsoluteFile() + "\\" + mydir.getName() + "_" + new SimpleDateFormat("dd.MM.yyyy_HH_mm_ss").format(new Date()) + ".zip");
                     ZipUtils.zip_dir(mydir, myfile);
                     //TODO ввід пароля
                     SecurityUtils.encrypt_file(secretkey, new FileInputStream(myfile), new FileOutputStream(new File(myfile.getAbsoluteFile() + ".enc")));
@@ -338,8 +338,8 @@ public class MainRepositoryEditorController extends JPanel implements Initializa
         FC_zip.setInitialDirectory(new File(System.getProperty("user.dir")));
         FC_zip.setTitle(RB.getString("загальні.Виберіть") + " " + RB.getString("загальні.архів") + "...");
         FC_zip.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Зашифрований" + " " + RB.getString("загальні.архів"), "*.ZipUtils.enc"),
-                new FileChooser.ExtensionFilter("Zip", "*.ZipUtils")
+                new FileChooser.ExtensionFilter("Зашифрований" + " " + RB.getString("загальні.архів"), "*.zip.enc"),
+                new FileChooser.ExtensionFilter("Zip", "*.zip")
         );
         //TODO Ввід пароля
 
@@ -348,7 +348,7 @@ public class MainRepositoryEditorController extends JPanel implements Initializa
         if (zip_file != null && zip_file.exists()) {
             if (FileUtils.getExtension(zip_file.getName().toString()).equals("enc")) {
                 File original = zip_file;
-                decrypted = new File(zip_file.getName() + ".ZipUtils");
+                decrypted = new File(zip_file.getName() + ".zip");
                 SecurityUtils.decrypt_file(secretkey, new FileInputStream(original), new FileOutputStream(decrypted));
                 zip_file = decrypted;
             }
@@ -731,7 +731,7 @@ public class MainRepositoryEditorController extends JPanel implements Initializa
 
     public void arch_view_prev() {
         //arch_image = draw_uml.draw_class(arch_work.arch_uml_text_gen(arch_tmp) + new String(TA_arch_relations.getText()));
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/repository_editor/views/image_preview.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/repository_editor/image_preview.fxml"));
 
         Stage stage = new Stage(StageStyle.DECORATED);
         try {

@@ -6,9 +6,9 @@ import javafx.scene.image.Image;
 import org.apache.log4j.Logger;
 import ua.edu.nau.godex.projectharchenko.repository_editor.classes.DerbyDBManager;
 import ua.edu.nau.godex.projectharchenko.repository_editor.classes.Modals;
-import ua.edu.nau.godex.projectharchenko.repository_editor.classes.resultInfo;
+import ua.edu.nau.godex.projectharchenko.repository_editor.classes.ResultInfo;
+import ua.edu.nau.godex.projectharchenko.repository_editor.services.DrawUml;
 import ua.edu.nau.godex.projectharchenko.repository_editor.services.ImageConverter;
-import ua.edu.nau.godex.projectharchenko.repository_editor.services.drawUml;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -32,7 +32,7 @@ import java.util.ArrayList;
  * </p>
  */
 public class Architecture implements Cloneable {
-    private static Logger logger = Logger.getLogger(Architecture.class.getClass());
+    private static Logger logger = Logger.getLogger(Architecture.class.getName());
     private Integer id;                                          // id in DB
     private String name;                                         // name of architecture
     private ArrayList<Layer> layers = new ArrayList<Layer>();   //array fo layers
@@ -170,8 +170,8 @@ public class Architecture implements Cloneable {
      * @param derby_DB_connection Підключення до БД
      * @return чи вдалося зберегти
      */
-    public static resultInfo arch_save_to_DB(Architecture arch_in, DerbyDBManager derby_DB_connection) {
-        resultInfo result = new resultInfo();
+    public static ResultInfo arch_save_to_DB(Architecture arch_in, DerbyDBManager derby_DB_connection) {
+        ResultInfo result = new ResultInfo();
         try {
             //получить оригинал
             Architecture arch_old = arch_load_from_DB(arch_in.getId(), derby_DB_connection);
@@ -251,7 +251,7 @@ public class Architecture implements Cloneable {
                     rs_tmp.next();
 
                     if (derby_DB_connection.executeQuery("SELECT * FROM MODULE WHERE LAY_ID=" + rs_tmp.getInt(1)).next() == false) {
-                        System.out.println("Шар '" + arch_in.getLayers().get(s_lay).getName() + "' не містить модулів");
+                        logger.info("Шар '" + arch_in.getLayers().get(s_lay).getName() + "' не містить модулів");
                         Modals.showInfoApplicationModal("Увага", "Шар '" + arch_in.getLayers().get(s_lay).getName() + "' не містить модулів");
                     }
 
@@ -269,7 +269,7 @@ public class Architecture implements Cloneable {
                         rs_tmp.next();
                         arch_in.getLayers().get(s_lay).getModules().get(s_mod).setId(rs_tmp.getInt(1));
                         if (derby_DB_connection.executeQuery("SELECT * FROM PATERNS WHERE MOD_ID=" + rs_tmp.getInt(1)).next() == false) {
-                            System.out.println("Module '" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "' don`t have patterns");
+                            logger.info("Module '" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "' don`t have patterns");
                             Modals.showInfoApplicationModal("Увага", "Модуль '" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "' не містить патернів");
                         }
                     }
@@ -317,7 +317,7 @@ public class Architecture implements Cloneable {
                         // якщо змінили дані про шар
                         derby_DB_connection.executeUpdate("UPDATE LAYER " + "SET NAME='" + arch_in.getLayers().get(s_lay).getName() + "',ARCH_ID=" + arch_in.getId() + ",DESCRIPTION='" + arch_in.getLayers().get(s_lay).getDescription() + "' WHERE ID=" + arch_in.getLayers().get(s_lay).getId());
                         if (derby_DB_connection.executeQuery("SELECT * FROM MODULE WHERE LAY_ID=" + arch_in.getLayers().get(s_lay).getId()).next() == false) {
-                            System.out.println("Шар '" + arch_in.getLayers().get(s_lay).getName() + "' не містить модулів");
+                            logger.info("Шар '" + arch_in.getLayers().get(s_lay).getName() + "' не містить модулів");
                             Modals.showInfoApplicationModal("Увага", "Шар '" + arch_in.getLayers().get(s_lay).getName() + "' не містить модулів");
                         }
                         //TODO
@@ -344,7 +344,7 @@ public class Architecture implements Cloneable {
                                 derby_DB_connection.executeUpdate("UPDATE MODULE " + "SET NAME='" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "',DESCRIPTION='" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getDescription() + "' WHERE ID=" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getId());
                                 //rs_tmp=derby_DB_connection.executeQuery("SELECT * FROM PATERNS WHERE MOD_ID=" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getId());
                                 if (derby_DB_connection.executeQuery("SELECT * FROM PATERNS WHERE MOD_ID=" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getId()).next() == false) {
-                                    System.out.println("Module '" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "' don`t have patterns");
+                                    logger.info("Module '" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "' don`t have patterns");
                                     Modals.showInfoApplicationModal("Увага", "Модуль '" + arch_in.getLayers().get(s_lay).getModules().get(s_mod).getName() + "' не містить патернів");
                                 }
                                 //TODO
@@ -359,7 +359,7 @@ public class Architecture implements Cloneable {
                 }
             }
             result.setStatus(true);
-            System.out.println("Arch save successful");
+            logger.info("Arch save successful");
 
         } catch (SQLException e) {
             result.setComment(e);
@@ -497,7 +497,7 @@ public class Architecture implements Cloneable {
      * @return картинка архитектуры с патернами внутри
      */
     public javafx.scene.image.Image arch_image_gen_with_patterns() {
-        return drawUml.draw_class(arch_uml_text_gen(this));
+        return DrawUml.draw_class(arch_uml_text_gen(this));
     }
 
     public javafx.scene.image.Image getPreview() {

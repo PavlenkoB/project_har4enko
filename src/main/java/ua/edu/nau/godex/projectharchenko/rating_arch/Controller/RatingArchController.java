@@ -1,10 +1,10 @@
-package ua.edu.nau.godex.projectharchenko.rating_arch.Controller;
+package ua.edu.nau.godex.projectharchenko.rating_arch.controller;
 /*
 import Classes.Architecture;
 import Classes.Criterion;
 import Classes.Mark;
 import Classes.Task;
-import repository_editor.services.functions;
+import repository_editor.services.RepEditorFunctions;
 */
 
 import javafx.application.Platform;
@@ -28,11 +28,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 import ua.edu.nau.godex.projectharchenko.classes.Architecture;
 import ua.edu.nau.godex.projectharchenko.classes.Criterion;
 import ua.edu.nau.godex.projectharchenko.classes.Mark;
 import ua.edu.nau.godex.projectharchenko.classes.Task;
-import ua.edu.nau.godex.projectharchenko.repository_editor.services.functions;
+import ua.edu.nau.godex.projectharchenko.repository_editor.services.RepEditorFunctions;
 
 import javax.swing.*;
 import java.io.File;
@@ -44,14 +45,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static ua.edu.nau.godex.projectharchenko.repository_editor.services.archWork.arch_image_gen_with_patterns;
+import static ua.edu.nau.godex.projectharchenko.repository_editor.services.ArchWork.arch_image_gen_with_patterns;
 
-//import static repository_editor.services.archWork.arch_image_gen_with_patterns;
+//import static repository_editor.services.ArchWork.arch_image_gen_with_patterns;
 
 /**
  * Created by Alex Shcherbak on 24.04.2014.
  */
 public class RatingArchController implements Initializable {
+
+    public static Logger logger = Logger.getLogger(RatingArchController.class.getName());
+
     /**
      * task_choise                  -   Задача що оцінюється, має зв'язок з архітектурою
      * architecture_done_choise     -   Масив архітектур згенерованих архітектором до завдання
@@ -92,7 +96,7 @@ public class RatingArchController implements Initializable {
     public Button Next_twise;
     public AnchorPane mark_panel;
     public TextArea note_field;
-    protected R_A_DBWorker RADbWorker = R_A_DBWorker.getInstance();
+    protected RADBWorker RADbWorker = RADBWorker.getInstance();
     protected List<Task> taskList = null;
     protected Task task_choise;
     protected List<Architecture> architecture_done_choise = new ArrayList<>();
@@ -116,10 +120,10 @@ public class RatingArchController implements Initializable {
                 public void run() {
                     if (arch_mark_combine[0] != architecture_done_choise.size() - 2)
                         redo_im_1 = arch_image_gen_with_patterns(architecture_done_choise.get(arch_mark_combine[0] + 1));
-                    System.out.println("redo" + arch_mark_combine[0]);
+                    logger.info("redo" + arch_mark_combine[0]);
                     if (arch_mark_combine[1] != architecture_done_choise.size() - 1)
                         redo_im_2 = arch_image_gen_with_patterns(architecture_done_choise.get(arch_mark_combine[1] + 1));
-                    System.out.println("redo" + arch_mark_combine[1]);
+                    logger.info("redo" + arch_mark_combine[1]);
                 }
             });
         }
@@ -199,7 +203,7 @@ public class RatingArchController implements Initializable {
         task_description.clear();
         if (taskList != null) {
             for (Task task : taskList) {
-                if (task.getId().equals(functions.get_ID((String) task_list.getItems().get(new_value.intValue())))) {
+                if (task.getId().equals(RepEditorFunctions.get_ID((String) task_list.getItems().get(new_value.intValue())))) {
                     task_description.setEditable(true);
                     task_description.setText(task.getDescription());
                     task_description.setEditable(false);
@@ -234,7 +238,7 @@ public class RatingArchController implements Initializable {
         */
         if (taskList != null) {
             for (Task task : taskList) {
-                if (task.getId().equals(functions.get_ID(task_list.getSelectionModel().getSelectedItem().toString()))) {
+                if (task.getId().equals(RepEditorFunctions.get_ID(task_list.getSelectionModel().getSelectedItem().toString()))) {
                     task_choise = task;
                     break;
                 }
@@ -404,10 +408,10 @@ public class RatingArchController implements Initializable {
             arch_mark_combine[0]++;
             arch_mark_combine[1] = arch_mark_combine[0] + 1;
         } else if (arch_mark_combine[0] == (architecture_done_choise.size() - 2)) {
-            System.out.print("Оцінка завершина");
+            logger.info("Оцінка завершина");
             mark_done();
         } else {
-            System.out.print("Помилка");
+            logger.info("Помилка");
         }
     }
 
