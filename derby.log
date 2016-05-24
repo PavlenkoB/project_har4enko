@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Sat May 14 16:33:11 EEST 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-0154-af78-83c1-000006a7d088 
+Tue May 24 09:41:19 EEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-0154-e17f-070f-000006b0e0a8 
 on database directory D:\workspace\JAVA\project_har4enko\DB\paterns_DB with class loader sun.misc.Launcher$AppClassLoader@5451c3a8 
 Loaded from file:/C:/Users/godex_000/.m2/repository/org/apache/derby/derby/10.10.1.1/derby-10.10.1.1.jar
 java.vendor=Oracle Corporation
@@ -11,3 +11,6 @@ os.arch=amd64
 os.version=10.0
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Tue May 24 09:41:29 EEST 2016:
+Shutting down instance a816c00e-0154-e17f-070f-000006b0e0a8 on database directory D:\workspace\JAVA\project_har4enko\DB\paterns_DB with class loader sun.misc.Launcher$AppClassLoader@5451c3a8 

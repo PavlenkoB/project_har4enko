@@ -7,16 +7,16 @@ import java.io.File;
 import java.io.FileReader;
 import java.sql.*;
 
-public class DerbyDBManager {
+public class SecurityDerbyDBManager extends DerbyDBManager {
 
-    public static Logger logger = Logger.getLogger(DerbyDBManager.class.getName());
-
+    public static Logger logger = Logger.getLogger(SecurityDerbyDBManager.class.getName());
+    public static String pass = "qazwsxedc";
     private final String driver = "org.apache.derby.jdbc.EmbeddedDriver";
     private final String url = "jdbc:derby:";
     private String dbName = null;
     private Connection con = null;
 
-    public DerbyDBManager(String dbName) {
+    public SecurityDerbyDBManager(String dbName) {
         this.dbName = dbName;
         logger.info("Try connect to '" + dbName + "'");
         try {
@@ -36,7 +36,7 @@ public class DerbyDBManager {
         logger.info("Connection to '" + dbName + "' established\n");
     }
 
-    public DerbyDBManager(File db_dir) {//Создать в папке БД
+    public SecurityDerbyDBManager(File db_dir) {//Создать в папке БД
         this.dbName = db_dir.getAbsolutePath();
         db_dir.delete();
         dbName = dbName.replace('\\', '/');
@@ -51,9 +51,6 @@ public class DerbyDBManager {
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
-    }
-
-    public DerbyDBManager() {
     }
 
     public boolean connectionEstablish() {

@@ -192,12 +192,20 @@ public class MainRepositoryEditorController extends JPanel implements Initializa
             db_dir_FC.setInitialDirectory(new File(System.getProperty("user.dir")));
             db_dir_FC.setTitle(RB.getString("вкажіть_шлях_до_папки_з_бд"));
             File db_dir = db_dir_FC.showDialog(RepEditorFunctions.get_stage_by_element(TA_arch_description));
-            if (db_dir != null) {
-                derby_DB = new DerbyDBManager(db_dir.getAbsolutePath());
-                //derby_DB.setDbName(db_dir.getName());
-                selected_DB.setText(db_dir.getName());
-                //TODO доступность кнопок
-                list_load_DB();
+            if (SecurityDerbyDBManager.pass.equals(Modals.showInputDialog("title", "text", "val"))) {
+                if (db_dir != null) {
+                    derby_DB = new SecurityDerbyDBManager(db_dir.getAbsolutePath());
+                    //derby_DB.setDbName(db_dir.getName());
+                    selected_DB.setText(db_dir.getName());
+                    //TODO доступность кнопок
+                    list_load_DB();
+                }
+                if (derby_DB != null) {
+                    MM_1_1_connect.setDisable(true);
+                    MM_1_3_disconnect.setDisable(false);
+                }
+            } else {
+                Modals.showInfoApplicationModal("info", "wrong pass");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -207,10 +215,6 @@ public class MainRepositoryEditorController extends JPanel implements Initializa
                 e1.printStackTrace();
             }
         }
-        if (derby_DB != null) {
-            MM_1_1_connect.setDisable(true);
-            MM_1_3_disconnect.setDisable(false);
-        }/**/
     }
 
     public void disconnect_DB(ActionEvent actionEvent) {//отключиться от БД
@@ -395,6 +399,7 @@ public class MainRepositoryEditorController extends JPanel implements Initializa
     /**
      * ЗАгрузить архитектуру с базы
      * Читае Идентиф. Параметра
+     *
      * @param actionEvent
      */
     public void load_this_arch_DB(ActionEvent actionEvent) {
