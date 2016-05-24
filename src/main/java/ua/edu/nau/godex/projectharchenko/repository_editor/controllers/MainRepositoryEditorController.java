@@ -192,7 +192,7 @@ public class MainRepositoryEditorController extends JPanel implements Initializa
             db_dir_FC.setInitialDirectory(new File(System.getProperty("user.dir")));
             db_dir_FC.setTitle(RB.getString("вкажіть_шлях_до_папки_з_бд"));
             File db_dir = db_dir_FC.showDialog(RepEditorFunctions.get_stage_by_element(TA_arch_description));
-            if (SecurityDerbyDBManager.pass.equals(Modals.showInputDialog("title", "text", "val"))) {
+            if (SecurityDerbyDBManager.pass.equals(Modals.showInputDialog("Введіть пароль", "Введіть пароль від бази даних", ""))) {
                 if (db_dir != null) {
                     derby_DB = new SecurityDerbyDBManager(db_dir.getAbsolutePath());
                     //derby_DB.setDbName(db_dir.getName());
@@ -205,7 +205,7 @@ public class MainRepositoryEditorController extends JPanel implements Initializa
                     MM_1_3_disconnect.setDisable(false);
                 }
             } else {
-                Modals.showInfoApplicationModal("info", "wrong pass");
+                Modals.showInfoApplicationModal("Не вірний пароль", "Не вірний пароль");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -269,6 +269,7 @@ public class MainRepositoryEditorController extends JPanel implements Initializa
                 e.printStackTrace();
             }
         }
+        Modals.showInputDialog("Введіть пароль", "Введіть пароль для бази даних", "");
     }
 
 

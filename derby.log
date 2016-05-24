@@ -1,106 +1,32 @@
-Tue May 24 10:09:12 EEST 2016 Thread[JavaFX Application Thread,5,main] Cleanup action starting
-java.sql.SQLException: Database 'DB/paterns_DB' not found.
-	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.getSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedConnection.handleDBNotFound(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedConnection40.<init>(Unknown Source)
-	at org.apache.derby.jdbc.Driver40.getNewEmbedConnection(Unknown Source)
-	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
-	at org.apache.derby.jdbc.Driver20.connect(Unknown Source)
-	at org.apache.derby.jdbc.AutoloadedDriver.connect(Unknown Source)
-	at java.sql.DriverManager.getConnection(DriverManager.java:664)
-	at java.sql.DriverManager.getConnection(DriverManager.java:270)
-	at ua.edu.nau.godex.projectharchenko.repository_editor.classes.DerbyDBManager.<init>(DerbyDBManager.java:26)
-	at ua.edu.nau.godex.projectharchenko.repository_editor.controllers.MainRepositoryEditorController.initialize(MainRepositoryEditorController.java:172)
-	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2548)
-	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2441)
-	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3214)
-	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3175)
-	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3148)
-	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3124)
-	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3104)
-	at javafx.fxml.FXMLLoader.load(FXMLLoader.java:3097)
-	at ua.edu.nau.godex.projectharchenko.repository_editor.RunRepEditor.start(RunRepEditor.java:41)
-	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863)
-	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326)
-	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295)
-	at java.security.AccessController.doPrivileged(Native Method)
-	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294)
-	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
-	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
-	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
-	at java.lang.Thread.run(Thread.java:745)
-Caused by: java.sql.SQLException: Database 'DB/paterns_DB' not found.
-	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.wrapArgsForTransportAcrossDRDA(Unknown Source)
-	... 34 more
-============= begin nested exception, level (1) ===========
-java.sql.SQLException: Database 'DB/paterns_DB' not found.
-	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.wrapArgsForTransportAcrossDRDA(Unknown Source)
-	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.getSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedConnection.handleDBNotFound(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedConnection40.<init>(Unknown Source)
-	at org.apache.derby.jdbc.Driver40.getNewEmbedConnection(Unknown Source)
-	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
-	at org.apache.derby.jdbc.Driver20.connect(Unknown Source)
-	at org.apache.derby.jdbc.AutoloadedDriver.connect(Unknown Source)
-	at java.sql.DriverManager.getConnection(DriverManager.java:664)
-	at java.sql.DriverManager.getConnection(DriverManager.java:270)
-	at ua.edu.nau.godex.projectharchenko.repository_editor.classes.DerbyDBManager.<init>(DerbyDBManager.java:26)
-	at ua.edu.nau.godex.projectharchenko.repository_editor.controllers.MainRepositoryEditorController.initialize(MainRepositoryEditorController.java:172)
-	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2548)
-	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2441)
-	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3214)
-	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3175)
-	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3148)
-	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3124)
-	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3104)
-	at javafx.fxml.FXMLLoader.load(FXMLLoader.java:3097)
-	at ua.edu.nau.godex.projectharchenko.repository_editor.RunRepEditor.start(RunRepEditor.java:41)
-	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863)
-	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326)
-	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295)
-	at java.security.AccessController.doPrivileged(Native Method)
-	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294)
-	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
-	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
-	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
-	at java.lang.Thread.run(Thread.java:745)
-============= end nested exception, level (1) ===========
-Cleanup action completed
 ----------------------------------------------------------------
-Tue May 24 10:09:12 EEST 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-0154-e198-8e57-000006bf1540 
-on database directory D:\work\project_har4enko\DB\paterns_DB with class loader sun.misc.Launcher$AppClassLoader@2626b418 
-Loaded from file:/C:/Users/godex/.m2/repository/org/apache/derby/derby/10.10.1.1/derby-10.10.1.1.jar
+Tue May 24 11:21:06 EEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-0154-e1da-6195-000006b3a758 
+on database directory D:\workspace\JAVA\project_har4enko\DB\paterns_DB with class loader sun.misc.Launcher$AppClassLoader@5451c3a8 
+Loaded from file:/C:/Users/godex_000/.m2/repository/org/apache/derby/derby/10.10.1.1/derby-10.10.1.1.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_74-b02
-user.dir=D:\work\project_har4enko
+java.runtime.version=1.8.0_71-b15
+user.dir=D:\workspace\JAVA\project_har4enko
 os.name=Windows 10
 os.arch=amd64
 os.version=10.0
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Tue May 24 10:10:20 EEST 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance 45b300a8-0154-e198-8e57-000006bf1540 
-on database directory D:\work\project_har4enko\DB\pat with class loader sun.misc.Launcher$AppClassLoader@2626b418 
-Loaded from file:/C:/Users/godex/.m2/repository/org/apache/derby/derby/10.10.1.1/derby-10.10.1.1.jar
+Tue May 24 11:21:10 EEST 2016:
+Shutting down instance a816c00e-0154-e1da-6195-000006b3a758 on database directory D:\workspace\JAVA\project_har4enko\DB\paterns_DB with class loader sun.misc.Launcher$AppClassLoader@5451c3a8 
+----------------------------------------------------------------
+Tue May 24 11:21:17 EEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance 08264012-0154-e1da-6195-000006b3a758 
+on database directory D:\workspace\JAVA\project_har4enko\DB\1 with class loader sun.misc.Launcher$AppClassLoader@5451c3a8 
+Loaded from file:/C:/Users/godex_000/.m2/repository/org/apache/derby/derby/10.10.1.1/derby-10.10.1.1.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_74-b02
-user.dir=D:\work\project_har4enko
+java.runtime.version=1.8.0_71-b15
+user.dir=D:\workspace\JAVA\project_har4enko
 os.name=Windows 10
 os.arch=amd64
 os.version=10.0
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Tue May 24 11:23:14 EEST 2016:
+Shutting down instance 08264012-0154-e1da-6195-000006b3a758 on database directory D:\workspace\JAVA\project_har4enko\DB\1 with class loader sun.misc.Launcher$AppClassLoader@5451c3a8 
