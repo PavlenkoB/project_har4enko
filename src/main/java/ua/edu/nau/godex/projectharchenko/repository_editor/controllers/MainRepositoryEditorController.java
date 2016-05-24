@@ -4,10 +4,10 @@ package ua.edu.nau.godex.projectharchenko.repository_editor.controllers;
  * and open the template in the repository_editor.
  */
 /*
-import Classes.Architecture;
-import Classes.Layer;
-import Classes.Module;
-import Classes.Pattern;
+import classes.Architecture;
+import classes.Layer;
+import classes.Module;
+import classes.Pattern;
 import repository_editor.classes.*;
 import repository_editor.interfaces.Configuration;
 import repository_editor.services.*;*/

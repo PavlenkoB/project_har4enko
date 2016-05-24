@@ -4,9 +4,9 @@ package ua.edu.nau.godex.projectharchenko.repository_editor.controllers;
  * and open the template in the repository_editor.
  */
 /*
-import Classes.Layer;
-import Classes.Module;
-import Classes.Pattern;
+import classes.Layer;
+import classes.Module;
+import classes.Pattern;
 import repository_editor.classes.DerbyDBManager;
 import repository_editor.classes.Modals;
 import repository_editor.classes.IdLable;

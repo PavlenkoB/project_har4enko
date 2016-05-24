@@ -1,9 +1,9 @@
 package ua.edu.nau.godex.projectharchenko.rating_arch.controller;
 /*
-import Classes.Architecture;
-import Classes.Criterion;
-import Classes.Mark;
-import Classes.Task;
+import classes.Architecture;
+import classes.Criterion;
+import classes.Mark;
+import classes.Task;
 import repository_editor.services.RepEditorFunctions;
 */
 

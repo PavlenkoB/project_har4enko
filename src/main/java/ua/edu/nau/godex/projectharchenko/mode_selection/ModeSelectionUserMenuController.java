@@ -1,6 +1,6 @@
 package ua.edu.nau.godex.projectharchenko.mode_selection;
 /*
-import Classes.LogIn;
+import classes.LogIn;
 import repository_editor.models.RunRepEditor;*/
 
 import javafx.collections.FXCollections;

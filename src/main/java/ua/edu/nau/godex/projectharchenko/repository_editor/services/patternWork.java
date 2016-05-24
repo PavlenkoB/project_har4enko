@@ -1,6 +1,6 @@
 package ua.edu.nau.godex.projectharchenko.repository_editor.services;
 /*
-import Classes.Pattern;
+import classes.Pattern;
 import repository_editor.classes.DerbyDBManager;
 import repository_editor.classes.ResultInfo;
 */
