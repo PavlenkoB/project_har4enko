@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ua.edu.nau.icit.mode_selection.Controller_mode_selection_user_menu">
+    <children>
+        <MenuBar layoutX="20.0" layoutY="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                 AnchorPane.topAnchor="0.0">
+            <menus>
+                <Menu mnemonicParsing="false" text="Файл">
+                    <items>
+                        <MenuItem fx:id="close" mnemonicParsing="false" onAction="#close" text="Вихід"/>
+                    </items>
+                </Menu>
+                <Menu fx:id="adm_menu" disable="true" mnemonicParsing="false" text="Адміністратор">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#edit_arch"
+                                  text="Управління репозиторієм патернів"/>
+                        <MenuItem mnemonicParsing="false" onAction="#create_new_arch"
+                                  text="Створення альтернативних архітектур"/>
+                    </items>
+                </Menu>
+                <Menu fx:id="arch_menu" disable="true" mnemonicParsing="false" text="Архітектор">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#create_new_arch"
+                                  text="Створення альтернативних архітектур"/>
+                        <MenuItem mnemonicParsing="false" onAction="#rating_arch" text="Оцінювання архітектур"/>
+                    </items>
+                </Menu>
+                <Menu fx:id="exp_menu" disable="true" mnemonicParsing="false" text="Експерт">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#rating_arch" text="Оцінювання архітектур"/>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Допомога">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Довідка" disable="true"/>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <AnchorPane fx:id="sel_next" layoutY="25.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
+                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+            <children>
+                <ChoiceBox fx:id="user_choise" layoutX="320.0" layoutY="128.0" prefHeight="25.0" prefWidth="169.0"
+                           AnchorPane.leftAnchor="320.0" AnchorPane.topAnchor="128.0"/>
+                <Label alignment="CENTER" layoutX="290.0048828125" layoutY="70.5" text="Авторизація"
+                       AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0">
+                    <font>
+                        <Font name="Times New Roman" size="35.0"/>
+                    </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="151.0" layoutY="127.0" prefHeight="28.0" prefWidth="169.0"
+                       text="Користувач" AnchorPane.leftAnchor="151.0" AnchorPane.topAnchor="127.0">
+                    <font>
+                        <Font name="Times New Roman" size="24.0"/>
+                    </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="151.0" layoutY="174.0" prefHeight="28.0" prefWidth="169.0"
+                       text="Пароль" AnchorPane.leftAnchor="151.0" AnchorPane.topAnchor="174.0">
+                    <font>
+                        <Font name="Times New Roman" size="24.0"/>
+                    </font>
+                </Label>
+                <PasswordField fx:id="pass_write" layoutX="320.0" layoutY="176.0" onAction="#onEnter" prefHeight="25.0"
+                               prefWidth="169.0" AnchorPane.leftAnchor="320.0" AnchorPane.topAnchor="176.0"/>
+                <Button layoutX="399.0" layoutY="225.0" mnemonicParsing="false" onAction="#logining" prefHeight="25.0"
+                        prefWidth="90.0" text="Вхід" AnchorPane.leftAnchor="399.0" AnchorPane.topAnchor="225.0"/>
+            </children>
+        </AnchorPane>
+        <AnchorPane fx:id="log_massage" prefHeight="40.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0"/>
+    </children>
+</VBox>

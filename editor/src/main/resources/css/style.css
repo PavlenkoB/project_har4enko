@@ -1,0 +1,45 @@
+P_arch_struct .label{
+    -fx-font: 4px "Serif";
+}
+.modal-dialog {
+    -fx-padding: 10px;
+    /*    -fx-border-color: #808080;
+        -fx-border-style: inherit;
+        -fx-border-radius: 10px;
+        */
+}
+
+.modal-dialog .button {
+    -fx-spacing: 10px;
+    -fx-min-height: 50px;
+    -fx-min-width: 100px;
+}
+
+.button {
+    -fx-font: 14px "Serif";
+}
+
+.button:hover {
+    -fx-background-color: #d4ffcf;
+}
+
+.text {
+    -fx-font: 14px "Serif";
+}
+
+.lay_del, .mod_del {
+    -fx-background-color: #ff9150;
+
+}
+
+.lay_edit, .mod_edit {
+    -fx-background-color: #ffda6c;
+}
+
+.lay_add, .mod_add {
+    -fx-background-color: #00de4d;
+}
+
+.pat_edit {
+}
+

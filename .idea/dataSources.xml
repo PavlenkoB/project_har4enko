@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
     <data-source source="LOCAL" name="pattern" uuid="23839466-bc7d-4a75-8f02-275832a797d8">
       <driver-ref>derby.embedded</driver-ref>
       <synchronize>true</synchronize>
@@ -11,7 +11,7 @@
       <driver-ref>derby.embedded</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.apache.derby.jdbc.EmbeddedDriver</jdbc-driver>
-      <jdbc-url>jdbc:derby:$PROJECT_DIR$/DB/Marks;create=true</jdbc-url>
+      <jdbc-url>jdbc:derby:$PROJECT_DIR$/../project_har4enko_v2/DB/Marks</jdbc-url>
     </data-source>
   </component>
 </project>

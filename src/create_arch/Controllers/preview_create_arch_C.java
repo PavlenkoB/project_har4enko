@@ -137,7 +137,7 @@ public class preview_create_arch_C implements Initializable {
         sel_arch++;
         pre_im = redo_im;
         flag_thread = true;
-        //myThread.run();
+        //myThread.ua.edu.nau.icit.run();
         tread_go();
         draw_arch_im_text(architectures.get(sel_arch), pre_im, architectures.size(), sel_arch);
         border_contr(architectures.size(), sel_arch);
@@ -150,7 +150,7 @@ public class preview_create_arch_C implements Initializable {
         sel_arch = goto_value - 1;
         pre_im = arch_image_gen_with_patterns(architectures.get(sel_arch));
         flag_thread = true;
-        //myThread.run();
+        //myThread.ua.edu.nau.icit.run();
         tread_go();
         draw_arch_im_text(architectures.get(sel_arch), pre_im, architectures.size(), sel_arch);
         border_contr(architectures.size(), sel_arch);
@@ -161,7 +161,7 @@ public class preview_create_arch_C implements Initializable {
         pre_im = undo_im;
         flag_thread = true;
         /*myThread = new
-        myThread.run();*/
+        myThread.ua.edu.nau.icit.run();*/
         tread_go();
         draw_arch_im_text(architectures.get(sel_arch), pre_im, architectures.size(), sel_arch);
         border_contr(architectures.size(), sel_arch);
@@ -231,7 +231,7 @@ public class preview_create_arch_C implements Initializable {
         protected Void call() throws Exception {
             Platform.runLater(new Runnable() {
                 @Override
-                public void run() {
+                public void ua.edu.nau.icit.run() {
                     while (true){
                         if (sel_arch != 0)
                             undo_im = arch_image_gen_with_patterns(architectures.get(sel_arch - 1));
@@ -261,7 +261,7 @@ public class preview_create_arch_C implements Initializable {
     public void threadin(){
         Platform.runLater(new Runnable() {
             @Override
-            public void run() {
+            public void ua.edu.nau.icit.run() {
                 if (sel_arch != 0)
                     undo_im = arch_image_gen_with_patterns(architectures.get(sel_arch - 1));
                 System.out.print("undo");

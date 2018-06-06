@@ -27,11 +27,11 @@ public class DbWorker {
      */
     private DerbyDBManager markDb; // = new DerbyDBManager("DB/Marks");
     /**
-     * String view of address of archDB repository
+     * String views of address of archDB repository
      */
     private String archDbStr;       //  Путь к базе патернов    -   относительный
     /**
-     * String view of address of markDB repository
+     * String views of address of markDB repository
      */
     private String markDbStr;       //  Путь к базе оценок
 
@@ -108,7 +108,7 @@ public class DbWorker {
     /**
      * establishing connection to archDB
      *
-     * @param archDbStr - String view of address of archDB repository
+     * @param archDbStr - String views of address of archDB repository
      */
     public void connectionToArchDb(String archDbStr) {
         disconnectArchDb();
@@ -120,7 +120,7 @@ public class DbWorker {
     /**
      * establishing connection to markDB
      *
-     * @param markDbStr - String view of address of markDB repository
+     * @param markDbStr - String views of address of markDB repository
      */
     public void connectionToMarkDb(String markDbStr) {
         disconnectMarkDb();
